@@ -163,6 +163,15 @@ namespace DataWrangler
 
         public StatusObject DeleteRecord(Record r)
         {
+            if (r.Attachments.Count > 0)
+            {
+                foreach (var attachment in r.Attachments)
+                {
+                    var delAttachmentResult = _dA.DeleteFileFromRecord(r, attachment);
+                    if (!delAttachmentResult.Success)
+                        return delAttachmentResult;
+                }
+            }
             return _dA.DeleteObjectById<Record>(r.Id);
         }
 

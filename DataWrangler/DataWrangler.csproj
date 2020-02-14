@@ -79,6 +79,7 @@
     </Compile>
     <Compile Include="ConfigurationHelper.cs" />
     <Compile Include="DataAccess.cs" />
+    <Compile Include="DataProcessor.cs" />
     <Compile Include="StatusObject.cs" />
     <Compile Include="DBOs\UserAccount.cs" />
     <Compile Include="Login.cs">
