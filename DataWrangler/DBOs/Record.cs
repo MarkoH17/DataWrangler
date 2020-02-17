@@ -12,6 +12,6 @@ namespace DataWrangler.DBOs
         public List<string> Attachments { get; set; }
 
         public bool Active { get; set; }
-        public DateTime LastUpdated { get; } = DateTime.UtcNow;
+        public DateTime LastUpdated { get; set; } = DateTime.UtcNow;
     }
 }

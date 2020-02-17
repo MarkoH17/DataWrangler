@@ -80,6 +80,7 @@
     <Compile Include="ConfigurationHelper.cs" />
     <Compile Include="DataAccess.cs" />
     <Compile Include="DataProcessor.cs" />
+    <Compile Include="DBOs\AuditEntry.cs" />
     <Compile Include="StatusObject.cs" />
     <Compile Include="DBOs\UserAccount.cs" />
     <Compile Include="Login.cs">
@@ -117,6 +118,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

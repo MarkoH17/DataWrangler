@@ -9,6 +9,6 @@ namespace DataWrangler.DBOs
         public string Name { get; set; }
         public List<string> Attributes { get; set; }
         public bool Active { get; set; }
-        public DateTime LastUpdated { get; } = DateTime.UtcNow;
+        public DateTime LastUpdated { get; set; } = DateTime.UtcNow;
     }
 }

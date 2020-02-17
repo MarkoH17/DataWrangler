@@ -5,25 +5,14 @@ namespace DataWrangler.DBOs
 {
     internal class UserAccount
     {
-        [Flags]
-        public enum Permissions
-        {
-            None = 0,
-            Read = 1,
-            Write = 2,
-            Admin = 4
-        }
-
         public int Id { get; set; }
         public string Username { get; set; }
 
         public string Password { get; set; }
 
-        public Permissions Permission { get; set; }
-
         public bool Active { get; set; }
 
-        public DateTime LastUpdated { get; } = DateTime.UtcNow;
+        public DateTime LastUpdated { get; set; } = DateTime.UtcNow;
 
         public static string GetPasswordHash(string input)
         {

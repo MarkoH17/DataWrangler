@@ -10,16 +10,16 @@ namespace DataWrangler
     {
         private readonly DataAccess _dA;
 
-        public ObjectHelper(string dbFilePath, string dbPassword = null)
+        public ObjectHelper(string dbFilePath, UserAccount user, string dbPassword = null)
         {
-            string connectionString = null;
+            string connectionString;
             if (string.IsNullOrEmpty(dbPassword))
                 connectionString = string.Format("Filename={0};Connection=shared", dbFilePath);
             else
                 connectionString =
                     string.Format("Filename={0};Password='{1}';Connection=shared", dbFilePath, dbPassword);
 
-            _dA = new DataAccess(connectionString);
+            _dA = new DataAccess(user, connectionString);
         }
 
         public void Dispose()
@@ -57,6 +57,7 @@ namespace DataWrangler
                         Attributes = attributes[i],
                         Active = actives[i]
                     };
+
                 return _dA.InsertObjects(newRecordTypes);
             }
 
@@ -76,6 +77,7 @@ namespace DataWrangler
 
         public StatusObject UpdateRecordType(RecordType rT)
         {
+            rT.LastUpdated = DateTime.UtcNow;
             return _dA.UpdateObject(rT);
         }
 
@@ -118,6 +120,7 @@ namespace DataWrangler
                             Attributes = attributes[i],
                             Active = actives[i]
                         };
+
                 return _dA.InsertObjects(newRecords);
             }
 
@@ -131,6 +134,7 @@ namespace DataWrangler
                 if (!File.Exists(file))
                     return _dA.GetStatusObject(StatusObject.OperationTypes.Create,
                         "File specified for attachment is inaccessible", false);
+
             var uploadResults = _dA.AddFilesToRecord(r.TypeId, r.Id, attachmentPaths);
             if (uploadResults.Success)
             {
@@ -153,25 +157,19 @@ namespace DataWrangler
 
         public StatusObject UpdateRecord(Record r)
         {
+            r.LastUpdated = DateTime.UtcNow;
             return _dA.UpdateObject(r);
-        }
-
-        public StatusObject UpdateRecords(Record[] records)
-        {
-            return _dA.UpdateObjects(records);
         }
 
         public StatusObject DeleteRecord(Record r)
         {
             if (r.Attachments.Count > 0)
-            {
                 foreach (var attachment in r.Attachments)
                 {
                     var delAttachmentResult = _dA.DeleteFileFromRecord(r, attachment);
-                    if (!delAttachmentResult.Success)
-                        return delAttachmentResult;
+                    if (!delAttachmentResult.Success) return delAttachmentResult;
                 }
-            }
+
             return _dA.DeleteObjectById<Record>(r.Id);
         }
 
@@ -189,14 +187,12 @@ namespace DataWrangler
 
         #region UserAccount Accessors
 
-        public StatusObject AddUserAccount(string username, string password, UserAccount.Permissions permission,
-            bool active)
+        public StatusObject AddUserAccount(string username, string password, bool active)
         {
             var newUserAccount = new UserAccount
             {
                 Username = username,
                 Password = UserAccount.GetPasswordHash(password),
-                Permission = permission,
                 Active = active
             };
             return _dA.InsertObject(newUserAccount, "Username");
@@ -214,6 +210,7 @@ namespace DataWrangler
 
         public StatusObject UpdateUserAccount(UserAccount uA)
         {
+            uA.LastUpdated = DateTime.UtcNow;
             return _dA.UpdateObject(uA);
         }
 
@@ -229,6 +226,30 @@ namespace DataWrangler
         public StatusObject GetUserAccountByUsername(string username)
         {
             return _dA.GetObjectByFieldSearch<UserAccount>("username", username);
+        }
+
+        #endregion
+
+        #region AuditEntries
+
+        public StatusObject GetAuditEntriesByUsername(string username)
+        {
+            return _dA.GetAuditEntriesByField("Username", username);
+        }
+
+        public StatusObject GetRecordAuditEntries(int objectId)
+        {
+            return _dA.GetAuditEntriesByField<Record>("ObjectId", objectId);
+        }
+
+        public StatusObject GetRecordTypeAuditEntries(int objectId)
+        {
+            return _dA.GetAuditEntriesByField<RecordType>("ObjectId", objectId);
+        }
+
+        public StatusObject GetUserAccountAuditEntries(int objectId)
+        {
+            return _dA.GetAuditEntriesByField<Record>("ObjectId", objectId);
         }
 
         #endregion

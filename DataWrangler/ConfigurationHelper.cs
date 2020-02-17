@@ -17,7 +17,6 @@ namespace DataWrangler
             else
                 configuration.AppSettings.Settings.Add("dbFilePath", dbFilePath);
 
-
             if (isEncrypted && !string.IsNullOrEmpty(dbPass))
             {
                 if (configuration.AppSettings.Settings["dbPass"] != null)
