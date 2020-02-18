@@ -4,13 +4,15 @@ namespace DataWrangler
 {
     internal class StatusObject
     {
-        [Flags]
         public enum OperationTypes
         {
-            Create = 0,
-            Read = 1,
-            Update = 2,
-            Delete = 4
+            Create,
+            Read,
+            Update,
+            Delete,
+            FileAdd,
+            FileRemove,
+            Maintenance
         }
 
         public bool Success { get; set; }

@@ -7,7 +7,7 @@ namespace DataWrangler.DBOs
         public int Id { get; set; }
         public string ObjectLookupCol { get; set; }
         public int ObjectId { get; set; }
-        public string Username { get; set; }
+        public UserAccount User { get; set; }
         public StatusObject.OperationTypes Operation { get; set; }
 
         public DateTime Date { get; set; }

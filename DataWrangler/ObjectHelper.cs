@@ -9,17 +9,20 @@ namespace DataWrangler
     internal class ObjectHelper : IDisposable
     {
         private readonly DataAccess _dA;
+        private readonly Dictionary<string, string> _dbSettings;
+        public const int DefaultRecordsetSize = 250;
 
-        public ObjectHelper(string dbFilePath, UserAccount user, string dbPassword = null)
+        public ObjectHelper(Dictionary<string, string> DbSettings, UserAccount user)
         {
             string connectionString;
-            if (string.IsNullOrEmpty(dbPassword))
-                connectionString = string.Format("Filename={0};Connection=shared", dbFilePath);
+
+            if (!DbSettings.ContainsKey("dbPass"))
+                connectionString = string.Format("Filename={0};Connection=shared", DbSettings["dbFilePath"]);
             else
-                connectionString =
-                    string.Format("Filename={0};Password='{1}';Connection=shared", dbFilePath, dbPassword);
+                connectionString = string.Format("Filename={0};Password='{1}';Connection=shared", DbSettings["dbFilePath"], DbSettings["dbPass"]);
 
             _dA = new DataAccess(user, connectionString);
+            _dbSettings = DbSettings;
         }
 
         public void Dispose()
@@ -27,9 +30,9 @@ namespace DataWrangler
             _dA.Dispose();
         }
 
-        public StatusObject RebuildDb()
+        public StatusObject RebuildDb(bool usePassword = false, string newPassword = null)
         {
-            return _dA.RebuildDatabase();
+            return _dA.RebuildDatabase(_dbSettings, usePassword, newPassword);
         }
 
         #region RecordType Accessors
@@ -70,9 +73,9 @@ namespace DataWrangler
             return _dA.GetObjectById<RecordType>(id);
         }
 
-        public StatusObject GetRecordTypes()
+        public StatusObject GetRecordTypes(int skip = 0, int limit = DefaultRecordsetSize)
         {
-            return _dA.GetObjectsByType<RecordType>();
+            return _dA.GetObjectsByType<RecordType>(skip, limit);
         }
 
         public StatusObject UpdateRecordType(RecordType rT)
@@ -135,7 +138,7 @@ namespace DataWrangler
                     return _dA.GetStatusObject(StatusObject.OperationTypes.Create,
                         "File specified for attachment is inaccessible", false);
 
-            var uploadResults = _dA.AddFilesToRecord(r.TypeId, r.Id, attachmentPaths);
+            var uploadResults = _dA.AddFilesToRecord(r, attachmentPaths);
             if (uploadResults.Success)
             {
                 r.Attachments = (List<string>) uploadResults.Result;
@@ -150,9 +153,9 @@ namespace DataWrangler
             return _dA.GetObjectById<Record>(id);
         }
 
-        public StatusObject GetRecordsByType(RecordType rT)
+        public StatusObject GetRecordsByType(RecordType rT, int skip = 0, int limit = DefaultRecordsetSize)
         {
-            return _dA.GetRecordsByType(rT);
+            return _dA.GetRecordsByType(rT, skip, limit);
         }
 
         public StatusObject UpdateRecord(Record r)
@@ -195,7 +198,7 @@ namespace DataWrangler
                 Password = UserAccount.GetPasswordHash(password),
                 Active = active
             };
-            return _dA.InsertObject(newUserAccount, "Username");
+            return _dA.InsertObject(newUserAccount, "Username", true);
         }
 
         public StatusObject GetUserAccountById(int id)
@@ -203,9 +206,9 @@ namespace DataWrangler
             return _dA.GetObjectById<UserAccount>(id);
         }
 
-        public StatusObject GetUserAccounts()
+        public StatusObject GetUserAccounts(int skip = 0, int limit = DefaultRecordsetSize)
         {
-            return _dA.GetObjectsByType<UserAccount>();
+            return _dA.GetObjectsByType<UserAccount>(skip, limit);
         }
 
         public StatusObject UpdateUserAccount(UserAccount uA)
@@ -218,9 +221,9 @@ namespace DataWrangler
 
         #region Searches
 
-        public StatusObject GetRecordsByTypeSearch(RecordType rT, string searchField, string searchTerm)
+        public StatusObject GetRecordsByTypeSearch(RecordType rT, string searchField, string searchTerm, int skip = 0, int limit = DefaultRecordsetSize)
         {
-            return _dA.GetRecordsByTypeSearch(rT, searchField, searchTerm);
+            return _dA.GetRecordsByTypeSearch(rT, searchField, searchTerm, skip, limit);
         }
 
         public StatusObject GetUserAccountByUsername(string username)
@@ -232,24 +235,24 @@ namespace DataWrangler
 
         #region AuditEntries
 
-        public StatusObject GetAuditEntriesByUsername(string username)
+        public StatusObject GetAuditEntriesByUsername(string username, int skip = 0, int limit = DefaultRecordsetSize)
         {
-            return _dA.GetAuditEntriesByField("Username", username);
+            return _dA.GetAuditEntriesByField("Username", username, skip, limit);
         }
 
-        public StatusObject GetRecordAuditEntries(int objectId)
+        public StatusObject GetRecordAuditEntries(int objectId, int skip = 0, int limit = DefaultRecordsetSize)
         {
-            return _dA.GetAuditEntriesByField<Record>("ObjectId", objectId);
+            return _dA.GetAuditEntriesByField<Record>("ObjectId", objectId, skip, limit);
         }
 
-        public StatusObject GetRecordTypeAuditEntries(int objectId)
+        public StatusObject GetRecordTypeAuditEntries(int objectId, int skip = 0, int limit = DefaultRecordsetSize)
         {
-            return _dA.GetAuditEntriesByField<RecordType>("ObjectId", objectId);
+            return _dA.GetAuditEntriesByField<RecordType>("ObjectId", objectId, skip, limit);
         }
 
-        public StatusObject GetUserAccountAuditEntries(int objectId)
+        public StatusObject GetUserAccountAuditEntries(int objectId, int skip = 0, int limit = DefaultRecordsetSize)
         {
-            return _dA.GetAuditEntriesByField<Record>("ObjectId", objectId);
+            return _dA.GetAuditEntriesByField<Record>("ObjectId", objectId, skip, limit);
         }
 
         #endregion

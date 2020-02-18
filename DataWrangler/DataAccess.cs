@@ -11,11 +11,15 @@ namespace DataWrangler
     {
         private readonly LiteDatabase _db;
         private readonly UserAccount _user;
+        private readonly string _connectionString;
 
         public DataAccess(UserAccount user, string connectionString)
         {
             _db = new LiteDatabase(connectionString);
             _user = user;
+            _connectionString = connectionString;
+
+            BsonMapper.Global.Entity<AuditEntry>().DbRef(x => x.User, _getCollectionName(typeof(UserAccount)));
         }
 
         public void Dispose()
@@ -23,7 +27,7 @@ namespace DataWrangler
             _db.Dispose();
         }
 
-        public StatusObject AddFilesToRecord(int recordTypeId, int recordId, string[] filePaths)
+        public StatusObject AddFilesToRecord(Record r, string[] filePaths)
         {
             var fs = _db.FileStorage;
             var fileIds = new List<string>();
@@ -33,16 +37,22 @@ namespace DataWrangler
                 var fileInfo = new FileInfo(filePath);
                 try
                 {
-                    var dbFilePath = string.Format("$/records/{0}/{1}/{2}/{3}", recordTypeId, recordId,
+                    var dbFilePath = string.Format("$/records/{0}/{1}/{2}/{3}", r.TypeId, r.Id,
                         Guid.NewGuid().ToString(), fileInfo.Name);
                     using (var fileStream = File.OpenRead(filePath))
                     {
                         var result = fs.Upload(dbFilePath, fileInfo.Name, fileStream);
                         if (result != null && result.Length == fileInfo.Length)
+                        {
                             fileIds.Add(result.Id);
+                            
+                            var auditResult = _addAuditEntry(r.Id, r, _user, StatusObject.OperationTypes.FileAdd);
+                            if (!auditResult.Success) return auditResult;
+                        }
                         else
-                            return GetStatusObject(StatusObject.OperationTypes.Create,
-                                string.Format("Failed to add file '{0}' to record", fileInfo.Name), false);
+                        {
+                            return GetStatusObject(StatusObject.OperationTypes.Create, string.Format("Failed to add file '{0}' to record", fileInfo.Name), false);
+                        }
                     }
                 }
                 catch (LiteException e)
@@ -63,6 +73,8 @@ namespace DataWrangler
                     "Failed to remove file from record because it isn't associated with this record.", false);
 
             var result = fs.Delete(fileId);
+            var auditResult = _addAuditEntry(r.Id, r, _user, StatusObject.OperationTypes.FileRemove);
+            if (!auditResult.Success) return auditResult;
 
             if (result)
             {
@@ -115,12 +127,12 @@ namespace DataWrangler
             }
         }
 
-        public StatusObject InsertObject<T>(T obj, string indexCol)
+        public StatusObject InsertObject<T>(T obj, string indexCol, bool unique = false)
         {
             if (obj.GetType().GetProperty(indexCol) != null)
                 try
                 {
-                    var collection = _getCollection<T>(indexCol);
+                    var collection = _getCollection<T>(indexCol, unique);
                     int result = collection.Insert(obj);
 
                     var auditResult = _addAuditEntry(result, obj, _user, StatusObject.OperationTypes.Create);
@@ -184,12 +196,12 @@ namespace DataWrangler
             }
         }
 
-        public StatusObject GetObjectsByType<T>()
+        public StatusObject GetObjectsByType<T>(int skip, int limit)
         {
             try
             {
                 var collection = _getCollection<T>();
-                IEnumerable<T> result = collection.FindAll().ToList();
+                IEnumerable<T> result = collection.FindAll().Skip(skip).Take(limit).ToArray();
                 return GetStatusObject(StatusObject.OperationTypes.Read, result, true);
             }
             catch (LiteException e)
@@ -198,12 +210,12 @@ namespace DataWrangler
             }
         }
 
-        public StatusObject GetRecordsByType(RecordType rT)
+        public StatusObject GetRecordsByType(RecordType rT, int skip, int limit)
         {
             try
             {
                 var collection = _getCollection<Record>();
-                var result = collection.Query().Where(o => o.TypeId == rT.Id).ToList();
+                var result = collection.Find(Query.EQ("TypeId", rT.Id)).Skip(skip).Take(limit).ToArray();
                 return GetStatusObject(StatusObject.OperationTypes.Read, result, true);
             }
             catch (LiteException e)
@@ -240,12 +252,12 @@ namespace DataWrangler
             }
         }
 
-        public StatusObject GetObjectsByFieldSearch<T>(string searchField, string searchValue)
+        public StatusObject GetObjectsByFieldSearch<T>(string searchField, string searchValue, int skip, int limit)
         {
             try
             {
                 var collection = _getCollection<T>();
-                var result = collection.Find(Query.EQ(searchField, searchValue)).ToArray();
+                var result = collection.Find(Query.EQ(searchField, searchValue)).Skip(skip).Take(limit).ToArray();
                 return GetStatusObject(StatusObject.OperationTypes.Read, result, true);
             }
             catch (LiteException e)
@@ -254,17 +266,18 @@ namespace DataWrangler
             }
         }
 
-        public StatusObject GetRecordsByTypeSearch(RecordType rT, string searchField, string searchValue)
+        public StatusObject GetRecordsByTypeSearch(RecordType rT, string searchField, string searchValue, int skip, int limit)
         {
+            //TODO: Optimize Retrieval by not using LINQ method of filtering large recordset
             if (rT.Attributes.Contains(searchField))
                 try
                 {
-                    var records = GetRecordsByType(rT);
+                    var records = GetRecordsByType(rT, skip, limit);
 
                     if (records.Success)
                     {
-                        var result = ((List<Record>) records.Result)
-                            .Where(r => r.Attributes[searchField].Equals(searchValue)).ToList();
+                        var result = ((Record[])records.Result)
+                            .Where(r => r.Attributes[searchField].Equals(searchValue)).ToArray();
                         return GetStatusObject(StatusObject.OperationTypes.Read, result, true);
                     }
 
@@ -280,14 +293,15 @@ namespace DataWrangler
                 false);
         }
 
-        public StatusObject GetAuditEntriesByField<T>(string fieldName, BsonValue fieldValue)
+        public StatusObject GetAuditEntriesByField<T>(string fieldName, BsonValue fieldValue, int skip, int limit)
         {
             try
             {
                 var collection = _getCollection<AuditEntry>();
                 var result = collection
+                    .Include(x => x.User)
                     .Find(Query.And(Query.EQ(fieldName, fieldValue),
-                        Query.EQ("ObjectLookupCol", _getCollectionName<T>()))).OrderByDescending(x => x.Date).ToArray();
+                        Query.EQ("ObjectLookupCol", _getCollectionName<T>()))).OrderByDescending(x => x.Date).Skip(skip).Take(limit).ToArray();
                 return GetStatusObject(StatusObject.OperationTypes.Read, result, true);
             }
             catch (LiteException e)
@@ -296,12 +310,14 @@ namespace DataWrangler
             }
         }
 
-        public StatusObject GetAuditEntriesByField(string fieldName, BsonValue fieldValue)
+        public StatusObject GetAuditEntriesByField(string fieldName, BsonValue fieldValue, int skip, int limit)
         {
             try
             {
                 var collection = _getCollection<AuditEntry>();
-                var result = collection.Find(Query.EQ(fieldName, fieldValue)).OrderByDescending(x => x.Date).ToArray();
+                var result = collection
+                    .Include(x => x.User)
+                    .Find(Query.EQ(fieldName, fieldValue)).OrderByDescending(x => x.Date).Skip(skip).Take(limit).ToArray();
                 return GetStatusObject(StatusObject.OperationTypes.Read, result, true);
             }
             catch (LiteException e)
@@ -310,11 +326,29 @@ namespace DataWrangler
             }
         }
 
-        public StatusObject RebuildDatabase()
+        public StatusObject RebuildDatabase(Dictionary<string, string> DbSettings, bool usePassword = false, string newPassword = null)
         {
             try
             {
-                var result = _db.Execute("rebuild;");
+                
+                string cmd = null;
+                if (usePassword && newPassword != null)
+                {
+                    cmd = $"rebuild {{\"password\" : \"{newPassword}\"}};";
+                }
+                else
+                {
+                    string currPass = null;
+                    DbSettings.TryGetValue("dbPass", out currPass);
+
+                    if (usePassword && currPass != null)
+                        cmd = $"rebuild {{\"password\" : \"{currPass}\"}};";
+                    else
+                        cmd = "rebuild;";
+
+                }
+                var result = _db.Execute(cmd);
+
                 return GetStatusObject(StatusObject.OperationTypes.Update, result, result.Single().AsDecimal == 0);
             }
             catch (LiteException e)
@@ -323,10 +357,10 @@ namespace DataWrangler
             }
         }
 
-        private ILiteCollection<T> _getCollection<T>(string indexCol = "Id")
+        private ILiteCollection<T> _getCollection<T>(string indexCol = "Id", bool unique = false)
         {
             var collection = _db.GetCollection<T>(_getCollectionName<T>());
-            collection.EnsureIndex(indexCol);
+            collection.EnsureIndex(indexCol, unique);
             return collection;
         }
 
@@ -360,7 +394,7 @@ namespace DataWrangler
                 {
                     ObjectId = objId,
                     ObjectLookupCol = _getCollectionName(obj.GetType()),
-                    Username = user.Username,
+                    User = user,
                     Operation = operation,
                     Date = DateTime.UtcNow
                 };
