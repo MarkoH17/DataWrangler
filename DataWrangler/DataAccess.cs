@@ -11,13 +11,11 @@ namespace DataWrangler
     {
         private readonly LiteDatabase _db;
         private readonly UserAccount _user;
-        private readonly string _connectionString;
 
-        public DataAccess(UserAccount user, string connectionString)
+        public DataAccess(string connectionString, UserAccount user = null)
         {
             _db = new LiteDatabase(connectionString);
             _user = user;
-            _connectionString = connectionString;
 
             BsonMapper.Global.Entity<AuditEntry>().DbRef(x => x.User, _getCollectionName(typeof(UserAccount)));
         }
@@ -45,13 +43,14 @@ namespace DataWrangler
                         if (result != null && result.Length == fileInfo.Length)
                         {
                             fileIds.Add(result.Id);
-                            
+
                             var auditResult = _addAuditEntry(r.Id, r, _user, StatusObject.OperationTypes.FileAdd);
                             if (!auditResult.Success) return auditResult;
                         }
                         else
                         {
-                            return GetStatusObject(StatusObject.OperationTypes.Create, string.Format("Failed to add file '{0}' to record", fileInfo.Name), false);
+                            return GetStatusObject(StatusObject.OperationTypes.Create,
+                                string.Format("Failed to add file '{0}' to record", fileInfo.Name), false);
                         }
                     }
                 }
@@ -266,7 +265,8 @@ namespace DataWrangler
             }
         }
 
-        public StatusObject GetRecordsByTypeSearch(RecordType rT, string searchField, string searchValue, int skip, int limit)
+        public StatusObject GetRecordsByTypeSearch(RecordType rT, string searchField, string searchValue, int skip,
+            int limit)
         {
             //TODO: Optimize Retrieval by not using LINQ method of filtering large recordset
             if (rT.Attributes.Contains(searchField))
@@ -276,7 +276,7 @@ namespace DataWrangler
 
                     if (records.Success)
                     {
-                        var result = ((Record[])records.Result)
+                        var result = ((Record[]) records.Result)
                             .Where(r => r.Attributes[searchField].Equals(searchValue)).ToArray();
                         return GetStatusObject(StatusObject.OperationTypes.Read, result, true);
                     }
@@ -301,7 +301,8 @@ namespace DataWrangler
                 var result = collection
                     .Include(x => x.User)
                     .Find(Query.And(Query.EQ(fieldName, fieldValue),
-                        Query.EQ("ObjectLookupCol", _getCollectionName<T>()))).OrderByDescending(x => x.Date).Skip(skip).Take(limit).ToArray();
+                        Query.EQ("ObjectLookupCol", _getCollectionName<T>()))).OrderByDescending(x => x.Date).Skip(skip)
+                    .Take(limit).ToArray();
                 return GetStatusObject(StatusObject.OperationTypes.Read, result, true);
             }
             catch (LiteException e)
@@ -317,7 +318,8 @@ namespace DataWrangler
                 var collection = _getCollection<AuditEntry>();
                 var result = collection
                     .Include(x => x.User)
-                    .Find(Query.EQ(fieldName, fieldValue)).OrderByDescending(x => x.Date).Skip(skip).Take(limit).ToArray();
+                    .Find(Query.EQ(fieldName, fieldValue)).OrderByDescending(x => x.Date).Skip(skip).Take(limit)
+                    .ToArray();
                 return GetStatusObject(StatusObject.OperationTypes.Read, result, true);
             }
             catch (LiteException e)
@@ -326,11 +328,11 @@ namespace DataWrangler
             }
         }
 
-        public StatusObject RebuildDatabase(Dictionary<string, string> DbSettings, bool usePassword = false, string newPassword = null)
+        public StatusObject RebuildDatabase(Dictionary<string, string> DbSettings, bool usePassword = false,
+            string newPassword = null)
         {
             try
             {
-                
                 string cmd = null;
                 if (usePassword && newPassword != null)
                 {
@@ -345,8 +347,8 @@ namespace DataWrangler
                         cmd = $"rebuild {{\"password\" : \"{currPass}\"}};";
                     else
                         cmd = "rebuild;";
-
                 }
+
                 var result = _db.Execute(cmd);
 
                 return GetStatusObject(StatusObject.OperationTypes.Update, result, result.Single().AsDecimal == 0);

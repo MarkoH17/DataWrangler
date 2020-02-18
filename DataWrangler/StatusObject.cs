@@ -12,7 +12,8 @@ namespace DataWrangler
             Delete,
             FileAdd,
             FileRemove,
-            Maintenance
+            Maintenance,
+            Login
         }
 
         public bool Success { get; set; }

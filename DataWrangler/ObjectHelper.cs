@@ -8,20 +8,21 @@ namespace DataWrangler
 {
     internal class ObjectHelper : IDisposable
     {
+        public const int DefaultRecordsetSize = 250;
         private readonly DataAccess _dA;
         private readonly Dictionary<string, string> _dbSettings;
-        public const int DefaultRecordsetSize = 250;
 
-        public ObjectHelper(Dictionary<string, string> DbSettings, UserAccount user)
+        public ObjectHelper(Dictionary<string, string> DbSettings, UserAccount user = null)
         {
             string connectionString;
 
             if (!DbSettings.ContainsKey("dbPass"))
                 connectionString = string.Format("Filename={0};Connection=shared", DbSettings["dbFilePath"]);
             else
-                connectionString = string.Format("Filename={0};Password='{1}';Connection=shared", DbSettings["dbFilePath"], DbSettings["dbPass"]);
+                connectionString = string.Format("Filename={0};Password='{1}';Connection=shared",
+                    DbSettings["dbFilePath"], DbSettings["dbPass"]);
 
-            _dA = new DataAccess(user, connectionString);
+            _dA = new DataAccess(connectionString, user);
             _dbSettings = DbSettings;
         }
 
@@ -110,25 +111,9 @@ namespace DataWrangler
                 "Record contains attributes unknown to the RecordType definition", false);
         }
 
-        public StatusObject AddRecords(RecordType[] rT, Dictionary<string, string>[] attributes, bool[] actives)
+        public StatusObject AddRecords(Record[] records)
         {
-            if (rT.Length == attributes.Length && rT.Length == actives.Length)
-            {
-                var newRecords = new Record[rT.Length];
-                for (var i = 0; i < rT.Length; i++)
-                    if (!attributes[i].Keys.Except(rT[i].Attributes).Any())
-                        newRecords[i] = new Record
-                        {
-                            TypeId = rT[i].Id,
-                            Attributes = attributes[i],
-                            Active = actives[i]
-                        };
-
-                return _dA.InsertObjects(newRecords);
-            }
-
-            return _dA.GetStatusObject(StatusObject.OperationTypes.Create, "Mismatched number of values provided!",
-                false);
+            return _dA.InsertObjects(records);
         }
 
         public StatusObject AddAttachmentsToRecord(Record r, string[] attachmentPaths)
@@ -221,7 +206,8 @@ namespace DataWrangler
 
         #region Searches
 
-        public StatusObject GetRecordsByTypeSearch(RecordType rT, string searchField, string searchTerm, int skip = 0, int limit = DefaultRecordsetSize)
+        public StatusObject GetRecordsByTypeSearch(RecordType rT, string searchField, string searchTerm, int skip = 0,
+            int limit = DefaultRecordsetSize)
         {
             return _dA.GetRecordsByTypeSearch(rT, searchField, searchTerm, skip, limit);
         }

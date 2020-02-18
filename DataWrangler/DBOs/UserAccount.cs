@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 
 namespace DataWrangler.DBOs
@@ -33,6 +34,19 @@ namespace DataWrangler.DBOs
             var generatedHash = Convert.ToBase64String(hashBytes);
 
             return generatedHash;
+        }
+
+        public static UserAccount Login(Dictionary<string, string> DbSettings, string username, string password)
+        {
+            UserAccount user = null;
+            using (var helper = new ObjectHelper(DbSettings))
+            {
+                var userResult = helper.GetUserAccountByUsername(username);
+                if (userResult.Success && userResult.Result != null && VerifyPassword(((UserAccount)userResult.Result).Password, password))
+                    user = (UserAccount)userResult.Result;
+            }
+
+            return user;
         }
 
         public static bool VerifyPassword(string storedHash, string password)
