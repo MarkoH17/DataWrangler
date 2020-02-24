@@ -41,7 +41,7 @@
             // btnLogin
             // 
             this.btnLogin.BackColor = System.Drawing.Color.LightSalmon;
-            this.btnLogin.Font = new System.Drawing.Font("Corbel", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLogin.Font = new System.Drawing.Font("Book Antiqua", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLogin.Location = new System.Drawing.Point(417, 285);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(75, 28);
@@ -51,6 +51,7 @@
             // 
             // txtUserName
             // 
+            this.txtUserName.Font = new System.Drawing.Font("Book Antiqua", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtUserName.Location = new System.Drawing.Point(306, 141);
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.Size = new System.Drawing.Size(186, 21);
@@ -59,6 +60,7 @@
             // 
             // txtPassword
             // 
+            this.txtPassword.Font = new System.Drawing.Font("Book Antiqua", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPassword.Location = new System.Drawing.Point(306, 204);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
@@ -69,40 +71,44 @@
             // lblUsername
             // 
             this.lblUsername.AutoSize = true;
-            this.lblUsername.Font = new System.Drawing.Font("Corbel", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUsername.Font = new System.Drawing.Font("Book Antiqua", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUsername.ForeColor = System.Drawing.Color.Transparent;
             this.lblUsername.Location = new System.Drawing.Point(305, 115);
             this.lblUsername.Name = "lblUsername";
-            this.lblUsername.Size = new System.Drawing.Size(90, 23);
+            this.lblUsername.Size = new System.Drawing.Size(81, 20);
             this.lblUsername.TabIndex = 3;
             this.lblUsername.Text = "Username";
             // 
             // lblPassword
             // 
             this.lblPassword.AutoSize = true;
-            this.lblPassword.Font = new System.Drawing.Font("Corbel", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPassword.Font = new System.Drawing.Font("Book Antiqua", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPassword.ForeColor = System.Drawing.Color.Transparent;
             this.lblPassword.Location = new System.Drawing.Point(305, 178);
             this.lblPassword.Name = "lblPassword";
-            this.lblPassword.Size = new System.Drawing.Size(86, 23);
+            this.lblPassword.Size = new System.Drawing.Size(79, 20);
             this.lblPassword.TabIndex = 4;
             this.lblPassword.Text = "Password";
             // 
             // chckRemember
             // 
             this.chckRemember.AutoSize = true;
+            this.chckRemember.Font = new System.Drawing.Font("Book Antiqua", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chckRemember.ForeColor = System.Drawing.Color.Transparent;
             this.chckRemember.Location = new System.Drawing.Point(306, 230);
             this.chckRemember.Name = "chckRemember";
-            this.chckRemember.Size = new System.Drawing.Size(123, 17);
+            this.chckRemember.Size = new System.Drawing.Size(131, 19);
             this.chckRemember.TabIndex = 5;
             this.chckRemember.Text = "Remember Username";
             this.chckRemember.UseVisualStyleBackColor = true;
             // 
             // lblTitle
             // 
-            this.lblTitle.Font = new System.Drawing.Font("Ebrima", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitle.Font = new System.Drawing.Font("Bernard MT Condensed", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitle.ForeColor = System.Drawing.Color.OrangeRed;
-            this.lblTitle.Location = new System.Drawing.Point(263, 47);
+            this.lblTitle.Location = new System.Drawing.Point(267, 41);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(296, 61);
+            this.lblTitle.Size = new System.Drawing.Size(245, 61);
             this.lblTitle.TabIndex = 6;
             this.lblTitle.Text = "Data Wrangler";
             this.lblTitle.Click += new System.EventHandler(this.lblTitle_Click);
@@ -110,9 +116,11 @@
             // chckShowPass
             // 
             this.chckShowPass.AutoSize = true;
+            this.chckShowPass.Font = new System.Drawing.Font("Book Antiqua", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chckShowPass.ForeColor = System.Drawing.Color.Transparent;
             this.chckShowPass.Location = new System.Drawing.Point(306, 253);
             this.chckShowPass.Name = "chckShowPass";
-            this.chckShowPass.Size = new System.Drawing.Size(97, 17);
+            this.chckShowPass.Size = new System.Drawing.Size(105, 19);
             this.chckShowPass.TabIndex = 7;
             this.chckShowPass.Text = "Show Password";
             this.chckShowPass.UseVisualStyleBackColor = true;
@@ -121,6 +129,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Silver;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.chckShowPass);
             this.Controls.Add(this.lblTitle);

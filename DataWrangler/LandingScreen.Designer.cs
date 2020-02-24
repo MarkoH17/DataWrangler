@@ -42,7 +42,7 @@
             // btnView
             // 
             this.btnView.BackColor = System.Drawing.Color.SandyBrown;
-            this.btnView.Font = new System.Drawing.Font("Corbel", 16F);
+            this.btnView.Font = new System.Drawing.Font("Book Antiqua", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnView.ForeColor = System.Drawing.Color.Transparent;
             this.btnView.Location = new System.Drawing.Point(89, 85);
             this.btnView.Name = "btnView";
@@ -55,7 +55,7 @@
             // btnImport
             // 
             this.btnImport.BackColor = System.Drawing.Color.SandyBrown;
-            this.btnImport.Font = new System.Drawing.Font("Corbel", 16F);
+            this.btnImport.Font = new System.Drawing.Font("Book Antiqua", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnImport.ForeColor = System.Drawing.Color.Transparent;
             this.btnImport.Location = new System.Drawing.Point(89, 171);
             this.btnImport.Name = "btnImport";
@@ -68,7 +68,7 @@
             // btnManage
             // 
             this.btnManage.BackColor = System.Drawing.Color.SandyBrown;
-            this.btnManage.Font = new System.Drawing.Font("Corbel", 16F);
+            this.btnManage.Font = new System.Drawing.Font("Book Antiqua", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnManage.ForeColor = System.Drawing.Color.Transparent;
             this.btnManage.Location = new System.Drawing.Point(89, 263);
             this.btnManage.Name = "btnManage";
@@ -81,7 +81,7 @@
             // btnOptions
             // 
             this.btnOptions.BackColor = System.Drawing.Color.SandyBrown;
-            this.btnOptions.Font = new System.Drawing.Font("Corbel", 16F);
+            this.btnOptions.Font = new System.Drawing.Font("Book Antiqua", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnOptions.ForeColor = System.Drawing.Color.Transparent;
             this.btnOptions.Location = new System.Drawing.Point(89, 353);
             this.btnOptions.Name = "btnOptions";
@@ -94,11 +94,11 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Corbel", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Bodoni MT Condensed", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.OrangeRed;
-            this.label1.Location = new System.Drawing.Point(91, 10);
+            this.label1.Location = new System.Drawing.Point(185, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(511, 49);
+            this.label1.Size = new System.Drawing.Size(363, 47);
             this.label1.TabIndex = 4;
             this.label1.Text = "Welcome back, {{Username}}!";
             // 
@@ -122,11 +122,11 @@
             // 
             // comboDatabase
             // 
-            this.comboDatabase.Font = new System.Drawing.Font("Corbel", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboDatabase.Font = new System.Drawing.Font("Book Antiqua", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboDatabase.FormattingEnabled = true;
             this.comboDatabase.Location = new System.Drawing.Point(281, 101);
             this.comboDatabase.Name = "comboDatabase";
-            this.comboDatabase.Size = new System.Drawing.Size(321, 21);
+            this.comboDatabase.Size = new System.Drawing.Size(321, 34);
             this.comboDatabase.TabIndex = 7;
             this.comboDatabase.Text = "Select your database...";
             // 
@@ -134,6 +134,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Silver;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.comboDatabase);
             this.Controls.Add(this.listView1);

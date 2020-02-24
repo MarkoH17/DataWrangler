@@ -16,5 +16,10 @@ namespace DataWrangler
         {
             InitializeComponent();
         }
+
+        private void folderImport_HelpRequest(object sender, EventArgs e)
+        {
+
+        }
     }
 }
