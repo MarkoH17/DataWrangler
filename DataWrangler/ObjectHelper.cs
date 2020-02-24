@@ -9,22 +9,17 @@ namespace DataWrangler
 {
     public class ObjectHelper : IDisposable
     {
-        public const int DefaultRecordsetSize = 250;
+        public const int DefaultRecordSetSize = 1000;
         private readonly DataAccess _dA;
-        private readonly Dictionary<string, string> _dbSettings;
+
+        public ObjectHelper(string connectionString, UserAccount user = null)
+        {
+            _dA = new DataAccess(connectionString, user, user == null);
+        }
 
         public ObjectHelper(Dictionary<string, string> dbSettings, UserAccount user = null)
         {
-            string connectionString;
-
-            if (!dbSettings.ContainsKey("dbPass"))
-                connectionString = string.Format("Filename={0};Connection=shared", dbSettings["dbFilePath"]);
-            else
-                connectionString = string.Format("Filename={0};Password='{1}';Connection=shared",
-                    dbSettings["dbFilePath"], dbSettings["dbPass"]);
-
-            _dA = new DataAccess(connectionString, user, user == null);
-            _dbSettings = dbSettings;
+            _dA = new DataAccess(ConfigurationHelper.GetConnectionString(dbSettings), user, user == null);
         }
 
         public void Dispose()
@@ -32,9 +27,9 @@ namespace DataWrangler
             _dA.Dispose();
         }
 
-        public StatusObject RebuildDb(bool usePassword = false, string newPassword = null)
+        public StatusObject RebuildDb(Dictionary<string, string> dbSettings, bool usePassword = false, string newPassword = null)
         {
-            return _dA.RebuildDatabase(_dbSettings, usePassword, newPassword);
+            return _dA.RebuildDatabase(dbSettings, usePassword, newPassword);
         }
 
         public static StatusObject InitializeSystem(string dbPath, bool dbEncrypt = false, bool overwrite = false)
@@ -70,12 +65,11 @@ namespace DataWrangler
 
             if (dbEncrypt) dbPass = pwGenerator.Next();
 
-            var config = new ConfigurationHelper();
-            config.SaveDbSettings(dbPath, dbEncrypt, dbPass);
+            ConfigurationHelper.SaveDbSettings(dbPath, dbEncrypt, dbPass);
 
             StatusObject status = null;
 
-            var dbSettings = config.GetDbSettings();
+            var dbSettings = ConfigurationHelper.GetDbSettings();
 
             using (var self = new ObjectHelper(dbSettings))
             {
@@ -136,7 +130,7 @@ namespace DataWrangler
             return _dA.GetCountOfObj<RecordType>();
         }
 
-        public StatusObject GetRecordTypes(int skip = 0, int limit = DefaultRecordsetSize)
+        public StatusObject GetRecordTypes(int skip = 0, int limit = DefaultRecordSetSize)
         {
             return _dA.GetObjectsByType<RecordType>(skip, limit);
         }
@@ -166,7 +160,7 @@ namespace DataWrangler
                     Attributes = attributes,
                     Active = active
                 };
-                return _dA.InsertObject(newRecord);
+                return _dA.InsertObject(newRecord, "TypeId");
             }
 
             return _dA.GetStatusObject(StatusObject.OperationTypes.Create,
@@ -175,7 +169,7 @@ namespace DataWrangler
 
         public StatusObject AddRecords(Record[] records)
         {
-            return _dA.InsertObjects(records);
+            return _dA.InsertObjects(records, "TypeId");
         }
 
         public StatusObject AddAttachmentsToRecord(Record r, string[] attachmentPaths)
@@ -200,7 +194,7 @@ namespace DataWrangler
             return _dA.GetObjectById<Record>(id);
         }
 
-        public StatusObject GetRecordsByType(RecordType rT, int skip = 0, int limit = DefaultRecordsetSize)
+        public StatusObject GetRecordsByType(RecordType rT, int skip = 0, int limit = DefaultRecordSetSize)
         {
             return _dA.GetRecordsByType(rT, skip, limit);
         }
@@ -258,7 +252,7 @@ namespace DataWrangler
             return _dA.GetObjectById<UserAccount>(id);
         }
 
-        public StatusObject GetUserAccounts(int skip = 0, int limit = DefaultRecordsetSize)
+        public StatusObject GetUserAccounts(int skip = 0, int limit = DefaultRecordSetSize)
         {
             return _dA.GetObjectsByType<UserAccount>(skip, limit);
         }
@@ -298,7 +292,7 @@ namespace DataWrangler
         #region Searches
 
         public StatusObject GetRecordsByTypeSearch(RecordType rT, string searchField, string searchTerm, int skip = 0,
-            int limit = DefaultRecordsetSize)
+            int limit = DefaultRecordSetSize)
         {
             return _dA.GetRecordsByTypeSearch(rT, searchField, searchTerm, skip, limit);
         }
@@ -312,22 +306,22 @@ namespace DataWrangler
 
         #region AuditEntries
 
-        public StatusObject GetAuditEntriesByUsername(string username, int skip = 0, int limit = DefaultRecordsetSize)
+        public StatusObject GetAuditEntriesByUsername(string username, int skip = 0, int limit = DefaultRecordSetSize)
         {
             return _dA.GetAuditEntriesByUsername(username, skip, limit);
         }
 
-        public StatusObject GetRecordAuditEntries(int objectId, int skip = 0, int limit = DefaultRecordsetSize)
+        public StatusObject GetRecordAuditEntries(int objectId, int skip = 0, int limit = DefaultRecordSetSize)
         {
             return _dA.GetAuditEntriesByField<Record>("ObjectId", objectId, skip, limit);
         }
 
-        public StatusObject GetRecordTypeAuditEntries(int objectId, int skip = 0, int limit = DefaultRecordsetSize)
+        public StatusObject GetRecordTypeAuditEntries(int objectId, int skip = 0, int limit = DefaultRecordSetSize)
         {
             return _dA.GetAuditEntriesByField<RecordType>("ObjectId", objectId, skip, limit);
         }
 
-        public StatusObject GetUserAccountAuditEntries(int objectId, int skip = 0, int limit = DefaultRecordsetSize)
+        public StatusObject GetUserAccountAuditEntries(int objectId, int skip = 0, int limit = DefaultRecordSetSize)
         {
             return _dA.GetAuditEntriesByField<Record>("ObjectId", objectId, skip, limit);
         }

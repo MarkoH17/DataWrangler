@@ -6,7 +6,7 @@ namespace DataWrangler
 {
     public class ConfigurationHelper
     {
-        public bool SaveDbSettings(string dbFilePath, bool isEncrypted = false, string dbPass = null)
+        public static bool SaveDbSettings(string dbFilePath, bool isEncrypted = false, string dbPass = null)
         {
             if (string.IsNullOrEmpty(dbFilePath)) return false;
 
@@ -33,7 +33,7 @@ namespace DataWrangler
             return true;
         }
 
-        public Dictionary<string, string> GetDbSettings()
+        public static Dictionary<string, string> GetDbSettings()
         {
             var settings = new Dictionary<string, string>();
 
@@ -46,5 +46,22 @@ namespace DataWrangler
 
             return settings;
         }
+
+        public static string GetConnectionString()
+        {
+            var dbSettings = GetDbSettings();
+            return GetConnectionString(dbSettings);
+        }
+
+        public static string GetConnectionString(Dictionary<string, string> dbSettings)
+        {
+            string connectionString;
+            if (!dbSettings.ContainsKey("dbPass"))
+                connectionString = string.Format("Filename={0};Connection=shared", dbSettings["dbFilePath"]);
+            else
+                connectionString = string.Format("Filename={0};Password='{1}';Connection=shared", dbSettings["dbFilePath"], dbSettings["dbPass"]);
+            return connectionString;
+        }
+
     }
 }

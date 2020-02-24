@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Linq;
 using DataWrangler.Retrievers;
 
 namespace DataWrangler
@@ -97,19 +99,27 @@ namespace DataWrangler
         // and therefore least likely to be reused.
         private int GetIndexToUnusedPage(int rowIndex)
         {
-            var furthestMidDiff = Math.Abs((_cachePages[0].HighestIndex + _cachePages[0].LowestIndex + 1) / 2 - rowIndex);
-            var furthestPageIdx = 0;
-
-            //Need to find datapage furthest from upcoming data page.
-            for (var i = 0; i < _usedPages; i++)
+            var pageDistances = new Dictionary<int, double>();
+            for (int i = 0; i < _usedPages; i++)
             {
-                var pageMidDiff = Math.Abs((_cachePages[i].HighestIndex + _cachePages[i].LowestIndex + 1) / 2 - rowIndex);
+                var newLowestIndex = DataPage.MapToLowerBoundary(rowIndex);
+                var newHighestIndex = DataPage.MapToUpperBoundary(rowIndex);
 
-                if (pageMidDiff > furthestMidDiff)
-                    furthestPageIdx = i;
+                var currLowestIndex = _cachePages[i].LowestIndex;
+                var currHighestIndex = _cachePages[i].HighestIndex;
+
+                //Sqrt( (x2 - x1) ^ 2 + (y2 - y1) ^ 2)
+
+                var distance =
+                    Math.Sqrt(
+                        (newHighestIndex - currHighestIndex) * (newHighestIndex - currHighestIndex) +
+                        (newLowestIndex - currHighestIndex) * (newLowestIndex - currHighestIndex));
+
+                pageDistances.Add(i, distance);
             }
 
-            return furthestPageIdx;
+            var maxDistIdx = pageDistances.Aggregate((k, d) => k.Value > d.Value ? k : d).Key;
+            return pageDistances.First().Key;
         }
 
         private int GetIndexToNextPage()
@@ -149,7 +159,7 @@ namespace DataWrangler
                 return rowIndex / _rowsPerPage * _rowsPerPage;
             }
 
-            private static int MapToUpperBoundary(int rowIndex)
+            public static int MapToUpperBoundary(int rowIndex)
             {
                 // Return the highest index of a page containing the given index.
                 return MapToLowerBoundary(rowIndex) + _rowsPerPage - 1;

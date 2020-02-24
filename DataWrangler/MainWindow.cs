@@ -21,14 +21,13 @@ namespace DataWrangler
         {
             InitializeComponent();
             typeof(DataGridView).InvokeMember("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, dataGridView1, new object[] {true});
-            var cF = new ConfigurationHelper();
 
-            var initResult = ObjectHelper.InitializeSystem(@"C:\Users\Mark Hedrick\Desktop\test.db", false, true);
+            var initResult = ObjectHelper.InitializeSystem(@"V:\DataWrangler Project\test.db", false, true);
 
             if (initResult.Success)
                 _dbSettings = (Dictionary<string, string>) initResult.Result;
             else
-                _dbSettings = cF.GetDbSettings();
+                _dbSettings = ConfigurationHelper.GetDbSettings();
 
             using (var oH = new ObjectHelper(_dbSettings))
             {
@@ -108,9 +107,13 @@ namespace DataWrangler
 
             base.OnLoad(e);
         }
+        
 
         private void dataGridView1_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
         {
+            if (DataProcessor.IsColumnVisible(dataGridView1, e))
+                return;
+
             e.Value = _memoryCache.RetrieveElement(e.RowIndex, e.ColumnIndex);
         }
 

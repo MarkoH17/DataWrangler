@@ -133,7 +133,6 @@ namespace DataWrangler
                     if (!auditResult.Success) return auditResult;
                 }
 
-
                 return GetStatusObject(StatusObject.OperationTypes.Create, result, result >= 0);
             }
             catch (LiteException e)
@@ -167,7 +166,7 @@ namespace DataWrangler
                 string.Format("Object '{0}' does not contain property '{1}'", obj.GetType().Name, indexCol), false);
         }
 
-        public StatusObject InsertObjects<T>(T[] objs)
+        public StatusObject InsertObjects<T>(T[] objs, string indexCol = "Id")
         {
             try
             {

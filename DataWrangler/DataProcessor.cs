@@ -2,6 +2,7 @@
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using DataWrangler.DBOs;
 using OfficeOpenXml;
 
@@ -66,6 +67,21 @@ namespace DataWrangler
             return headers;
         }
 
+        public static bool IsColumnVisible(DataGridView gridView, DataGridViewCellValueEventArgs e)
+        {
+            if (gridView.FirstDisplayedScrollingColumnIndex == e.ColumnIndex)
+            {
+                if (gridView.FirstDisplayedScrollingColumnHiddenWidth != 0)
+                {
+                    return true;
+                }
+            }
+
+            bool sameWidth = gridView.GetColumnDisplayRectangle(e.ColumnIndex, false).Width == gridView.GetColumnDisplayRectangle(e.ColumnIndex, true).Width;
+            return !sameWidth;
+        }
+
+        #region Data Table Fillers
         public DataTable FillRecordDataTable(string[] cols, RecordType rT, Record[] records)
         {
             var dT = new DataTable();
@@ -127,5 +143,6 @@ namespace DataWrangler
 
             return dT;
         }
+        #endregion
     }
 }
