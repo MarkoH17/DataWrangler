@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace DataWrangler
+﻿namespace DataWrangler
 {
-    internal class StatusObject
+    public class StatusObject
     {
         public enum OperationTypes
         {
@@ -12,7 +10,8 @@ namespace DataWrangler
             Delete,
             FileAdd,
             FileRemove,
-            Maintenance
+            System,
+            Login
         }
 
         public bool Success { get; set; }

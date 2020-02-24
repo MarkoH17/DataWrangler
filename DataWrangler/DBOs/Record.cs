@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DataWrangler.DBOs
 {
-    internal class Record
+    public class Record
     {
         public int Id { get; set; }
         public int TypeId { get; set; }

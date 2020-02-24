@@ -2,7 +2,7 @@
 
 namespace DataWrangler.DBOs
 {
-    internal class AuditEntry
+    public class AuditEntry
     {
         public int Id { get; set; }
         public string ObjectLookupCol { get; set; }

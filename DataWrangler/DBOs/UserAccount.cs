@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 
 namespace DataWrangler.DBOs
 {
-    internal class UserAccount
+    public class UserAccount
     {
         public int Id { get; set; }
         public string Username { get; set; }
@@ -14,10 +14,10 @@ namespace DataWrangler.DBOs
 
         public DateTime LastUpdated { get; set; } = DateTime.UtcNow;
 
-        public static string GetPasswordHash(string input)
+        public static string GetPasswordHash(string input, byte[] salt = null)
         {
-            byte[] salt;
-            new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
+            if (salt == null)
+                new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
             return _genPasswordHash(input, salt);
         }
 
@@ -33,18 +33,6 @@ namespace DataWrangler.DBOs
             var generatedHash = Convert.ToBase64String(hashBytes);
 
             return generatedHash;
-        }
-
-        public static bool VerifyPassword(string storedHash, string password)
-        {
-            var hashBytes = Convert.FromBase64String(storedHash);
-
-            var salt = new byte[16];
-            Array.Copy(hashBytes, 0, salt, 0, 16);
-
-            var calculatedHash = _genPasswordHash(password, salt);
-
-            return calculatedHash.Equals(storedHash);
         }
     }
 }

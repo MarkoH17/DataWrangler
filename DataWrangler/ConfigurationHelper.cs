@@ -4,13 +4,16 @@ using System.Reflection;
 
 namespace DataWrangler
 {
-    internal class ConfigurationHelper
+    public class ConfigurationHelper
     {
         public bool SaveDbSettings(string dbFilePath, bool isEncrypted = false, string dbPass = null)
         {
             if (string.IsNullOrEmpty(dbFilePath)) return false;
 
             var configuration = ConfigurationManager.OpenExeConfiguration(Assembly.GetExecutingAssembly().Location);
+
+            configuration.AppSettings.Settings.Remove("dbFilePath");
+            configuration.AppSettings.Settings.Remove("dbPass");
 
             if (configuration.AppSettings.Settings["dbFilePath"] != null)
                 configuration.AppSettings.Settings["dbFilePath"].Value = dbFilePath;
@@ -29,7 +32,6 @@ namespace DataWrangler
             ConfigurationManager.RefreshSection("appSettings");
             return true;
         }
-
 
         public Dictionary<string, string> GetDbSettings()
         {

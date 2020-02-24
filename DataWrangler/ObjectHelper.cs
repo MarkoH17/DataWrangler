@@ -3,26 +3,28 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using DataWrangler.DBOs;
+using PasswordGenerator;
 
 namespace DataWrangler
 {
-    internal class ObjectHelper : IDisposable
+    public class ObjectHelper : IDisposable
     {
+        public const int DefaultRecordsetSize = 250;
         private readonly DataAccess _dA;
         private readonly Dictionary<string, string> _dbSettings;
-        public const int DefaultRecordsetSize = 250;
 
-        public ObjectHelper(Dictionary<string, string> DbSettings, UserAccount user)
+        public ObjectHelper(Dictionary<string, string> dbSettings, UserAccount user = null)
         {
             string connectionString;
 
-            if (!DbSettings.ContainsKey("dbPass"))
-                connectionString = string.Format("Filename={0};Connection=shared", DbSettings["dbFilePath"]);
+            if (!dbSettings.ContainsKey("dbPass"))
+                connectionString = string.Format("Filename={0};Connection=shared", dbSettings["dbFilePath"]);
             else
-                connectionString = string.Format("Filename={0};Password='{1}';Connection=shared", DbSettings["dbFilePath"], DbSettings["dbPass"]);
+                connectionString = string.Format("Filename={0};Password='{1}';Connection=shared",
+                    dbSettings["dbFilePath"], dbSettings["dbPass"]);
 
-            _dA = new DataAccess(user, connectionString);
-            _dbSettings = DbSettings;
+            _dA = new DataAccess(connectionString, user, user == null);
+            _dbSettings = dbSettings;
         }
 
         public void Dispose()
@@ -33,6 +35,62 @@ namespace DataWrangler
         public StatusObject RebuildDb(bool usePassword = false, string newPassword = null)
         {
             return _dA.RebuildDatabase(_dbSettings, usePassword, newPassword);
+        }
+
+        public static StatusObject InitializeSystem(string dbPath, bool dbEncrypt = false, bool overwrite = false)
+        {
+            if (!overwrite && new FileInfo(dbPath).Exists)
+                return new StatusObject
+                {
+                    OperationType = StatusObject.OperationTypes.Delete,
+                    Result = "Database file already exists!",
+                    Success = false
+                };
+            try
+            {
+                File.Delete(dbPath);
+            }
+            catch (Exception e)
+            {
+                return new StatusObject
+                {
+                    OperationType = StatusObject.OperationTypes.Delete,
+                    Result = e,
+                    Success = false
+                };
+            }
+
+            var pwGenerator = new Password(12).IncludeLowercase().IncludeUppercase().IncludeNumeric()
+                .IncludeSpecial("!@#$%^&*()-_=+");
+
+            var newUser = "sysadmin";
+            var newPass = "P@ssw0rd";
+
+            string dbPass = null;
+
+            if (dbEncrypt) dbPass = pwGenerator.Next();
+
+            var config = new ConfigurationHelper();
+            config.SaveDbSettings(dbPath, dbEncrypt, dbPass);
+
+            StatusObject status = null;
+
+            var dbSettings = config.GetDbSettings();
+
+            using (var self = new ObjectHelper(dbSettings))
+            {
+                status = self.AddUserAccount(newUser, newPass, true);
+            }
+
+            if (status.Success)
+                status = new StatusObject
+                {
+                    OperationType = StatusObject.OperationTypes.System,
+                    Result = dbSettings,
+                    Success = true
+                };
+
+            return status;
         }
 
         #region RecordType Accessors
@@ -73,6 +131,11 @@ namespace DataWrangler
             return _dA.GetObjectById<RecordType>(id);
         }
 
+        public StatusObject GetRecordTypeCount()
+        {
+            return _dA.GetCountOfObj<RecordType>();
+        }
+
         public StatusObject GetRecordTypes(int skip = 0, int limit = DefaultRecordsetSize)
         {
             return _dA.GetObjectsByType<RecordType>(skip, limit);
@@ -110,25 +173,9 @@ namespace DataWrangler
                 "Record contains attributes unknown to the RecordType definition", false);
         }
 
-        public StatusObject AddRecords(RecordType[] rT, Dictionary<string, string>[] attributes, bool[] actives)
+        public StatusObject AddRecords(Record[] records)
         {
-            if (rT.Length == attributes.Length && rT.Length == actives.Length)
-            {
-                var newRecords = new Record[rT.Length];
-                for (var i = 0; i < rT.Length; i++)
-                    if (!attributes[i].Keys.Except(rT[i].Attributes).Any())
-                        newRecords[i] = new Record
-                        {
-                            TypeId = rT[i].Id,
-                            Attributes = attributes[i],
-                            Active = actives[i]
-                        };
-
-                return _dA.InsertObjects(newRecords);
-            }
-
-            return _dA.GetStatusObject(StatusObject.OperationTypes.Create, "Mismatched number of values provided!",
-                false);
+            return _dA.InsertObjects(records);
         }
 
         public StatusObject AddAttachmentsToRecord(Record r, string[] attachmentPaths)
@@ -156,6 +203,11 @@ namespace DataWrangler
         public StatusObject GetRecordsByType(RecordType rT, int skip = 0, int limit = DefaultRecordsetSize)
         {
             return _dA.GetRecordsByType(rT, skip, limit);
+        }
+
+        public StatusObject GetRecordCount()
+        {
+            return _dA.GetCountOfObj<Record>();
         }
 
         public StatusObject UpdateRecord(Record r)
@@ -211,17 +263,42 @@ namespace DataWrangler
             return _dA.GetObjectsByType<UserAccount>(skip, limit);
         }
 
+        public StatusObject GetUserAccountCount()
+        {
+            return _dA.GetCountOfObj<UserAccount>();
+        }
+
         public StatusObject UpdateUserAccount(UserAccount uA)
         {
             uA.LastUpdated = DateTime.UtcNow;
             return _dA.UpdateObject(uA);
         }
 
+        public StatusObject LoginUserAccount(string username, string password)
+        {
+            var result = GetUserAccountByUsername(username);
+            if (result.Success && result.Result != null)
+            {
+                var storedHash = ((UserAccount) result.Result).Password;
+                var hashBytes = Convert.FromBase64String(storedHash);
+
+                var salt = new byte[16];
+                Array.Copy(hashBytes, 0, salt, 0, 16);
+
+                var calculatedHash = UserAccount.GetPasswordHash(password, salt);
+                if (calculatedHash.Equals(storedHash))
+                    result.Result = (UserAccount) result.Result;
+            }
+
+            return result;
+        }
+
         #endregion
 
         #region Searches
 
-        public StatusObject GetRecordsByTypeSearch(RecordType rT, string searchField, string searchTerm, int skip = 0, int limit = DefaultRecordsetSize)
+        public StatusObject GetRecordsByTypeSearch(RecordType rT, string searchField, string searchTerm, int skip = 0,
+            int limit = DefaultRecordsetSize)
         {
             return _dA.GetRecordsByTypeSearch(rT, searchField, searchTerm, skip, limit);
         }
@@ -237,7 +314,7 @@ namespace DataWrangler
 
         public StatusObject GetAuditEntriesByUsername(string username, int skip = 0, int limit = DefaultRecordsetSize)
         {
-            return _dA.GetAuditEntriesByField("Username", username, skip, limit);
+            return _dA.GetAuditEntriesByUsername(username, skip, limit);
         }
 
         public StatusObject GetRecordAuditEntries(int objectId, int skip = 0, int limit = DefaultRecordsetSize)
@@ -253,6 +330,11 @@ namespace DataWrangler
         public StatusObject GetUserAccountAuditEntries(int objectId, int skip = 0, int limit = DefaultRecordsetSize)
         {
             return _dA.GetAuditEntriesByField<Record>("ObjectId", objectId, skip, limit);
+        }
+
+        public StatusObject GetAuditEntryCount()
+        {
+            return _dA.GetCountOfObj<AuditEntry>();
         }
 
         #endregion
