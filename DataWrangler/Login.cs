@@ -8,5 +8,10 @@ namespace DataWrangler
         {
             InitializeComponent();
         }
+
+        private void lblTitle_Click(object sender, System.EventArgs e)
+        {
+
+        }
     }
 }

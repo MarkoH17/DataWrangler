@@ -111,6 +111,42 @@
     <Compile Include="DataAccess.cs" />
     <Compile Include="DataProcessor.cs" />
     <Compile Include="DBOs\AuditEntry.cs" />
+    <Compile Include="LandingScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LandingScreen.Designer.cs">
+      <DependentUpon>LandingScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Record.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Record.Designer.cs">
+      <DependentUpon>Record.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Import.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Import.Designer.cs">
+      <DependentUpon>Import.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Manage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Manage.Designer.cs">
+      <DependentUpon>Manage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserManage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UserManage.Designer.cs">
+      <DependentUpon>UserManage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View.Designer.cs">
+      <DependentUpon>View.cs</DependentUpon>
+    </Compile>
     <Compile Include="Retrievers\DataRetriever.cs" />
     <Compile Include="Retrievers\IDataRetriever.cs" />
     <Compile Include="Retrievers\AuditEntryRetriever.cs" />
@@ -142,6 +178,15 @@
     <Compile Include="DBOs\Record.cs" />
     <Compile Include="DBOs\RecordType.cs" />
     <Compile Include="ObjectHelper.cs" />
+    <EmbeddedResource Include="Import.resx">
+      <DependentUpon>Import.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LandingScreen.resx">
+      <DependentUpon>LandingScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login.resx">
+      <DependentUpon>Login.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
       <SubType>Designer</SubType>

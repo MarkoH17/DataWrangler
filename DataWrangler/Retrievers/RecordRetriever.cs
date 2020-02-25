@@ -44,12 +44,12 @@ namespace DataWrangler.Retrievers
 
         public DataTable SupplyPageOfData(int lowerPageBoundary, int rowsPerPage)
         {
-            Record[] records = null;
+            DBOs.Record[] records = null;
             using (var oH = new ObjectHelper(DbSettings))
             {
                 var fetchStatus = oH.GetRecordsByType(_recordType, lowerPageBoundary, rowsPerPage);
                 if (fetchStatus.Success)
-                    records = (Record[]) fetchStatus.Result;
+                    records = (DBOs.Record[]) fetchStatus.Result;
             }
 
             return DataProcessor.FillRecordDataTable(ColumnNames, _recordType, records);

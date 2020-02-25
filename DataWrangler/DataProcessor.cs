@@ -24,10 +24,10 @@ namespace DataWrangler
             return headerValues;
         }
 
-        public Record[] GetRecordsFromSheet(RecordType recordType, Dictionary<int, string> cols, string filePath,
+        public DBOs.Record[] GetRecordsFromSheet(RecordType recordType, Dictionary<int, string> cols, string filePath,
             int sheetIdx = 1)
         {
-            var records = new List<Record>();
+            var records = new List<DBOs.Record>();
 
             var filteredColumns = cols.Where(x => recordType.Attributes.Contains(x.Value))
                 .ToDictionary(x => x.Key, x => x.Value);
@@ -43,7 +43,7 @@ namespace DataWrangler
 
                     foreach (var col in filteredColumns) recordAttributes.Add(col.Value, ws.Cells[i, col.Key].Text);
 
-                    var nRecord = new Record
+                    var nRecord = new DBOs.Record
                     {
                         TypeId = recordType.Id,
                         Attributes = recordAttributes,
@@ -82,7 +82,7 @@ namespace DataWrangler
         }
 
         #region Data Table Fillers
-        public DataTable FillRecordDataTable(string[] cols, RecordType rT, Record[] records)
+        public DataTable FillRecordDataTable(string[] cols, RecordType rT, DBOs.Record[] records)
         {
             var dT = new DataTable();
             foreach (var col in cols) dT.Columns.Add(col);

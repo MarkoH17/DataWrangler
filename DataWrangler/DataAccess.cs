@@ -29,7 +29,7 @@ namespace DataWrangler
             _db.Dispose();
         }
 
-        public StatusObject AddFilesToRecord(Record r, string[] filePaths)
+        public StatusObject AddFilesToRecord(DBOs.Record r, string[] filePaths)
         {
             var fs = _db.FileStorage;
             var fileIds = new List<string>();
@@ -70,7 +70,7 @@ namespace DataWrangler
             return GetStatusObject(StatusObject.OperationTypes.Create, fileIds, true);
         }
 
-        public StatusObject DeleteFileFromRecord(Record r, string fileId)
+        public StatusObject DeleteFileFromRecord(DBOs.Record r, string fileId)
         {
             var fs = _db.FileStorage;
 
@@ -236,7 +236,7 @@ namespace DataWrangler
         {
             try
             {
-                var collection = _getCollection<Record>();
+                var collection = _getCollection<DBOs.Record>();
                 var result = collection.Find(Query.EQ("TypeId", rT.Id)).Skip(skip).Take(limit).ToArray();
                 return GetStatusObject(StatusObject.OperationTypes.Read, result, true);
             }
@@ -296,10 +296,10 @@ namespace DataWrangler
                 try
                 {
                     var records = GetRecordsByType(rT, skip, limit);
-                    var result = new List<Record>();
+                    var result = new List<DBOs.Record>();
                     if (records.Success)
                     {
-                        foreach (var record in (Record[]) records.Result)
+                        foreach (var record in (DBOs.Record[]) records.Result)
                             if (record.Attributes.ContainsKey(searchField))
                                 if (!string.IsNullOrEmpty(record.Attributes[searchField]))
                                     if (record.Attributes.ContainsValue(searchValue))

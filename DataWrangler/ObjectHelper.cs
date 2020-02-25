@@ -154,7 +154,7 @@ namespace DataWrangler
         {
             if (!attributes.Keys.Except(rT.Attributes).Any())
             {
-                var newRecord = new Record
+                var newRecord = new DBOs.Record
                 {
                     TypeId = rT.Id,
                     Attributes = attributes,
@@ -167,12 +167,12 @@ namespace DataWrangler
                 "Record contains attributes unknown to the RecordType definition", false);
         }
 
-        public StatusObject AddRecords(Record[] records)
+        public StatusObject AddRecords(DBOs.Record[] records)
         {
             return _dA.InsertObjects(records, "TypeId");
         }
 
-        public StatusObject AddAttachmentsToRecord(Record r, string[] attachmentPaths)
+        public StatusObject AddAttachmentsToRecord(DBOs.Record r, string[] attachmentPaths)
         {
             foreach (var file in attachmentPaths)
                 if (!File.Exists(file))
@@ -191,7 +191,7 @@ namespace DataWrangler
 
         public StatusObject GetRecordById(int id)
         {
-            return _dA.GetObjectById<Record>(id);
+            return _dA.GetObjectById<DBOs.Record>(id);
         }
 
         public StatusObject GetRecordsByType(RecordType rT, int skip = 0, int limit = DefaultRecordSetSize)
@@ -201,16 +201,16 @@ namespace DataWrangler
 
         public StatusObject GetRecordCount()
         {
-            return _dA.GetCountOfObj<Record>();
+            return _dA.GetCountOfObj<DBOs.Record>();
         }
 
-        public StatusObject UpdateRecord(Record r)
+        public StatusObject UpdateRecord(DBOs.Record r)
         {
             r.LastUpdated = DateTime.UtcNow;
             return _dA.UpdateObject(r);
         }
 
-        public StatusObject DeleteRecord(Record r)
+        public StatusObject DeleteRecord(DBOs.Record r)
         {
             if (r.Attachments.Count > 0)
                 foreach (var attachment in r.Attachments)
@@ -219,10 +219,10 @@ namespace DataWrangler
                     if (!delAttachmentResult.Success) return delAttachmentResult;
                 }
 
-            return _dA.DeleteObjectById<Record>(r.Id);
+            return _dA.DeleteObjectById<DBOs.Record>(r.Id);
         }
 
-        public StatusObject DeleteAttachmentFromRecord(Record r, string fileId)
+        public StatusObject DeleteAttachmentFromRecord(DBOs.Record r, string fileId)
         {
             return _dA.DeleteFileFromRecord(r, fileId);
         }
@@ -313,7 +313,7 @@ namespace DataWrangler
 
         public StatusObject GetRecordAuditEntries(int objectId, int skip = 0, int limit = DefaultRecordSetSize)
         {
-            return _dA.GetAuditEntriesByField<Record>("ObjectId", objectId, skip, limit);
+            return _dA.GetAuditEntriesByField<DBOs.Record>("ObjectId", objectId, skip, limit);
         }
 
         public StatusObject GetRecordTypeAuditEntries(int objectId, int skip = 0, int limit = DefaultRecordSetSize)
@@ -323,7 +323,7 @@ namespace DataWrangler
 
         public StatusObject GetUserAccountAuditEntries(int objectId, int skip = 0, int limit = DefaultRecordSetSize)
         {
-            return _dA.GetAuditEntriesByField<Record>("ObjectId", objectId, skip, limit);
+            return _dA.GetAuditEntriesByField<DBOs.Record>("ObjectId", objectId, skip, limit);
         }
 
         public StatusObject GetAuditEntryCount()
