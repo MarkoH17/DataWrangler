@@ -41,7 +41,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Bernard MT Condensed", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.SaddleBrown;
-            this.label1.Location = new System.Drawing.Point(209, 20);
+            this.label1.Location = new System.Drawing.Point(129, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(128, 47);
             this.label1.TabIndex = 0;
@@ -54,7 +54,7 @@
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.AttributeType,
             this.DataValue});
-            this.dataGridView1.Location = new System.Drawing.Point(102, 70);
+            this.dataGridView1.Location = new System.Drawing.Point(22, 58);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(332, 233);
             this.dataGridView1.TabIndex = 1;
@@ -74,7 +74,7 @@
             this.btnHistory.BackColor = System.Drawing.Color.SandyBrown;
             this.btnHistory.Font = new System.Drawing.Font("Book Antiqua", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnHistory.ForeColor = System.Drawing.Color.Transparent;
-            this.btnHistory.Location = new System.Drawing.Point(399, 344);
+            this.btnHistory.Location = new System.Drawing.Point(258, 297);
             this.btnHistory.Name = "btnHistory";
             this.btnHistory.Size = new System.Drawing.Size(96, 47);
             this.btnHistory.TabIndex = 2;
@@ -86,7 +86,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
-            this.ClientSize = new System.Drawing.Size(560, 429);
+            this.ClientSize = new System.Drawing.Size(429, 378);
             this.Controls.Add(this.btnHistory);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.label1);
