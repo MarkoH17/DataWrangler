@@ -113,9 +113,9 @@
             // 
             this.lblTitle.Font = new System.Drawing.Font("Bernard MT Condensed", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitle.ForeColor = System.Drawing.Color.Black;
-            this.lblTitle.Location = new System.Drawing.Point(147, 44);
+            this.lblTitle.Location = new System.Drawing.Point(159, 41);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(250, 62);
+            this.lblTitle.Size = new System.Drawing.Size(245, 62);
             this.lblTitle.TabIndex = 6;
             this.lblTitle.Text = "Data Wrangler";
             this.lblTitle.Click += new System.EventHandler(this.lblTitle_Click);

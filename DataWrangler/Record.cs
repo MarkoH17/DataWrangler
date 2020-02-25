@@ -21,5 +21,15 @@ namespace DataWrangler
         {
 
         }
+
+        private void btnHistory_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataRecordView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }
