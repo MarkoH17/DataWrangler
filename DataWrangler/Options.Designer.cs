@@ -53,7 +53,7 @@
             // 
             this.lblOptions.AutoSize = true;
             this.lblOptions.Font = new System.Drawing.Font("Bernard MT Condensed", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblOptions.ForeColor = System.Drawing.Color.OrangeRed;
+            this.lblOptions.ForeColor = System.Drawing.Color.Black;
             this.lblOptions.Location = new System.Drawing.Point(329, 13);
             this.lblOptions.Name = "lblOptions";
             this.lblOptions.Size = new System.Drawing.Size(163, 57);
@@ -63,7 +63,7 @@
             // btnSelect
             // 
             this.btnSelect.AutoSize = true;
-            this.btnSelect.BackColor = System.Drawing.Color.SandyBrown;
+            this.btnSelect.BackColor = System.Drawing.Color.Gray;
             this.btnSelect.Font = new System.Drawing.Font("Book Antiqua", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSelect.ForeColor = System.Drawing.Color.Transparent;
             this.btnSelect.Location = new System.Drawing.Point(317, 113);
@@ -85,7 +85,7 @@
             // 
             this.lblCurrentPassword.AutoSize = true;
             this.lblCurrentPassword.Font = new System.Drawing.Font("Book Antiqua", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurrentPassword.ForeColor = System.Drawing.Color.OrangeRed;
+            this.lblCurrentPassword.ForeColor = System.Drawing.Color.Black;
             this.lblCurrentPassword.Location = new System.Drawing.Point(56, 155);
             this.lblCurrentPassword.Name = "lblCurrentPassword";
             this.lblCurrentPassword.Size = new System.Drawing.Size(114, 17);
@@ -96,7 +96,7 @@
             // 
             this.lblNewPassword.AutoSize = true;
             this.lblNewPassword.Font = new System.Drawing.Font("Book Antiqua", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNewPassword.ForeColor = System.Drawing.Color.OrangeRed;
+            this.lblNewPassword.ForeColor = System.Drawing.Color.Black;
             this.lblNewPassword.Location = new System.Drawing.Point(56, 211);
             this.lblNewPassword.Name = "lblNewPassword";
             this.lblNewPassword.Size = new System.Drawing.Size(97, 17);
@@ -117,7 +117,7 @@
             // 
             this.lblConfirmPassword.AutoSize = true;
             this.lblConfirmPassword.Font = new System.Drawing.Font("Book Antiqua", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblConfirmPassword.ForeColor = System.Drawing.Color.OrangeRed;
+            this.lblConfirmPassword.ForeColor = System.Drawing.Color.Black;
             this.lblConfirmPassword.Location = new System.Drawing.Point(56, 273);
             this.lblConfirmPassword.Name = "lblConfirmPassword";
             this.lblConfirmPassword.Size = new System.Drawing.Size(117, 17);
@@ -136,7 +136,7 @@
             // 
             this.chckAddEncrypt.AutoSize = true;
             this.chckAddEncrypt.Font = new System.Drawing.Font("Book Antiqua", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chckAddEncrypt.ForeColor = System.Drawing.Color.OrangeRed;
+            this.chckAddEncrypt.ForeColor = System.Drawing.Color.Black;
             this.chckAddEncrypt.Location = new System.Drawing.Point(56, 343);
             this.chckAddEncrypt.Name = "chckAddEncrypt";
             this.chckAddEncrypt.Size = new System.Drawing.Size(188, 21);
@@ -148,7 +148,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Silver;
+            this.BackColor = System.Drawing.Color.Gainsboro;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.chckAddEncrypt);
             this.Controls.Add(this.lblConfirmPassword);

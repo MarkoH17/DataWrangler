@@ -53,7 +53,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Bernard MT Condensed", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.OrangeRed;
+            this.label1.ForeColor = System.Drawing.Color.Black;
             this.label1.Location = new System.Drawing.Point(288, 10);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(125, 47);
@@ -63,7 +63,7 @@
             // btnImport
             // 
             this.btnImport.AutoSize = true;
-            this.btnImport.BackColor = System.Drawing.Color.SandyBrown;
+            this.btnImport.BackColor = System.Drawing.Color.Gray;
             this.btnImport.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnImport.ForeColor = System.Drawing.Color.Transparent;
             this.btnImport.Location = new System.Drawing.Point(481, 303);
@@ -76,7 +76,7 @@
             // btnCancel
             // 
             this.btnCancel.AutoSize = true;
-            this.btnCancel.BackColor = System.Drawing.Color.SandyBrown;
+            this.btnCancel.BackColor = System.Drawing.Color.Gray;
             this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancel.ForeColor = System.Drawing.Color.Transparent;
             this.btnCancel.Location = new System.Drawing.Point(562, 303);
@@ -110,7 +110,7 @@
             // btnSearchFold
             // 
             this.btnSearchFold.AutoSize = true;
-            this.btnSearchFold.BackColor = System.Drawing.Color.SandyBrown;
+            this.btnSearchFold.BackColor = System.Drawing.Color.Gray;
             this.btnSearchFold.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSearchFold.ForeColor = System.Drawing.Color.Transparent;
             this.btnSearchFold.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -155,7 +155,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Silver;
+            this.BackColor = System.Drawing.Color.Gainsboro;
             this.ClientSize = new System.Drawing.Size(699, 425);
             this.Controls.Add(this.listType);
             this.Controls.Add(this.listField);

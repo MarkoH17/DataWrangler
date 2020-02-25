@@ -40,8 +40,9 @@
             // 
             // btnLogin
             // 
-            this.btnLogin.BackColor = System.Drawing.Color.LightSalmon;
+            this.btnLogin.BackColor = System.Drawing.Color.Gray;
             this.btnLogin.Font = new System.Drawing.Font("Book Antiqua", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLogin.ForeColor = System.Drawing.Color.Transparent;
             this.btnLogin.Location = new System.Drawing.Point(307, 285);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(56, 34);
@@ -70,9 +71,11 @@
             // 
             // lblUsername
             // 
+            this.lblUsername.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.lblUsername.AutoSize = true;
+            this.lblUsername.BackColor = System.Drawing.Color.Gainsboro;
             this.lblUsername.Font = new System.Drawing.Font("Book Antiqua", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUsername.ForeColor = System.Drawing.Color.Transparent;
+            this.lblUsername.ForeColor = System.Drawing.Color.Black;
             this.lblUsername.Location = new System.Drawing.Point(195, 115);
             this.lblUsername.Name = "lblUsername";
             this.lblUsername.Size = new System.Drawing.Size(81, 20);
@@ -81,9 +84,11 @@
             // 
             // lblPassword
             // 
+            this.lblPassword.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.lblPassword.AutoSize = true;
+            this.lblPassword.BackColor = System.Drawing.Color.Gainsboro;
             this.lblPassword.Font = new System.Drawing.Font("Book Antiqua", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPassword.ForeColor = System.Drawing.Color.Transparent;
+            this.lblPassword.ForeColor = System.Drawing.Color.Black;
             this.lblPassword.Location = new System.Drawing.Point(195, 178);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(79, 20);
@@ -92,20 +97,22 @@
             // 
             // chckRemember
             // 
+            this.chckRemember.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.chckRemember.AutoSize = true;
+            this.chckRemember.BackColor = System.Drawing.Color.Gainsboro;
             this.chckRemember.Font = new System.Drawing.Font("Book Antiqua", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chckRemember.ForeColor = System.Drawing.Color.Transparent;
+            this.chckRemember.ForeColor = System.Drawing.Color.Black;
             this.chckRemember.Location = new System.Drawing.Point(196, 230);
             this.chckRemember.Name = "chckRemember";
             this.chckRemember.Size = new System.Drawing.Size(131, 19);
             this.chckRemember.TabIndex = 5;
             this.chckRemember.Text = "Remember Username";
-            this.chckRemember.UseVisualStyleBackColor = true;
+            this.chckRemember.UseVisualStyleBackColor = false;
             // 
             // lblTitle
             // 
             this.lblTitle.Font = new System.Drawing.Font("Bernard MT Condensed", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitle.ForeColor = System.Drawing.Color.OrangeRed;
+            this.lblTitle.ForeColor = System.Drawing.Color.Black;
             this.lblTitle.Location = new System.Drawing.Point(147, 44);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(250, 62);
@@ -115,21 +122,23 @@
             // 
             // chckShowPass
             // 
+            this.chckShowPass.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.chckShowPass.AutoSize = true;
+            this.chckShowPass.BackColor = System.Drawing.Color.Gainsboro;
             this.chckShowPass.Font = new System.Drawing.Font("Book Antiqua", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chckShowPass.ForeColor = System.Drawing.Color.Transparent;
+            this.chckShowPass.ForeColor = System.Drawing.Color.Black;
             this.chckShowPass.Location = new System.Drawing.Point(196, 253);
             this.chckShowPass.Name = "chckShowPass";
             this.chckShowPass.Size = new System.Drawing.Size(105, 19);
             this.chckShowPass.TabIndex = 7;
             this.chckShowPass.Text = "Show Password";
-            this.chckShowPass.UseVisualStyleBackColor = true;
+            this.chckShowPass.UseVisualStyleBackColor = false;
             // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Silver;
+            this.BackColor = System.Drawing.Color.Gainsboro;
             this.ClientSize = new System.Drawing.Size(541, 367);
             this.Controls.Add(this.chckShowPass);
             this.Controls.Add(this.lblTitle);

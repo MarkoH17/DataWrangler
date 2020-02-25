@@ -41,7 +41,7 @@
             // 
             // btnView
             // 
-            this.btnView.BackColor = System.Drawing.Color.SandyBrown;
+            this.btnView.BackColor = System.Drawing.Color.Gray;
             this.btnView.Font = new System.Drawing.Font("Book Antiqua", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnView.ForeColor = System.Drawing.Color.Transparent;
             this.btnView.Location = new System.Drawing.Point(89, 85);
@@ -54,7 +54,7 @@
             // 
             // btnImport
             // 
-            this.btnImport.BackColor = System.Drawing.Color.SandyBrown;
+            this.btnImport.BackColor = System.Drawing.Color.Gray;
             this.btnImport.Font = new System.Drawing.Font("Book Antiqua", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnImport.ForeColor = System.Drawing.Color.Transparent;
             this.btnImport.Location = new System.Drawing.Point(89, 171);
@@ -67,7 +67,7 @@
             // 
             // btnManage
             // 
-            this.btnManage.BackColor = System.Drawing.Color.SandyBrown;
+            this.btnManage.BackColor = System.Drawing.Color.Gray;
             this.btnManage.Font = new System.Drawing.Font("Book Antiqua", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnManage.ForeColor = System.Drawing.Color.Transparent;
             this.btnManage.Location = new System.Drawing.Point(89, 263);
@@ -80,7 +80,7 @@
             // 
             // btnOptions
             // 
-            this.btnOptions.BackColor = System.Drawing.Color.SandyBrown;
+            this.btnOptions.BackColor = System.Drawing.Color.Gray;
             this.btnOptions.Font = new System.Drawing.Font("Book Antiqua", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnOptions.ForeColor = System.Drawing.Color.Transparent;
             this.btnOptions.Location = new System.Drawing.Point(89, 353);
@@ -95,7 +95,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Bodoni MT Condensed", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.OrangeRed;
+            this.label1.ForeColor = System.Drawing.Color.Black;
             this.label1.Location = new System.Drawing.Point(185, 15);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(363, 47);
@@ -134,7 +134,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Silver;
+            this.BackColor = System.Drawing.Color.Gainsboro;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.comboDatabase);
             this.Controls.Add(this.listView1);

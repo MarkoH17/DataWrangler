@@ -45,7 +45,7 @@
             // 
             // btnViewRecords
             // 
-            this.btnViewRecords.BackColor = System.Drawing.Color.SandyBrown;
+            this.btnViewRecords.BackColor = System.Drawing.Color.Gray;
             this.btnViewRecords.Font = new System.Drawing.Font("Book Antiqua", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnViewRecords.ForeColor = System.Drawing.Color.Transparent;
             this.btnViewRecords.Location = new System.Drawing.Point(650, 65);
@@ -67,7 +67,7 @@
             // 
             this.lblView.AutoSize = true;
             this.lblView.Font = new System.Drawing.Font("Bernard MT Condensed", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblView.ForeColor = System.Drawing.Color.OrangeRed;
+            this.lblView.ForeColor = System.Drawing.Color.Black;
             this.lblView.Location = new System.Drawing.Point(279, 9);
             this.lblView.Name = "lblView";
             this.lblView.Size = new System.Drawing.Size(269, 57);
@@ -78,7 +78,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Silver;
+            this.BackColor = System.Drawing.Color.Gainsboro;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.lblView);
             this.Controls.Add(this.dataGridView1);
