@@ -390,6 +390,10 @@ namespace DataWrangler
         private ILiteCollection<T> _getCollection<T>(string indexCol = "Id", bool unique = false)
         {
             var collection = _db.GetCollection<T>(_getCollectionName<T>());
+            if (!indexCol.Equals("Id"))
+            {
+                collection.EnsureIndex("Id");
+            }
             collection.EnsureIndex(indexCol, unique);
             return collection;
         }
