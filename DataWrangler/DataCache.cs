@@ -119,7 +119,7 @@ namespace DataWrangler
             }
 
             var maxDistIdx = pageDistances.Aggregate((k, d) => k.Value > d.Value ? k : d).Key;
-            return pageDistances.First().Key;
+            return maxDistIdx;
         }
 
         private int GetIndexToNextPage()
