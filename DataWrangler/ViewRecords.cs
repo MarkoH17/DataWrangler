@@ -2,9 +2,9 @@
 
 namespace DataWrangler
 {
-    public partial class Manage : Form
+    public partial class ViewRecords : Form
     {
-        public Manage()
+        public ViewRecords()
         {
             InitializeComponent();
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using DataWrangler.DBOs;
+using LiteDB;
 using PasswordGenerator;
 
 namespace DataWrangler
@@ -27,7 +28,8 @@ namespace DataWrangler
             _dA.Dispose();
         }
 
-        public StatusObject RebuildDb(Dictionary<string, string> dbSettings, bool usePassword = false, string newPassword = null)
+        public StatusObject RebuildDb(Dictionary<string, string> dbSettings, bool usePassword = false,
+            string newPassword = null)
         {
             return _dA.RebuildDatabase(dbSettings, usePassword, newPassword);
         }
@@ -91,10 +93,14 @@ namespace DataWrangler
 
         public StatusObject AddRecordType(string name, List<string> attributes, bool active)
         {
+            var recordAttributes = new Dictionary<string, string>();
+
+            foreach (var attr in attributes) recordAttributes.Add(DataProcessor.GetStrId(), attr);
+
             var newRecordType = new RecordType
             {
                 Name = name,
-                Attributes = attributes,
+                Attributes = recordAttributes,
                 Active = active
             };
             return _dA.InsertObject(newRecordType);
@@ -106,12 +112,19 @@ namespace DataWrangler
             {
                 var newRecordTypes = new RecordType[names.Length];
                 for (var i = 0; i < names.Length; i++)
+                {
+                    var recordAttributes = new Dictionary<string, string>();
+
+                    foreach (var attr in attributes[i]) recordAttributes.Add(DataProcessor.GetStrId(), attr);
+
                     newRecordTypes[i] = new RecordType
                     {
                         Name = names[i],
-                        Attributes = attributes[i],
+                        Attributes = recordAttributes,
                         Active = actives[i]
                     };
+                }
+
 
                 return _dA.InsertObjects(newRecordTypes);
             }
@@ -152,27 +165,27 @@ namespace DataWrangler
 
         public StatusObject AddRecord(RecordType rT, Dictionary<string, string> attributes, bool active)
         {
-            if (!attributes.Keys.Except(rT.Attributes).Any())
+            if (!attributes.Keys.Except(rT.Attributes.Keys).Any())
             {
-                var newRecord = new DBOs.Record
+                var newRecord = new Record
                 {
                     TypeId = rT.Id,
                     Attributes = attributes,
                     Active = active
                 };
-                return _dA.InsertObject(newRecord, "TypeId");
+                return _dA.InsertObject(newRecord, "Record_" + rT.Id);
             }
 
             return _dA.GetStatusObject(StatusObject.OperationTypes.Create,
                 "Record contains attributes unknown to the RecordType definition", false);
         }
 
-        public StatusObject AddRecords(DBOs.Record[] records)
+        public StatusObject AddRecords(Record[] records, RecordType rT)
         {
-            return _dA.InsertObjects(records, "TypeId");
+            return _dA.InsertObjects(records, "Record_" + rT.Id);
         }
 
-        public StatusObject AddAttachmentsToRecord(DBOs.Record r, string[] attachmentPaths)
+        public StatusObject AddAttachmentsToRecord(Record r, string[] attachmentPaths)
         {
             foreach (var file in attachmentPaths)
                 if (!File.Exists(file))
@@ -189,28 +202,39 @@ namespace DataWrangler
             return uploadResults;
         }
 
-        public StatusObject GetRecordById(int id)
+        public StatusObject GetRecordById(int id, RecordType rT)
         {
-            return _dA.GetObjectById<DBOs.Record>(id);
+            return _dA.GetObjectById<Record>(id, "Record_" + rT.Id);
         }
 
         public StatusObject GetRecordsByType(RecordType rT, int skip = 0, int limit = DefaultRecordSetSize)
         {
-            return _dA.GetRecordsByType(rT, skip, limit);
+            return _dA.GetObjectsByType<Record>(skip, limit, "Record_" + rT.Id);
         }
 
-        public StatusObject GetRecordCount()
+        public StatusObject GetRecordCountByRecordType(RecordType rT)
         {
-            return _dA.GetCountOfObj<DBOs.Record>();
+            return _dA.GetCountOfObj<Record>("Record_" + rT.Id);
         }
 
-        public StatusObject UpdateRecord(DBOs.Record r)
+        public StatusObject GetRecordCountByRecordTypeAndSearch(RecordType rT, string searchField, string searchValue)
+        {
+            var expr = BsonExpression.Create(string.Format("{0} like \"%{1}%\"", searchField, searchValue));
+            return _dA.GetCountOfObjByExpr<Record>(expr, "Record_" + rT.Id);
+        }
+
+        public StatusObject GetRecordCountByRecordTypeAndGlobalSearch(RecordType rT, string searchValue)
+        {
+            return _dA.GetCountOfRecordsByGlobalSearch(rT, searchValue, "Record_" + rT.Id);
+        }
+
+        public StatusObject UpdateRecord(Record r)
         {
             r.LastUpdated = DateTime.UtcNow;
             return _dA.UpdateObject(r);
         }
 
-        public StatusObject DeleteRecord(DBOs.Record r)
+        public StatusObject DeleteRecord(Record r)
         {
             if (r.Attachments.Count > 0)
                 foreach (var attachment in r.Attachments)
@@ -219,10 +243,10 @@ namespace DataWrangler
                     if (!delAttachmentResult.Success) return delAttachmentResult;
                 }
 
-            return _dA.DeleteObjectById<DBOs.Record>(r.Id);
+            return _dA.DeleteObjectById<Record>(r.Id);
         }
 
-        public StatusObject DeleteAttachmentFromRecord(DBOs.Record r, string fileId)
+        public StatusObject DeleteAttachmentFromRecord(Record r, string fileId)
         {
             return _dA.DeleteFileFromRecord(r, fileId);
         }
@@ -244,7 +268,7 @@ namespace DataWrangler
                 Password = UserAccount.GetPasswordHash(password),
                 Active = active
             };
-            return _dA.InsertObject(newUserAccount, "Username", true);
+            return _dA.InsertObject(newUserAccount, null, "Username", true);
         }
 
         public StatusObject GetUserAccountById(int id)
@@ -291,10 +315,17 @@ namespace DataWrangler
 
         #region Searches
 
-        public StatusObject GetRecordsByTypeSearch(RecordType rT, string searchField, string searchTerm, int skip = 0,
+        public StatusObject GetRecordsByTypeSearch(RecordType rT, string searchField, string searchValue, int skip = 0,
             int limit = DefaultRecordSetSize)
         {
-            return _dA.GetRecordsByTypeSearch(rT, searchField, searchTerm, skip, limit);
+            var expr = BsonExpression.Create(string.Format("{0} like \"%{1}%\"", searchField, searchValue));
+            return _dA.GetRecordsByExprSearch(expr, skip, limit, "Record_" + rT.Id);
+        }
+
+        public StatusObject GetRecordsByGlobalSearch(RecordType rT, string searchValue, int skip = 0,
+            int limit = DefaultRecordSetSize)
+        {
+            return _dA.GetRecordsByGlobalSearch(rT, searchValue, skip, limit, "Record_" + rT.Id);
         }
 
         public StatusObject GetUserAccountByUsername(string username)
@@ -313,7 +344,7 @@ namespace DataWrangler
 
         public StatusObject GetRecordAuditEntries(int objectId, int skip = 0, int limit = DefaultRecordSetSize)
         {
-            return _dA.GetAuditEntriesByField<DBOs.Record>("ObjectId", objectId, skip, limit);
+            return _dA.GetAuditEntriesByField<Record>("ObjectId", objectId, skip, limit);
         }
 
         public StatusObject GetRecordTypeAuditEntries(int objectId, int skip = 0, int limit = DefaultRecordSetSize)
@@ -323,7 +354,7 @@ namespace DataWrangler
 
         public StatusObject GetUserAccountAuditEntries(int objectId, int skip = 0, int limit = DefaultRecordSetSize)
         {
-            return _dA.GetAuditEntriesByField<DBOs.Record>("ObjectId", objectId, skip, limit);
+            return _dA.GetAuditEntriesByField<Record>("ObjectId", objectId, skip, limit);
         }
 
         public StatusObject GetAuditEntryCount()

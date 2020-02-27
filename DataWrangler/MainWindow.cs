@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using DataWrangler.DBOs;
 using DataWrangler.Retrievers;
+using DataWrangler.UI_Controls;
 
 namespace DataWrangler
 {
@@ -15,14 +14,19 @@ namespace DataWrangler
         private readonly Dictionary<string, string> _dbSettings;
         private readonly UserAccount _user;
 
-        private DataCache _memoryCache;
+        private DataCache _dataCache;
+
+        private RecordType _recordTypeSel;
+        private IDataRetriever retriever;
 
         public MainWindow()
         {
             InitializeComponent();
-            typeof(DataGridView).InvokeMember("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, dataGridView1, new object[] {true});
+            typeof(DataGridView).InvokeMember("DoubleBuffered",
+                BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, dataGridView1,
+                new object[] {true});
 
-            var initResult = ObjectHelper.InitializeSystem(@"V:\DataWrangler Project\test.db", false, true);
+            var initResult = ObjectHelper.InitializeSystem(@"C:\Users\Mark Hedrick\Desktop\big-test.db");
 
             if (initResult.Success)
                 _dbSettings = (Dictionary<string, string>) initResult.Result;
@@ -37,88 +41,173 @@ namespace DataWrangler
             }
 
 
-            using (var oH = new ObjectHelper(_dbSettings, _user))
+            /*using (var oH = new ObjectHelper(_dbSettings, _user))
             {
                 var dP = new DataProcessor();
 
-                var testPath1 = @"C:\Users\Mark Hedrick\Desktop\Client Data\publication headlines.xlsx";
+                var clientDataFolder = @"C:\Users\Mark Hedrick\Desktop\Client Data\";
 
-                var headers1 = dP.GetSpreadsheetHeaders(testPath1);
+                var testFiles = Directory.GetFiles(clientDataFolder, "*.xlsx");
 
-                var rt1 = oH.AddRecordType("Publication Headlines", headers1.Values.ToList(), true);
-                var rT1 = oH.GetRecordTypeById((int) rt1.Result);
-                if (rt1.Success && rT1.Success)
-                    for (var i = 0; i < 75; i++) //generating duplicate data to test performance
+                foreach (var file in testFiles)
+                {
+                    var fileName = new FileInfo(file).Name;
+                    var headers = dP.GetSpreadsheetHeaders(file);
+                    var resultAddRT = oH.AddRecordType(fileName.Replace(".xlsx", ""), headers.Values.ToList(), true);
+                    if (resultAddRT.Success)
                     {
-                        var recs = dP.GetRecordsFromSheet((RecordType) rT1.Result, headers1, testPath1);
-                        oH.AddRecords(recs);
+                        var objRT = (RecordType) oH.GetRecordTypeById((int) resultAddRT.Result).Result;
+
+                        for (int i = 0; i < 350; i++)
+                        {
+                            var recs = dP.GetRecordsFromSheet(objRT, headers, file);
+                            oH.AddRecords(recs, objRT);
+                        }
                     }
+                }
+            }*/
+
+
+            //populate record type box
+            RecordType[] recordTypes = null;
+
+            using (var oH = new ObjectHelper(_dbSettings, _user))
+            {
+                var result = oH.GetRecordTypes();
+                if (result.Success) recordTypes = (RecordType[]) result.Result;
+                //var test = oH.GetRecordCountByRecordTypeAndSearch(recordTypes[0], "Attributes.Box_#", "1982");
+
+                //var test1 = oH.GetRecordsByGlobalSearch(recordTypes[0], "Public");
+                //var test2 = oH.GetRecordCountByRecordTypeAndGlobalSearch(recordTypes[0], "Public");
+            }
+
+
+            foreach (var rT in recordTypes)
+            {
+                var comboBoxItem = new ComboBoxItem();
+                comboBoxItem.Text = rT.Name;
+                comboBoxItem.Value = rT;
+                comboRecordType.Items.Add(comboBoxItem);
             }
         }
 
-        protected override void OnLoad(EventArgs e)
+        private void LoadRecordsByType(RecordType rT)
         {
-            // Complete the initialization of the DataGridView.
-            dataGridView1.Size = new Size(800, 250);
-            dataGridView1.Dock = DockStyle.Fill;
-            dataGridView1.VirtualMode = true;
-            dataGridView1.ReadOnly = true;
-            dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.AllowUserToOrderColumns = false;
-            dataGridView1.SelectionMode =
-                DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.CellValueNeeded += dataGridView1_CellValueNeeded;
+            foreach (var attr in rT.Attributes)
+            {
+                var comboBoxItem = new ComboBoxItem();
+                comboBoxItem.Text = attr.Value;
+                comboBoxItem.Value = "Attributes." + attr.Key;
+                comboField.Items.Add(comboBoxItem);
+            }
+
             try
             {
-                var rT = new RecordType
-                {
-                    Id = 1,
-                    Name = "Publication Headlines",
-                    Attributes = new List<string>
-                    {
-                        "Headline",
-                        "Date",
-                        "Publication",
-                        "Volume",
-                        "Number",
-                        "Page No.",
-                        "Type"
-                    },
-                    Active = true
-                };
+                retriever = new RecordRetriever(_dbSettings, rT);
+                _dataCache = new DataCache(retriever, 500);
 
-                var retriever = new RecordRetriever(_dbSettings, rT);
-                _memoryCache = new DataCache(retriever, 500);
+
+                dataGridView1.Columns.Clear();
+                dataGridView1.Rows.Clear();
 
                 foreach (DataColumn column in retriever.Columns)
                     dataGridView1.Columns.Add(column.ColumnName, column.ColumnName);
 
                 dataGridView1.RowCount = retriever.RowCount;
+                textBox1.Text = retriever.RowCount.ToString();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("An error was encountered: " + ex.Message);
                 Application.Exit();
             }
+        }
 
-            // Adjust the column widths based on the displayed values.
-            dataGridView1.AutoResizeColumns(
-                DataGridViewAutoSizeColumnsMode.DisplayedCells);
+        protected override void OnLoad(EventArgs e)
+        {
+            dataGridView1.VirtualMode = true;
+            dataGridView1.ReadOnly = true;
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToOrderColumns = false;
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView1.CellValueNeeded += dataGridView1_CellValueNeeded;
+            dataGridView1.RowCount = 0;
 
             base.OnLoad(e);
         }
-        
 
         private void dataGridView1_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
         {
-            if (DataProcessor.IsColumnVisible(dataGridView1, e))
+            if (comboRecordType.SelectedItem == null || _dataCache == null ||
+                DataProcessor.IsColumnVisible(dataGridView1, e))
                 return;
-
-            e.Value = _memoryCache.RetrieveElement(e.RowIndex, e.ColumnIndex);
+            e.Value = _dataCache.RetrieveElement(e.RowIndex, e.ColumnIndex);
         }
 
-        private void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            var selectedItem = (ComboBoxItem) ((ComboBox) sender).SelectedItem;
+            _recordTypeSel = (RecordType) selectedItem.Value;
+            comboField.Items.Clear();
+            LoadRecordsByType(_recordTypeSel);
+        }
+
+        private void btnFieldSearchGo_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(comboField.SelectedItem.ToString()) || string.IsNullOrEmpty(txtFieldSearch.Text))
+                return;
+
+            var searchField = ((ComboBoxItem) comboField.SelectedItem).Value.ToString();
+            var searchValue = txtFieldSearch.Text;
+
+            try
+            {
+                retriever = new RecordRetriever(_dbSettings, _recordTypeSel, searchField, searchValue);
+                _dataCache = new DataCache(retriever, 500, searchField, searchValue);
+
+
+                dataGridView1.Columns.Clear();
+                dataGridView1.Rows.Clear();
+
+                foreach (DataColumn column in retriever.Columns)
+                    dataGridView1.Columns.Add(column.ColumnName, column.ColumnName);
+
+                dataGridView1.RowCount = retriever.RowCount;
+                textBox1.Text = retriever.RowCount.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error was encountered: " + ex.Message);
+                Application.Exit();
+            }
+        }
+
+        private void btnGlobalGo_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtGlobal.Text))
+                return;
+            var searchValue = txtGlobal.Text;
+
+            try
+            {
+                retriever = new RecordRetriever(_dbSettings, _recordTypeSel, "*", searchValue);
+                _dataCache = new DataCache(retriever, 500, "*", searchValue);
+
+
+                dataGridView1.Columns.Clear();
+                dataGridView1.Rows.Clear();
+
+                foreach (DataColumn column in retriever.Columns)
+                    dataGridView1.Columns.Add(column.ColumnName, column.ColumnName);
+
+                dataGridView1.RowCount = retriever.RowCount;
+                textBox1.Text = retriever.RowCount.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error was encountered: " + ex.Message);
+                Application.Exit();
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace DataWrangler
 {
-    partial class Record
+    partial class ManageRecord
     {
         /// <summary>
         /// Required designer variable.

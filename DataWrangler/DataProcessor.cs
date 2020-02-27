@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -24,13 +25,37 @@ namespace DataWrangler
             return headerValues;
         }
 
-        public DBOs.Record[] GetRecordsFromSheet(RecordType recordType, Dictionary<int, string> cols, string filePath,
+        public static string SafeString(string input)
+        {
+            var _illegalChars = new[] {" ", "*", "="};
+
+            foreach (var chr in _illegalChars) input = input.Replace(chr, "_");
+
+            return input;
+        }
+
+        public static string GetStrId()
+        {
+            var result = "A" + Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+            result = result.Replace("=", "").Replace("+", "").Replace("/", "");
+
+            result = result.Substring(0, 9);
+
+            return result;
+        }
+
+        public Record[] GetRecordsFromSheet(RecordType recordType, Dictionary<int, string> headerCols, string filePath,
             int sheetIdx = 1)
         {
-            var records = new List<DBOs.Record>();
+            var records = new List<Record>();
 
-            var filteredColumns = cols.Where(x => recordType.Attributes.Contains(x.Value))
-                .ToDictionary(x => x.Key, x => x.Value);
+            var recordAttributeNames = recordType.Attributes.Values.Select(x => x).ToArray();
+            var filteredColumns = new Dictionary<int, string>();
+
+            foreach (var col in headerCols)
+                if (recordAttributeNames.Contains(col.Value))
+                    filteredColumns.Add(col.Key, col.Value);
+
 
             var fi = new FileInfo(filePath);
             using (var p = new ExcelPackage(fi))
@@ -41,9 +66,15 @@ namespace DataWrangler
                 {
                     var recordAttributes = new Dictionary<string, string>();
 
-                    foreach (var col in filteredColumns) recordAttributes.Add(col.Value, ws.Cells[i, col.Key].Text);
+                    foreach (var column in filteredColumns)
+                    {
+                        var rAId = recordType.Attributes.Where(rTA => rTA.Value.Equals(column.Value)).FirstOrDefault()
+                            .Key;
+                        recordAttributes.Add(rAId, ws.Cells[i, column.Key].Text);
+                        //record attributes contains ID of corresponding RecordAttribute, and the value
+                    }
 
-                    var nRecord = new DBOs.Record
+                    var nRecord = new Record
                     {
                         TypeId = recordType.Id,
                         Attributes = recordAttributes,
@@ -60,32 +91,33 @@ namespace DataWrangler
         public Dictionary<int, string> RemapHeaders(Dictionary<int, string> headers, RecordType rT,
             KeyValuePair<int, int>[] newMapping)
         {
-            foreach (var pair in newMapping)
+            /*foreach (var pair in newMapping)
                 if (headers.ContainsKey(pair.Key) && pair.Value >= 0 && pair.Value <= rT.Attributes.Count)
-                    headers[pair.Key] = rT.Attributes[pair.Value];
+                    headers[pair.Key] = rT.Attributes[pair.Value]; //FIX THIS */
 
-            return headers;
+            throw new NotImplementedException();
         }
 
         public static bool IsColumnVisible(DataGridView gridView, DataGridViewCellValueEventArgs e)
         {
             if (gridView.FirstDisplayedScrollingColumnIndex == e.ColumnIndex)
-            {
                 if (gridView.FirstDisplayedScrollingColumnHiddenWidth != 0)
-                {
                     return true;
-                }
-            }
 
-            bool sameWidth = gridView.GetColumnDisplayRectangle(e.ColumnIndex, false).Width == gridView.GetColumnDisplayRectangle(e.ColumnIndex, true).Width;
+            var sameWidth = gridView.GetColumnDisplayRectangle(e.ColumnIndex, false).Width ==
+                            gridView.GetColumnDisplayRectangle(e.ColumnIndex, true).Width;
             return !sameWidth;
         }
 
         #region Data Table Fillers
-        public DataTable FillRecordDataTable(string[] cols, RecordType rT, DBOs.Record[] records)
+
+        public DataTable FillRecordDataTable(RecordType rT, Record[] records)
         {
             var dT = new DataTable();
-            foreach (var col in cols) dT.Columns.Add(col);
+
+            dT.Columns.Add("Id");
+            foreach (var attr in rT.Attributes)
+                dT.Columns.Add(attr.Key);
 
             foreach (var rec in records)
             {
@@ -143,6 +175,7 @@ namespace DataWrangler
 
             return dT;
         }
+
         #endregion
     }
 }

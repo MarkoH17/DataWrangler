@@ -14,13 +14,20 @@ namespace DataWrangler
         private readonly IDataRetriever _dataSupply;
 
         private DataPage[] _cachePages;
+
+        private readonly string _searchField;
+        private readonly string _searchValue;
         private int _usedPages;
 
 
-        public DataCache(IDataRetriever dataSupplier, int rowsPerPage)
+        public DataCache(IDataRetriever dataSupplier, int rowsPerPage, string searchField = null,
+            string searchValue = null)
         {
             _dataSupply = dataSupplier;
             _rowsPerPage = rowsPerPage;
+
+            _searchField = searchField;
+            _searchValue = searchValue;
 
             LoadInitialData();
         }
@@ -42,11 +49,11 @@ namespace DataWrangler
         {
             string element = null;
 
-            if (IfPageCached_ThenSetElement(rowIndex, columnIndex, ref element)) return element;
+            if (IfPageCached_ThenSetElement(rowIndex, columnIndex, ref element))
+                return element;
 
-            var x = RetrieveData_CacheIt_ThenReturnElement(
-                rowIndex, columnIndex);
-            return x;
+
+            return RetrieveData_CacheIt_ThenReturnElement(rowIndex, columnIndex);
         }
 
         private void LoadInitialData()
@@ -54,16 +61,22 @@ namespace DataWrangler
             _cachePages = new DataPage[MaxPages];
             if (_dataSupply.RowCount >= _rowsPerPage * 2)
             {
-                _cachePages[0] = new DataPage(_dataSupply.SupplyPageOfData(DataPage.MapToLowerBoundary(0), _rowsPerPage),
+                _cachePages[0] = new DataPage(
+                    _dataSupply.SupplyPageOfData(DataPage.MapToLowerBoundary(0), _rowsPerPage, _searchField,
+                        _searchValue),
                     0);
                 _cachePages[1] =
-                    new DataPage(_dataSupply.SupplyPageOfData(DataPage.MapToLowerBoundary(_rowsPerPage), _rowsPerPage),
+                    new DataPage(
+                        _dataSupply.SupplyPageOfData(DataPage.MapToLowerBoundary(_rowsPerPage), _rowsPerPage,
+                            _searchField, _searchValue),
                         _rowsPerPage);
                 _usedPages = 2;
             }
             else
             {
-                _cachePages[0] = new DataPage(_dataSupply.SupplyPageOfData(DataPage.MapToLowerBoundary(0), _rowsPerPage),
+                _cachePages[0] = new DataPage(
+                    _dataSupply.SupplyPageOfData(DataPage.MapToLowerBoundary(0), _rowsPerPage, _searchField,
+                        _searchValue),
                     0);
                 _usedPages = 1;
             }
@@ -100,7 +113,7 @@ namespace DataWrangler
         private int GetIndexToUnusedPage(int rowIndex)
         {
             var pageDistances = new Dictionary<int, double>();
-            for (int i = 0; i < _usedPages; i++)
+            for (var i = 0; i < _usedPages; i++)
             {
                 var newLowestIndex = DataPage.MapToLowerBoundary(rowIndex);
                 var newHighestIndex = DataPage.MapToUpperBoundary(rowIndex);
@@ -142,7 +155,7 @@ namespace DataWrangler
 
             public DataPage(DataTable table, int rowIndex)
             {
-                this.Table = table;
+                Table = table;
                 LowestIndex = MapToLowerBoundary(rowIndex);
                 HighestIndex = MapToUpperBoundary(rowIndex);
                 Debug.Assert(LowestIndex >= 0);

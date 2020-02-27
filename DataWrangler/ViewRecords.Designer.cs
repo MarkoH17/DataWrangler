@@ -1,6 +1,6 @@
 ﻿namespace DataWrangler
 {
-    partial class View
+    partial class ViewRecords
     {
         /// <summary>
         /// Required designer variable.

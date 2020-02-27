@@ -59,9 +59,9 @@ namespace DataWrangler
             if (!dbSettings.ContainsKey("dbPass"))
                 connectionString = string.Format("Filename={0};Connection=shared", dbSettings["dbFilePath"]);
             else
-                connectionString = string.Format("Filename={0};Password='{1}';Connection=shared", dbSettings["dbFilePath"], dbSettings["dbPass"]);
+                connectionString = string.Format("Filename={0};Password='{1}';Connection=shared",
+                    dbSettings["dbFilePath"], dbSettings["dbPass"]);
             return connectionString;
         }
-
     }
 }

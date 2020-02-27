@@ -11,7 +11,7 @@ namespace DataWrangler.Retrievers
 
         public AuditEntryRetriever(Dictionary<string, string> dbSettings, string username)
         {
-            base.DbSettings = dbSettings;
+            DbSettings = dbSettings;
             _username = username;
             LoadColumns();
         }
@@ -42,7 +42,8 @@ namespace DataWrangler.Retrievers
             }
         }
 
-        public DataTable SupplyPageOfData(int lowerPageBoundary, int rowsPerPage)
+        public DataTable SupplyPageOfData(int lowerPageBoundary, int rowsPerPage, string searchField = null,
+            string searchTerm = null)
         {
             AuditEntry[] auditEntries = null;
             using (var oH = new ObjectHelper(DbSettings))

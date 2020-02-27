@@ -8,11 +8,16 @@ namespace DataWrangler.Retrievers
     public class RecordRetriever : DataRetriever, IDataRetriever
     {
         private readonly RecordType _recordType;
+        private readonly string _searchField;
+        private readonly string _searchValue;
 
-        public RecordRetriever(Dictionary<string, string> dbSettings, RecordType recordType)
+        public RecordRetriever(Dictionary<string, string> dbSettings, RecordType recordType, string searchField = null,
+            string searchValue = null)
         {
-            base.DbSettings = dbSettings;
+            DbSettings = dbSettings;
             _recordType = recordType;
+            _searchField = searchField;
+            _searchValue = searchValue;
             LoadColumns();
         }
 
@@ -34,32 +39,63 @@ namespace DataWrangler.Retrievers
 
                 using (var oH = new ObjectHelper(DbSettings))
                 {
-                    var countStatus = oH.GetRecordCount();
-                    if (countStatus.Success) RowCountValue = (int) countStatus.Result;
+                    int count;
+
+                    if (string.IsNullOrEmpty(_searchField) || string.IsNullOrEmpty(_searchValue))
+                    {
+                        count = (int) oH.GetRecordCountByRecordType(_recordType).Result;
+                    }
+                    else
+                    {
+                        if (_searchField.Equals("*"))
+                            count = (int) oH.GetRecordCountByRecordTypeAndGlobalSearch(_recordType, _searchValue)
+                                .Result;
+                        else
+                            count = (int) oH
+                                .GetRecordCountByRecordTypeAndSearch(_recordType, _searchField, _searchValue).Result;
+                    }
+
+                    RowCountValue = count;
                 }
 
                 return RowCountValue;
             }
         }
 
-        public DataTable SupplyPageOfData(int lowerPageBoundary, int rowsPerPage)
+        public DataTable SupplyPageOfData(int lowerPageBoundary, int rowsPerPage, string searchField = null,
+            string searchTerm = null)
         {
-            DBOs.Record[] records = null;
+            Record[] records = null;
             using (var oH = new ObjectHelper(DbSettings))
             {
-                var fetchStatus = oH.GetRecordsByType(_recordType, lowerPageBoundary, rowsPerPage);
-                if (fetchStatus.Success)
-                    records = (DBOs.Record[]) fetchStatus.Result;
+                StatusObject fetchStatus = null;
+                if (searchField != null || searchTerm != null)
+                {
+                    if (searchField.Equals("*"))
+                        fetchStatus =
+                            oH.GetRecordsByGlobalSearch(_recordType, _searchValue, lowerPageBoundary, rowsPerPage);
+                    else
+                        fetchStatus = oH.GetRecordsByTypeSearch(_recordType, searchField, searchTerm, lowerPageBoundary,
+                            rowsPerPage);
+                    if (fetchStatus.Success)
+                        records = (Record[]) fetchStatus.Result;
+                }
+                else
+                {
+                    fetchStatus = oH.GetRecordsByType(_recordType, lowerPageBoundary, rowsPerPage);
+                    if (fetchStatus.Success)
+                        records = (Record[]) fetchStatus.Result;
+                }
             }
 
-            return DataProcessor.FillRecordDataTable(ColumnNames, _recordType, records);
+            return DataProcessor.FillRecordDataTable(_recordType, records);
         }
 
         private void LoadColumns()
         {
             DataTable.Columns.Add("Id");
             foreach (var attr in _recordType.Attributes)
-                DataTable.Columns.Add(attr);
+                DataTable.Columns.Add(attr.Value);
 
             ColumnNames = DataTable.Columns.Cast<DataColumn>().Select(x => x.ColumnName).ToArray();
             ColumnsValue = DataTable.Columns;

@@ -9,7 +9,7 @@ namespace DataWrangler.Retrievers
     {
         public UserAccountRetriever(Dictionary<string, string> dbSettings)
         {
-            base.DbSettings = dbSettings;
+            DbSettings = dbSettings;
             LoadColumns();
         }
 
@@ -39,7 +39,8 @@ namespace DataWrangler.Retrievers
             }
         }
 
-        public DataTable SupplyPageOfData(int lowerPageBoundary, int rowsPerPage)
+        public DataTable SupplyPageOfData(int lowerPageBoundary, int rowsPerPage, string searchField = null,
+            string searchTerm = null)
         {
             UserAccount[] userAccounts = null;
             using (var oH = new ObjectHelper(DbSettings))

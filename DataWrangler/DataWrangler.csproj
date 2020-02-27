@@ -110,6 +110,7 @@
     <Compile Include="ConfigurationHelper.cs" />
     <Compile Include="DataAccess.cs" />
     <Compile Include="DataProcessor.cs" />
+    <Compile Include="DBOs\RecordAttribute.cs" />
     <Compile Include="DBOs\AuditEntry.cs" />
     <Compile Include="LandingScreen.cs">
       <SubType>Form</SubType>
@@ -117,11 +118,11 @@
     <Compile Include="LandingScreen.Designer.cs">
       <DependentUpon>LandingScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="Record.cs">
+    <Compile Include="ManageRecord.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Record.Designer.cs">
-      <DependentUpon>Record.cs</DependentUpon>
+    <Compile Include="ManageRecord.Designer.cs">
+      <DependentUpon>ManageRecord.cs</DependentUpon>
     </Compile>
     <Compile Include="Import.cs">
       <SubType>Form</SubType>
@@ -135,17 +136,18 @@
     <Compile Include="Manage.Designer.cs">
       <DependentUpon>Manage.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI Controls\ComboBoxItem.cs" />
     <Compile Include="UserManage.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UserManage.Designer.cs">
       <DependentUpon>UserManage.cs</DependentUpon>
     </Compile>
-    <Compile Include="View.cs">
+    <Compile Include="ViewRecords.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View.Designer.cs">
-      <DependentUpon>View.cs</DependentUpon>
+    <Compile Include="ViewRecords.Designer.cs">
+      <DependentUpon>ViewRecords.cs</DependentUpon>
     </Compile>
     <Compile Include="Retrievers\DataRetriever.cs" />
     <Compile Include="Retrievers\IDataRetriever.cs" />
@@ -206,14 +208,14 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Record.resx">
-      <DependentUpon>Record.cs</DependentUpon>
+    <EmbeddedResource Include="ManageRecord.resx">
+      <DependentUpon>ManageRecord.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserManage.resx">
       <DependentUpon>UserManage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View.resx">
-      <DependentUpon>View.cs</DependentUpon>
+    <EmbeddedResource Include="ViewRecords.resx">
+      <DependentUpon>ViewRecords.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -244,5 +246,6 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
