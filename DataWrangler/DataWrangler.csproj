@@ -110,7 +110,6 @@
     <Compile Include="ConfigurationHelper.cs" />
     <Compile Include="DataAccess.cs" />
     <Compile Include="DataProcessor.cs" />
-    <Compile Include="DBOs\RecordAttribute.cs" />
     <Compile Include="DBOs\AuditEntry.cs" />
     <Compile Include="LandingScreen.cs">
       <SubType>Form</SubType>
