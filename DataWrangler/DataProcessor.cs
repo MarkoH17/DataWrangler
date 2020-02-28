@@ -11,39 +11,6 @@ namespace DataWrangler
 {
     public class DataProcessor
     {
-        public Dictionary<int, string> GetSpreadsheetHeaders(string filePath, int sheetIdx = 1)
-        {
-            Dictionary<int, string> headerValues = null;
-            var fi = new FileInfo(filePath);
-            using (var p = new ExcelPackage(fi))
-            {
-                var ws = p.Workbook.Worksheets[sheetIdx];
-                headerValues = ws.Cells[ws.Dimension.Start.Row, ws.Dimension.Start.Column, 1, ws.Dimension.End.Column]
-                    .Where(x => !string.IsNullOrEmpty(x.Text)).ToDictionary(x => x.Start.Column, x => x.Text);
-            }
-
-            return headerValues;
-        }
-
-        public static string SafeString(string input)
-        {
-            var _illegalChars = new[] {" ", "*", "="};
-
-            foreach (var chr in _illegalChars) input = input.Replace(chr, "_");
-
-            return input;
-        }
-
-        public static string GetStrId()
-        {
-            var result = "A" + Convert.ToBase64String(Guid.NewGuid().ToByteArray());
-            result = result.Replace("=", "").Replace("+", "").Replace("/", "");
-
-            result = result.Substring(0, 9);
-
-            return result;
-        }
-
         public Record[] GetRecordsFromSheet(RecordType recordType, Dictionary<int, string> headerCols, string filePath,
             int sheetIdx = 1)
         {
@@ -88,14 +55,28 @@ namespace DataWrangler
             return records.ToArray();
         }
 
-        public Dictionary<int, string> RemapHeaders(Dictionary<int, string> headers, RecordType rT,
-            KeyValuePair<int, int>[] newMapping)
+        public Dictionary<int, string> GetSpreadsheetHeaders(string filePath, int sheetIdx = 1)
         {
-            /*foreach (var pair in newMapping)
-                if (headers.ContainsKey(pair.Key) && pair.Value >= 0 && pair.Value <= rT.Attributes.Count)
-                    headers[pair.Key] = rT.Attributes[pair.Value]; //FIX THIS */
+            Dictionary<int, string> headerValues = null;
+            var fi = new FileInfo(filePath);
+            using (var p = new ExcelPackage(fi))
+            {
+                var ws = p.Workbook.Worksheets[sheetIdx];
+                headerValues = ws.Cells[ws.Dimension.Start.Row, ws.Dimension.Start.Column, 1, ws.Dimension.End.Column]
+                    .Where(x => !string.IsNullOrEmpty(x.Text)).ToDictionary(x => x.Start.Column, x => x.Text);
+            }
 
-            throw new NotImplementedException();
+            return headerValues;
+        }
+
+        public static string GetStrId()
+        {
+            var result = "A" + Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+            result = result.Replace("=", "").Replace("+", "").Replace("/", "");
+
+            result = result.Substring(0, 9);
+
+            return result;
         }
 
         public static bool IsColumnVisible(DataGridView gridView, DataGridViewCellValueEventArgs e)
@@ -107,6 +88,25 @@ namespace DataWrangler
             var sameWidth = gridView.GetColumnDisplayRectangle(e.ColumnIndex, false).Width ==
                             gridView.GetColumnDisplayRectangle(e.ColumnIndex, true).Width;
             return !sameWidth;
+        }
+
+        public Dictionary<int, string> RemapHeaders(Dictionary<int, string> headers, RecordType rT,
+            KeyValuePair<int, int>[] newMapping)
+        {
+            /*foreach (var pair in newMapping)
+                if (headers.ContainsKey(pair.Key) && pair.Value >= 0 && pair.Value <= rT.Attributes.Count)
+                    headers[pair.Key] = rT.Attributes[pair.Value]; //FIX THIS */
+
+            throw new NotImplementedException();
+        }
+
+        public static string SafeString(string input)
+        {
+            var _illegalChars = new[] {"*", "=", "$", ";", "\"", "'"};
+
+            foreach (var chr in _illegalChars) input = input.Replace(chr, "");
+
+            return input;
         }
 
         #region Data Table Fillers

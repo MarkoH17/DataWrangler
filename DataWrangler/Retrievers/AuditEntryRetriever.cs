@@ -5,7 +5,7 @@ using DataWrangler.DBOs;
 
 namespace DataWrangler.Retrievers
 {
-    public class AuditEntryRetriever : DataRetriever, IDataRetriever
+    public class AuditEntryRetriever : DataRetriever
     {
         private readonly string _username;
 

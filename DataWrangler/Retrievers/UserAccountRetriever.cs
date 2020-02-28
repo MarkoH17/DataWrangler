@@ -5,7 +5,7 @@ using DataWrangler.DBOs;
 
 namespace DataWrangler.Retrievers
 {
-    public class UserAccountRetriever : DataRetriever, IDataRetriever
+    public class UserAccountRetriever : DataRetriever
     {
         public UserAccountRetriever(Dictionary<string, string> dbSettings)
         {

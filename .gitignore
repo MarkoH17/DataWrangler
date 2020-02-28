@@ -6,3 +6,5 @@
 /DataWrangler/obj/Debug
 /DataWrangler/bin/Debug
 /packages
+/DataWrangler/bin/Release
+/DataWrangler/obj/Release

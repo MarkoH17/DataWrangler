@@ -10,14 +10,6 @@ namespace DataWrangler
             InitializeComponent();
         }
 
-        private void LandingScreen_Load(object sender, EventArgs e)
-        {
-        }
-
-        private void btnView_Click(object sender, EventArgs e)
-        {
-        }
-
         private void btnImport_Click(object sender, EventArgs e)
         {
         }
@@ -27,6 +19,14 @@ namespace DataWrangler
         }
 
         private void btnOptions_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void btnView_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void LandingScreen_Load(object sender, EventArgs e)
         {
         }
 

@@ -13,10 +13,10 @@ namespace DataWrangler
         private static int _rowsPerPage;
         private readonly IDataRetriever _dataSupply;
 
-        private DataPage[] _cachePages;
-
         private readonly string _searchField;
         private readonly string _searchValue;
+
+        private DataPage[] _cachePages;
         private int _usedPages;
 
 
@@ -32,6 +32,49 @@ namespace DataWrangler
             LoadInitialData();
         }
 
+        public string RetrieveElement(int rowIndex, int columnIndex)
+        {
+            string element = null;
+
+            if (IfPageCached_ThenSetElement(rowIndex, columnIndex, ref element))
+                return element;
+
+
+            return RetrieveData_CacheIt_ThenReturnElement(rowIndex, columnIndex);
+        }
+
+        private int GetIndexToNextPage()
+        {
+            return _usedPages;
+        }
+
+        // Returns the index of the cached page most distant from the given index
+        // and therefore least likely to be reused.
+        private int GetIndexToUnusedPage(int rowIndex)
+        {
+            var pageDistances = new Dictionary<int, double>();
+            for (var i = 0; i < _usedPages; i++)
+            {
+                var newLowestIndex = DataPage.MapToLowerBoundary(rowIndex);
+                var newHighestIndex = DataPage.MapToUpperBoundary(rowIndex);
+
+                var currLowestIndex = _cachePages[i].LowestIndex;
+                var currHighestIndex = _cachePages[i].HighestIndex;
+
+                //Sqrt( (x2 - x1) ^ 2 + (y2 - y1) ^ 2)
+
+                var distance =
+                    Math.Sqrt(
+                        (newHighestIndex - currHighestIndex) * (newHighestIndex - currHighestIndex) +
+                        (newLowestIndex - currHighestIndex) * (newLowestIndex - currHighestIndex));
+
+                pageDistances.Add(i, distance);
+            }
+
+            var maxDistIdx = pageDistances.Aggregate((k, d) => k.Value > d.Value ? k : d).Key;
+            return maxDistIdx;
+        }
+
         // Sets the value of the element parameter if the value is in the cache.
         private bool IfPageCached_ThenSetElement(int rowIndex, int columnIndex, ref string element)
         {
@@ -45,15 +88,12 @@ namespace DataWrangler
             return false;
         }
 
-        public string RetrieveElement(int rowIndex, int columnIndex)
+        // Returns a value indicating whether the given row index is contained
+        // in the given DataPage. 
+        private bool IsRowCachedInPage(int pageNumber, int rowIndex)
         {
-            string element = null;
-
-            if (IfPageCached_ThenSetElement(rowIndex, columnIndex, ref element))
-                return element;
-
-
-            return RetrieveData_CacheIt_ThenReturnElement(rowIndex, columnIndex);
+            return rowIndex <= _cachePages[pageNumber].HighestIndex &&
+                   rowIndex >= _cachePages[pageNumber].LowestIndex;
         }
 
         private void LoadInitialData()
@@ -106,46 +146,6 @@ namespace DataWrangler
 
 
             return RetrieveElement(rowIndex, columnIndex);
-        }
-
-        // Returns the index of the cached page most distant from the given index
-        // and therefore least likely to be reused.
-        private int GetIndexToUnusedPage(int rowIndex)
-        {
-            var pageDistances = new Dictionary<int, double>();
-            for (var i = 0; i < _usedPages; i++)
-            {
-                var newLowestIndex = DataPage.MapToLowerBoundary(rowIndex);
-                var newHighestIndex = DataPage.MapToUpperBoundary(rowIndex);
-
-                var currLowestIndex = _cachePages[i].LowestIndex;
-                var currHighestIndex = _cachePages[i].HighestIndex;
-
-                //Sqrt( (x2 - x1) ^ 2 + (y2 - y1) ^ 2)
-
-                var distance =
-                    Math.Sqrt(
-                        (newHighestIndex - currHighestIndex) * (newHighestIndex - currHighestIndex) +
-                        (newLowestIndex - currHighestIndex) * (newLowestIndex - currHighestIndex));
-
-                pageDistances.Add(i, distance);
-            }
-
-            var maxDistIdx = pageDistances.Aggregate((k, d) => k.Value > d.Value ? k : d).Key;
-            return maxDistIdx;
-        }
-
-        private int GetIndexToNextPage()
-        {
-            return _usedPages;
-        }
-
-        // Returns a value indicating whether the given row index is contained
-        // in the given DataPage. 
-        private bool IsRowCachedInPage(int pageNumber, int rowIndex)
-        {
-            return rowIndex <= _cachePages[pageNumber].HighestIndex &&
-                   rowIndex >= _cachePages[pageNumber].LowestIndex;
         }
 
         // Represents one page of data.  

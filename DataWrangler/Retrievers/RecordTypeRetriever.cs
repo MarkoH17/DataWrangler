@@ -5,8 +5,9 @@ using DataWrangler.DBOs;
 
 namespace DataWrangler.Retrievers
 {
-    public class RecordTypeRetriever : DataRetriever, IDataRetriever
+    public class RecordTypeRetriever : IDataRetriever
     {
+        
         public RecordTypeRetriever(Dictionary<string, string> dbSettings)
         {
             DbSettings = dbSettings;
@@ -52,6 +53,14 @@ namespace DataWrangler.Retrievers
 
             return DataProcessor.FillRecordTypeDataTable(ColumnNames, recordTypes);
         }
+
+        public string[] ColumnNames { get; set; }
+        public DataColumnCollection ColumnsValue { get; set; }
+        public List<string> ColumnIds { get; set; } = new List<string>();
+        public DataProcessor DataProcessor { get; set; } = new DataProcessor();
+        public DataTable DataTable { get; set; } = new DataTable();
+        public Dictionary<string, string> DbSettings { get; set; }
+        public int RowCountValue { get; set; } = -1;
 
         private void LoadColumns()
         {

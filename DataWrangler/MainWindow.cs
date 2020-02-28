@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using DataWrangler.DBOs;
@@ -17,7 +20,10 @@ namespace DataWrangler
         private DataCache _dataCache;
 
         private RecordType _recordTypeSel;
-        private IDataRetriever retriever;
+        private IDataRetriever _retriever;
+
+        private ListSortDirection _sortDirection = ListSortDirection.Ascending;
+        private string _sortColumnId = null;
 
         public MainWindow()
         {
@@ -26,7 +32,7 @@ namespace DataWrangler
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, dataGridView1,
                 new object[] {true});
 
-            var initResult = ObjectHelper.InitializeSystem(@"C:\Users\Mark Hedrick\Desktop\big-test.db");
+            var initResult = ObjectHelper.InitializeSystem(@"C:\Users\Mark Hedrick\Desktop\big-test.db", false, false);
 
             if (initResult.Success)
                 _dbSettings = (Dictionary<string, string>) initResult.Result;
@@ -58,7 +64,7 @@ namespace DataWrangler
                     {
                         var objRT = (RecordType) oH.GetRecordTypeById((int) resultAddRT.Result).Result;
 
-                        for (int i = 0; i < 350; i++)
+                        for (var i = 0; i < 350; i++)
                         {
                             var recs = dP.GetRecordsFromSheet(objRT, headers, file);
                             oH.AddRecords(recs, objRT);
@@ -91,38 +97,6 @@ namespace DataWrangler
             }
         }
 
-        private void LoadRecordsByType(RecordType rT)
-        {
-            foreach (var attr in rT.Attributes)
-            {
-                var comboBoxItem = new ComboBoxItem();
-                comboBoxItem.Text = attr.Value;
-                comboBoxItem.Value = "Attributes." + attr.Key;
-                comboField.Items.Add(comboBoxItem);
-            }
-
-            try
-            {
-                retriever = new RecordRetriever(_dbSettings, rT);
-                _dataCache = new DataCache(retriever, 500);
-
-
-                dataGridView1.Columns.Clear();
-                dataGridView1.Rows.Clear();
-
-                foreach (DataColumn column in retriever.Columns)
-                    dataGridView1.Columns.Add(column.ColumnName, column.ColumnName);
-
-                dataGridView1.RowCount = retriever.RowCount;
-                textBox1.Text = retriever.RowCount.ToString();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("An error was encountered: " + ex.Message);
-                Application.Exit();
-            }
-        }
-
         protected override void OnLoad(EventArgs e)
         {
             dataGridView1.VirtualMode = true;
@@ -136,22 +110,6 @@ namespace DataWrangler
             base.OnLoad(e);
         }
 
-        private void dataGridView1_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
-        {
-            if (comboRecordType.SelectedItem == null || _dataCache == null ||
-                DataProcessor.IsColumnVisible(dataGridView1, e))
-                return;
-            e.Value = _dataCache.RetrieveElement(e.RowIndex, e.ColumnIndex);
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var selectedItem = (ComboBoxItem) ((ComboBox) sender).SelectedItem;
-            _recordTypeSel = (RecordType) selectedItem.Value;
-            comboField.Items.Clear();
-            LoadRecordsByType(_recordTypeSel);
-        }
-
         private void btnFieldSearchGo_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(comboField.SelectedItem.ToString()) || string.IsNullOrEmpty(txtFieldSearch.Text))
@@ -162,18 +120,18 @@ namespace DataWrangler
 
             try
             {
-                retriever = new RecordRetriever(_dbSettings, _recordTypeSel, searchField, searchValue);
-                _dataCache = new DataCache(retriever, 500, searchField, searchValue);
+                _retriever = new RecordRetriever(_dbSettings, _recordTypeSel, searchField, searchValue);
+                _dataCache = new DataCache(_retriever, 500, searchField, searchValue);
 
 
                 dataGridView1.Columns.Clear();
                 dataGridView1.Rows.Clear();
 
-                foreach (DataColumn column in retriever.Columns)
+                foreach (DataColumn column in _retriever.Columns)
                     dataGridView1.Columns.Add(column.ColumnName, column.ColumnName);
 
-                dataGridView1.RowCount = retriever.RowCount;
-                textBox1.Text = retriever.RowCount.ToString();
+                dataGridView1.RowCount = _retriever.RowCount;
+                textBox1.Text = _retriever.RowCount.ToString();
             }
             catch (Exception ex)
             {
@@ -190,24 +148,80 @@ namespace DataWrangler
 
             try
             {
-                retriever = new RecordRetriever(_dbSettings, _recordTypeSel, "*", searchValue);
-                _dataCache = new DataCache(retriever, 500, "*", searchValue);
+                _retriever = new RecordRetriever(_dbSettings, _recordTypeSel, "*", searchValue);
+                _dataCache = new DataCache(_retriever, 500, "*", searchValue);
 
 
                 dataGridView1.Columns.Clear();
                 dataGridView1.Rows.Clear();
 
-                foreach (DataColumn column in retriever.Columns)
+                foreach (DataColumn column in _retriever.Columns)
                     dataGridView1.Columns.Add(column.ColumnName, column.ColumnName);
 
-                dataGridView1.RowCount = retriever.RowCount;
-                textBox1.Text = retriever.RowCount.ToString();
+                dataGridView1.RowCount = _retriever.RowCount;
+                textBox1.Text = _retriever.RowCount.ToString();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("An error was encountered: " + ex.Message);
                 Application.Exit();
             }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var selectedItem = (ComboBoxItem) ((ComboBox) sender).SelectedItem;
+            _recordTypeSel = (RecordType) selectedItem.Value;
+            comboField.Items.Clear();
+            LoadRecordsByType(_recordTypeSel);
+        }
+
+        private void dataGridView1_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
+        {
+            if (comboRecordType.SelectedItem == null || _dataCache == null ||
+                DataProcessor.IsColumnVisible(dataGridView1, e))
+                return;
+            e.Value = _dataCache.RetrieveElement(e.RowIndex, e.ColumnIndex);
+        }
+
+        private void LoadRecordsByType(RecordType rT)
+        {
+            foreach (var attr in rT.Attributes)
+            {
+                var comboBoxItem = new ComboBoxItem();
+                comboBoxItem.Text = attr.Value;
+                comboBoxItem.Value = "Attributes." + attr.Key;
+                comboField.Items.Add(comboBoxItem);
+            }
+
+            try
+            {
+                _retriever = new RecordRetriever(_dbSettings, rT);
+                _dataCache = new DataCache(_retriever, 500);
+
+
+                dataGridView1.Columns.Clear();
+                dataGridView1.Rows.Clear();
+
+                foreach (DataColumn column in _retriever.Columns)
+                    dataGridView1.Columns.Add(column.ColumnName, column.ColumnName);
+
+                dataGridView1.RowCount = _retriever.RowCount;
+                textBox1.Text = _retriever.RowCount.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error was encountered: " + ex.Message);
+                Application.Exit();
+            }
+        }
+
+        private void dataGridView1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            _sortDirection = _sortDirection == ListSortDirection.Ascending
+                ? ListSortDirection.Descending
+                : ListSortDirection.Ascending;
+            _sortColumnId = _retriever.ColumnIds[e.ColumnIndex];
         }
     }
 }

@@ -10,7 +10,7 @@ namespace DataWrangler
 {
     public class ObjectHelper : IDisposable
     {
-        public const int DefaultRecordSetSize = 1000;
+        public const int DefaultRecordSetSize = 500;
         private readonly DataAccess _dA;
 
         public ObjectHelper(string connectionString, UserAccount user = null)
@@ -26,12 +26,6 @@ namespace DataWrangler
         public void Dispose()
         {
             _dA.Dispose();
-        }
-
-        public StatusObject RebuildDb(Dictionary<string, string> dbSettings, bool usePassword = false,
-            string newPassword = null)
-        {
-            return _dA.RebuildDatabase(dbSettings, usePassword, newPassword);
         }
 
         public static StatusObject InitializeSystem(string dbPath, bool dbEncrypt = false, bool overwrite = false)
@@ -89,6 +83,12 @@ namespace DataWrangler
             return status;
         }
 
+        public StatusObject RebuildDb(Dictionary<string, string> dbSettings, bool usePassword = false,
+            string newPassword = null)
+        {
+            return _dA.RebuildDatabase(dbSettings, usePassword, newPassword);
+        }
+
         #region RecordType Accessors
 
         public StatusObject AddRecordType(string name, List<string> attributes, bool active)
@@ -103,7 +103,7 @@ namespace DataWrangler
                 Attributes = recordAttributes,
                 Active = active
             };
-            return _dA.InsertObject(newRecordType);
+            return _dA.InsertObject(newRecordType, null, "Name", true);
         }
 
         public StatusObject AddRecordTypes(string[] names, List<string>[] attributes, bool[] actives)
@@ -318,7 +318,7 @@ namespace DataWrangler
         public StatusObject GetRecordsByTypeSearch(RecordType rT, string searchField, string searchValue, int skip = 0,
             int limit = DefaultRecordSetSize)
         {
-            var expr = BsonExpression.Create(string.Format("{0} like \"%{1}%\"", searchField, searchValue));
+            var expr = BsonExpression.Create(string.Format("{0} like \"%{1}%\"", searchField, DataProcessor.SafeString(searchValue)));
             return _dA.GetRecordsByExprSearch(expr, skip, limit, "Record_" + rT.Id);
         }
 
