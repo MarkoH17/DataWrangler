@@ -12,18 +12,12 @@ namespace DataWrangler.Retrievers
         private readonly string _searchField;
         private readonly string _searchValue;
 
-        private readonly string _sortColumnId;
-        private readonly ListSortDirection _sortDirection;
-
-        public RecordRetriever(Dictionary<string, string> dbSettings, RecordType recordType, string searchField = null,
-            string searchValue = null, string sortColumnId = null, ListSortDirection sortDirection = ListSortDirection.Descending)
+        public RecordRetriever(Dictionary<string, string> dbSettings, RecordType recordType, string searchField = null, string searchValue = null)
         {
             DbSettings = dbSettings;
             _recordType = recordType;
             _searchField = searchField;
             _searchValue = searchValue;
-            _sortColumnId = sortColumnId;
-            _sortDirection = sortDirection;
 
             LoadColumns();
         }
@@ -72,8 +66,7 @@ namespace DataWrangler.Retrievers
             }
         }
 
-        public DataTable SupplyPageOfData(int lowerPageBoundary, int rowsPerPage, string searchField = null,
-            string searchTerm = null, string sortColumnId = null, ListSortDirection sortDirection = ListSortDirection.Descending)
+        public DataTable SupplyPageOfData(int lowerPageBoundary, int rowsPerPage, string searchField = null, string searchTerm = null)
         {
             Record[] records = null;
             using (var oH = new ObjectHelper(DbSettings))

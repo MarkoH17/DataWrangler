@@ -99,7 +99,7 @@ namespace DataWrangler
         private void LoadInitialData()
         {
             _cachePages = new DataPage[MaxPages];
-            if (_dataSupply.RowCount >= _rowsPerPage * 2)
+            if (_dataSupply.RowCount >= _rowsPerPage)
             {
                 _cachePages[0] = new DataPage(
                     _dataSupply.SupplyPageOfData(DataPage.MapToLowerBoundary(0), _rowsPerPage, _searchField,
@@ -127,7 +127,7 @@ namespace DataWrangler
         {
             // Retrieve a page worth of data containing the requested value.
             var table = _dataSupply.SupplyPageOfData(
-                DataPage.MapToLowerBoundary(rowIndex), _rowsPerPage);
+                DataPage.MapToLowerBoundary(rowIndex), _rowsPerPage, _searchField, _searchValue);
 
             if (_usedPages < MaxPages)
             {

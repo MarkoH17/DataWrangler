@@ -63,7 +63,7 @@ namespace DataWrangler
             {
                 var ws = p.Workbook.Worksheets[sheetIdx];
                 headerValues = ws.Cells[ws.Dimension.Start.Row, ws.Dimension.Start.Column, 1, ws.Dimension.End.Column]
-                    .Where(x => !string.IsNullOrEmpty(x.Text)).ToDictionary(x => x.Start.Column, x => x.Text);
+                    .Where(x => !string.IsNullOrEmpty(x.Text.Trim())).ToDictionary(x => x.Start.Column, x => x.Text);
             }
 
             return headerValues;
