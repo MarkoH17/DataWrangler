@@ -11,6 +11,7 @@ namespace DataWrangler
 {
     public class DataProcessor
     {
+        public static Random random = new Random();
         public Record[] GetRecordsFromSheet(RecordType recordType, Dictionary<int, string> headerCols, string filePath,
             int sheetIdx = 1)
         {
@@ -71,10 +72,12 @@ namespace DataWrangler
 
         public static string GetStrId()
         {
-            var result = "A" + Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+            
+            char prefix = (char)random.Next('A', 'Z');
+            var result = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
             result = result.Replace("=", "").Replace("+", "").Replace("/", "");
 
-            result = result.Substring(0, 9);
+            result = prefix + result.Substring(0, 9);
 
             return result;
         }

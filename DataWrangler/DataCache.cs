@@ -81,8 +81,12 @@ namespace DataWrangler
             for (var i = 0; i < _usedPages; i++)
                 if (IsRowCachedInPage(i, rowIndex))
                 {
-                    element = _cachePages[i].Table.Rows[rowIndex % _rowsPerPage][columnIndex].ToString();
-                    return true;
+                    if (_cachePages[i].Table.Rows.Count > 0)
+                    {
+                        element = _cachePages[i].Table.Rows[rowIndex % _rowsPerPage][columnIndex].ToString();
+                        return true;
+                    }
+                    return false;
                 }
 
             return false;
@@ -144,8 +148,9 @@ namespace DataWrangler
                 _cachePages[replacementIdx] = new DataPage(table, rowIndex);
             }
 
-
-            return RetrieveElement(rowIndex, columnIndex);
+            if (table.Rows.Count > 0)
+                return RetrieveElement(rowIndex, columnIndex);
+            return null;
         }
 
         // Represents one page of data.  

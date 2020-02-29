@@ -433,15 +433,13 @@ namespace DataWrangler
             }
         }
 
-        private ILiteCollection<T> _getCollection<T>(string colName = null, string indexCol = "Id", bool unique = false)
+        private ILiteCollection<T> _getCollection<T>(string colName = null, string indexCol = null, bool unique = false)
         {
             ILiteCollection<T> collection;
             if (!string.IsNullOrEmpty(colName))
                 collection = _db.GetCollection<T>(_getCollectionName(colName));
             else
                 collection = _db.GetCollection<T>(_getCollectionName<T>());
-
-            if (indexCol == null || !indexCol.Equals("Id")) collection.EnsureIndex("Id");
 
             if (indexCol != null)
                 collection.EnsureIndex(indexCol, unique);
