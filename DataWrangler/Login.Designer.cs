@@ -64,11 +64,12 @@
             // 
             this.txtPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPassword.Location = new System.Drawing.Point(196, 204);
+            this.txtPassword.MaxLength = 32;
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(167, 20);
             this.txtPassword.TabIndex = 2;
             this.txtPassword.Text = "Enter your password...";
+            this.txtPassword.TextChanged += new System.EventHandler(this.txtPassword_TextChanged);
             // 
             // lblUsername
             // 
@@ -109,14 +110,15 @@
             this.chckRemember.TabIndex = 5;
             this.chckRemember.Text = "Remember Username";
             this.chckRemember.UseVisualStyleBackColor = false;
+            this.chckRemember.CheckedChanged += new System.EventHandler(this.chckRemember_CheckedChanged);
             // 
             // lblTitle
             // 
             this.lblTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitle.ForeColor = System.Drawing.Color.Black;
-            this.lblTitle.Location = new System.Drawing.Point(159, 41);
+            this.lblTitle.Location = new System.Drawing.Point(137, 41);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(245, 62);
+            this.lblTitle.Size = new System.Drawing.Size(289, 62);
             this.lblTitle.TabIndex = 6;
             this.lblTitle.Text = "Data Wrangler";
             this.lblTitle.Click += new System.EventHandler(this.lblTitle_Click);
@@ -126,6 +128,8 @@
             this.chckShowPass.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.chckShowPass.AutoSize = true;
             this.chckShowPass.BackColor = System.Drawing.Color.Gainsboro;
+            this.chckShowPass.Checked = true;
+            this.chckShowPass.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chckShowPass.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chckShowPass.ForeColor = System.Drawing.Color.Black;
             this.chckShowPass.Location = new System.Drawing.Point(196, 253);
@@ -134,9 +138,11 @@
             this.chckShowPass.TabIndex = 7;
             this.chckShowPass.Text = "Show Password";
             this.chckShowPass.UseVisualStyleBackColor = false;
+            this.chckShowPass.CheckedChanged += new System.EventHandler(this.chckShowPass_CheckedChanged);
             // 
             // Login
             // 
+            this.AcceptButton = this.btnLogin;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Gainsboro;
@@ -152,6 +158,7 @@
             this.Font = new System.Drawing.Font("Corbel", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "Login";
             this.Text = "Data Wrangler Login";
+            this.Load += new System.EventHandler(this.Login_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
