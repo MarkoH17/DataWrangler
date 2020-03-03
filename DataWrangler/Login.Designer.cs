@@ -59,6 +59,7 @@
             this.txtUserName.Size = new System.Drawing.Size(167, 20);
             this.txtUserName.TabIndex = 1;
             this.txtUserName.Text = "Enter your username...";
+            this.txtUserName.GotFocus += new System.EventHandler(this.txtUserName_Focus);
             // 
             // txtPassword
             // 
@@ -69,7 +70,7 @@
             this.txtPassword.Size = new System.Drawing.Size(167, 20);
             this.txtPassword.TabIndex = 2;
             this.txtPassword.Text = "Enter your password...";
-            this.txtPassword.TextChanged += new System.EventHandler(this.txtPassword_TextChanged);
+            this.txtPassword.GotFocus += new System.EventHandler(this.txtPassword_Focus);
             // 
             // lblUsername
             // 
@@ -110,7 +111,6 @@
             this.chckRemember.TabIndex = 5;
             this.chckRemember.Text = "Remember Username";
             this.chckRemember.UseVisualStyleBackColor = false;
-            this.chckRemember.CheckedChanged += new System.EventHandler(this.chckRemember_CheckedChanged);
             // 
             // lblTitle
             // 
@@ -121,7 +121,6 @@
             this.lblTitle.Size = new System.Drawing.Size(289, 62);
             this.lblTitle.TabIndex = 6;
             this.lblTitle.Text = "Data Wrangler";
-            this.lblTitle.Click += new System.EventHandler(this.lblTitle_Click);
             // 
             // chckShowPass
             // 

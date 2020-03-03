@@ -32,7 +32,7 @@ namespace DataWrangler
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, dataGridView1,
                 new object[] {true});
 
-            var initResult = ObjectHelper.InitializeSystem(@"C:\Users\Mark Hedrick\Desktop\big-test.db", false, true);
+            var initResult = ObjectHelper.InitializeSystem(@"C:\Users\aj.skilling\Desktop\big-test.db", false, true);
 
             if (initResult.Success)
                 _dbSettings = (Dictionary<string, string>) initResult.Result;
@@ -51,7 +51,7 @@ namespace DataWrangler
             {
                 var dP = new DataProcessor();
 
-                var clientDataFolder = @"C:\Users\Mark Hedrick\Desktop\Client Data\";
+                var clientDataFolder = @"C:\Users\aj.skilling\Desktop\Client Data\";
 
                 var testFiles = Directory.GetFiles(clientDataFolder, "*.xlsx");
 

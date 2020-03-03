@@ -1,6 +1,4 @@
 ﻿using DataWrangler.DBOs;
-using DataWrangler.Retrievers;
-using LiteDB;
 using System;
 using System.Windows.Forms;
 
@@ -11,71 +9,67 @@ namespace DataWrangler
         public Login()
         {
             InitializeComponent();
-        }
 
+        }
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            var connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["LiteDB"].ConnectionString;
-            if (chckRemember.Checked == true)
+            System.Collections.Generic.Dictionary<string, string> settings = ConfigurationHelper.GetDbSettings();
+
+            using (var oH = new ObjectHelper(settings, null))
             {
-                Properties.Settings.Default.Username = txtUserName.Text;
-                Properties.Settings.Default.Password = txtPassword.Text;
-                Properties.Settings.Default.Save();
-            }
-             if(chckRemember.Checked == false)
-            {
-                Properties.Settings.Default.Username ="";
-                Properties.Settings.Default.Password = "";
-                Properties.Settings.Default.Save();
-            }
-               using(var db = new LiteDB.LiteDatabase(connectionString))
-            {
-                var collection = db.GetCollection<UserAccount>("user");
-                var user = collection.Find(txtUserName.Text);
-                var password = txtPassword.Text;
-                
-                if(txtUserName.Text != user.ToString())
+                var loginStatus = oH.LoginUserAccount(txtUserName.Text, txtPassword.Text);
+                /***********I used the commented out code to add my user account. I'm sure there is a better way to do this*************/
+                //var createAccount = oH.AddUserAccount(txtUserName.Text, txtPassword.Text, true);
+                //if (createAccount.Success)
+                //{
+                //    MessageBox.Show("Success");
+                //    createAccount.Result = new UserAccount();
+                //}
+                //else
+                //{
+                //    MessageBox.Show("Something failed");
+                //}
+                if (loginStatus.Success)
                 {
-                    string wrongUser = "Username is incorrect or does not exist.";
-                    MessageBox.Show(wrongUser);
-                }
-                else
-                {
-                    if (!user.Equals(password))
+                    UserAccount user = (UserAccount)loginStatus.Result;
+                    try
                     {
-                        MessageBox.Show("Invalid Password.");
+                        if (chckRemember.Checked == true)
+                        {
+                            Properties.Settings.Default.Username = txtUserName.Text;
+                            Properties.Settings.Default.Password = txtPassword.Text;
+                            Properties.Settings.Default.Save();
+                        }
+                        if (chckRemember.Checked == false)
+                        {
+                            Properties.Settings.Default.Username = "";
+                            Properties.Settings.Default.Password = "";
+                            Properties.Settings.Default.Save();
+                        }
+                        if (user.Active == true)
+                        {
+                            LandingScreen land = new LandingScreen();
+                            land.Show();
+                            Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Failed to login. Please retry");
+                        }
                     }
-                    else
+                    catch (Exception)
                     {
-                        this.Hide();
-                        LandingScreen l = new LandingScreen();
-                        l.Show();
-                    }
-                    {
-
+                        MessageBox.Show("Something went wrong. Please retry.");
                     }
                 }
             }
-        }
-
-        private void lblTitle_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void txtPassword_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void chckRemember_CheckedChanged(object sender, EventArgs e)
-        {
-           
         }
 
         private void chckShowPass_CheckedChanged(object sender, EventArgs e)
         {
-            if (chckShowPass.Checked == true){
-                txtPassword.UseSystemPasswordChar =false;
+            if (chckShowPass.Checked == true)
+            {
+                txtPassword.UseSystemPasswordChar = false;
             }
             else
             {
@@ -85,11 +79,19 @@ namespace DataWrangler
 
         private void Login_Load(object sender, EventArgs e)
         {
-            if(Properties.Settings.Default.Username != string.Empty)
+            if (Properties.Settings.Default.Username != string.Empty)
             {
                 txtUserName.Text = Properties.Settings.Default.Username;
                 txtPassword.Text = Properties.Settings.Default.Password;
             }
+        }
+        private void txtUserName_Focus(object sender, EventArgs e)
+        {
+            txtUserName.Text = "";
+        }
+        private void txtPassword_Focus(object sender, EventArgs e)
+        {
+            txtPassword.Text = "";
         }
     }
 }
