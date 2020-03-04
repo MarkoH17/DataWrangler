@@ -92,7 +92,7 @@ namespace DataWrangler
             if (result)
             {
                 r.Attachments.Remove(fileId);
-                return UpdateObject(r);
+                return UpdateObject(r, ("Record_" + r.TypeId));
             }
 
             return GetStatusObject(StatusObject.OperationTypes.Delete, "Failed to remove file from record.", false);
