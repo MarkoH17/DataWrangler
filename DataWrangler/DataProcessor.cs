@@ -19,7 +19,6 @@ namespace DataWrangler
 
             var recordAttributeNames = recordType.Attributes.Values.Select(x => x).ToArray();
             var filteredColumns = new Dictionary<int, string>();
-
             foreach (var col in headerCols)
                 if (recordAttributeNames.Contains(col.Value))
                     filteredColumns.Add(col.Key, col.Value);
@@ -38,7 +37,9 @@ namespace DataWrangler
                     {
                         var rAId = recordType.Attributes.Where(rTA => rTA.Value.Equals(column.Value)).FirstOrDefault()
                             .Key;
-                        recordAttributes.Add(rAId, ws.Cells[i, column.Key].Text);
+                        var cellValue = ws.Cells[i, column.Key].Text;
+                        if (!string.IsNullOrEmpty(cellValue))
+                            recordAttributes.Add(rAId, cellValue);
                         //record attributes contains ID of corresponding RecordAttribute, and the value
                     }
 

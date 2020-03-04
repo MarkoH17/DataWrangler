@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using DataWrangler.DBOs;
 using LiteDB;
+using LiteDB.Engine;
 
 namespace DataWrangler
 {
@@ -309,7 +310,7 @@ namespace DataWrangler
                     if (!auditResult.Success) return auditResult;
                 }
 
-                return GetStatusObject(StatusObject.OperationTypes.Create, result, result >= 0);
+                return GetStatusObject(StatusObject.OperationTypes.Create, result, result > 0);
             }
             catch (LiteException e)
             {
@@ -323,7 +324,14 @@ namespace DataWrangler
             {
                 var collection = _getCollection<T>(colName, indexCol);
                 var result = collection.InsertBulk(objs);
-                return GetStatusObject(StatusObject.OperationTypes.Create, result, result >= 0);
+
+                if (!_skipAuditEntries)
+                {
+                    var auditResult = _addAuditEntry(-1, objs[0], _user, StatusObject.OperationTypes.Create, "Insert Bulk operation with " + objs.Length + " items");
+                    if (!auditResult.Success) return auditResult;
+                }
+
+                return GetStatusObject(StatusObject.OperationTypes.Create, result, result > 0);
             }
             catch (LiteException e)
             {
@@ -336,28 +344,28 @@ namespace DataWrangler
         {
             try
             {
-                string cmd;
-                if (usePassword && newPassword != null)
-                {
-                    cmd = $"rebuild {{\"password\" : \"{newPassword}\"}};";
-                }
-                else
-                {
-                    dbSettings.TryGetValue("dbPass", out var currPass);
+                var rebuildOpts = new RebuildOptions();
 
-                    if (usePassword && currPass != null)
-                        cmd = $"rebuild {{\"password\" : \"{currPass}\"}};";
+                if (usePassword)
+                {
+                    if (newPassword != null)
+                    {
+                        rebuildOpts.Password = newPassword;
+                    }
                     else
-                        cmd = "rebuild;";
+                    {
+                        dbSettings.TryGetValue("dbPass", out var currPassword);
+                        rebuildOpts.Password = currPassword;
+                    }
                 }
 
-                var result = _db.Execute(cmd);
+                var result = _db.Rebuild(rebuildOpts);
 
-                return GetStatusObject(StatusObject.OperationTypes.Update, result, result.Single().AsDecimal == 0);
+                return GetStatusObject(StatusObject.OperationTypes.System, result, result >= 0L);
             }
             catch (LiteException e)
             {
-                return GetStatusObject(StatusObject.OperationTypes.Update, e, false);
+                return GetStatusObject(StatusObject.OperationTypes.System, e, false);
             }
         }
 
@@ -410,7 +418,7 @@ namespace DataWrangler
         }
 
         private StatusObject _addAuditEntry(int objId, object obj, UserAccount user,
-            StatusObject.OperationTypes operation)
+            StatusObject.OperationTypes operation, string note = null)
         {
             try
             {
@@ -421,6 +429,7 @@ namespace DataWrangler
                     ObjectLookupCol = _getCollectionName(obj.GetType()),
                     User = user,
                     Operation = operation,
+                    Note = note,
                     Date = DateTime.UtcNow
                 };
                 int result = collection.Insert(auditEntry);
