@@ -13,7 +13,9 @@ namespace DataWrangler
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainWindow());
+            Login log = new Login();
+            log.Show();
+            Application.Run();
         }
     }
 }

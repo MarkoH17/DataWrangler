@@ -37,13 +37,11 @@ namespace DataWrangler
                         if (chckRemember.Checked == true)
                         {
                             Properties.Settings.Default.Username = txtUserName.Text;
-                            Properties.Settings.Default.Password = txtPassword.Text;
                             Properties.Settings.Default.Save();
                         }
                         if (chckRemember.Checked == false)
                         {
                             Properties.Settings.Default.Username = "";
-                            Properties.Settings.Default.Password = "";
                             Properties.Settings.Default.Save();
                         }
                         if (user.Active == true)
@@ -64,6 +62,18 @@ namespace DataWrangler
                 }
             }
         }
+        
+        public void ChckUserPassTxt_OnChange(object sender, EventArgs e)
+        {
+            if (txtUserName.Text.Length >=1 && txtPassword.Text.Length >= 1)
+            {
+                btnLogin.Enabled = true;
+            }
+            else
+            {
+                btnLogin.Enabled = false;
+            }
+        }
 
         private void chckShowPass_CheckedChanged(object sender, EventArgs e)
         {
@@ -82,16 +92,18 @@ namespace DataWrangler
             if (Properties.Settings.Default.Username != string.Empty)
             {
                 txtUserName.Text = Properties.Settings.Default.Username;
-                txtPassword.Text = Properties.Settings.Default.Password;
             }
         }
         private void txtUserName_Focus(object sender, EventArgs e)
         {
             txtUserName.Text = "";
+            
         }
         private void txtPassword_Focus(object sender, EventArgs e)
         {
             txtPassword.Text = "";
         }
+
+      
     }
 }

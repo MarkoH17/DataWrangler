@@ -41,6 +41,7 @@
             // btnLogin
             // 
             this.btnLogin.BackColor = System.Drawing.Color.Gray;
+            this.btnLogin.Enabled = false;
             this.btnLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLogin.ForeColor = System.Drawing.Color.Transparent;
             this.btnLogin.Location = new System.Drawing.Point(307, 285);
@@ -71,6 +72,7 @@
             this.txtPassword.TabIndex = 2;
             this.txtPassword.Text = "Enter your password...";
             this.txtPassword.GotFocus += new System.EventHandler(this.txtPassword_Focus);
+            this.txtPassword.TextChanged += new System.EventHandler(this.ChckUserPassTxt_OnChange);
             // 
             // lblUsername
             // 
