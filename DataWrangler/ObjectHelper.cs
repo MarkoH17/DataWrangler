@@ -231,7 +231,7 @@ namespace DataWrangler
         public StatusObject UpdateRecord(Record r)
         {
             r.LastUpdated = DateTime.UtcNow;
-            return _dA.UpdateObject(r);
+            return _dA.UpdateObject(r, "Record_" + r.TypeId);
         }
 
         public StatusObject DeleteRecord(Record r)

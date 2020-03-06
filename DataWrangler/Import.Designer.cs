@@ -28,35 +28,33 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.comboImport = new System.Windows.Forms.ComboBox();
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.btnImport = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.txtPathAddr = new System.Windows.Forms.TextBox();
             this.lblPath = new System.Windows.Forms.Label();
-            this.folderImport = new System.Windows.Forms.FolderBrowserDialog();
-            this.btnSearchFold = new System.Windows.Forms.Button();
-            this.listColumn = new System.Windows.Forms.ListBox();
-            this.listField = new System.Windows.Forms.ListBox();
-            this.listType = new System.Windows.Forms.ListBox();
+            this.btnChooseFile = new System.Windows.Forms.Button();
+            this.comboImportOptions = new System.Windows.Forms.ComboBox();
+            this.lblImportMode = new System.Windows.Forms.Label();
+            this.lblFieldAssignment = new System.Windows.Forms.Label();
+            this.lblNewRecordType = new System.Windows.Forms.Label();
+            this.gridFieldAssignment = new System.Windows.Forms.DataGridView();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.comboRecordTypeSelector = new System.Windows.Forms.ComboBox();
+            ((System.ComponentModel.ISupportInitialize)(this.gridFieldAssignment)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // comboImport
-            // 
-            this.comboImport.FormattingEnabled = true;
-            this.comboImport.Location = new System.Drawing.Point(381, 276);
-            this.comboImport.Name = "comboImport";
-            this.comboImport.Size = new System.Drawing.Size(255, 21);
-            this.comboImport.TabIndex = 0;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Bernard MT Condensed", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Black;
             this.label1.Location = new System.Drawing.Point(288, 10);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(125, 47);
+            this.label1.Size = new System.Drawing.Size(132, 46);
             this.label1.TabIndex = 1;
             this.label1.Text = "Import";
             // 
@@ -64,14 +62,16 @@
             // 
             this.btnImport.AutoSize = true;
             this.btnImport.BackColor = System.Drawing.Color.Gray;
+            this.btnImport.Enabled = false;
             this.btnImport.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnImport.ForeColor = System.Drawing.Color.Transparent;
-            this.btnImport.Location = new System.Drawing.Point(481, 303);
+            this.btnImport.Location = new System.Drawing.Point(531, 453);
             this.btnImport.Name = "btnImport";
             this.btnImport.Size = new System.Drawing.Size(75, 30);
             this.btnImport.TabIndex = 2;
             this.btnImport.Text = "Import";
             this.btnImport.UseVisualStyleBackColor = false;
+            this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
             // 
             // btnCancel
             // 
@@ -79,7 +79,7 @@
             this.btnCancel.BackColor = System.Drawing.Color.Gray;
             this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancel.ForeColor = System.Drawing.Color.Transparent;
-            this.btnCancel.Location = new System.Drawing.Point(562, 303);
+            this.btnCancel.Location = new System.Drawing.Point(612, 453);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 30);
             this.btnCancel.TabIndex = 3;
@@ -88,104 +88,162 @@
             // 
             // txtPathAddr
             // 
-            this.txtPathAddr.Location = new System.Drawing.Point(203, 82);
+            this.txtPathAddr.Location = new System.Drawing.Point(131, 82);
             this.txtPathAddr.Name = "txtPathAddr";
+            this.txtPathAddr.ReadOnly = true;
             this.txtPathAddr.Size = new System.Drawing.Size(327, 20);
             this.txtPathAddr.TabIndex = 4;
             // 
             // lblPath
             // 
             this.lblPath.AutoSize = true;
-            this.lblPath.Font = new System.Drawing.Font("Book Antiqua", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPath.Location = new System.Drawing.Point(156, 83);
+            this.lblPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPath.Location = new System.Drawing.Point(12, 80);
             this.lblPath.Name = "lblPath";
-            this.lblPath.Size = new System.Drawing.Size(41, 20);
+            this.lblPath.Size = new System.Drawing.Size(113, 20);
             this.lblPath.TabIndex = 5;
-            this.lblPath.Text = "Path";
+            this.lblPath.Text = "Excel File Path\r\n";
             // 
-            // folderImport
+            // btnChooseFile
             // 
-            this.folderImport.HelpRequest += new System.EventHandler(this.folderImport_HelpRequest);
+            this.btnChooseFile.AutoSize = true;
+            this.btnChooseFile.BackColor = System.Drawing.Color.Gray;
+            this.btnChooseFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnChooseFile.ForeColor = System.Drawing.Color.Transparent;
+            this.btnChooseFile.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnChooseFile.Location = new System.Drawing.Point(464, 73);
+            this.btnChooseFile.Name = "btnChooseFile";
+            this.btnChooseFile.Size = new System.Drawing.Size(72, 31);
+            this.btnChooseFile.TabIndex = 6;
+            this.btnChooseFile.Text = "Browse";
+            this.btnChooseFile.UseVisualStyleBackColor = false;
+            this.btnChooseFile.Click += new System.EventHandler(this.btnChooseFile_Click);
             // 
-            // btnSearchFold
+            // comboImportOptions
             // 
-            this.btnSearchFold.AutoSize = true;
-            this.btnSearchFold.BackColor = System.Drawing.Color.Gray;
-            this.btnSearchFold.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSearchFold.ForeColor = System.Drawing.Color.Transparent;
-            this.btnSearchFold.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnSearchFold.Location = new System.Drawing.Point(536, 75);
-            this.btnSearchFold.Name = "btnSearchFold";
-            this.btnSearchFold.Size = new System.Drawing.Size(43, 31);
-            this.btnSearchFold.TabIndex = 6;
-            this.btnSearchFold.Text = "...";
-            this.btnSearchFold.UseVisualStyleBackColor = false;
+            this.comboImportOptions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboImportOptions.Enabled = false;
+            this.comboImportOptions.FormattingEnabled = true;
+            this.comboImportOptions.Items.AddRange(new object[] {
+            "New Record Type",
+            "Existing Record Type"});
+            this.comboImportOptions.Location = new System.Drawing.Point(117, 125);
+            this.comboImportOptions.Name = "comboImportOptions";
+            this.comboImportOptions.Size = new System.Drawing.Size(341, 21);
+            this.comboImportOptions.TabIndex = 7;
+            this.comboImportOptions.SelectedIndexChanged += new System.EventHandler(this.comboImportOptions_SelectedIndexChanged);
             // 
-            // listColumn
+            // lblImportMode
             // 
-            this.listColumn.Font = new System.Drawing.Font("Book Antiqua", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.listColumn.FormattingEnabled = true;
-            this.listColumn.ItemHeight = 20;
-            this.listColumn.Location = new System.Drawing.Point(77, 130);
-            this.listColumn.Name = "listColumn";
-            this.listColumn.Size = new System.Drawing.Size(255, 104);
-            this.listColumn.TabIndex = 7;
+            this.lblImportMode.AutoSize = true;
+            this.lblImportMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblImportMode.Location = new System.Drawing.Point(12, 126);
+            this.lblImportMode.Name = "lblImportMode";
+            this.lblImportMode.Size = new System.Drawing.Size(99, 20);
+            this.lblImportMode.TabIndex = 8;
+            this.lblImportMode.Text = "Import Mode";
             // 
-            // listField
+            // lblFieldAssignment
             // 
-            this.listField.Font = new System.Drawing.Font("Book Antiqua", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.listField.FormattingEnabled = true;
-            this.listField.ItemHeight = 20;
-            this.listField.Location = new System.Drawing.Point(381, 130);
-            this.listField.Name = "listField";
-            this.listField.Size = new System.Drawing.Size(255, 104);
-            this.listField.TabIndex = 8;
+            this.lblFieldAssignment.AutoSize = true;
+            this.lblFieldAssignment.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFieldAssignment.Location = new System.Drawing.Point(12, 204);
+            this.lblFieldAssignment.Name = "lblFieldAssignment";
+            this.lblFieldAssignment.Size = new System.Drawing.Size(139, 20);
+            this.lblFieldAssignment.TabIndex = 12;
+            this.lblFieldAssignment.Text = "Field Assignments";
             // 
-            // listType
+            // lblNewRecordType
             // 
-            this.listType.Font = new System.Drawing.Font("Book Antiqua", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.listType.FormattingEnabled = true;
-            this.listType.ItemHeight = 20;
-            this.listType.Location = new System.Drawing.Point(77, 282);
-            this.listType.Name = "listType";
-            this.listType.Size = new System.Drawing.Size(255, 104);
-            this.listType.TabIndex = 9;
+            this.lblNewRecordType.AutoSize = true;
+            this.lblNewRecordType.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblNewRecordType.Location = new System.Drawing.Point(12, 163);
+            this.lblNewRecordType.Name = "lblNewRecordType";
+            this.lblNewRecordType.Size = new System.Drawing.Size(99, 20);
+            this.lblNewRecordType.TabIndex = 13;
+            this.lblNewRecordType.Text = "Record Type";
+            // 
+            // gridFieldAssignment
+            // 
+            this.gridFieldAssignment.AllowUserToAddRows = false;
+            this.gridFieldAssignment.AllowUserToResizeRows = false;
+            this.gridFieldAssignment.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.gridFieldAssignment.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.gridFieldAssignment.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridFieldAssignment.Enabled = false;
+            this.gridFieldAssignment.Location = new System.Drawing.Point(16, 227);
+            this.gridFieldAssignment.Name = "gridFieldAssignment";
+            this.gridFieldAssignment.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.gridFieldAssignment.Size = new System.Drawing.Size(671, 220);
+            this.gridFieldAssignment.TabIndex = 11;
+            this.gridFieldAssignment.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridFieldAssignment_CellEndEdit);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(186, 26);
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
+            this.deleteToolStripMenuItem.Text = "Delete Selected Rows";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            // 
+            // comboRecordTypeSelector
+            // 
+            this.comboRecordTypeSelector.Enabled = false;
+            this.comboRecordTypeSelector.FormattingEnabled = true;
+            this.comboRecordTypeSelector.Location = new System.Drawing.Point(117, 165);
+            this.comboRecordTypeSelector.Name = "comboRecordTypeSelector";
+            this.comboRecordTypeSelector.Size = new System.Drawing.Size(341, 21);
+            this.comboRecordTypeSelector.TabIndex = 15;
+            this.comboRecordTypeSelector.SelectedIndexChanged += new System.EventHandler(this.comboRecordTypeSelector_SelectedIndexChanged);
             // 
             // Import
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Gainsboro;
-            this.ClientSize = new System.Drawing.Size(699, 425);
-            this.Controls.Add(this.listType);
-            this.Controls.Add(this.listField);
-            this.Controls.Add(this.listColumn);
-            this.Controls.Add(this.btnSearchFold);
+            this.ClientSize = new System.Drawing.Size(699, 495);
+            this.Controls.Add(this.comboRecordTypeSelector);
+            this.Controls.Add(this.lblNewRecordType);
+            this.Controls.Add(this.lblFieldAssignment);
+            this.Controls.Add(this.gridFieldAssignment);
+            this.Controls.Add(this.lblImportMode);
+            this.Controls.Add(this.comboImportOptions);
+            this.Controls.Add(this.btnChooseFile);
             this.Controls.Add(this.lblPath);
             this.Controls.Add(this.txtPathAddr);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnImport);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.comboImport);
             this.Name = "Import";
             this.Text = "Data Wrangler Import";
+            ((System.ComponentModel.ISupportInitialize)(this.gridFieldAssignment)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.ComboBox comboImport;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnImport;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.TextBox txtPathAddr;
         private System.Windows.Forms.Label lblPath;
-        private System.Windows.Forms.FolderBrowserDialog folderImport;
-        private System.Windows.Forms.Button btnSearchFold;
-        private System.Windows.Forms.ListBox listColumn;
-        private System.Windows.Forms.ListBox listField;
-        private System.Windows.Forms.ListBox listType;
+        private System.Windows.Forms.Button btnChooseFile;
+        private System.Windows.Forms.ComboBox comboImportOptions;
+        private System.Windows.Forms.Label lblImportMode;
+        private System.Windows.Forms.Label lblFieldAssignment;
+        private System.Windows.Forms.Label lblNewRecordType;
+        private System.Windows.Forms.DataGridView gridFieldAssignment;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.ComboBox comboRecordTypeSelector;
     }
 }
