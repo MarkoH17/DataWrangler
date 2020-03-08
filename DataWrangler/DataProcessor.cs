@@ -12,6 +12,7 @@ namespace DataWrangler
     public class DataProcessor
     {
         public static Random random = new Random();
+
         public Record[] GetRecordsFromSheet(RecordType recordType, Dictionary<int, string> headerCols, string filePath,
             int sheetIdx = 1)
         {
@@ -35,7 +36,7 @@ namespace DataWrangler
 
                     foreach (var column in filteredColumns)
                     {
-                        var rAId = recordType.Attributes.Where(rTA => rTA.Value.Equals(column.Value)).FirstOrDefault()
+                        var rAId = recordType.Attributes.FirstOrDefault(rTA => rTA.Value.Equals(column.Value))
                             .Key;
                         var cellValue = ws.Cells[i, column.Key].Text;
                         if (!string.IsNullOrEmpty(cellValue))
@@ -73,8 +74,7 @@ namespace DataWrangler
 
         public static string GetStrId()
         {
-            
-            char prefix = (char)random.Next('A', 'Z');
+            var prefix = (char) random.Next('A', 'Z');
             var result = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
             result = result.Replace("=", "").Replace("+", "").Replace("/", "");
 
@@ -92,16 +92,6 @@ namespace DataWrangler
             var sameWidth = gridView.GetColumnDisplayRectangle(e.ColumnIndex, false).Width ==
                             gridView.GetColumnDisplayRectangle(e.ColumnIndex, true).Width;
             return !sameWidth;
-        }
-
-        public Dictionary<int, string> RemapHeaders(Dictionary<int, string> headers, RecordType rT,
-            KeyValuePair<int, int>[] newMapping)
-        {
-            /*foreach (var pair in newMapping)
-                if (headers.ContainsKey(pair.Key) && pair.Value >= 0 && pair.Value <= rT.Attributes.Count)
-                    headers[pair.Key] = rT.Attributes[pair.Value]; //FIX THIS */
-
-            throw new NotImplementedException();
         }
 
         public static string SafeString(string input)
@@ -139,12 +129,16 @@ namespace DataWrangler
         public DataTable FillRecordTypeDataTable(string[] cols, RecordType[] recordTypes)
         {
             var dT = new DataTable();
+
+            foreach (var col in cols)
+                dT.Columns.Add(col);
+
             foreach (var i in recordTypes)
             {
                 var dR = dT.NewRow();
                 dR["Id"] = i.Id;
                 dR["Name"] = i.Name;
-                dR["Attributes"] = string.Join(", ", i.Attributes);
+                dR["Attributes"] = string.Join(", ", i.Attributes.Select(x => x.Value).ToArray());
                 dT.Rows.Add(dR);
             }
 
@@ -154,11 +148,17 @@ namespace DataWrangler
         public DataTable FillUserAccountDataTable(string[] cols, UserAccount[] userAccounts)
         {
             var dT = new DataTable();
+
+            foreach (var col in cols)
+                dT.Columns.Add(col);
+
             foreach (var i in userAccounts)
             {
                 var dR = dT.NewRow();
                 dR["Id"] = i.Id;
                 dR["Username"] = i.Username;
+                dR["LastUpdated"] = i.LastUpdated;
+                dR["Active"] = i.Active;
                 dT.Rows.Add(dR);
             }
 
@@ -168,6 +168,10 @@ namespace DataWrangler
         public DataTable FillAuditEntryDataTable(string[] cols, AuditEntry[] auditEntries)
         {
             var dT = new DataTable();
+
+            foreach (var col in cols)
+                dT.Columns.Add(col);
+
             foreach (var i in auditEntries)
             {
                 var dR = dT.NewRow();

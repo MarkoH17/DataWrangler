@@ -318,7 +318,8 @@ namespace DataWrangler
         public StatusObject GetRecordsByTypeSearch(RecordType rT, string searchField, string searchValue, int skip = 0,
             int limit = DefaultRecordSetSize)
         {
-            var expr = BsonExpression.Create(string.Format("{0} like \"%{1}%\"", searchField, DataProcessor.SafeString(searchValue)));
+            var expr = BsonExpression.Create(string.Format("{0} like \"%{1}%\"", searchField,
+                DataProcessor.SafeString(searchValue)));
             return _dA.GetRecordsByExprSearch(expr, skip, limit, "Record_" + rT.Id);
         }
 

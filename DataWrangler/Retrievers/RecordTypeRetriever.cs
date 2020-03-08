@@ -1,28 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using DataWrangler.DBOs;
 
 namespace DataWrangler.Retrievers
 {
-    public class RecordTypeRetriever : IDataRetriever
+    public class RecordTypeRetriever : DataRetriever, IDataRetriever
     {
-        
         public RecordTypeRetriever(Dictionary<string, string> dbSettings)
         {
             DbSettings = dbSettings;
             LoadColumns();
         }
 
-        public DataColumnCollection Columns
-        {
-            get
-            {
-                if (ColumnsValue != null)
-                    return ColumnsValue;
-                return ColumnsValue;
-            }
-        }
+        public string[] Columns => ColumnsValue.ToArray();
 
         public int RowCount
         {
@@ -51,24 +41,13 @@ namespace DataWrangler.Retrievers
                     recordTypes = (RecordType[]) fetchStatus.Result;
             }
 
-            return DataProcessor.FillRecordTypeDataTable(ColumnNames, recordTypes);
+            return DataProcessor.FillRecordTypeDataTable(Columns, recordTypes);
         }
-
-        public string[] ColumnNames { get; set; }
-        public DataColumnCollection ColumnsValue { get; set; }
-        public List<string> ColumnIds { get; set; } = new List<string>();
-        public DataProcessor DataProcessor { get; set; } = new DataProcessor();
-        public DataTable DataTable { get; set; } = new DataTable();
-        public Dictionary<string, string> DbSettings { get; set; }
-        public int RowCountValue { get; set; } = -1;
 
         private void LoadColumns()
         {
-            DataTable.Columns.Add("Id");
-            DataTable.Columns.Add("Name");
-            DataTable.Columns.Add("Attributes");
-            ColumnNames = DataTable.Columns.Cast<DataColumn>().Select(x => x.ColumnName).ToArray();
-            ColumnsValue = DataTable.Columns;
+            foreach (var col in new[] {"Id", "Name", "Attributes"})
+                ColumnsValue.Add(col);
         }
     }
 }

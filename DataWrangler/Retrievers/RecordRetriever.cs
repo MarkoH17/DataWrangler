@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Linq;
 using DataWrangler.DBOs;
 
 namespace DataWrangler.Retrievers
@@ -12,7 +10,8 @@ namespace DataWrangler.Retrievers
         private readonly string _searchField;
         private readonly string _searchValue;
 
-        public RecordRetriever(Dictionary<string, string> dbSettings, RecordType recordType, string searchField = null, string searchValue = null)
+        public RecordRetriever(Dictionary<string, string> dbSettings, RecordType recordType, string searchField = null,
+            string searchValue = null)
         {
             DbSettings = dbSettings;
             _recordType = recordType;
@@ -22,18 +21,7 @@ namespace DataWrangler.Retrievers
             LoadColumns();
         }
 
-        public DataColumnCollection Columns
-        {
-            get
-            {
-                if (ColumnsValue != null)
-                    return ColumnsValue;
-                return ColumnsValue;
-            }
-        }
-
-        public List<string> ColumnIds { get; set; } = new List<string>();
-
+        public string[] Columns => ColumnsValue.ToArray();
 
         public int RowCount
         {
@@ -66,7 +54,8 @@ namespace DataWrangler.Retrievers
             }
         }
 
-        public DataTable SupplyPageOfData(int lowerPageBoundary, int rowsPerPage, string searchField = null, string searchTerm = null)
+        public DataTable SupplyPageOfData(int lowerPageBoundary, int rowsPerPage, string searchField = null,
+            string searchTerm = null)
         {
             Record[] records = null;
             using (var oH = new ObjectHelper(DbSettings))
@@ -96,17 +85,8 @@ namespace DataWrangler.Retrievers
 
         private void LoadColumns()
         {
-            DataTable.Columns.Add("Id");
-            ColumnIds.Add("Id");
-            foreach (var attr in _recordType.Attributes)
-            {
-                DataTable.Columns.Add(attr.Value);
-                ColumnIds.Add("Attributes." + attr.Key);
-            }
-                
-
-            ColumnNames = DataTable.Columns.Cast<DataColumn>().Select(x => x.ColumnName).ToArray();
-            ColumnsValue = DataTable.Columns;
+            ColumnsValue.Add("Id");
+            foreach (var attr in _recordType.Attributes) ColumnsValue.Add(attr.Value);
         }
     }
 }

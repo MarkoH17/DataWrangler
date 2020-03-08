@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using DataWrangler.DBOs;
 
 namespace DataWrangler.Retrievers
 {
-    public class UserAccountRetriever : DataRetriever
+    public class UserAccountRetriever : DataRetriever, IDataRetriever
     {
         public UserAccountRetriever(Dictionary<string, string> dbSettings)
         {
@@ -13,15 +12,7 @@ namespace DataWrangler.Retrievers
             LoadColumns();
         }
 
-        public DataColumnCollection Columns
-        {
-            get
-            {
-                if (ColumnsValue != null)
-                    return ColumnsValue;
-                return ColumnsValue;
-            }
-        }
+        public string[] Columns => ColumnsValue.ToArray();
 
         public int RowCount
         {
@@ -31,7 +22,7 @@ namespace DataWrangler.Retrievers
 
                 using (var oH = new ObjectHelper(DbSettings))
                 {
-                    var countStatus = oH.GetRecordTypeCount();
+                    var countStatus = oH.GetUserAccountCount();
                     if (countStatus.Success) RowCountValue = (int) countStatus.Result;
                 }
 
@@ -50,15 +41,13 @@ namespace DataWrangler.Retrievers
                     userAccounts = (UserAccount[]) fetchStatus.Result;
             }
 
-            return DataProcessor.FillUserAccountDataTable(ColumnNames, userAccounts);
+            return DataProcessor.FillUserAccountDataTable(Columns, userAccounts);
         }
 
         private void LoadColumns()
         {
-            DataTable.Columns.Add("Id");
-            DataTable.Columns.Add("Username");
-            ColumnNames = DataTable.Columns.Cast<DataColumn>().Select(x => x.ColumnName).ToArray();
-            ColumnsValue = DataTable.Columns;
+            foreach (var col in new[] {"Id", "Username", "Active", "LastUpdated"})
+                ColumnsValue.Add(col);
         }
     }
 }

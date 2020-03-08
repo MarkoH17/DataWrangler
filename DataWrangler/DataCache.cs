@@ -86,6 +86,7 @@ namespace DataWrangler
                         element = _cachePages[i].Table.Rows[rowIndex % _rowsPerPage][columnIndex].ToString();
                         return true;
                     }
+
                     return false;
                 }
 

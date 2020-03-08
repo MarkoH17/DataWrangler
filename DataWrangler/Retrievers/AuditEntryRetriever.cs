@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using DataWrangler.DBOs;
 
 namespace DataWrangler.Retrievers
 {
-    public class AuditEntryRetriever : DataRetriever
+    public class AuditEntryRetriever : DataRetriever, IDataRetriever
     {
         private readonly string _username;
 
@@ -16,15 +15,7 @@ namespace DataWrangler.Retrievers
             LoadColumns();
         }
 
-        public DataColumnCollection Columns
-        {
-            get
-            {
-                if (ColumnsValue != null)
-                    return ColumnsValue;
-                return ColumnsValue;
-            }
-        }
+        public string[] Columns => ColumnsValue.ToArray();
 
         public int RowCount
         {
@@ -53,16 +44,13 @@ namespace DataWrangler.Retrievers
                     auditEntries = (AuditEntry[]) fetchStatus.Result;
             }
 
-            return DataProcessor.FillAuditEntryDataTable(ColumnNames, auditEntries);
+            return DataProcessor.FillAuditEntryDataTable(Columns, auditEntries);
         }
 
         private void LoadColumns()
         {
-            DataTable.Columns.Add("Id");
-            DataTable.Columns.Add("Object Type");
-            DataTable.Columns.Add("User Account");
-            ColumnNames = DataTable.Columns.Cast<DataColumn>().Select(x => x.ColumnName).ToArray();
-            ColumnsValue = DataTable.Columns;
+            foreach (var col in new[] {"Id", "Object Type", "User Account"})
+                ColumnsValue.Add(col);
         }
     }
 }

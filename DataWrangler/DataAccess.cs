@@ -92,7 +92,7 @@ namespace DataWrangler
             if (result)
             {
                 r.Attachments.Remove(fileId);
-                return UpdateObject(r, ("Record_" + r.TypeId));
+                return UpdateObject(r, "Record_" + r.TypeId);
             }
 
             return GetStatusObject(StatusObject.OperationTypes.Delete, "Failed to remove file from record.", false);
@@ -230,7 +230,8 @@ namespace DataWrangler
             try
             {
                 var collection = _getCollection<T>(colName);
-                var result = collection.Find(Query.EQ(searchField, DataProcessor.SafeString(searchValue))).Skip(skip).Take(limit).ToArray();
+                var result = collection.Find(Query.EQ(searchField, DataProcessor.SafeString(searchValue))).Skip(skip)
+                    .Take(limit).ToArray();
                 return GetStatusObject(StatusObject.OperationTypes.Read, result, true);
             }
             catch (LiteException e)
@@ -327,7 +328,8 @@ namespace DataWrangler
 
                 if (!_skipAuditEntries)
                 {
-                    var auditResult = _addAuditEntry(-1, objs[0], _user, StatusObject.OperationTypes.Create, "Insert Bulk operation with " + objs.Length + " items");
+                    var auditResult = _addAuditEntry(-1, objs[0], _user, StatusObject.OperationTypes.Create,
+                        "Insert Bulk operation with " + objs.Length + " items");
                     if (!auditResult.Success) return auditResult;
                 }
 

@@ -17,13 +17,11 @@ namespace DataWrangler
         private readonly Dictionary<string, string> _dbSettings;
         private readonly UserAccount _user;
 
-        private DataCache _dataCache;
-
         private RecordType _recordTypeSel;
-        private IDataRetriever _retriever;
 
-        private ListSortDirection _sortDirection = ListSortDirection.Ascending;
-        private string _sortColumnId = null;
+
+        private IDataRetriever _retriever; //Needed for paging the data table
+        private DataCache _dataCache; //Needed for caching entries with the data table
 
         public MainWindow()
         {
@@ -32,7 +30,7 @@ namespace DataWrangler
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, dataGridView1,
                 new object[] {true});
 
-            var initResult = ObjectHelper.InitializeSystem(@"C:\Users\aj.skilling\Desktop\big-test.db", false, true);
+            var initResult = ObjectHelper.InitializeSystem(@"C:\Users\Mark Hedrick\Desktop\big-test.db", false, true);
 
             if (initResult.Success)
                 _dbSettings = (Dictionary<string, string>) initResult.Result;
@@ -51,7 +49,7 @@ namespace DataWrangler
             {
                 var dP = new DataProcessor();
 
-                var clientDataFolder = @"C:\Users\aj.skilling\Desktop\Client Data\";
+                var clientDataFolder = @"C:\Users\Mark Hedrick\Desktop\Client Data\";
 
                 var testFiles = Directory.GetFiles(clientDataFolder, "*.xlsx");
 
@@ -82,10 +80,6 @@ namespace DataWrangler
             {
                 var result = oH.GetRecordTypes();
                 if (result.Success) recordTypes = (RecordType[]) result.Result;
-                //var test = oH.GetRecordCountByRecordTypeAndSearch(recordTypes[0], "Attributes.Box_#", "1982");
-
-                //var test1 = oH.GetRecordsByGlobalSearch(recordTypes[0], "Public");
-                //var test2 = oH.GetRecordCountByRecordTypeAndGlobalSearch(recordTypes[0], "Public");
             }
 
 
@@ -110,6 +104,28 @@ namespace DataWrangler
 
             comboField.MaxDropDownItems = 100;
             comboRecordType.MaxDropDownItems = 100;
+
+            //Demo code for populating datatable of UserAccounts
+            /*try
+            {
+                //Change 'UserAccountRetriever' below to proper retriever. E.g. for showing Records, use RecordRetriever, for showing RecordType use RecordTypeRetriever. Update constructor parameters if required.
+                _retriever = new UserAccountRetriever(_dbSettings); 
+                _dataCache = new DataCache(_retriever, 500);
+
+
+                dataGridView1.Columns.Clear();
+                dataGridView1.Rows.Clear();
+
+                foreach (var column in _retriever.Columns)
+                    dataGridView1.Columns.Add(column, column);
+
+                dataGridView1.RowCount = _retriever.RowCount;
+                textBox1.Text = _retriever.RowCount.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error was encountered: " + ex.Message);
+            }*/
 
             base.OnLoad(e);
         }
@@ -151,9 +167,9 @@ namespace DataWrangler
 
         private void dataGridView1_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
         {
-            if (comboRecordType.SelectedItem == null || _dataCache == null/* ||
-                DataProcessor.IsColumnVisible(dataGridView1, e)*/)
-                return;
+            //if (comboRecordType.SelectedItem == null || _dataCache == null/* ||
+               // DataProcessor.IsColumnVisible(dataGridView1, e)*/)
+                //return;
             e.Value = _dataCache.RetrieveElement(e.RowIndex, e.ColumnIndex);
         }
 
@@ -168,8 +184,8 @@ namespace DataWrangler
                 dataGridView1.Columns.Clear();
                 dataGridView1.Rows.Clear();
 
-                foreach (DataColumn column in _retriever.Columns)
-                    dataGridView1.Columns.Add(column.ColumnName, column.ColumnName);
+                foreach (var column in _retriever.Columns)
+                    dataGridView1.Columns.Add(column, column);
 
                 dataGridView1.RowCount = _retriever.RowCount;
                 textBox1.Text = _retriever.RowCount.ToString();
