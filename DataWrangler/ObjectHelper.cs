@@ -154,9 +154,27 @@ namespace DataWrangler
             return _dA.UpdateObject(rT);
         }
 
-        public StatusObject DeleteRecordType(RecordType rT)
+        public StatusObject DeleteRecordType(RecordType rT, bool deleteOrphanedRecords)
         {
-            return _dA.DeleteObjectById<RecordType>(rT.Id);
+            if (deleteOrphanedRecords)
+            {
+                var deleteRecordTypeStatus = _dA.DeleteObject<RecordType>(rT);
+                if (deleteRecordTypeStatus.Success)
+                {
+                    var deleteCollectionStatus = _dA.DeleteCollection<Record>("Record_" + rT.Id);
+                    if (deleteCollectionStatus.Success)
+                    {
+                        return _dA.DeleteFileOfRecordType(rT);
+                    }
+
+                    return deleteCollectionStatus;
+                }
+
+                return deleteRecordTypeStatus;
+            }
+
+            return _dA.DeleteObject<RecordType>(rT);
+
         }
 
         #endregion
@@ -243,7 +261,7 @@ namespace DataWrangler
                     if (!delAttachmentResult.Success) return delAttachmentResult;
                 }
 
-            return _dA.DeleteObjectById<Record>(r.Id);
+            return _dA.DeleteObject<Record>(r);
         }
 
         public StatusObject DeleteAttachmentFromRecord(Record r, string fileId)

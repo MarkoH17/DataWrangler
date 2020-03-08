@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using DataWrangler.DBOs;
 using LiteDB;
@@ -58,18 +59,18 @@ namespace DataWrangler
                         }
                         else
                         {
-                            return GetStatusObject(StatusObject.OperationTypes.Create,
+                            return GetStatusObject(StatusObject.OperationTypes.FileAdd,
                                 string.Format("Failed to add file '{0}' to record", fileInfo.Name), false);
                         }
                     }
                 }
                 catch (LiteException e)
                 {
-                    return GetStatusObject(StatusObject.OperationTypes.Create, e, false);
+                    return GetStatusObject(StatusObject.OperationTypes.FileAdd, e, false);
                 }
             }
 
-            return GetStatusObject(StatusObject.OperationTypes.Create, fileIds, true);
+            return GetStatusObject(StatusObject.OperationTypes.FileAdd, fileIds, true);
         }
 
         public StatusObject DeleteFileFromRecord(Record r, string fileId)
@@ -77,7 +78,7 @@ namespace DataWrangler
             var fs = _db.FileStorage;
 
             if (!r.Attachments.Contains(fileId))
-                return GetStatusObject(StatusObject.OperationTypes.Delete,
+                return GetStatusObject(StatusObject.OperationTypes.FileRemove,
                     "Failed to remove file from record because it isn't associated with this record.", false);
 
             var result = fs.Delete(fileId);
@@ -95,15 +96,63 @@ namespace DataWrangler
                 return UpdateObject(r, "Record_" + r.TypeId);
             }
 
-            return GetStatusObject(StatusObject.OperationTypes.Delete, "Failed to remove file from record.", false);
+            return GetStatusObject(StatusObject.OperationTypes.FileRemove, "Failed to remove file from record.", false);
         }
 
-        public StatusObject DeleteObjectById<T>(int id, string colName = null)
+        public StatusObject DeleteFileOfRecordType(RecordType rT)
+        {
+            var fs = _db.FileStorage;
+            
+            var expr = BsonExpression.Create(string.Format("_id like \"$/records/{0}%\"", rT.Id));
+
+            var files = fs.Find(expr).ToList();
+
+            foreach (var file in files)
+            {
+                var deleteResult = fs.Delete(file.Id);
+                if(!deleteResult)
+                    return GetStatusObject(StatusObject.OperationTypes.FileRemove, "Failed to bulk remove files from all records orphaned under Record Type " + rT.Name, false);
+            }
+
+            if (!_skipAuditEntries)
+            {
+                var auditResult = _addAuditEntry(rT.Id, rT, _user, StatusObject.OperationTypes.FileRemove, "Deleted " + files.Count + " File Attachments for Record Type " + rT.Name);
+                if (!auditResult.Success) return auditResult;
+            }
+
+            return GetStatusObject(StatusObject.OperationTypes.FileRemove, null, true);
+        }
+
+        public StatusObject DeleteObject<T>(T obj, string colName = null)
         {
             try
             {
                 var collection = _getCollection<T>(colName);
-                var result = collection.Delete(id);
+
+                var objId = obj.GetType().GetProperty("Id").GetValue(obj);
+                var objIdVal = Convert.ToInt32(objId);
+                var result = collection.Delete(objIdVal);
+
+                if (!_skipAuditEntries)
+                {
+                    var auditResult = _addAuditEntry(objIdVal, obj, _user, StatusObject.OperationTypes.Delete);
+                    if (!auditResult.Success) return auditResult;
+                }
+
+                return GetStatusObject(StatusObject.OperationTypes.Delete, result, result);
+            }
+            catch (LiteException e)
+            {
+                return GetStatusObject(StatusObject.OperationTypes.Delete, e, false);
+            }
+        }
+
+        public StatusObject DeleteCollection<T>(string colName = null)
+        {
+            try
+            {
+                var collection = _getCollection<T>(colName);
+                var result = _db.DropCollection(collection.Name);
                 return GetStatusObject(StatusObject.OperationTypes.Delete, result, result);
             }
             catch (LiteException e)
