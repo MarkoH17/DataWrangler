@@ -1,4 +1,4 @@
-﻿namespace DataWrangler.UI_Controls
+﻿namespace DataWrangler.FormControls
 {
     internal class ComboBoxItem
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace DataWrangler
+namespace DataWrangler.Forms
 {
     public partial class Options : Form
     {

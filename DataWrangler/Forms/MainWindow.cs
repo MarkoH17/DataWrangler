@@ -1,27 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using DataWrangler.DBOs;
+using DataWrangler.FormControls;
 using DataWrangler.Retrievers;
-using DataWrangler.UI_Controls;
 
-namespace DataWrangler
+namespace DataWrangler.Forms
 {
     public partial class MainWindow : Form
     {
         private readonly Dictionary<string, string> _dbSettings;
         private readonly UserAccount _user;
+        private DataCache _dataCache; //Needed for caching entries with the data table
 
         private RecordType _recordTypeSel;
 
 
         private IDataRetriever _retriever; //Needed for paging the data table
-        private DataCache _dataCache; //Needed for caching entries with the data table
 
         public MainWindow()
         {
@@ -55,18 +53,17 @@ namespace DataWrangler
 
                 foreach (var file in testFiles)
                 {
-                    
                     var fileName = new FileInfo(file).Name;
                     var headers = dP.GetSpreadsheetHeaders(file);
-                    var resultAddRT = oH.AddRecordType(fileName.Replace(".xlsx", ""), headers.Values.ToList(), true);
-                    if (resultAddRT.Success)
+                    var resultAddRt = oH.AddRecordType(fileName.Replace(".xlsx", ""), headers.Values.ToList(), true);
+                    if (resultAddRt.Success)
                     {
-                        var objRT = (RecordType) oH.GetRecordTypeById((int) resultAddRT.Result).Result;
+                        var objRt = (RecordType) oH.GetRecordTypeById((int) resultAddRt.Result).Result;
 
                         for (var i = 0; i < 350; i++)
                         {
-                            var recs = dP.GetRecordsFromSheet(objRT, headers, file);
-                            oH.AddRecords(recs, objRT);
+                            var recs = dP.GetRecordsFromSheet(objRt, headers, file);
+                            oH.AddRecords(recs, objRt);
                         }
                     }
                 }
@@ -85,49 +82,9 @@ namespace DataWrangler
 
             foreach (var rT in recordTypes)
             {
-                var comboBoxItem = new ComboBoxItem();
-                comboBoxItem.Text = rT.Name;
-                comboBoxItem.Value = rT;
+                var comboBoxItem = new ComboBoxItem {Text = rT.Name, Value = rT};
                 comboRecordType.Items.Add(comboBoxItem);
             }
-        }
-
-        protected override void OnLoad(EventArgs e)
-        {
-            dataGridView1.VirtualMode = true;
-            dataGridView1.ReadOnly = true;
-            dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.AllowUserToOrderColumns = false;
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.CellValueNeeded += dataGridView1_CellValueNeeded;
-            dataGridView1.RowCount = 0;
-
-            comboField.MaxDropDownItems = 100;
-            comboRecordType.MaxDropDownItems = 100;
-
-            //Demo code for populating datatable of UserAccounts
-            /*try
-            {
-                //Change 'UserAccountRetriever' below to proper retriever. E.g. for showing Records, use RecordRetriever, for showing RecordType use RecordTypeRetriever. Update constructor parameters if required.
-                _retriever = new UserAccountRetriever(_dbSettings); 
-                _dataCache = new DataCache(_retriever, 500);
-
-
-                dataGridView1.Columns.Clear();
-                dataGridView1.Rows.Clear();
-
-                foreach (var column in _retriever.Columns)
-                    dataGridView1.Columns.Add(column, column);
-
-                dataGridView1.RowCount = _retriever.RowCount;
-                textBox1.Text = _retriever.RowCount.ToString();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("An error was encountered: " + ex.Message);
-            }*/
-
-            base.OnLoad(e);
         }
 
         private void btnFieldSearchGo_Click(object sender, EventArgs e)
@@ -168,8 +125,8 @@ namespace DataWrangler
         private void dataGridView1_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
         {
             //if (comboRecordType.SelectedItem == null || _dataCache == null/* ||
-               // DataProcessor.IsColumnVisible(dataGridView1, e)*/)
-                //return;
+            // DataProcessor.IsColumnVisible(dataGridView1, e)*/)
+            //return;
             e.Value = _dataCache.RetrieveElement(e.RowIndex, e.ColumnIndex);
         }
 
@@ -194,6 +151,44 @@ namespace DataWrangler
             {
                 MessageBox.Show("An error was encountered: " + ex.Message);
             }
+        }
+
+        protected override void OnLoad(EventArgs e)
+        {
+            dataGridView1.VirtualMode = true;
+            dataGridView1.ReadOnly = true;
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToOrderColumns = false;
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridView1.CellValueNeeded += dataGridView1_CellValueNeeded;
+            dataGridView1.RowCount = 0;
+
+            comboField.MaxDropDownItems = 100;
+            comboRecordType.MaxDropDownItems = 100;
+
+            //Demo code for populating datatable of UserAccounts
+            /*try
+            {
+                //Change 'UserAccountRetriever' below to proper retriever. E.g. for showing Records, use RecordRetriever, for showing RecordType use RecordTypeRetriever. Update constructor parameters if required.
+                _retriever = new UserAccountRetriever(_dbSettings); 
+                _dataCache = new DataCache(_retriever, 500);
+
+
+                dataGridView1.Columns.Clear();
+                dataGridView1.Rows.Clear();
+
+                foreach (var column in _retriever.Columns)
+                    dataGridView1.Columns.Add(column, column);
+
+                dataGridView1.RowCount = _retriever.RowCount;
+                textBox1.Text = _retriever.RowCount.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error was encountered: " + ex.Message);
+            }*/
+
+            base.OnLoad(e);
         }
     }
 }

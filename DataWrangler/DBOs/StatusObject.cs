@@ -1,4 +1,4 @@
-﻿namespace DataWrangler
+﻿namespace DataWrangler.DBOs
 {
     public class StatusObject
     {
@@ -14,8 +14,9 @@
             Login
         }
 
-        public bool Success { get; set; }
         public OperationTypes OperationType { get; set; }
         public object Result { get; set; }
+
+        public bool Success { get; set; }
     }
 }

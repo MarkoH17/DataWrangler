@@ -32,17 +32,6 @@ namespace DataWrangler
             LoadInitialData();
         }
 
-        public string RetrieveElement(int rowIndex, int columnIndex)
-        {
-            string element = null;
-
-            if (IfPageCached_ThenSetElement(rowIndex, columnIndex, ref element))
-                return element;
-
-
-            return RetrieveData_CacheIt_ThenReturnElement(rowIndex, columnIndex);
-        }
-
         private int GetIndexToNextPage()
         {
             return _usedPages;
@@ -152,6 +141,17 @@ namespace DataWrangler
             if (table.Rows.Count > 0)
                 return RetrieveElement(rowIndex, columnIndex);
             return null;
+        }
+
+        public string RetrieveElement(int rowIndex, int columnIndex)
+        {
+            string element = null;
+
+            if (IfPageCached_ThenSetElement(rowIndex, columnIndex, ref element))
+                return element;
+
+
+            return RetrieveData_CacheIt_ThenReturnElement(rowIndex, columnIndex);
         }
 
         // Represents one page of data.  

@@ -1,6 +1,6 @@
-﻿namespace DataWrangler
+﻿namespace DataWrangler.Forms
 {
-    partial class UserManage
+    partial class ManageUserAccounts
     {
         /// <summary>
         /// Required designer variable.

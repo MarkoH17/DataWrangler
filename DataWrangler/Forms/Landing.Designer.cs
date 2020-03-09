@@ -1,6 +1,6 @@
-﻿namespace DataWrangler
+﻿namespace DataWrangler.Forms
 {
-    partial class LandingScreen
+    partial class Landing
     {
         /// <summary>
         /// Required designer variable.

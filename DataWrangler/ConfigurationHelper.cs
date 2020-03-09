@@ -18,10 +18,8 @@ namespace DataWrangler
             if (!dbSettings.ContainsKey("dbPass"))
                 connectionString = $"Filename={dbSettings["dbFilePath"]};Connection=shared";
             else
-            {
                 connectionString = string.Format("Filename={0};Password='{1}';Connection=shared",
                     dbSettings["dbFilePath"], dbSettings["dbPass"]);
-            }
 
             return connectionString;
         }

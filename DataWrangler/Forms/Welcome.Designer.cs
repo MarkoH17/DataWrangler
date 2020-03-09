@@ -1,6 +1,6 @@
-﻿namespace DataWrangler
+﻿namespace DataWrangler.Forms
 {
-    partial class FirstTimeSetup
+    partial class Welcome
     {
         /// <summary>
         /// Required designer variable.
@@ -28,25 +28,26 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.NextButoon = new System.Windows.Forms.Button();
+            this.NextButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.radioNewSystem = new System.Windows.Forms.RadioButton();
+            this.radioExistingSystem = new System.Windows.Forms.RadioButton();
             this.FilePathBox = new System.Windows.Forms.TextBox();
             this.FileBrowseButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // NextButoon
+            // NextButton
             // 
-            this.NextButoon.Enabled = false;
-            this.NextButoon.Location = new System.Drawing.Point(413, 286);
-            this.NextButoon.Name = "NextButoon";
-            this.NextButoon.Size = new System.Drawing.Size(207, 45);
-            this.NextButoon.TabIndex = 3;
-            this.NextButoon.Text = "Next";
-            this.NextButoon.UseVisualStyleBackColor = true;
+            this.NextButton.Enabled = false;
+            this.NextButton.Location = new System.Drawing.Point(413, 286);
+            this.NextButton.Name = "NextButton";
+            this.NextButton.Size = new System.Drawing.Size(207, 45);
+            this.NextButton.TabIndex = 3;
+            this.NextButton.Text = "Next";
+            this.NextButton.UseVisualStyleBackColor = true;
+            this.NextButton.Click += new System.EventHandler(this.NextButton_Click);
             // 
             // label1
             // 
@@ -58,29 +59,29 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "Path";
             // 
-            // radioButton1
+            // radioNewSystem
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Font = new System.Drawing.Font("Book Antiqua", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButton1.Location = new System.Drawing.Point(17, 17);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(174, 24);
-            this.radioButton1.TabIndex = 5;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Create new database";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioNewSystem.AutoSize = true;
+            this.radioNewSystem.Font = new System.Drawing.Font("Book Antiqua", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioNewSystem.Location = new System.Drawing.Point(17, 17);
+            this.radioNewSystem.Name = "radioNewSystem";
+            this.radioNewSystem.Size = new System.Drawing.Size(174, 24);
+            this.radioNewSystem.TabIndex = 5;
+            this.radioNewSystem.TabStop = true;
+            this.radioNewSystem.Text = "Create new database";
+            this.radioNewSystem.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // radioExistingSystem
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Font = new System.Drawing.Font("Book Antiqua", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButton2.Location = new System.Drawing.Point(17, 41);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(251, 24);
-            this.radioButton2.TabIndex = 6;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Connect to an existing database";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioExistingSystem.AutoSize = true;
+            this.radioExistingSystem.Font = new System.Drawing.Font("Book Antiqua", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioExistingSystem.Location = new System.Drawing.Point(17, 41);
+            this.radioExistingSystem.Name = "radioExistingSystem";
+            this.radioExistingSystem.Size = new System.Drawing.Size(251, 24);
+            this.radioExistingSystem.TabIndex = 6;
+            this.radioExistingSystem.TabStop = true;
+            this.radioExistingSystem.Text = "Connect to an existing database";
+            this.radioExistingSystem.UseVisualStyleBackColor = true;
             // 
             // FilePathBox
             // 
@@ -102,8 +103,8 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.radioButton2);
-            this.groupBox1.Controls.Add(this.radioButton1);
+            this.groupBox1.Controls.Add(this.radioExistingSystem);
+            this.groupBox1.Controls.Add(this.radioNewSystem);
             this.groupBox1.Location = new System.Drawing.Point(152, 78);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(498, 100);
@@ -111,7 +112,7 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = " ";
             // 
-            // FirstTimeSetup
+            // Welcome
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -120,10 +121,10 @@
             this.Controls.Add(this.FileBrowseButton);
             this.Controls.Add(this.FilePathBox);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.NextButoon);
-            this.Name = "FirstTimeSetup";
+            this.Controls.Add(this.NextButton);
+            this.Name = "Welcome";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.Welcome_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -132,10 +133,10 @@
         }
 
         #endregion
-        private System.Windows.Forms.Button NextButoon;
+        private System.Windows.Forms.Button NextButton;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton radioNewSystem;
+        private System.Windows.Forms.RadioButton radioExistingSystem;
         private System.Windows.Forms.TextBox FilePathBox;
         private System.Windows.Forms.Button FileBrowseButton;
         private System.Windows.Forms.GroupBox groupBox1;

@@ -11,7 +11,7 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
+    <Deterministic>false</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <PublishUrl>publish\</PublishUrl>
@@ -100,53 +100,47 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuditLogs.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AuditLogs.Designer.cs">
-      <DependentUpon>AuditLogs.cs</DependentUpon>
-    </Compile>
     <Compile Include="DataCache.cs" />
     <Compile Include="ConfigurationHelper.cs" />
     <Compile Include="DataAccess.cs" />
     <Compile Include="DataProcessor.cs" />
     <Compile Include="DBOs\AuditEntry.cs" />
-    <Compile Include="LandingScreen.cs">
+    <Compile Include="Forms\Welcome.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LandingScreen.Designer.cs">
-      <DependentUpon>LandingScreen.cs</DependentUpon>
+    <Compile Include="Forms\Welcome.Designer.cs">
+      <DependentUpon>Welcome.cs</DependentUpon>
     </Compile>
-    <Compile Include="ManageRecord.cs">
+    <Compile Include="Forms\Landing.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ManageRecord.Designer.cs">
-      <DependentUpon>ManageRecord.cs</DependentUpon>
+    <Compile Include="Forms\Landing.Designer.cs">
+      <DependentUpon>Landing.cs</DependentUpon>
     </Compile>
-    <Compile Include="Import.cs">
+    <Compile Include="Forms\EditRecord.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Import.Designer.cs">
-      <DependentUpon>Import.cs</DependentUpon>
+    <Compile Include="Forms\EditRecord.Designer.cs">
+      <DependentUpon>EditRecord.cs</DependentUpon>
     </Compile>
-    <Compile Include="Manage.cs">
+    <Compile Include="Forms\ImportRecords.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Manage.Designer.cs">
-      <DependentUpon>Manage.cs</DependentUpon>
+    <Compile Include="Forms\ImportRecords.Designer.cs">
+      <DependentUpon>ImportRecords.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI Controls\ComboBoxItem.cs" />
-    <Compile Include="UserManage.cs">
+    <Compile Include="FormControls\ComboBoxItem.cs" />
+    <Compile Include="Forms\ManageUserAccounts.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UserManage.Designer.cs">
-      <DependentUpon>UserManage.cs</DependentUpon>
+    <Compile Include="Forms\ManageUserAccounts.Designer.cs">
+      <DependentUpon>ManageUserAccounts.cs</DependentUpon>
     </Compile>
-    <Compile Include="ViewRecords.cs">
+    <Compile Include="Forms\ManageRecords.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ViewRecords.Designer.cs">
-      <DependentUpon>ViewRecords.cs</DependentUpon>
+    <Compile Include="Forms\ManageRecords.Designer.cs">
+      <DependentUpon>ManageRecords.cs</DependentUpon>
     </Compile>
     <Compile Include="Retrievers\DataRetriever.cs" />
     <Compile Include="Retrievers\IDataRetriever.cs" />
@@ -154,24 +148,24 @@
     <Compile Include="Retrievers\UserAccountRetriever.cs" />
     <Compile Include="Retrievers\RecordTypeRetriever.cs" />
     <Compile Include="Retrievers\RecordRetriever.cs" />
-    <Compile Include="StatusObject.cs" />
+    <Compile Include="DBOs\StatusObject.cs" />
     <Compile Include="DBOs\UserAccount.cs" />
-    <Compile Include="Login.cs">
+    <Compile Include="Forms\Login.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Login.Designer.cs">
+    <Compile Include="Forms\Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainWindow.cs">
+    <Compile Include="Forms\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainWindow.Designer.cs">
+    <Compile Include="Forms\MainWindow.Designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Options.cs">
+    <Compile Include="Forms\Options.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Options.Designer.cs">
+    <Compile Include="Forms\Options.Designer.cs">
       <DependentUpon>Options.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
@@ -179,23 +173,23 @@
     <Compile Include="DBOs\Record.cs" />
     <Compile Include="DBOs\RecordType.cs" />
     <Compile Include="ObjectHelper.cs" />
-    <EmbeddedResource Include="AuditLogs.resx">
-      <DependentUpon>AuditLogs.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Welcome.resx">
+      <DependentUpon>Welcome.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Import.resx">
-      <DependentUpon>Import.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\ImportRecords.resx">
+      <DependentUpon>ImportRecords.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LandingScreen.resx">
-      <DependentUpon>LandingScreen.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Landing.resx">
+      <DependentUpon>Landing.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Login.resx">
+    <EmbeddedResource Include="Forms\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainWindow.resx">
+    <EmbeddedResource Include="Forms\MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Options.resx">
+    <EmbeddedResource Include="Forms\Options.resx">
       <DependentUpon>Options.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -207,14 +201,14 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="ManageRecord.resx">
-      <DependentUpon>ManageRecord.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\EditRecord.resx">
+      <DependentUpon>EditRecord.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserManage.resx">
-      <DependentUpon>UserManage.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\ManageUserAccounts.resx">
+      <DependentUpon>ManageUserAccounts.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ViewRecords.resx">
-      <DependentUpon>ViewRecords.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\ManageRecords.resx">
+      <DependentUpon>ManageRecords.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

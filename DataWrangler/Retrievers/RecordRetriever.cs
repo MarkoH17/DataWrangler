@@ -21,6 +21,35 @@ namespace DataWrangler.Retrievers
             LoadColumns();
         }
 
+        public DataTable SupplyPageOfData(int lowerPageBoundary, int rowsPerPage, string searchField = null,
+            string searchTerm = null)
+        {
+            Record[] records = null;
+            using (var oH = new ObjectHelper(DbSettings))
+            {
+                StatusObject fetchStatus = null;
+                if (searchField != null || searchTerm != null)
+                {
+                    if (searchField.Equals("*"))
+                        fetchStatus =
+                            oH.GetRecordsByGlobalSearch(_recordType, _searchValue, lowerPageBoundary, rowsPerPage);
+                    else
+                        fetchStatus = oH.GetRecordsByTypeSearch(_recordType, searchField, searchTerm, lowerPageBoundary,
+                            rowsPerPage);
+                    if (fetchStatus.Success)
+                        records = (Record[]) fetchStatus.Result;
+                }
+                else
+                {
+                    fetchStatus = oH.GetRecordsByType(_recordType, lowerPageBoundary, rowsPerPage);
+                    if (fetchStatus.Success)
+                        records = (Record[]) fetchStatus.Result;
+                }
+            }
+
+            return DataProcessor.FillRecordDataTable(_recordType, records);
+        }
+
         public string[] Columns => ColumnsValue.ToArray();
 
         public int RowCount
@@ -52,35 +81,6 @@ namespace DataWrangler.Retrievers
 
                 return RowCountValue;
             }
-        }
-
-        public DataTable SupplyPageOfData(int lowerPageBoundary, int rowsPerPage, string searchField = null,
-            string searchTerm = null)
-        {
-            Record[] records = null;
-            using (var oH = new ObjectHelper(DbSettings))
-            {
-                StatusObject fetchStatus = null;
-                if (searchField != null || searchTerm != null)
-                {
-                    if (searchField.Equals("*"))
-                        fetchStatus =
-                            oH.GetRecordsByGlobalSearch(_recordType, _searchValue, lowerPageBoundary, rowsPerPage);
-                    else
-                        fetchStatus = oH.GetRecordsByTypeSearch(_recordType, searchField, searchTerm, lowerPageBoundary,
-                            rowsPerPage);
-                    if (fetchStatus.Success)
-                        records = (Record[]) fetchStatus.Result;
-                }
-                else
-                {
-                    fetchStatus = oH.GetRecordsByType(_recordType, lowerPageBoundary, rowsPerPage);
-                    if (fetchStatus.Success)
-                        records = (Record[]) fetchStatus.Result;
-                }
-            }
-
-            return DataProcessor.FillRecordDataTable(_recordType, records);
         }
 
         private void LoadColumns()

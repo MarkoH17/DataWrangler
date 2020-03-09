@@ -12,6 +12,20 @@ namespace DataWrangler.Retrievers
             LoadColumns();
         }
 
+        public DataTable SupplyPageOfData(int lowerPageBoundary, int rowsPerPage, string searchField = null,
+            string searchTerm = null)
+        {
+            RecordType[] recordTypes = null;
+            using (var oH = new ObjectHelper(DbSettings))
+            {
+                var fetchStatus = oH.GetRecordTypes(lowerPageBoundary, rowsPerPage);
+                if (fetchStatus.Success)
+                    recordTypes = (RecordType[]) fetchStatus.Result;
+            }
+
+            return DataProcessor.FillRecordTypeDataTable(Columns, recordTypes);
+        }
+
         public string[] Columns => ColumnsValue.ToArray();
 
         public int RowCount
@@ -28,20 +42,6 @@ namespace DataWrangler.Retrievers
 
                 return RowCountValue;
             }
-        }
-
-        public DataTable SupplyPageOfData(int lowerPageBoundary, int rowsPerPage, string searchField = null,
-            string searchTerm = null)
-        {
-            RecordType[] recordTypes = null;
-            using (var oH = new ObjectHelper(DbSettings))
-            {
-                var fetchStatus = oH.GetRecordTypes(lowerPageBoundary, rowsPerPage);
-                if (fetchStatus.Success)
-                    recordTypes = (RecordType[]) fetchStatus.Result;
-            }
-
-            return DataProcessor.FillRecordTypeDataTable(Columns, recordTypes);
         }
 
         private void LoadColumns()

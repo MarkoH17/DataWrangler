@@ -1,40 +1,40 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace DataWrangler
+namespace DataWrangler.Forms
 {
-    public partial class LandingScreen : Form
+    public partial class Landing : Form
     {
-        public LandingScreen()
+        public Landing()
         {
             InitializeComponent();
         }
-    
+
         private void btnImport_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            Import imForm = new Import();
+            Hide();
+            var imForm = new ImportRecords();
             imForm.Show();
         }
 
         private void btnManage_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            Manage mForm = new Manage();
-            mForm.Show();
+            Hide();
+            //Manage mForm = new Manage();
+            //mForm.Show();
         }
 
         private void btnOptions_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            Options oForm = new Options();
+            Hide();
+            var oForm = new Options();
             oForm.Show();
         }
 
         private void btnView_Click(object sender, EventArgs e)
         {
-            this.Hide();
-           ViewRecords vForm = new ViewRecords();
+            Hide();
+            var vForm = new ManageRecords();
             vForm.Show();
         }
 

@@ -11,99 +11,26 @@ namespace DataWrangler
 {
     public class DataProcessor
     {
-        public static Random random = new Random();
+        public static Random Random = new Random();
 
-        public Record[] GetRecordsFromSheet(RecordType recordType, Dictionary<int, string> headerCols, string filePath,
-            int sheetIdx = 1)
+        public DataTable FillAuditEntryDataTable(string[] cols, AuditEntry[] auditEntries)
         {
-            var records = new List<Record>();
+            var dT = new DataTable();
 
-            var recordAttributeNames = recordType.Attributes.Values.Select(x => x).ToArray();
-            var filteredColumns = new Dictionary<int, string>();
-            foreach (var col in headerCols)
-                if (recordAttributeNames.Contains(col.Value))
-                    filteredColumns.Add(col.Key, col.Value);
+            foreach (var col in cols)
+                dT.Columns.Add(col);
 
-
-            var fi = new FileInfo(filePath);
-            using (var p = new ExcelPackage(fi))
+            foreach (var i in auditEntries)
             {
-                var ws = p.Workbook.Worksheets[sheetIdx];
-
-                for (var i = 2; i <= ws.Dimension.End.Row; i++)
-                {
-                    var recordAttributes = new Dictionary<string, string>();
-
-                    foreach (var column in filteredColumns)
-                    {
-                        var rAId = recordType.Attributes.FirstOrDefault(rTA => rTA.Value.Equals(column.Value))
-                            .Key;
-                        var cellValue = ws.Cells[i, column.Key].Text;
-                        if (!string.IsNullOrEmpty(cellValue))
-                            recordAttributes.Add(rAId, cellValue);
-                        //record attributes contains ID of corresponding RecordAttribute, and the value
-                    }
-
-                    var nRecord = new Record
-                    {
-                        TypeId = recordType.Id,
-                        Attributes = recordAttributes,
-                        Active = true
-                    };
-
-                    records.Add(nRecord);
-                }
+                var dR = dT.NewRow();
+                dR["Id"] = i.Id;
+                dR["User Account"] = i.User.Username;
+                dR["Object Type"] = i.ObjectLookupCol.Replace(DataAccess.CollectionPrefix, "");
+                dT.Rows.Add(dR);
             }
 
-            return records.ToArray();
+            return dT;
         }
-
-        public Dictionary<int, string> GetSpreadsheetHeaders(string filePath, int sheetIdx = 1)
-        {
-            Dictionary<int, string> headerValues = null;
-            var fi = new FileInfo(filePath);
-            using (var p = new ExcelPackage(fi))
-            {
-                var ws = p.Workbook.Worksheets[sheetIdx];
-                headerValues = ws.Cells[ws.Dimension.Start.Row, ws.Dimension.Start.Column, 1, ws.Dimension.End.Column]
-                    .Where(x => !string.IsNullOrEmpty(x.Text.Trim())).ToDictionary(x => x.Start.Column, x => x.Text);
-            }
-
-            return headerValues;
-        }
-
-        public static string GetStrId()
-        {
-            var prefix = (char) random.Next('A', 'Z');
-            var result = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
-            result = result.Replace("=", "").Replace("+", "").Replace("/", "");
-
-            result = prefix + result.Substring(0, 9);
-
-            return result;
-        }
-
-        public static bool IsColumnVisible(DataGridView gridView, DataGridViewCellValueEventArgs e)
-        {
-            if (gridView.FirstDisplayedScrollingColumnIndex == e.ColumnIndex)
-                if (gridView.FirstDisplayedScrollingColumnHiddenWidth != 0)
-                    return true;
-
-            var sameWidth = gridView.GetColumnDisplayRectangle(e.ColumnIndex, false).Width ==
-                            gridView.GetColumnDisplayRectangle(e.ColumnIndex, true).Width;
-            return !sameWidth;
-        }
-
-        public static string SafeString(string input)
-        {
-            var _illegalChars = new[] {"*", "=", "$", ";", "\"", "'"};
-
-            foreach (var chr in _illegalChars) input = input.Replace(chr, "");
-
-            return input;
-        }
-
-        #region Data Table Fillers
 
         public DataTable FillRecordDataTable(RecordType rT, Record[] records)
         {
@@ -165,25 +92,94 @@ namespace DataWrangler
             return dT;
         }
 
-        public DataTable FillAuditEntryDataTable(string[] cols, AuditEntry[] auditEntries)
+        public Record[] GetRecordsFromSheet(RecordType recordType, Dictionary<int, string> headerCols, string filePath,
+            int sheetIdx = 1)
         {
-            var dT = new DataTable();
+            var records = new List<Record>();
 
-            foreach (var col in cols)
-                dT.Columns.Add(col);
+            var recordAttributeNames = recordType.Attributes.Values.Select(x => x).ToArray();
+            var filteredColumns = new Dictionary<int, string>();
+            foreach (var col in headerCols)
+                if (recordAttributeNames.Contains(col.Value))
+                    filteredColumns.Add(col.Key, col.Value);
 
-            foreach (var i in auditEntries)
+
+            var fi = new FileInfo(filePath);
+            using (var p = new ExcelPackage(fi))
             {
-                var dR = dT.NewRow();
-                dR["Id"] = i.Id;
-                dR["User Account"] = i.User.Username;
-                dR["Object Type"] = i.ObjectLookupCol.Replace(DataAccess.CollectionPrefix, "");
-                dT.Rows.Add(dR);
+                var ws = p.Workbook.Worksheets[sheetIdx];
+
+                for (var i = 2; i <= ws.Dimension.End.Row; i++)
+                {
+                    var recordAttributes = new Dictionary<string, string>();
+
+                    foreach (var column in filteredColumns)
+                    {
+                        var rAId = recordType.Attributes.FirstOrDefault(rTa => rTa.Value.Equals(column.Value))
+                            .Key;
+                        var cellValue = ws.Cells[i, column.Key].Text;
+                        if (!string.IsNullOrEmpty(cellValue))
+                            recordAttributes.Add(rAId, cellValue);
+                        //record attributes contains ID of corresponding RecordAttribute, and the value
+                    }
+
+                    var nRecord = new Record
+                    {
+                        TypeId = recordType.Id,
+                        Attributes = recordAttributes,
+                        Active = true
+                    };
+
+                    records.Add(nRecord);
+                }
             }
 
-            return dT;
+            return records.ToArray();
         }
 
-        #endregion
+        public Dictionary<int, string> GetSpreadsheetHeaders(string filePath, int sheetIdx = 1)
+        {
+            Dictionary<int, string> headerValues;
+            var fi = new FileInfo(filePath);
+            using (var p = new ExcelPackage(fi))
+            {
+                var ws = p.Workbook.Worksheets[sheetIdx];
+                headerValues = ws.Cells[ws.Dimension.Start.Row, ws.Dimension.Start.Column, 1, ws.Dimension.End.Column]
+                    .Where(x => !string.IsNullOrEmpty(x.Text.Trim())).ToDictionary(x => x.Start.Column, x => x.Text);
+            }
+
+            return headerValues;
+        }
+
+        public static string GetStrId()
+        {
+            var prefix = (char) Random.Next('A', 'Z');
+            var result = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+            result = result.Replace("=", "").Replace("+", "").Replace("/", "");
+
+            result = prefix + result.Substring(0, 9);
+
+            return result;
+        }
+
+        public static bool IsColumnVisible(DataGridView gridView, DataGridViewCellValueEventArgs e)
+        {
+            if (gridView.FirstDisplayedScrollingColumnIndex == e.ColumnIndex)
+                if (gridView.FirstDisplayedScrollingColumnHiddenWidth != 0)
+                    return true;
+
+            var sameWidth = gridView.GetColumnDisplayRectangle(e.ColumnIndex, false).Width ==
+                            gridView.GetColumnDisplayRectangle(e.ColumnIndex, true).Width;
+            return !sameWidth;
+        }
+
+        public static string SafeString(string input)
+        {
+            var illegalChars = new[] {"*", "=", "$", ";", "\"", "'"};
+
+            foreach (var chr in illegalChars) input = input.Replace(chr, "");
+
+            return input;
+        }
     }
 }

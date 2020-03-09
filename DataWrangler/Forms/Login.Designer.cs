@@ -1,4 +1,4 @@
-﻿namespace DataWrangler
+﻿namespace DataWrangler.Forms
 {
     partial class Login
     {

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace DataWrangler
+namespace DataWrangler.Forms
 {
-    public partial class ManageRecord : Form
+    public partial class EditRecord : Form
     {
-        public ManageRecord()
+        public EditRecord()
         {
             InitializeComponent();
         }

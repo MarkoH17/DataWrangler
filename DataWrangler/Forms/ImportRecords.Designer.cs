@@ -1,6 +1,6 @@
-﻿namespace DataWrangler
+﻿namespace DataWrangler.Forms
 {
-    partial class Import
+    partial class ImportRecords
     {
         /// <summary>
         /// Required designer variable.

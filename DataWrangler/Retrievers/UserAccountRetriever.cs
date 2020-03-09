@@ -12,6 +12,20 @@ namespace DataWrangler.Retrievers
             LoadColumns();
         }
 
+        public DataTable SupplyPageOfData(int lowerPageBoundary, int rowsPerPage, string searchField = null,
+            string searchTerm = null)
+        {
+            UserAccount[] userAccounts = null;
+            using (var oH = new ObjectHelper(DbSettings))
+            {
+                var fetchStatus = oH.GetUserAccounts(lowerPageBoundary, rowsPerPage);
+                if (fetchStatus.Success)
+                    userAccounts = (UserAccount[]) fetchStatus.Result;
+            }
+
+            return DataProcessor.FillUserAccountDataTable(Columns, userAccounts);
+        }
+
         public string[] Columns => ColumnsValue.ToArray();
 
         public int RowCount
@@ -28,20 +42,6 @@ namespace DataWrangler.Retrievers
 
                 return RowCountValue;
             }
-        }
-
-        public DataTable SupplyPageOfData(int lowerPageBoundary, int rowsPerPage, string searchField = null,
-            string searchTerm = null)
-        {
-            UserAccount[] userAccounts = null;
-            using (var oH = new ObjectHelper(DbSettings))
-            {
-                var fetchStatus = oH.GetUserAccounts(lowerPageBoundary, rowsPerPage);
-                if (fetchStatus.Success)
-                    userAccounts = (UserAccount[]) fetchStatus.Result;
-            }
-
-            return DataProcessor.FillUserAccountDataTable(Columns, userAccounts);
         }
 
         private void LoadColumns()

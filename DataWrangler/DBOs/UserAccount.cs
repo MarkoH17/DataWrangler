@@ -5,21 +5,13 @@ namespace DataWrangler.DBOs
 {
     public class UserAccount
     {
-        public int Id { get; set; }
-        public string Username { get; set; }
-
-        public string Password { get; set; }
-
         public bool Active { get; set; }
+        public int Id { get; set; }
 
         public DateTime LastUpdated { get; set; } = DateTime.UtcNow;
 
-        public static string GetPasswordHash(string input, byte[] salt = null)
-        {
-            if (salt == null)
-                new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
-            return _genPasswordHash(input, salt);
-        }
+        public string Password { get; set; }
+        public string Username { get; set; }
 
         private static string _genPasswordHash(string password, byte[] salt)
         {
@@ -33,6 +25,13 @@ namespace DataWrangler.DBOs
             var generatedHash = Convert.ToBase64String(hashBytes);
 
             return generatedHash;
+        }
+
+        public static string GetPasswordHash(string input, byte[] salt = null)
+        {
+            if (salt == null)
+                new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
+            return _genPasswordHash(input, salt);
         }
     }
 }

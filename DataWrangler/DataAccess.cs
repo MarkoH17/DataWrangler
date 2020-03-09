@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using DataWrangler.DBOs;
 using LiteDB;
@@ -14,7 +13,6 @@ namespace DataWrangler
     {
         public const string CollectionPrefix = "col_";
         private readonly LiteDatabase _db;
-
         private readonly bool _skipAuditEntries;
         private readonly UserAccount _user;
 
@@ -30,6 +28,72 @@ namespace DataWrangler
         public void Dispose()
         {
             _db.Dispose();
+        }
+
+        private StatusObject _addAuditEntry(int objId, object obj, UserAccount user,
+            StatusObject.OperationTypes operation, string note = null)
+        {
+            try
+            {
+                var collection = _getCollection<AuditEntry>(null, "ObjectId");
+                var auditEntry = new AuditEntry
+                {
+                    ObjectId = objId,
+                    ObjectLookupCol = _getCollectionName(obj.GetType()),
+                    User = user,
+                    Operation = operation,
+                    Note = note,
+                    Date = DateTime.UtcNow
+                };
+                int result = collection.Insert(auditEntry);
+
+                return GetStatusObject(StatusObject.OperationTypes.Create, result, result >= 0);
+            }
+            catch (LiteException e)
+            {
+                return GetStatusObject(StatusObject.OperationTypes.Read, e, false);
+            }
+        }
+
+        private ILiteCollection<T> _getCollection<T>(string colName = null, string indexCol = null, bool unique = false)
+        {
+            ILiteCollection<T> collection;
+            collection = _db.GetCollection<T>(!string.IsNullOrEmpty(colName)
+                ? _getCollectionName(colName)
+                : _getCollectionName<T>());
+            if (indexCol != null)
+                collection.EnsureIndex(indexCol, unique);
+            return collection;
+        }
+
+        private string _getCollectionName<T>()
+        {
+            return _getCollectionName(typeof(T));
+        }
+
+        private string _getCollectionName(Type t)
+        {
+            return CollectionPrefix + t.Name;
+        }
+
+        private string _getCollectionName(string name)
+        {
+            return CollectionPrefix + name;
+        }
+
+        private string _getQueryCmdRecordTypeAttributes(RecordType rT, string searchValue)
+        {
+            var exprCmd = new StringBuilder();
+
+            for (var i = 0; i < rT.Attributes.Keys.Count; i++)
+            {
+                exprCmd.Append(string.Format("{0} like \"%{1}%\"", "Attributes." + rT.Attributes.ElementAt(i).Key,
+                    searchValue));
+                if (i < rT.Attributes.Keys.Count - 1)
+                    exprCmd.Append(" OR ");
+            }
+
+            return exprCmd.ToString();
         }
 
         public StatusObject AddFilesToRecord(Record r, string[] filePaths)
@@ -73,6 +137,20 @@ namespace DataWrangler
             return GetStatusObject(StatusObject.OperationTypes.FileAdd, fileIds, true);
         }
 
+        public StatusObject DeleteCollection<T>(string colName = null)
+        {
+            try
+            {
+                var collection = _getCollection<T>(colName);
+                var result = _db.DropCollection(collection.Name);
+                return GetStatusObject(StatusObject.OperationTypes.Delete, result, result);
+            }
+            catch (LiteException e)
+            {
+                return GetStatusObject(StatusObject.OperationTypes.Delete, e, false);
+            }
+        }
+
         public StatusObject DeleteFileFromRecord(Record r, string fileId)
         {
             var fs = _db.FileStorage;
@@ -102,7 +180,7 @@ namespace DataWrangler
         public StatusObject DeleteFileOfRecordType(RecordType rT)
         {
             var fs = _db.FileStorage;
-            
+
             var expr = BsonExpression.Create(string.Format("_id like \"$/records/{0}%\"", rT.Id));
 
             var files = fs.Find(expr).ToList();
@@ -110,13 +188,15 @@ namespace DataWrangler
             foreach (var file in files)
             {
                 var deleteResult = fs.Delete(file.Id);
-                if(!deleteResult)
-                    return GetStatusObject(StatusObject.OperationTypes.FileRemove, "Failed to bulk remove files from all records orphaned under Record Type " + rT.Name, false);
+                if (!deleteResult)
+                    return GetStatusObject(StatusObject.OperationTypes.FileRemove,
+                        "Failed to bulk remove files from all records orphaned under Record Type " + rT.Name, false);
             }
 
             if (!_skipAuditEntries)
             {
-                var auditResult = _addAuditEntry(rT.Id, rT, _user, StatusObject.OperationTypes.FileRemove, "Deleted " + files.Count + " File Attachments for Record Type " + rT.Name);
+                var auditResult = _addAuditEntry(rT.Id, rT, _user, StatusObject.OperationTypes.FileRemove,
+                    "Deleted " + files.Count + " File Attachments for Record Type " + rT.Name);
                 if (!auditResult.Success) return auditResult;
             }
 
@@ -139,20 +219,6 @@ namespace DataWrangler
                     if (!auditResult.Success) return auditResult;
                 }
 
-                return GetStatusObject(StatusObject.OperationTypes.Delete, result, result);
-            }
-            catch (LiteException e)
-            {
-                return GetStatusObject(StatusObject.OperationTypes.Delete, e, false);
-            }
-        }
-
-        public StatusObject DeleteCollection<T>(string colName = null)
-        {
-            try
-            {
-                var collection = _getCollection<T>(colName);
-                var result = _db.DropCollection(collection.Name);
                 return GetStatusObject(StatusObject.OperationTypes.Delete, result, result);
             }
             catch (LiteException e)
@@ -466,74 +532,6 @@ namespace DataWrangler
             {
                 return GetStatusObject(StatusObject.OperationTypes.Update, e, false);
             }
-        }
-
-        private StatusObject _addAuditEntry(int objId, object obj, UserAccount user,
-            StatusObject.OperationTypes operation, string note = null)
-        {
-            try
-            {
-                var collection = _getCollection<AuditEntry>(null, "ObjectId");
-                var auditEntry = new AuditEntry
-                {
-                    ObjectId = objId,
-                    ObjectLookupCol = _getCollectionName(obj.GetType()),
-                    User = user,
-                    Operation = operation,
-                    Note = note,
-                    Date = DateTime.UtcNow
-                };
-                int result = collection.Insert(auditEntry);
-
-                return GetStatusObject(StatusObject.OperationTypes.Create, result, result >= 0);
-            }
-            catch (LiteException e)
-            {
-                return GetStatusObject(StatusObject.OperationTypes.Read, e, false);
-            }
-        }
-
-        private ILiteCollection<T> _getCollection<T>(string colName = null, string indexCol = null, bool unique = false)
-        {
-            ILiteCollection<T> collection;
-            if (!string.IsNullOrEmpty(colName))
-                collection = _db.GetCollection<T>(_getCollectionName(colName));
-            else
-                collection = _db.GetCollection<T>(_getCollectionName<T>());
-
-            if (indexCol != null)
-                collection.EnsureIndex(indexCol, unique);
-            return collection;
-        }
-
-        private string _getCollectionName<T>()
-        {
-            return _getCollectionName(typeof(T));
-        }
-
-        private string _getCollectionName(Type t)
-        {
-            return CollectionPrefix + t.Name;
-        }
-
-        private string _getCollectionName(string name)
-        {
-            return CollectionPrefix + name;
-        }
-
-        private string _getQueryCmdRecordTypeAttributes(RecordType rT, string searchValue)
-        {
-            var exprCmd = new StringBuilder();
-
-            for (var i = 0; i < rT.Attributes.Keys.Count; i++)
-            {
-                exprCmd.Append(string.Format("{0} like \"%{1}%\"", "Attributes." + rT.Attributes.ElementAt(i).Key,
-                    searchValue));
-                if (i < rT.Attributes.Keys.Count - 1)
-                    exprCmd.Append(" OR ");
-            }
-
-            return exprCmd.ToString();
         }
     }
 }
