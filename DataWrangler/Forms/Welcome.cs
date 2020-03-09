@@ -7,6 +7,7 @@ namespace DataWrangler.Forms
     public partial class Welcome : Form
     {
         private Dictionary<string, string> _dbSettings;
+        private string _userDefinedDbPath;
 
         public Welcome()
         {
@@ -32,7 +33,7 @@ namespace DataWrangler.Forms
                         FilePathBox.Text = filePath;
                         NextButton.Enabled = true;
 
-                        ConfigurationHelper.SaveDbSettings(filePath);
+                        _userDefinedDbPath = filePath;
                     }
                 }
             else if (radioNewSystem.Checked)
@@ -50,14 +51,31 @@ namespace DataWrangler.Forms
                         FilePathBox.Text = filePath;
                         NextButton.Enabled = true;
 
-                        ConfigurationHelper.SaveDbSettings(filePath);
+                        _userDefinedDbPath = filePath;
                     }
                 }
         }
 
         private void NextButton_Click(object sender, EventArgs e)
         {
+
+            if (radioNewSystem.Checked)
+            {
+                var initStatus = ObjectHelper.InitializeSystem(_userDefinedDbPath);
+                if (initStatus.Success)
+                {
+                    var initResult = (Dictionary<string, string>) initStatus.Result;
+                    var newUserName = initResult["newUserName"];
+                    var newUserPass = initResult["newUserPass"];
+
+                    MessageBox.Show(
+                        "A new DataWrangler system has been initialized! Here are your new credentials:\n\tUsername: " +
+                        newUserName + "\n\tPassword: " + newUserPass + "\n\nMake sure to save these credentials somewhere safe!");
+                }
+            }
+                
             _dbSettings = ConfigurationHelper.GetDbSettings();
+
             Program.SwitchForm(new Login(_dbSettings));
         }
 

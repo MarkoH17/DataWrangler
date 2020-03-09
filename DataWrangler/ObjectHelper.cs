@@ -265,6 +265,7 @@ namespace DataWrangler
                     Result = "Database file already exists!",
                     Success = false
                 };
+
             try
             {
                 File.Delete(dbPath);
@@ -282,8 +283,8 @@ namespace DataWrangler
             var pwGenerator = new Password(12).IncludeLowercase().IncludeUppercase().IncludeNumeric()
                 .IncludeSpecial("!@#$%^&*()-_=+");
 
-            var newUser = "sysadmin";
-            var newPass = "P@ssw0rd";
+            var newUserName = "sysadmin";
+            var newUserPass = pwGenerator.Next();
 
             string dbPass = null;
 
@@ -294,17 +295,16 @@ namespace DataWrangler
             StatusObject status;
 
             var dbSettings = ConfigurationHelper.GetDbSettings();
-
-            using (var self = new ObjectHelper(dbSettings))
+            using (var oH = new ObjectHelper(dbSettings))
             {
-                status = self.AddUserAccount(newUser, newPass, true);
+                status = oH.AddUserAccount(newUserName, newUserPass, true);
             }
 
             if (status.Success)
                 status = new StatusObject
                 {
                     OperationType = StatusObject.OperationTypes.System,
-                    Result = dbSettings,
+                    Result = new Dictionary<string, string>() { { "newUserName", newUserName }, { "newUserPass", newUserPass}},
                     Success = true
                 };
 
