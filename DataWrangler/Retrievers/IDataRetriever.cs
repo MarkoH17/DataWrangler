@@ -9,5 +9,7 @@ namespace DataWrangler.Retrievers
 
         DataTable SupplyPageOfData(int lowerPageBoundary, int rowsPerPage, string searchField = null,
             string searchTerm = null);
+
+        void ResetRowCount();
     }
 }

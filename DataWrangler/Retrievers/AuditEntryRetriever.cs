@@ -74,6 +74,11 @@ namespace DataWrangler.Retrievers
             return DataProcessor.FillAuditEntryDataTable(Columns, auditEntries);
         }
 
+        public void ResetRowCount()
+        {
+            RowCountValue = -1;
+        }
+
         public string[] Columns => ColumnsValue.ToArray();
 
         public int RowCount

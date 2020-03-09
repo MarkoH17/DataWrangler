@@ -11,29 +11,20 @@ namespace DataWrangler.Forms
 {
     public partial class ImportRecords : Form
     {
-        /*
-             * UPDATE DBSETTINGS AND USER TO REFLECT REAL VALUES PASSED FROM OTHER WINDOWS. CHANGE THIS LATER!
-             */
-        private readonly Dictionary<string, string> _dbSettings = ConfigurationHelper.GetDbSettings();
+        private readonly Dictionary<string, string> _dbSettings;
+        private readonly UserAccount _user;
         private readonly DataProcessor _dP = new DataProcessor();
         private readonly DataTable _fieldsTable = new DataTable();
-
-        private readonly UserAccount _user = new UserAccount
-        {
-            Id = 1,
-            Username = "sysadmin"
-        };
 
         private string _fileImportPath;
         private RecordType[] _recordTypes;
 
-        /*
-         * UPDATE DBSETTINGS AND USER TO REFLECT REAL VALUES PASSED FROM OTHER WINDOWS. CHANGE THIS LATER!
-         */
-
-        public ImportRecords()
+        public ImportRecords(Dictionary<string, string> dbSettings, UserAccount user)
         {
             InitializeComponent();
+
+            _dbSettings = dbSettings;
+            _user = user;
 
             _fieldsTable.Columns.Add(new DataColumn {ColumnName = "FieldName"});
             _fieldsTable.Columns.Add(new DataColumn {ColumnName = "SheetColumnIndex"});

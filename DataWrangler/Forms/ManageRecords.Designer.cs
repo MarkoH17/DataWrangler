@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.lblView = new System.Windows.Forms.Label();
             this.gridRecords = new System.Windows.Forms.DataGridView();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtRowCnt = new System.Windows.Forms.TextBox();
             this.lblCount = new System.Windows.Forms.Label();
             this.comboRecType = new System.Windows.Forms.ComboBox();
             this.lblRecType = new System.Windows.Forms.Label();
@@ -74,14 +74,14 @@
             this.gridRecords.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.dataGridView1_CellValueNeeded);
             this.gridRecords.MouseClick += new System.Windows.Forms.MouseEventHandler(this.gridRecords_MouseClick);
             // 
-            // textBox1
+            // txtRowCnt
             // 
-            this.textBox1.Enabled = false;
-            this.textBox1.Location = new System.Drawing.Point(687, 424);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 5;
+            this.txtRowCnt.Enabled = false;
+            this.txtRowCnt.Location = new System.Drawing.Point(687, 424);
+            this.txtRowCnt.Name = "txtRowCnt";
+            this.txtRowCnt.ReadOnly = true;
+            this.txtRowCnt.Size = new System.Drawing.Size(100, 20);
+            this.txtRowCnt.TabIndex = 5;
             // 
             // lblCount
             // 
@@ -177,7 +177,7 @@
             this.Controls.Add(this.lblRecType);
             this.Controls.Add(this.comboRecType);
             this.Controls.Add(this.lblCount);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtRowCnt);
             this.Controls.Add(this.gridRecords);
             this.Controls.Add(this.lblView);
             this.Name = "ManageRecords";
@@ -192,7 +192,7 @@
         #endregion
         private System.Windows.Forms.Label lblView;
         private System.Windows.Forms.DataGridView gridRecords;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtRowCnt;
         private System.Windows.Forms.Label lblCount;
         private System.Windows.Forms.ComboBox comboRecType;
         private System.Windows.Forms.Label lblRecType;

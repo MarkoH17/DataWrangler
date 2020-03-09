@@ -62,7 +62,7 @@ namespace DataWrangler.Forms
                     gridRecords.Columns.Add(column, column);
 
                 gridRecords.RowCount = _retriever.RowCount;
-                textBox1.Text = _retriever.RowCount.ToString();
+                txtRowCnt.Text = _retriever.RowCount.ToString();
             }
             catch (Exception ex)
             {
@@ -80,7 +80,8 @@ namespace DataWrangler.Forms
             var selectedItem = (ComboBoxItem)((ComboBox)sender).SelectedItem;
             _recordTypeSel = (RecordType)selectedItem.Value;
             comboField.Items.Clear();
-
+            txtFieldSearch.Text = "";
+            txtFieldSearch.Enabled = false;
             foreach (var attr in _recordTypeSel.Attributes)
             {
                 var comboBoxItem = new ComboBoxItem { Text = attr.Value, Value = "Attributes." + attr.Key };
@@ -142,7 +143,7 @@ namespace DataWrangler.Forms
             var editFormResult = editForm.ShowDialog();
             if (editFormResult == DialogResult.OK)
             {
-                RefreshVisibleRows();
+                RecordGridRefresh();
             }
         }
 
@@ -180,6 +181,14 @@ namespace DataWrangler.Forms
             }
         }
 
+        private void RecordGridRefresh()
+        {
+            _retriever.ResetRowCount();
+            gridRecords.RowCount = _retriever.RowCount;
+            txtRowCnt.Text = _retriever.RowCount.ToString();
+            RefreshVisibleRows();
+        }
+
         private void RefreshVisibleRows()
         {
             var firstRowIdx = gridRecords.FirstDisplayedCell.RowIndex;
@@ -199,7 +208,7 @@ namespace DataWrangler.Forms
             var editFormResult = editForm.ShowDialog();
             if (editFormResult == DialogResult.OK)
             {
-                RefreshVisibleRows();
+                RecordGridRefresh();
             }
         }
     }

@@ -25,6 +25,10 @@ namespace DataWrangler.Retrievers
 
             return DataProcessor.FillRecordTypeDataTable(Columns, recordTypes);
         }
+        public void ResetRowCount()
+        {
+            RowCountValue = -1;
+        }
 
         public string[] Columns => ColumnsValue.ToArray();
 

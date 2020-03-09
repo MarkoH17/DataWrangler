@@ -41,11 +41,14 @@ namespace DataWrangler.Forms
 
             txtRecId.Text = _record.Id.ToString();
             txtRecType.Text = _recordType.Name;
-
-            foreach (var attr in _record.Attributes)
+            
+            foreach (var attr in _recordType.Attributes)
             {
+                var attrValue = "";
+                _record.Attributes.TryGetValue(attr.Key, out attrValue);
+
                 var newLbl = new Label {Text = _recordType.Attributes[attr.Key]};
-                var newTxtBox = new TextBox {Text = attr.Value, Tag = attr.Key};
+                var newTxtBox = new TextBox {Text = attrValue, Tag = attr.Key};
 
                 newLbl.Left = 5;
                 newLbl.Top = ctrlCtr * 25;
@@ -85,33 +88,53 @@ namespace DataWrangler.Forms
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
+            bool needsUpdate = false;
             //Update Record Object here, and submit to database
             foreach (var ctrl in _txtControls)
             {
                 var attrId = ctrl.Tag.ToString();
                 var attrVal = ctrl.Text;
 
+                if (attrVal.Length == 0)
+                    attrVal = null;
+
+                if (!_record.Attributes.ContainsKey(attrId))
+                {
+                    _record.Attributes.Add(attrId, "");
+                }
+
                 var currAttrVal = _record.Attributes[attrId];
 
-                if (!attrVal.Equals(currAttrVal))
+                if (attrVal != currAttrVal)
                 {
                     _record.Attributes[attrId] = attrVal;
+                    needsUpdate = true;
+
                 }
             }
 
-            using (var oH = new ObjectHelper(_dbSettings, _user))
+            if (needsUpdate)
             {
-                var updateStatus = oH.UpdateRecord(_record);
-                if (updateStatus.Success)
+                using (var oH = new ObjectHelper(_dbSettings, _user))
                 {
-                    DialogResult = DialogResult.OK;
-                    Close();
-                }
-                else
-                {
-                    MessageBox.Show("Failed to update record!");
+                    var updateStatus = oH.UpdateRecord(_record);
+                    if (updateStatus.Success)
+                    {
+                        DialogResult = DialogResult.OK;
+                        Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to update record!");
+                    }
                 }
             }
+            else
+            {
+                DialogResult = DialogResult.Cancel;
+                Close();
+            }
+            
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

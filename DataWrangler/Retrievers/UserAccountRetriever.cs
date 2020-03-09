@@ -25,6 +25,10 @@ namespace DataWrangler.Retrievers
 
             return DataProcessor.FillUserAccountDataTable(Columns, userAccounts);
         }
+        public void ResetRowCount()
+        {
+            RowCountValue = -1;
+        }
 
         public string[] Columns => ColumnsValue.ToArray();
 
