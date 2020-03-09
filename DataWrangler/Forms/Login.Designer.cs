@@ -34,7 +34,6 @@
             this.lblUsername = new System.Windows.Forms.Label();
             this.lblPassword = new System.Windows.Forms.Label();
             this.chckRemember = new System.Windows.Forms.CheckBox();
-            this.lblTitle = new System.Windows.Forms.Label();
             this.chckShowPass = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
@@ -71,8 +70,8 @@
             this.txtPassword.Size = new System.Drawing.Size(167, 20);
             this.txtPassword.TabIndex = 2;
             this.txtPassword.Text = "Enter your password...";
-            this.txtPassword.GotFocus += new System.EventHandler(this.txtPassword_Focus);
             this.txtPassword.TextChanged += new System.EventHandler(this.ChckUserPassTxt_OnChange);
+            this.txtPassword.GotFocus += new System.EventHandler(this.txtPassword_Focus);
             // 
             // lblUsername
             // 
@@ -114,16 +113,6 @@
             this.chckRemember.Text = "Remember Username";
             this.chckRemember.UseVisualStyleBackColor = false;
             // 
-            // lblTitle
-            // 
-            this.lblTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitle.ForeColor = System.Drawing.Color.Black;
-            this.lblTitle.Location = new System.Drawing.Point(137, 41);
-            this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(289, 62);
-            this.lblTitle.TabIndex = 6;
-            this.lblTitle.Text = "Data Wrangler";
-            // 
             // chckShowPass
             // 
             this.chckShowPass.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
@@ -146,10 +135,8 @@
             this.AcceptButton = this.btnLogin;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Gainsboro;
             this.ClientSize = new System.Drawing.Size(541, 367);
             this.Controls.Add(this.chckShowPass);
-            this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.chckRemember);
             this.Controls.Add(this.lblPassword);
             this.Controls.Add(this.lblUsername);
@@ -173,7 +160,6 @@
         private System.Windows.Forms.Label lblUsername;
         private System.Windows.Forms.Label lblPassword;
         private System.Windows.Forms.CheckBox chckRemember;
-        private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.CheckBox chckShowPass;
     }
 }

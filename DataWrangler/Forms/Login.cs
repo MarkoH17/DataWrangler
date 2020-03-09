@@ -35,7 +35,7 @@ namespace DataWrangler.Forms
                         Settings.Default.Save();
 
                         if (user.Active)
-                            Program.SwitchForm(new Landing());
+                            Program.SwitchForm(new ManageRecords(_dbSettings, user));
                         else
                             MessageBox.Show("Account disabled! Please contact administrator.");
                     }

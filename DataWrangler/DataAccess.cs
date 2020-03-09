@@ -31,7 +31,7 @@ namespace DataWrangler
         }
 
         private StatusObject _addAuditEntry(int objId, object obj, UserAccount user,
-            StatusObject.OperationTypes operation, string note = null)
+            StatusObject.OperationTypes operation, string note = null, string colName = null)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace DataWrangler
                 var auditEntry = new AuditEntry
                 {
                     ObjectId = objId,
-                    ObjectLookupCol = _getCollectionName(obj.GetType()),
+                    ObjectLookupCol = colName == null ? _getCollectionName(obj.GetType()) : _getCollectionName(colName),
                     User = user,
                     Operation = operation,
                     Note = note,
@@ -68,12 +68,13 @@ namespace DataWrangler
 
         private string _getCollectionName<T>()
         {
+            
             return _getCollectionName(typeof(T));
         }
 
-        private string _getCollectionName(Type t)
+        private string _getCollectionName(Type t, string suffix = null)
         {
-            return CollectionPrefix + t.Name;
+            return CollectionPrefix + t.Name + suffix;
         }
 
         private string _getCollectionName(string name)
@@ -215,7 +216,7 @@ namespace DataWrangler
 
                 if (!_skipAuditEntries)
                 {
-                    var auditResult = _addAuditEntry(objIdVal, obj, _user, StatusObject.OperationTypes.Delete);
+                    var auditResult = _addAuditEntry(objIdVal, obj, _user, StatusObject.OperationTypes.Delete, null, colName);
                     if (!auditResult.Success) return auditResult;
                 }
 
@@ -227,15 +228,15 @@ namespace DataWrangler
             }
         }
 
-        public StatusObject GetAuditEntriesByField<T>(string fieldName, BsonValue fieldValue, int skip, int limit)
+        public StatusObject GetAuditEntriesByObjId<T>(BsonValue objId, int skip, int limit, string colName = null)
         {
             try
             {
                 var collection = _getCollection<AuditEntry>();
                 var result = collection
                     .Include(x => x.User)
-                    .Find(Query.And(Query.EQ(fieldName, fieldValue),
-                        Query.EQ("ObjectLookupCol", _getCollectionName<T>())))
+                    .Find(Query.And(Query.EQ("ObjectId", objId),
+                        Query.EQ("ObjectLookupCol", colName == null ? _getCollectionName<T>() : _getCollectionName(colName))))
                     .OrderByDescending(x => x.Date).Skip(skip)
                     .Take(limit).ToArray();
                 return GetStatusObject(StatusObject.OperationTypes.Read, result, true);
@@ -246,7 +247,7 @@ namespace DataWrangler
             }
         }
 
-        public StatusObject GetAuditEntriesByUsername(string username, int skip, int limit)
+        public StatusObject GetAuditEntriesByRecord(Record r, int skip, int limit)
         {
             try
             {
@@ -255,7 +256,7 @@ namespace DataWrangler
                     .Include(x => x.User)
                     .FindAll()
                     .OrderByDescending(x => x.Date).Skip(skip).Take(limit)
-                    .Where(x => x.User.Username.Equals(username))
+                    .Where(x => x.ObjectLookupCol.Equals(_getCollection<Record>("Record_" + r.Id).Name) && x.ObjectId == r.Id)
                     .ToArray();
                 return GetStatusObject(StatusObject.OperationTypes.Read, result, true);
             }
@@ -284,6 +285,23 @@ namespace DataWrangler
             try
             {
                 var collection = _getCollection<T>(colName);
+
+                var result = collection.Count(expr);
+                return GetStatusObject(StatusObject.OperationTypes.Read, result, true);
+            }
+            catch (LiteException e)
+            {
+                return GetStatusObject(StatusObject.OperationTypes.Read, e, false);
+            }
+        }
+
+        public StatusObject GetCountOfAuditEntryByObj(string objLookupCol, int objId)
+        {
+            var expr = BsonExpression.Create(string.Format("ObjectLookupCol = \"{0}\" and ObjectId = {1}",
+                _getCollectionName(objLookupCol), objId));
+            try
+            {
+                var collection = _getCollection<AuditEntry>();
 
                 var result = collection.Count(expr);
                 return GetStatusObject(StatusObject.OperationTypes.Read, result, true);
@@ -422,7 +440,7 @@ namespace DataWrangler
 
                 if (!_skipAuditEntries)
                 {
-                    var auditResult = _addAuditEntry(result, obj, _user, StatusObject.OperationTypes.Create);
+                    var auditResult = _addAuditEntry(result, obj, _user, StatusObject.OperationTypes.Create, null, colName);
                     if (!auditResult.Success) return auditResult;
                 }
 
@@ -444,7 +462,7 @@ namespace DataWrangler
                 if (!_skipAuditEntries)
                 {
                     var auditResult = _addAuditEntry(-1, objs[0], _user, StatusObject.OperationTypes.Create,
-                        "Insert Bulk operation with " + objs.Length + " items");
+                        "Insert Bulk operation with " + objs.Length + " items", colName);
                     if (!auditResult.Success) return auditResult;
                 }
 
@@ -521,7 +539,7 @@ namespace DataWrangler
 
                 if (!_skipAuditEntries)
                 {
-                    var auditResult = _addAuditEntry(objId, obj, _user, StatusObject.OperationTypes.Update);
+                    var auditResult = _addAuditEntry(objId, obj, _user, StatusObject.OperationTypes.Update, null, colName);
                     if (!auditResult.Success) return auditResult;
                 }
 

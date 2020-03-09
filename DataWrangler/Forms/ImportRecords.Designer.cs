@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.btnImport = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
@@ -40,11 +39,8 @@
             this.lblFieldAssignment = new System.Windows.Forms.Label();
             this.lblNewRecordType = new System.Windows.Forms.Label();
             this.gridFieldAssignment = new System.Windows.Forms.DataGridView();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.comboRecordTypeSelector = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.gridFieldAssignment)).BeginInit();
-            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -173,25 +169,12 @@
             this.gridFieldAssignment.Enabled = false;
             this.gridFieldAssignment.Location = new System.Drawing.Point(16, 227);
             this.gridFieldAssignment.Name = "gridFieldAssignment";
+            this.gridFieldAssignment.RowHeadersVisible = false;
             this.gridFieldAssignment.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gridFieldAssignment.Size = new System.Drawing.Size(671, 220);
             this.gridFieldAssignment.TabIndex = 11;
             this.gridFieldAssignment.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridFieldAssignment_CellEndEdit);
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.deleteToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(186, 26);
-            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
-            // 
-            // deleteToolStripMenuItem
-            // 
-            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
-            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
-            this.deleteToolStripMenuItem.Text = "Delete Selected Rows";
-            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            this.gridFieldAssignment.MouseClick += new System.Windows.Forms.MouseEventHandler(this.gridFieldAssignment_MouseClick);
             // 
             // comboRecordTypeSelector
             // 
@@ -203,7 +186,7 @@
             this.comboRecordTypeSelector.TabIndex = 15;
             this.comboRecordTypeSelector.SelectedIndexChanged += new System.EventHandler(this.comboRecordTypeSelector_SelectedIndexChanged);
             // 
-            // Import
+            // ImportRecords
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -221,10 +204,9 @@
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnImport);
             this.Controls.Add(this.label1);
-            this.Name = "Import";
+            this.Name = "ImportRecords";
             this.Text = "Data Wrangler Import";
             ((System.ComponentModel.ISupportInitialize)(this.gridFieldAssignment)).EndInit();
-            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -242,8 +224,6 @@
         private System.Windows.Forms.Label lblFieldAssignment;
         private System.Windows.Forms.Label lblNewRecordType;
         private System.Windows.Forms.DataGridView gridFieldAssignment;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.ComboBox comboRecordTypeSelector;
     }
 }

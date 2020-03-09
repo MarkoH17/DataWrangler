@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using DataWrangler.Forms;
 
 namespace DataWrangler.Forms
 {
@@ -34,8 +35,8 @@ namespace DataWrangler.Forms
         private void btnView_Click(object sender, EventArgs e)
         {
             Hide();
-            var vForm = new ManageRecords();
-            vForm.Show();
+            //var vForm = new ManageRecords();
+            //vForm.Show();
         }
 
         private void LandingScreen_Load(object sender, EventArgs e)

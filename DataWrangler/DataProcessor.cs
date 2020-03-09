@@ -23,9 +23,10 @@ namespace DataWrangler
             foreach (var i in auditEntries)
             {
                 var dR = dT.NewRow();
-                dR["Id"] = i.Id;
-                dR["User Account"] = i.User.Username;
-                dR["Object Type"] = i.ObjectLookupCol.Replace(DataAccess.CollectionPrefix, "");
+                dR["User"] = i.User.Username;
+                //dR["Object Type"] = i.ObjectLookupCol.Replace(DataAccess.CollectionPrefix, "");
+                dR["Operation"] = i.Operation;
+                dR["Date"] = string.Format("{0} ({1})", i.Date.ToShortDateString(), i.Date.ToShortTimeString());
                 dT.Rows.Add(dR);
             }
 

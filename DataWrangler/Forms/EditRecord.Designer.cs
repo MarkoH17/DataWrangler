@@ -28,73 +28,167 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.dataRecordView = new System.Windows.Forms.DataGridView();
-            this.AttributeType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DataValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnHistory = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dataRecordView)).BeginInit();
+            this.lblEditRecord = new System.Windows.Forms.Label();
+            this.lblId = new System.Windows.Forms.Label();
+            this.txtRecId = new System.Windows.Forms.TextBox();
+            this.txtRecType = new System.Windows.Forms.TextBox();
+            this.lblTypeId = new System.Windows.Forms.Label();
+            this.tabHistory = new System.Windows.Forms.TabPage();
+            this.gridAuditHistory = new System.Windows.Forms.DataGridView();
+            this.tabAttributes = new System.Windows.Forms.TabPage();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.btnUpdate = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
+            this.btnAttachments = new System.Windows.Forms.Button();
+            this.tabHistory.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridAuditHistory)).BeginInit();
+            this.tabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // label1
+            // lblEditRecord
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Bernard MT Condensed", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(159, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(128, 47);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Record";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
+            this.lblEditRecord.AutoSize = true;
+            this.lblEditRecord.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblEditRecord.ForeColor = System.Drawing.Color.Black;
+            this.lblEditRecord.Location = new System.Drawing.Point(67, 9);
+            this.lblEditRecord.Name = "lblEditRecord";
+            this.lblEditRecord.Size = new System.Drawing.Size(183, 37);
+            this.lblEditRecord.TabIndex = 0;
+            this.lblEditRecord.Text = "Edit Record";
             // 
-            // dataRecordView
+            // lblId
             // 
-            this.dataRecordView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataRecordView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.AttributeType,
-            this.DataValue});
-            this.dataRecordView.Location = new System.Drawing.Point(52, 59);
-            this.dataRecordView.Name = "dataRecordView";
-            this.dataRecordView.Size = new System.Drawing.Size(332, 233);
-            this.dataRecordView.TabIndex = 1;
-            this.dataRecordView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataRecordView_CellContentClick);
+            this.lblId.AutoSize = true;
+            this.lblId.Location = new System.Drawing.Point(12, 61);
+            this.lblId.Name = "lblId";
+            this.lblId.Size = new System.Drawing.Size(56, 13);
+            this.lblId.TabIndex = 1;
+            this.lblId.Text = "Record ID";
             // 
-            // AttributeType
+            // txtRecId
             // 
-            this.AttributeType.HeaderText = "Attribute";
-            this.AttributeType.Name = "AttributeType";
+            this.txtRecId.Enabled = false;
+            this.txtRecId.Location = new System.Drawing.Point(87, 58);
+            this.txtRecId.Name = "txtRecId";
+            this.txtRecId.ReadOnly = true;
+            this.txtRecId.Size = new System.Drawing.Size(241, 20);
+            this.txtRecId.TabIndex = 2;
             // 
-            // DataValue
+            // txtRecType
             // 
-            this.DataValue.HeaderText = "Data";
-            this.DataValue.Name = "DataValue";
+            this.txtRecType.Enabled = false;
+            this.txtRecType.Location = new System.Drawing.Point(87, 91);
+            this.txtRecType.Name = "txtRecType";
+            this.txtRecType.ReadOnly = true;
+            this.txtRecType.Size = new System.Drawing.Size(241, 20);
+            this.txtRecType.TabIndex = 3;
             // 
-            // btnHistory
+            // lblTypeId
             // 
-            this.btnHistory.BackColor = System.Drawing.Color.Gray;
-            this.btnHistory.Font = new System.Drawing.Font("Book Antiqua", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnHistory.ForeColor = System.Drawing.Color.Transparent;
-            this.btnHistory.Location = new System.Drawing.Point(288, 298);
-            this.btnHistory.Name = "btnHistory";
-            this.btnHistory.Size = new System.Drawing.Size(96, 47);
-            this.btnHistory.TabIndex = 2;
-            this.btnHistory.Text = "History";
-            this.btnHistory.UseVisualStyleBackColor = false;
-            this.btnHistory.Click += new System.EventHandler(this.btnHistory_Click);
+            this.lblTypeId.AutoSize = true;
+            this.lblTypeId.Location = new System.Drawing.Point(12, 91);
+            this.lblTypeId.Name = "lblTypeId";
+            this.lblTypeId.Size = new System.Drawing.Size(69, 13);
+            this.lblTypeId.TabIndex = 4;
+            this.lblTypeId.Text = "Record Type";
             // 
-            // Record
+            // tabHistory
+            // 
+            this.tabHistory.Controls.Add(this.gridAuditHistory);
+            this.tabHistory.Location = new System.Drawing.Point(4, 22);
+            this.tabHistory.Name = "tabHistory";
+            this.tabHistory.Padding = new System.Windows.Forms.Padding(3);
+            this.tabHistory.Size = new System.Drawing.Size(305, 187);
+            this.tabHistory.TabIndex = 1;
+            this.tabHistory.Text = "History";
+            this.tabHistory.UseVisualStyleBackColor = true;
+            // 
+            // gridAuditHistory
+            // 
+            this.gridAuditHistory.AllowUserToAddRows = false;
+            this.gridAuditHistory.AllowUserToDeleteRows = false;
+            this.gridAuditHistory.AllowUserToResizeRows = false;
+            this.gridAuditHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridAuditHistory.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridAuditHistory.Location = new System.Drawing.Point(3, 3);
+            this.gridAuditHistory.Name = "gridAuditHistory";
+            this.gridAuditHistory.ReadOnly = true;
+            this.gridAuditHistory.RowHeadersVisible = false;
+            this.gridAuditHistory.Size = new System.Drawing.Size(299, 181);
+            this.gridAuditHistory.TabIndex = 0;
+            this.gridAuditHistory.VirtualMode = true;
+            this.gridAuditHistory.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.gridAuditHistory_CellValueNeeded);
+            // 
+            // tabAttributes
+            // 
+            this.tabAttributes.AutoScroll = true;
+            this.tabAttributes.Location = new System.Drawing.Point(4, 22);
+            this.tabAttributes.Name = "tabAttributes";
+            this.tabAttributes.Padding = new System.Windows.Forms.Padding(3);
+            this.tabAttributes.Size = new System.Drawing.Size(305, 187);
+            this.tabAttributes.TabIndex = 0;
+            this.tabAttributes.Text = "Attributes";
+            this.tabAttributes.UseVisualStyleBackColor = true;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabAttributes);
+            this.tabControl1.Controls.Add(this.tabHistory);
+            this.tabControl1.Location = new System.Drawing.Point(15, 129);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(313, 213);
+            this.tabControl1.TabIndex = 5;
+            // 
+            // btnUpdate
+            // 
+            this.btnUpdate.Location = new System.Drawing.Point(253, 348);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(75, 23);
+            this.btnUpdate.TabIndex = 6;
+            this.btnUpdate.Text = "Update";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Location = new System.Drawing.Point(172, 348);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.TabIndex = 7;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // btnAttachments
+            // 
+            this.btnAttachments.Location = new System.Drawing.Point(15, 348);
+            this.btnAttachments.Name = "btnAttachments";
+            this.btnAttachments.Size = new System.Drawing.Size(75, 23);
+            this.btnAttachments.TabIndex = 8;
+            this.btnAttachments.Text = "Attachments";
+            this.btnAttachments.UseVisualStyleBackColor = true;
+            // 
+            // EditRecord
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Gainsboro;
-            this.ClientSize = new System.Drawing.Size(429, 378);
-            this.Controls.Add(this.btnHistory);
-            this.Controls.Add(this.dataRecordView);
-            this.Controls.Add(this.label1);
-            this.Name = "Record";
+            this.ClientSize = new System.Drawing.Size(346, 378);
+            this.Controls.Add(this.btnAttachments);
+            this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.btnUpdate);
+            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.lblTypeId);
+            this.Controls.Add(this.txtRecType);
+            this.Controls.Add(this.txtRecId);
+            this.Controls.Add(this.lblId);
+            this.Controls.Add(this.lblEditRecord);
+            this.Name = "EditRecord";
             this.Text = "Data Wrangler Record";
-            ((System.ComponentModel.ISupportInitialize)(this.dataRecordView)).EndInit();
+            this.tabHistory.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridAuditHistory)).EndInit();
+            this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -102,10 +196,17 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.DataGridView dataRecordView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn AttributeType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DataValue;
-        private System.Windows.Forms.Button btnHistory;
+        private System.Windows.Forms.Label lblEditRecord;
+        private System.Windows.Forms.Label lblId;
+        private System.Windows.Forms.TextBox txtRecId;
+        private System.Windows.Forms.TextBox txtRecType;
+        private System.Windows.Forms.Label lblTypeId;
+        private System.Windows.Forms.TabPage tabHistory;
+        private System.Windows.Forms.TabPage tabAttributes;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.Button btnUpdate;
+        private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Button btnAttachments;
+        private System.Windows.Forms.DataGridView gridAuditHistory;
     }
 }

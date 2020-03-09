@@ -143,6 +143,24 @@ namespace DataWrangler
             return null;
         }
 
+        public void RefreshCacheByRange(int rowIdxMin, int rowIdxMax)
+        {
+            for (var i = 0; i < _usedPages; i++)
+            {
+                if (IsRowCachedInPage(i, rowIdxMin))
+                {
+                    var table = _dataSupply.SupplyPageOfData(
+                        DataPage.MapToLowerBoundary(rowIdxMin), _rowsPerPage, _searchField, _searchValue);
+                    _cachePages[i] = new DataPage(table, _cachePages[i].LowestIndex, _cachePages[i].HighestIndex);
+                }else if (IsRowCachedInPage(i, rowIdxMax))
+                {
+                    var table = _dataSupply.SupplyPageOfData(
+                        DataPage.MapToLowerBoundary(rowIdxMin), _rowsPerPage, _searchField, _searchValue);
+                    _cachePages[i] = new DataPage(table, _cachePages[i].LowestIndex, _cachePages[i].HighestIndex);
+                }
+            }
+        }
+
         public string RetrieveElement(int rowIndex, int columnIndex)
         {
             string element = null;
@@ -164,6 +182,15 @@ namespace DataWrangler
                 Table = table;
                 LowestIndex = MapToLowerBoundary(rowIndex);
                 HighestIndex = MapToUpperBoundary(rowIndex);
+                Debug.Assert(LowestIndex >= 0);
+                Debug.Assert(HighestIndex >= 0);
+            }
+
+            public DataPage(DataTable table, int lowestIndex, int highestIndex)
+            {
+                Table = table;
+                LowestIndex = lowestIndex;
+                HighestIndex = highestIndex;
                 Debug.Assert(LowestIndex >= 0);
                 Debug.Assert(HighestIndex >= 0);
             }

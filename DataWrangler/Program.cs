@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Windows.Forms;
 using DataWrangler.Forms;
 
@@ -6,7 +7,7 @@ namespace DataWrangler
 {
     internal static class Program
     {
-        public static ApplicationContext AppContext { get; set; }
+        private static ApplicationContext _appContext { get; set; }
 
         /// <summary>
         ///     The main entry point for the application.
@@ -17,15 +18,14 @@ namespace DataWrangler
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            AppContext = new ApplicationContext(new Welcome());
-
-            Application.Run(AppContext);
+            _appContext = new ApplicationContext(new Welcome());
+            Application.Run(_appContext);
         }
 
         public static void SwitchForm(Form newForm)
         {
-            var oldForm = AppContext.MainForm;
-            AppContext.MainForm = newForm;
+            var oldForm = _appContext.MainForm;
+            _appContext.MainForm = newForm;
             oldForm?.Close();
             newForm.Show();
         }

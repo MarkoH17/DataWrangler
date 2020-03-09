@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using DataWrangler.DBOs;
@@ -49,8 +50,6 @@ namespace DataWrangler.Forms
 
             gridFieldAssignment.Columns.Add(fieldValueCol);
             gridFieldAssignment.Columns.Add(fieldNameCol);
-            gridFieldAssignment.ContextMenuStrip = contextMenuStrip1;
-            //gridFieldAssignment.RowTemplate.ContextMenuStrip = contextMenuStrip1;
         }
 
         private void AddLastRow()
@@ -241,7 +240,7 @@ namespace DataWrangler.Forms
                 e.Cancel = true;
         }
 
-        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        private void deleteToolStrip_Click(object sender, EventArgs e)
         {
             var selectedRows = gridFieldAssignment.SelectedRows;
             foreach (DataGridViewRow row in selectedRows) gridFieldAssignment.Rows.RemoveAt(row.Index);
@@ -279,6 +278,23 @@ namespace DataWrangler.Forms
                 if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
                     return false;
             return true;
+        }
+
+        private void gridFieldAssignment_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                var hitTest = gridFieldAssignment.HitTest(e.X, e.Y);
+
+                gridFieldAssignment.ClearSelection();
+                gridFieldAssignment.Rows[hitTest.RowIndex].Selected = true;
+
+                var cm = new ContextMenu();
+                cm.MenuItems.Add(new MenuItem("Delete Row", deleteToolStrip_Click));
+
+                cm.Show(gridFieldAssignment, gridFieldAssignment.PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)));
+
+            }
         }
     }
 }

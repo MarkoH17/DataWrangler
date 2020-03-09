@@ -156,19 +156,14 @@ namespace DataWrangler
             return _dA.DeleteObject(rT);
         }
 
-        public StatusObject GetAuditEntriesByUsername(string username, int skip = 0, int limit = DefaultRecordSetSize)
+        public StatusObject GetAuditEntryCountByObj(string objLookupCol, int objId)
         {
-            return _dA.GetAuditEntriesByUsername(username, skip, limit);
+            return _dA.GetCountOfAuditEntryByObj(objLookupCol, objId);
         }
 
-        public StatusObject GetAuditEntryCount()
+        public StatusObject GetRecordAuditEntries(RecordType rT, int objectId, int skip = 0, int limit = DefaultRecordSetSize)
         {
-            return _dA.GetCountOfObj<AuditEntry>();
-        }
-
-        public StatusObject GetRecordAuditEntries(int objectId, int skip = 0, int limit = DefaultRecordSetSize)
-        {
-            return _dA.GetAuditEntriesByField<Record>("ObjectId", objectId, skip, limit);
+            return _dA.GetAuditEntriesByObjId<Record>(objectId, skip, limit, "Record_" + rT.Id);
         }
 
         public StatusObject GetRecordById(int id, RecordType rT)
@@ -213,7 +208,7 @@ namespace DataWrangler
 
         public StatusObject GetRecordTypeAuditEntries(int objectId, int skip = 0, int limit = DefaultRecordSetSize)
         {
-            return _dA.GetAuditEntriesByField<RecordType>("ObjectId", objectId, skip, limit);
+            return _dA.GetAuditEntriesByObjId<RecordType>(objectId, skip, limit);
         }
 
         public StatusObject GetRecordTypeById(int id)
@@ -233,7 +228,7 @@ namespace DataWrangler
 
         public StatusObject GetUserAccountAuditEntries(int objectId, int skip = 0, int limit = DefaultRecordSetSize)
         {
-            return _dA.GetAuditEntriesByField<Record>("ObjectId", objectId, skip, limit);
+            return _dA.GetAuditEntriesByObjId<UserAccount>(objectId, skip, limit);
         }
 
         public StatusObject GetUserAccountById(int id)
@@ -284,7 +279,7 @@ namespace DataWrangler
                 .IncludeSpecial("!@#$%^&*()-_=+");
 
             var newUserName = "sysadmin";
-            var newUserPass = pwGenerator.Next();
+            var newUserPass = "pass";
 
             string dbPass = null;
 
