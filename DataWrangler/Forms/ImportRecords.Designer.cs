@@ -1,4 +1,7 @@
-﻿namespace DataWrangler.Forms
+﻿using System.Windows.Forms;
+using MetroFramework.Controls;
+
+namespace DataWrangler.Forms
 {
     partial class ImportRecords
     {
@@ -28,150 +31,187 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.btnImport = new System.Windows.Forms.Button();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.txtPathAddr = new System.Windows.Forms.TextBox();
-            this.lblPath = new System.Windows.Forms.Label();
-            this.btnChooseFile = new System.Windows.Forms.Button();
-            this.comboImportOptions = new System.Windows.Forms.ComboBox();
-            this.lblImportMode = new System.Windows.Forms.Label();
-            this.lblFieldAssignment = new System.Windows.Forms.Label();
-            this.lblNewRecordType = new System.Windows.Forms.Label();
-            this.gridFieldAssignment = new System.Windows.Forms.DataGridView();
-            this.comboRecordTypeSelector = new System.Windows.Forms.ComboBox();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.btnImport = new MetroFramework.Controls.MetroButton();
+            this.btnCancel = new MetroFramework.Controls.MetroButton();
+            this.txtPathAddr = new MetroFramework.Controls.MetroTextBox();
+            this.lblPath = new MetroFramework.Controls.MetroLabel();
+            this.btnChooseFile = new MetroFramework.Controls.MetroButton();
+            this.comboImportOptions = new MetroFramework.Controls.MetroComboBox();
+            this.lblImportMode = new MetroFramework.Controls.MetroLabel();
+            this.lblFieldAssignment = new MetroFramework.Controls.MetroLabel();
+            this.lblRecordType = new MetroFramework.Controls.MetroLabel();
+            this.gridFieldAssignment = new MetroFramework.Controls.MetroGrid();
+            this.comboRecordTypeSelector = new MetroFramework.Controls.MetroComboBox();
+            this.txtRecordTypeName = new MetroFramework.Controls.MetroTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.gridFieldAssignment)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(288, 10);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(132, 46);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Import";
             // 
             // btnImport
             // 
             this.btnImport.AutoSize = true;
-            this.btnImport.BackColor = System.Drawing.Color.Gray;
             this.btnImport.Enabled = false;
-            this.btnImport.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnImport.ForeColor = System.Drawing.Color.Transparent;
-            this.btnImport.Location = new System.Drawing.Point(531, 453);
+            this.btnImport.Location = new System.Drawing.Point(431, 453);
             this.btnImport.Name = "btnImport";
-            this.btnImport.Size = new System.Drawing.Size(75, 30);
+            this.btnImport.Size = new System.Drawing.Size(75, 29);
             this.btnImport.TabIndex = 2;
             this.btnImport.Text = "Import";
-            this.btnImport.UseVisualStyleBackColor = false;
+            this.btnImport.UseSelectable = true;
             this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
             // 
             // btnCancel
             // 
             this.btnCancel.AutoSize = true;
-            this.btnCancel.BackColor = System.Drawing.Color.Gray;
-            this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancel.ForeColor = System.Drawing.Color.Transparent;
-            this.btnCancel.Location = new System.Drawing.Point(612, 453);
+            this.btnCancel.Location = new System.Drawing.Point(512, 453);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 30);
+            this.btnCancel.Size = new System.Drawing.Size(75, 29);
             this.btnCancel.TabIndex = 3;
             this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = false;
+            this.btnCancel.UseSelectable = true;
             // 
             // txtPathAddr
             // 
-            this.txtPathAddr.Location = new System.Drawing.Point(131, 82);
+            // 
+            // 
+            // 
+            this.txtPathAddr.CustomButton.Image = null;
+            this.txtPathAddr.CustomButton.Location = new System.Drawing.Point(319, 1);
+            this.txtPathAddr.CustomButton.Name = "";
+            this.txtPathAddr.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.txtPathAddr.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.txtPathAddr.CustomButton.TabIndex = 1;
+            this.txtPathAddr.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.txtPathAddr.CustomButton.UseSelectable = true;
+            this.txtPathAddr.CustomButton.Visible = false;
+            this.txtPathAddr.Enabled = false;
+            this.txtPathAddr.Lines = new string[0];
+            this.txtPathAddr.Location = new System.Drawing.Point(107, 84);
+            this.txtPathAddr.MaxLength = 32767;
             this.txtPathAddr.Name = "txtPathAddr";
+            this.txtPathAddr.PasswordChar = '\0';
             this.txtPathAddr.ReadOnly = true;
-            this.txtPathAddr.Size = new System.Drawing.Size(327, 20);
-            this.txtPathAddr.TabIndex = 4;
+            this.txtPathAddr.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.txtPathAddr.SelectedText = "";
+            this.txtPathAddr.SelectionLength = 0;
+            this.txtPathAddr.SelectionStart = 0;
+            this.txtPathAddr.ShortcutsEnabled = true;
+            this.txtPathAddr.Size = new System.Drawing.Size(341, 23);
+            this.txtPathAddr.TabIndex = 1;
+            this.txtPathAddr.UseSelectable = true;
+            this.txtPathAddr.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.txtPathAddr.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
             // lblPath
             // 
             this.lblPath.AutoSize = true;
-            this.lblPath.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPath.Location = new System.Drawing.Point(12, 80);
+            this.lblPath.Location = new System.Drawing.Point(12, 85);
             this.lblPath.Name = "lblPath";
-            this.lblPath.Size = new System.Drawing.Size(113, 20);
+            this.lblPath.Size = new System.Drawing.Size(91, 19);
             this.lblPath.TabIndex = 5;
-            this.lblPath.Text = "Excel File Path\r\n";
+            this.lblPath.Text = "Excel File Path";
             // 
             // btnChooseFile
             // 
             this.btnChooseFile.AutoSize = true;
-            this.btnChooseFile.BackColor = System.Drawing.Color.Gray;
-            this.btnChooseFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnChooseFile.ForeColor = System.Drawing.Color.Transparent;
-            this.btnChooseFile.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnChooseFile.Location = new System.Drawing.Point(464, 73);
+            this.btnChooseFile.Location = new System.Drawing.Point(454, 81);
             this.btnChooseFile.Name = "btnChooseFile";
-            this.btnChooseFile.Size = new System.Drawing.Size(72, 31);
+            this.btnChooseFile.Size = new System.Drawing.Size(72, 29);
             this.btnChooseFile.TabIndex = 6;
             this.btnChooseFile.Text = "Browse";
-            this.btnChooseFile.UseVisualStyleBackColor = false;
+            this.btnChooseFile.UseSelectable = true;
             this.btnChooseFile.Click += new System.EventHandler(this.btnChooseFile_Click);
             // 
             // comboImportOptions
             // 
-            this.comboImportOptions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboImportOptions.Enabled = false;
             this.comboImportOptions.FormattingEnabled = true;
+            this.comboImportOptions.ItemHeight = 23;
             this.comboImportOptions.Items.AddRange(new object[] {
             "New Record Type",
             "Existing Record Type"});
-            this.comboImportOptions.Location = new System.Drawing.Point(117, 125);
+            this.comboImportOptions.Location = new System.Drawing.Point(107, 120);
             this.comboImportOptions.Name = "comboImportOptions";
-            this.comboImportOptions.Size = new System.Drawing.Size(341, 21);
-            this.comboImportOptions.TabIndex = 7;
+            this.comboImportOptions.Size = new System.Drawing.Size(341, 29);
+            this.comboImportOptions.TabIndex = 2;
+            this.comboImportOptions.UseSelectable = true;
             this.comboImportOptions.SelectedIndexChanged += new System.EventHandler(this.comboImportOptions_SelectedIndexChanged);
             // 
             // lblImportMode
             // 
             this.lblImportMode.AutoSize = true;
-            this.lblImportMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblImportMode.Location = new System.Drawing.Point(12, 126);
+            this.lblImportMode.Location = new System.Drawing.Point(12, 125);
             this.lblImportMode.Name = "lblImportMode";
-            this.lblImportMode.Size = new System.Drawing.Size(99, 20);
+            this.lblImportMode.Size = new System.Drawing.Size(89, 19);
             this.lblImportMode.TabIndex = 8;
             this.lblImportMode.Text = "Import Mode";
             // 
             // lblFieldAssignment
             // 
             this.lblFieldAssignment.AutoSize = true;
-            this.lblFieldAssignment.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFieldAssignment.Location = new System.Drawing.Point(12, 204);
+            this.lblFieldAssignment.Location = new System.Drawing.Point(12, 205);
             this.lblFieldAssignment.Name = "lblFieldAssignment";
-            this.lblFieldAssignment.Size = new System.Drawing.Size(139, 20);
+            this.lblFieldAssignment.Size = new System.Drawing.Size(113, 19);
             this.lblFieldAssignment.TabIndex = 12;
             this.lblFieldAssignment.Text = "Field Assignments";
             // 
-            // lblNewRecordType
+            // lblRecordType
             // 
-            this.lblNewRecordType.AutoSize = true;
-            this.lblNewRecordType.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNewRecordType.Location = new System.Drawing.Point(12, 163);
-            this.lblNewRecordType.Name = "lblNewRecordType";
-            this.lblNewRecordType.Size = new System.Drawing.Size(99, 20);
-            this.lblNewRecordType.TabIndex = 13;
-            this.lblNewRecordType.Text = "Record Type";
+            this.lblRecordType.AutoSize = true;
+            this.lblRecordType.Location = new System.Drawing.Point(12, 165);
+            this.lblRecordType.Name = "lblRecordType";
+            this.lblRecordType.Size = new System.Drawing.Size(82, 19);
+            this.lblRecordType.TabIndex = 13;
+            this.lblRecordType.Text = "Record Type";
             // 
             // gridFieldAssignment
             // 
             this.gridFieldAssignment.AllowUserToAddRows = false;
+            this.gridFieldAssignment.AllowUserToDeleteRows = false;
             this.gridFieldAssignment.AllowUserToResizeRows = false;
             this.gridFieldAssignment.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.gridFieldAssignment.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.gridFieldAssignment.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.gridFieldAssignment.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gridFieldAssignment.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.gridFieldAssignment.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridFieldAssignment.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.gridFieldAssignment.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridFieldAssignment.DefaultCellStyle = dataGridViewCellStyle2;
             this.gridFieldAssignment.Enabled = false;
-            this.gridFieldAssignment.Location = new System.Drawing.Point(16, 227);
+            this.gridFieldAssignment.EnableHeadersVisualStyles = false;
+            this.gridFieldAssignment.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.gridFieldAssignment.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.gridFieldAssignment.Location = new System.Drawing.Point(15, 227);
+            this.gridFieldAssignment.MultiSelect = false;
             this.gridFieldAssignment.Name = "gridFieldAssignment";
-            this.gridFieldAssignment.RowHeadersVisible = false;
+            this.gridFieldAssignment.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridFieldAssignment.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.gridFieldAssignment.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.gridFieldAssignment.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridFieldAssignment.Size = new System.Drawing.Size(671, 220);
+            this.gridFieldAssignment.Size = new System.Drawing.Size(572, 220);
             this.gridFieldAssignment.TabIndex = 11;
             this.gridFieldAssignment.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridFieldAssignment_CellEndEdit);
             this.gridFieldAssignment.MouseClick += new System.Windows.Forms.MouseEventHandler(this.gridFieldAssignment_MouseClick);
@@ -180,20 +220,54 @@
             // 
             this.comboRecordTypeSelector.Enabled = false;
             this.comboRecordTypeSelector.FormattingEnabled = true;
-            this.comboRecordTypeSelector.Location = new System.Drawing.Point(117, 165);
+            this.comboRecordTypeSelector.ItemHeight = 23;
+            this.comboRecordTypeSelector.Location = new System.Drawing.Point(107, 165);
             this.comboRecordTypeSelector.Name = "comboRecordTypeSelector";
-            this.comboRecordTypeSelector.Size = new System.Drawing.Size(341, 21);
-            this.comboRecordTypeSelector.TabIndex = 15;
+            this.comboRecordTypeSelector.Size = new System.Drawing.Size(341, 29);
+            this.comboRecordTypeSelector.TabIndex = 3;
+            this.comboRecordTypeSelector.UseSelectable = true;
             this.comboRecordTypeSelector.SelectedIndexChanged += new System.EventHandler(this.comboRecordTypeSelector_SelectedIndexChanged);
+            // 
+            // txtRecordTypeName
+            // 
+            // 
+            // 
+            // 
+            this.txtRecordTypeName.CustomButton.Image = null;
+            this.txtRecordTypeName.CustomButton.Location = new System.Drawing.Point(23, 1);
+            this.txtRecordTypeName.CustomButton.Name = "";
+            this.txtRecordTypeName.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.txtRecordTypeName.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.txtRecordTypeName.CustomButton.TabIndex = 1;
+            this.txtRecordTypeName.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.txtRecordTypeName.CustomButton.UseSelectable = true;
+            this.txtRecordTypeName.CustomButton.Visible = false;
+            this.txtRecordTypeName.Lines = new string[0];
+            this.txtRecordTypeName.Location = new System.Drawing.Point(481, 171);
+            this.txtRecordTypeName.MaxLength = 32767;
+            this.txtRecordTypeName.Name = "txtRecordTypeName";
+            this.txtRecordTypeName.PasswordChar = '\0';
+            this.txtRecordTypeName.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.txtRecordTypeName.SelectedText = "";
+            this.txtRecordTypeName.SelectionLength = 0;
+            this.txtRecordTypeName.SelectionStart = 0;
+            this.txtRecordTypeName.ShortcutsEnabled = true;
+            this.txtRecordTypeName.Size = new System.Drawing.Size(45, 23);
+            this.txtRecordTypeName.TabIndex = 14;
+            this.txtRecordTypeName.UseSelectable = true;
+            this.txtRecordTypeName.Visible = false;
+            this.txtRecordTypeName.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.txtRecordTypeName.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.txtRecordTypeName.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtRecordTypeName_KeyUp);
             // 
             // ImportRecords
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Gainsboro;
-            this.ClientSize = new System.Drawing.Size(699, 495);
+            this.ClientSize = new System.Drawing.Size(599, 493);
+            this.Controls.Add(this.txtRecordTypeName);
             this.Controls.Add(this.comboRecordTypeSelector);
-            this.Controls.Add(this.lblNewRecordType);
+            this.Controls.Add(this.lblRecordType);
             this.Controls.Add(this.lblFieldAssignment);
             this.Controls.Add(this.gridFieldAssignment);
             this.Controls.Add(this.lblImportMode);
@@ -203,9 +277,9 @@
             this.Controls.Add(this.txtPathAddr);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnImport);
-            this.Controls.Add(this.label1);
             this.Name = "ImportRecords";
-            this.Text = "Data Wrangler Import";
+            this.Resizable = false;
+            this.Text = "Import Records";
             ((System.ComponentModel.ISupportInitialize)(this.gridFieldAssignment)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -213,17 +287,17 @@
         }
 
         #endregion
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnImport;
-        private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.TextBox txtPathAddr;
-        private System.Windows.Forms.Label lblPath;
-        private System.Windows.Forms.Button btnChooseFile;
-        private System.Windows.Forms.ComboBox comboImportOptions;
-        private System.Windows.Forms.Label lblImportMode;
-        private System.Windows.Forms.Label lblFieldAssignment;
-        private System.Windows.Forms.Label lblNewRecordType;
-        private System.Windows.Forms.DataGridView gridFieldAssignment;
-        private System.Windows.Forms.ComboBox comboRecordTypeSelector;
+        private MetroButton btnImport;
+        private MetroButton btnCancel;
+        private MetroTextBox txtPathAddr;
+        private MetroLabel lblPath;
+        private MetroButton btnChooseFile;
+        private MetroComboBox comboImportOptions;
+        private MetroLabel lblImportMode;
+        private MetroLabel lblFieldAssignment;
+        private MetroLabel lblRecordType;
+        private MetroGrid gridFieldAssignment;
+        private MetroComboBox comboRecordTypeSelector;
+        private MetroTextBox txtRecordTypeName;
     }
 }

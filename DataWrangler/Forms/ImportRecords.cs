@@ -1,20 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using DataWrangler.DBOs;
+using MetroFramework.Controls;
+using MetroFramework.Forms;
 
 namespace DataWrangler.Forms
 {
-    public partial class ImportRecords : Form
+    public partial class ImportRecords : MetroForm
     {
         private readonly Dictionary<string, string> _dbSettings;
-        private readonly UserAccount _user;
         private readonly DataProcessor _dP = new DataProcessor();
         private readonly DataTable _fieldsTable = new DataTable();
+        private readonly UserAccount _user;
 
         private string _fileImportPath;
         private RecordType[] _recordTypes;
@@ -70,7 +72,11 @@ namespace DataWrangler.Forms
 
             comboImportOptions.SelectedIndex = -1;
             comboRecordTypeSelector.Items.Clear();
+            txtRecordTypeName.Text = "";
             gridFieldAssignment.Rows.Clear();
+
+            foreach (var scroll in gridFieldAssignment.Controls.OfType<MetroScrollBar>())
+                scroll.Visible = false; //Fixes ghosted scrollbars in MetroGrid after a data source refresh
 
             LoadDataSource(_fileImportPath);
         }
@@ -80,8 +86,9 @@ namespace DataWrangler.Forms
             string recordTypeName = null;
 
             if (comboImportOptions.SelectedIndex == 0)
-                recordTypeName = comboRecordTypeSelector.Text;
-            else if (comboImportOptions.SelectedIndex == 1) recordTypeName = comboRecordTypeSelector.SelectedText;
+                recordTypeName = txtRecordTypeName.Text;
+            else if (comboImportOptions.SelectedIndex == 1)
+                recordTypeName = comboRecordTypeSelector.SelectedText;
 
             var selectedHeaders = new Dictionary<int, string>();
 
@@ -136,45 +143,24 @@ namespace DataWrangler.Forms
             }
         }
 
-        private bool CheckDuplicateFields()
-        {
-            var hasError = false;
-
-
-            var selectedItems = new Dictionary<int, int>();
-
-            foreach (DataGridViewRow row in gridFieldAssignment.Rows)
-            {
-                var c = (DataGridViewComboBoxCell) row.Cells[0];
-                selectedItems.Add(row.Index, Convert.ToInt32(c.Value));
-            }
-
-            var duplicateRowsByField = selectedItems
-                .Where(x => x.Value != 0)
-                .GroupBy(x => x.Value)
-                .Where(x => x.Count() > 1)
-                .Select(x => x.Key - 1)
-                .ToList();
-
-            if (duplicateRowsByField.Count > 0)
-                hasError = true;
-
-            foreach (DataGridViewRow row in gridFieldAssignment.Rows)
-                row.ErrorText = duplicateRowsByField.Contains(row.Index) ? "BAD" : "";
-
-            btnImport.Enabled = !hasError;
-            return hasError;
-        }
-
         private void comboImportOptions_SelectedIndexChanged(object sender, EventArgs e)
         {
             comboRecordTypeSelector.Items.Clear();
             gridFieldAssignment.Rows.Clear();
             if (comboImportOptions.SelectedIndex == 0) //Import to new record type
             {
-                comboRecordTypeSelector.DropDownStyle = ComboBoxStyle.DropDown;
-                comboRecordTypeSelector.Enabled = true;
-
+                //Change Combobox to a text box
+                txtRecordTypeName.Location = new Point(comboRecordTypeSelector.Location.X,
+                    comboRecordTypeSelector.Location.Y +
+                    (comboRecordTypeSelector.Height - txtRecordTypeName.Height) / 2);
+                txtRecordTypeName.Width = comboRecordTypeSelector.Width;
+                txtRecordTypeName.Enabled = true;
+                comboRecordTypeSelector.Enabled = false;
+                comboRecordTypeSelector.Visible = false;
+                txtRecordTypeName.Visible = true;
+                lblRecordType.Text = "Type Name";
+                txtRecordTypeName.Text = Path.GetFileNameWithoutExtension(_fileImportPath);
+                ValidateForm();
                 //Autoload table
                 foreach (DataRow row in _fieldsTable.Rows)
                 {
@@ -187,12 +173,16 @@ namespace DataWrangler.Forms
                 }
 
                 gridFieldAssignment.Enabled = true;
-                btnImport.Enabled = true;
                 gridFieldAssignment.Rows.Add();
             }
             else if (comboImportOptions.SelectedIndex == 1) //Import to existing record type
             {
-                comboRecordTypeSelector.DropDownStyle = ComboBoxStyle.DropDownList;
+                txtRecordTypeName.Location = comboRecordTypeSelector.Location;
+                txtRecordTypeName.Enabled = false;
+                comboRecordTypeSelector.Enabled = true;
+                txtRecordTypeName.Visible = false;
+                comboRecordTypeSelector.Visible = true;
+                lblRecordType.Text = "Record Type";
 
                 using (var oH = new ObjectHelper(_dbSettings, _user))
                 {
@@ -200,7 +190,9 @@ namespace DataWrangler.Forms
                     if (fetchRecordTypesStatus.Success)
                     {
                         _recordTypes = (RecordType[]) fetchRecordTypesStatus.Result;
-                        comboRecordTypeSelector.Items.AddRange(_recordTypes.Select(x => x.Name).ToArray());
+                        if (_recordTypes.Length > 0)
+                            comboRecordTypeSelector.Items.AddRange(_recordTypes.OrderBy(x => x.Name).Select(x => x.Name)
+                                .ToArray());
                     }
                 }
 
@@ -210,6 +202,7 @@ namespace DataWrangler.Forms
 
         private void comboRecordTypeSelector_SelectedIndexChanged(object sender, EventArgs e)
         {
+            gridFieldAssignment.Rows.Clear();
             var selectedRecordType = _recordTypes[comboRecordTypeSelector.SelectedIndex];
             foreach (var attr in selectedRecordType.Attributes)
             {
@@ -230,15 +223,32 @@ namespace DataWrangler.Forms
             var selectedRows = gridFieldAssignment.SelectedRows;
             foreach (DataGridViewRow row in selectedRows) gridFieldAssignment.Rows.RemoveAt(row.Index);
 
-            if (!CheckDuplicateFields()) AddLastRow();
+            if (!ValidateForm()) AddLastRow();
         }
 
         private void gridFieldAssignment_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             var r = gridFieldAssignment.Rows[e.RowIndex];
-            if (!CheckDuplicateFields())
+            if (!ValidateForm())
                 if (ValidRow(r) /* && ValidRow(gridFieldAssignment.Rows[gridFieldAssignment.RowCount - 1])*/)
                     AddLastRow();
+        }
+
+        private void gridFieldAssignment_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                var hitTest = gridFieldAssignment.HitTest(e.X, e.Y);
+
+                gridFieldAssignment.ClearSelection();
+                gridFieldAssignment.Rows[hitTest.RowIndex].Selected = true;
+
+                var cm = new ContextMenu();
+                cm.MenuItems.Add(new MenuItem("Delete Row", deleteToolStrip_Click));
+
+                cm.Show(gridFieldAssignment,
+                    gridFieldAssignment.PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)));
+            }
         }
 
         private void LoadDataSource(string filePath)
@@ -257,29 +267,68 @@ namespace DataWrangler.Forms
             }
         }
 
+        private void txtRecordTypeName_KeyUp(object sender, KeyEventArgs e)
+        {
+            ValidateForm();
+        }
+
+        private bool ValidateForm()
+        {
+            var hasError = false;
+            var selectedItems = new Dictionary<int, int>();
+
+            foreach (DataGridViewRow row in gridFieldAssignment.Rows)
+            {
+                var c = (DataGridViewComboBoxCell) row.Cells[0];
+                selectedItems.Add(row.Index, Convert.ToInt32(c.Value));
+            }
+
+            var duplicateRowsByField = selectedItems
+                .Where(x => x.Value != 0)
+                .GroupBy(x => x.Value)
+                .Where(x => x.Count() > 1)
+                .Select(x => x.Key - 1)
+                .ToList();
+
+            if (duplicateRowsByField.Count > 0)
+                hasError = true;
+
+            foreach (DataGridViewRow row in gridFieldAssignment.Rows)
+                row.ErrorText = duplicateRowsByField.Contains(row.Index) ? "Duplicate Field Assignment" : "";
+
+            if (_recordTypes == null)
+                using (var oH = new ObjectHelper(_dbSettings, _user))
+                {
+                    var fetchRecordTypesStatus = oH.GetRecordTypes();
+                    if (fetchRecordTypesStatus.Success) _recordTypes = (RecordType[]) fetchRecordTypesStatus.Result;
+                }
+
+            if (comboImportOptions.SelectedIndex == 0 &&
+                (_recordTypes.Select(x => x.Name).ToList().Contains(txtRecordTypeName.Text) ||
+                 txtRecordTypeName.Text.Length < 1))
+            {
+                hasError = true;
+                txtRecordTypeName.UseCustomBackColor = true;
+                txtRecordTypeName.BackColor = Color.Yellow;
+                txtRecordTypeName.Refresh();
+            }
+            else
+            {
+                txtRecordTypeName.UseCustomBackColor = false;
+                txtRecordTypeName.Refresh();
+            }
+
+
+            btnImport.Enabled = !hasError;
+            return hasError;
+        }
+
         private bool ValidRow(DataGridViewRow r)
         {
             foreach (DataGridViewCell cell in r.Cells)
                 if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
                     return false;
             return true;
-        }
-
-        private void gridFieldAssignment_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-            {
-                var hitTest = gridFieldAssignment.HitTest(e.X, e.Y);
-
-                gridFieldAssignment.ClearSelection();
-                gridFieldAssignment.Rows[hitTest.RowIndex].Selected = true;
-
-                var cm = new ContextMenu();
-                cm.MenuItems.Add(new MenuItem("Delete Row", deleteToolStrip_Click));
-
-                cm.Show(gridFieldAssignment, gridFieldAssignment.PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)));
-
-            }
         }
     }
 }
