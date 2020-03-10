@@ -1,6 +1,6 @@
 ﻿namespace DataWrangler.FormControls
 {
-    internal class ComboBoxItem
+    internal class TextValueItem
     {
         public string Text { get; set; }
         public object Value { get; set; }

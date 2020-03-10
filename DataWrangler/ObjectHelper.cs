@@ -127,14 +127,14 @@ namespace DataWrangler
 
         public StatusObject DeleteRecord(Record r)
         {
-            if (r.Attachments.Count > 0)
+            if (r.Attachments != null && r.Attachments.Count > 0)
                 foreach (var attachment in r.Attachments)
                 {
                     var delAttachmentResult = _dA.DeleteFileFromRecord(r, attachment);
                     if (!delAttachmentResult.Success) return delAttachmentResult;
                 }
 
-            return _dA.DeleteObject(r);
+            return _dA.DeleteObject(r, "Record_" + r.TypeId);
         }
 
         public StatusObject DeleteRecordType(RecordType rT, bool deleteOrphanedRecords)

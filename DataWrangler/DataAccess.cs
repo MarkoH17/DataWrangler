@@ -107,11 +107,22 @@ namespace DataWrangler
                 var fileInfo = new FileInfo(filePath);
                 try
                 {
+                    var fileName = fileInfo.Name;
+                    if (r.Attachments != null)
+                    {
+                        if (r.Attachments.Select(x => x.Split('/').Last()).ToList().Contains(fileInfo.Name))
+                        {
+                            var newName = Path.GetFileNameWithoutExtension(fileInfo.FullName);
+                            newName += " - Copy";
+                            fileName = newName + fileInfo.Extension;
+                        }
+                    }
+
                     var dbFilePath = string.Format("$/records/{0}/{1}/{2}/{3}", r.TypeId, r.Id,
-                        Guid.NewGuid().ToString(), fileInfo.Name);
+                        Guid.NewGuid().ToString(), fileName);
                     using (var fileStream = File.OpenRead(filePath))
                     {
-                        var result = fs.Upload(dbFilePath, fileInfo.Name, fileStream);
+                        var result = fs.Upload(dbFilePath, fileName, fileStream);
                         if (result != null && result.Length == fileInfo.Length)
                         {
                             fileIds.Add(result.Id);
@@ -507,11 +518,7 @@ namespace DataWrangler
         public StatusObject SaveFile(string fileId, string savePath)
         {
             var fs = _db.FileStorage;
-
-            if (File.Exists(savePath))
-                return GetStatusObject(StatusObject.OperationTypes.Create,
-                    "Save path specified already contains a file!", false);
-
+            
             LiteFileInfo<string> saveFile;
 
             using (var fileStream = File.Create(savePath))

@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.lblView = new System.Windows.Forms.Label();
             this.gridRecords = new System.Windows.Forms.DataGridView();
             this.txtRowCnt = new System.Windows.Forms.TextBox();
@@ -40,7 +39,6 @@
             this.lblFieldSearch = new System.Windows.Forms.Label();
             this.txtFieldSearch = new System.Windows.Forms.TextBox();
             this.btnAdvSearch = new System.Windows.Forms.Button();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.gridRecords)).BeginInit();
             this.SuspendLayout();
             // 
@@ -158,11 +156,6 @@
             this.btnAdvSearch.Text = "Advanced Search...";
             this.btnAdvSearch.UseVisualStyleBackColor = true;
             // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
-            // 
             // ManageRecords
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -201,6 +194,5 @@
         private System.Windows.Forms.Label lblFieldSearch;
         private System.Windows.Forms.TextBox txtFieldSearch;
         private System.Windows.Forms.Button btnAdvSearch;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
     }
 }

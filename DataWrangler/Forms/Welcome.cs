@@ -72,6 +72,9 @@ namespace DataWrangler.Forms
                         "A new DataWrangler system has been initialized! Here are your new credentials:\n\tUsername: " +
                         newUserName + "\n\tPassword: " + newUserPass + "\n\nMake sure to save these credentials somewhere safe!");
                 }
+            }else if (radioExistingSystem.Checked)
+            {
+                ConfigurationHelper.SaveDbSettings(_userDefinedDbPath);
             }
                 
             _dbSettings = ConfigurationHelper.GetDbSettings();

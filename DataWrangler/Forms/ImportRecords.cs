@@ -57,7 +57,7 @@ namespace DataWrangler.Forms
                 dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                 dialog.Filter = "Excel Files (*.xlsx)|*.xlsx";
                 dialog.FilterIndex = 1;
-                dialog.RestoreDirectory = false;
+                dialog.RestoreDirectory = true;
 
                 if (dialog.ShowDialog() == DialogResult.OK)
                     _fileImportPath = dialog.FileName;
@@ -223,12 +223,6 @@ namespace DataWrangler.Forms
             }
 
             gridFieldAssignment.Enabled = true;
-        }
-
-        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
-        {
-            if (gridFieldAssignment.RowCount <= 1)
-                e.Cancel = true;
         }
 
         private void deleteToolStrip_Click(object sender, EventArgs e)

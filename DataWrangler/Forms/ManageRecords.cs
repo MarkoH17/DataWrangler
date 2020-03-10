@@ -43,7 +43,7 @@ namespace DataWrangler.Forms
 
             foreach (var rT in recordTypes)
             {
-                var comboBoxItem = new ComboBoxItem { Text = rT.Name, Value = rT };
+                var comboBoxItem = new TextValueItem { Text = rT.Name, Value = rT };
                 comboRecType.Items.Add(comboBoxItem);
             }
         }
@@ -77,14 +77,14 @@ namespace DataWrangler.Forms
 
         private void comboRecType_SelectedIndexChanged(object sender, System.EventArgs e)
         {
-            var selectedItem = (ComboBoxItem)((ComboBox)sender).SelectedItem;
+            var selectedItem = (TextValueItem)((ComboBox)sender).SelectedItem;
             _recordTypeSel = (RecordType)selectedItem.Value;
             comboField.Items.Clear();
             txtFieldSearch.Text = "";
             txtFieldSearch.Enabled = false;
             foreach (var attr in _recordTypeSel.Attributes)
             {
-                var comboBoxItem = new ComboBoxItem { Text = attr.Value, Value = "Attributes." + attr.Key };
+                var comboBoxItem = new TextValueItem { Text = attr.Value, Value = "Attributes." + attr.Key };
                 comboField.Items.Add(comboBoxItem);
             }
 
@@ -110,7 +110,7 @@ namespace DataWrangler.Forms
                 if (string.IsNullOrEmpty(comboField.SelectedItem.ToString()) || string.IsNullOrEmpty(txtFieldSearch.Text))
                     return;
 
-                var searchField = ((ComboBoxItem)comboField.SelectedItem).Value.ToString();
+                var searchField = ((TextValueItem)comboField.SelectedItem).Value.ToString();
                 var searchValue = txtFieldSearch.Text;
 
                 LoadRecordsByType(_recordTypeSel, searchField, searchValue);
@@ -149,8 +149,24 @@ namespace DataWrangler.Forms
 
         private void deleteRecordMenuItem_Click(object sender, EventArgs e)
         {
-            //Spawn a Message box confirming to delete
             var rec = GetRecordBySelectedRow(_rowIdxSel);
+            var confirm = MessageBox.Show("DataWrangler Confirmation", "Are you sure you wish to delete this record?",
+                MessageBoxButtons.YesNoCancel);
+
+            if (confirm == DialogResult.Yes)
+            {
+                using (var oH = new ObjectHelper(_dbSettings, _user))
+                {
+                    var deleteStatus = oH.DeleteRecord(rec);
+                    if (!deleteStatus.Success)
+                    {
+                        MessageBox.Show("DataWrangler Error",
+                            "An error occured when deleting a record.\n Error: " + deleteStatus.Result);
+                    }
+                }
+                RecordGridRefresh();
+            }
+            
         }
 
         private void viewAttachmentsMenuItem_Click(object sender, EventArgs e)
@@ -164,8 +180,10 @@ namespace DataWrangler.Forms
             if (_recordTypeSel != null && e.Button == MouseButtons.Right)
             {
                 var hitTest = gridRecords.HitTest(e.X, e.Y);
-                if (hitTest.RowIndex < 1)
+                
+                if (hitTest.RowIndex < 0)
                     return;
+                
                 _rowIdxSel = hitTest.RowIndex;
 
                 gridRecords.ClearSelection();
@@ -174,8 +192,6 @@ namespace DataWrangler.Forms
                 var cm = new ContextMenu();
                 cm.MenuItems.Add(new MenuItem("Edit Record", editRecordMenuItem_Click));
                 cm.MenuItems.Add(new MenuItem("Delete Record", deleteRecordMenuItem_Click));
-                cm.MenuItems.Add("-"); //horizontal separator on context menu
-                cm.MenuItems.Add(new MenuItem("View Attachments", viewAttachmentsMenuItem_Click));
 
                 cm.Show(gridRecords, gridRecords.PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)));
             }

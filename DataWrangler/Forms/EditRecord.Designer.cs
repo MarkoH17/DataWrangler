@@ -37,12 +37,14 @@
             this.gridAuditHistory = new System.Windows.Forms.DataGridView();
             this.tabAttributes = new System.Windows.Forms.TabPage();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabAttachments = new System.Windows.Forms.TabPage();
+            this.listAttachments = new System.Windows.Forms.ListBox();
             this.btnUpdate = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.btnAttachments = new System.Windows.Forms.Button();
             this.tabHistory.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridAuditHistory)).BeginInit();
             this.tabControl1.SuspendLayout();
+            this.tabAttachments.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblEditRecord
@@ -98,7 +100,7 @@
             this.tabHistory.Location = new System.Drawing.Point(4, 22);
             this.tabHistory.Name = "tabHistory";
             this.tabHistory.Padding = new System.Windows.Forms.Padding(3);
-            this.tabHistory.Size = new System.Drawing.Size(305, 187);
+            this.tabHistory.Size = new System.Drawing.Size(305, 218);
             this.tabHistory.TabIndex = 1;
             this.tabHistory.Text = "History";
             this.tabHistory.UseVisualStyleBackColor = true;
@@ -114,7 +116,7 @@
             this.gridAuditHistory.Name = "gridAuditHistory";
             this.gridAuditHistory.ReadOnly = true;
             this.gridAuditHistory.RowHeadersVisible = false;
-            this.gridAuditHistory.Size = new System.Drawing.Size(299, 181);
+            this.gridAuditHistory.Size = new System.Drawing.Size(299, 212);
             this.gridAuditHistory.TabIndex = 0;
             this.gridAuditHistory.VirtualMode = true;
             this.gridAuditHistory.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.gridAuditHistory_CellValueNeeded);
@@ -125,7 +127,7 @@
             this.tabAttributes.Location = new System.Drawing.Point(4, 22);
             this.tabAttributes.Name = "tabAttributes";
             this.tabAttributes.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAttributes.Size = new System.Drawing.Size(305, 187);
+            this.tabAttributes.Size = new System.Drawing.Size(305, 218);
             this.tabAttributes.TabIndex = 0;
             this.tabAttributes.Text = "Attributes";
             this.tabAttributes.UseVisualStyleBackColor = true;
@@ -134,15 +136,39 @@
             // 
             this.tabControl1.Controls.Add(this.tabAttributes);
             this.tabControl1.Controls.Add(this.tabHistory);
+            this.tabControl1.Controls.Add(this.tabAttachments);
             this.tabControl1.Location = new System.Drawing.Point(15, 129);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(313, 213);
+            this.tabControl1.Size = new System.Drawing.Size(313, 244);
             this.tabControl1.TabIndex = 5;
+            // 
+            // tabAttachments
+            // 
+            this.tabAttachments.Controls.Add(this.listAttachments);
+            this.tabAttachments.Location = new System.Drawing.Point(4, 22);
+            this.tabAttachments.Name = "tabAttachments";
+            this.tabAttachments.Padding = new System.Windows.Forms.Padding(3);
+            this.tabAttachments.Size = new System.Drawing.Size(305, 218);
+            this.tabAttachments.TabIndex = 2;
+            this.tabAttachments.Text = "Attachments";
+            this.tabAttachments.UseVisualStyleBackColor = true;
+            // 
+            // listAttachments
+            // 
+            this.listAttachments.DisplayMember = "Text";
+            this.listAttachments.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listAttachments.FormattingEnabled = true;
+            this.listAttachments.Location = new System.Drawing.Point(3, 3);
+            this.listAttachments.Name = "listAttachments";
+            this.listAttachments.Size = new System.Drawing.Size(299, 212);
+            this.listAttachments.TabIndex = 0;
+            this.listAttachments.ValueMember = "Value";
+            this.listAttachments.MouseUp += new System.Windows.Forms.MouseEventHandler(this.listAttachments_MouseUp);
             // 
             // btnUpdate
             // 
-            this.btnUpdate.Location = new System.Drawing.Point(253, 348);
+            this.btnUpdate.Location = new System.Drawing.Point(253, 379);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(75, 23);
             this.btnUpdate.TabIndex = 6;
@@ -152,7 +178,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(172, 348);
+            this.btnCancel.Location = new System.Drawing.Point(175, 379);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 7;
@@ -160,22 +186,12 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // btnAttachments
-            // 
-            this.btnAttachments.Location = new System.Drawing.Point(15, 348);
-            this.btnAttachments.Name = "btnAttachments";
-            this.btnAttachments.Size = new System.Drawing.Size(75, 23);
-            this.btnAttachments.TabIndex = 8;
-            this.btnAttachments.Text = "Attachments";
-            this.btnAttachments.UseVisualStyleBackColor = true;
-            // 
             // EditRecord
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Gainsboro;
-            this.ClientSize = new System.Drawing.Size(346, 378);
-            this.Controls.Add(this.btnAttachments);
+            this.ClientSize = new System.Drawing.Size(346, 414);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.tabControl1);
@@ -184,11 +200,15 @@
             this.Controls.Add(this.txtRecId);
             this.Controls.Add(this.lblId);
             this.Controls.Add(this.lblEditRecord);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "EditRecord";
             this.Text = "Data Wrangler Record";
             this.tabHistory.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridAuditHistory)).EndInit();
             this.tabControl1.ResumeLayout(false);
+            this.tabAttachments.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -206,7 +226,8 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.Button btnUpdate;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.Button btnAttachments;
         private System.Windows.Forms.DataGridView gridAuditHistory;
+        private System.Windows.Forms.TabPage tabAttachments;
+        private System.Windows.Forms.ListBox listAttachments;
     }
 }

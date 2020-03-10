@@ -129,7 +129,7 @@
     <Compile Include="Forms\ImportRecords.Designer.cs">
       <DependentUpon>ImportRecords.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormControls\ComboBoxItem.cs" />
+    <Compile Include="FormControls\TextValueItem.cs" />
     <Compile Include="Forms\ManageUserAccounts.cs">
       <SubType>Form</SubType>
     </Compile>
