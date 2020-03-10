@@ -24,7 +24,6 @@ namespace DataWrangler.Forms
         public ImportRecords(Dictionary<string, string> dbSettings, UserAccount user)
         {
             InitializeComponent();
-
             _dbSettings = dbSettings;
             _user = user;
 
@@ -43,6 +42,8 @@ namespace DataWrangler.Forms
 
             gridFieldAssignment.Columns.Add(fieldValueCol);
             gridFieldAssignment.Columns.Add(fieldNameCol);
+
+            BringToFront();
         }
 
         private void AddLastRow()
@@ -243,8 +244,8 @@ namespace DataWrangler.Forms
                 gridFieldAssignment.ClearSelection();
                 gridFieldAssignment.Rows[hitTest.RowIndex].Selected = true;
 
-                var cm = new ContextMenu();
-                cm.MenuItems.Add(new MenuItem("Delete Row", deleteToolStrip_Click));
+                var cm = new MetroContextMenu(Container);
+                cm.Items.Add("Delete Row", null, deleteToolStrip_Click);
 
                 cm.Show(gridFieldAssignment,
                     gridFieldAssignment.PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)));
@@ -329,6 +330,11 @@ namespace DataWrangler.Forms
                 if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
                     return false;
             return true;
+        }
+
+        private void ImportRecords_Resize(object sender, EventArgs e)
+        {
+            txtPathAddr.Refresh();
         }
     }
 }

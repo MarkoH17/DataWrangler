@@ -82,7 +82,7 @@ namespace DataWrangler.Forms
 
             foreach (var rT in recordTypes)
             {
-                var comboBoxItem = new ComboBoxItem {Text = rT.Name, Value = rT};
+                var comboBoxItem = new TextValueItem {Text = rT.Name, Value = rT};
                 comboRecordType.Items.Add(comboBoxItem);
             }
         }
@@ -92,7 +92,7 @@ namespace DataWrangler.Forms
             if (string.IsNullOrEmpty(comboField.SelectedItem.ToString()) || string.IsNullOrEmpty(txtFieldSearch.Text))
                 return;
 
-            var searchField = ((ComboBoxItem) comboField.SelectedItem).Value.ToString();
+            var searchField = ((TextValueItem) comboField.SelectedItem).Value.ToString();
             var searchValue = txtFieldSearch.Text;
 
             LoadRecordsByType(_recordTypeSel, searchField, searchValue);
@@ -109,13 +109,13 @@ namespace DataWrangler.Forms
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var selectedItem = (ComboBoxItem) ((ComboBox) sender).SelectedItem;
+            var selectedItem = (TextValueItem) ((ComboBox) sender).SelectedItem;
             _recordTypeSel = (RecordType) selectedItem.Value;
             comboField.Items.Clear();
 
             foreach (var attr in _recordTypeSel.Attributes)
             {
-                var comboBoxItem = new ComboBoxItem {Text = attr.Value, Value = "Attributes." + attr.Key};
+                var comboBoxItem = new TextValueItem {Text = attr.Value, Value = "Attributes." + attr.Key};
                 comboField.Items.Add(comboBoxItem);
             }
 

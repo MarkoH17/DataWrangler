@@ -1,5 +1,4 @@
-﻿using System.Windows.Forms;
-using MetroFramework.Controls;
+﻿using MetroFramework.Controls;
 
 namespace DataWrangler.Forms
 {
@@ -51,9 +50,10 @@ namespace DataWrangler.Forms
             // 
             // btnImport
             // 
+            this.btnImport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnImport.AutoSize = true;
             this.btnImport.Enabled = false;
-            this.btnImport.Location = new System.Drawing.Point(431, 453);
+            this.btnImport.Location = new System.Drawing.Point(360, 488);
             this.btnImport.Name = "btnImport";
             this.btnImport.Size = new System.Drawing.Size(75, 29);
             this.btnImport.TabIndex = 2;
@@ -63,8 +63,9 @@ namespace DataWrangler.Forms
             // 
             // btnCancel
             // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.AutoSize = true;
-            this.btnCancel.Location = new System.Drawing.Point(512, 453);
+            this.btnCancel.Location = new System.Drawing.Point(441, 488);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 29);
             this.btnCancel.TabIndex = 3;
@@ -73,11 +74,13 @@ namespace DataWrangler.Forms
             // 
             // txtPathAddr
             // 
+            this.txtPathAddr.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             // 
             // 
             // 
             this.txtPathAddr.CustomButton.Image = null;
-            this.txtPathAddr.CustomButton.Location = new System.Drawing.Point(319, 1);
+            this.txtPathAddr.CustomButton.Location = new System.Drawing.Point(309, 1);
             this.txtPathAddr.CustomButton.Name = "";
             this.txtPathAddr.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.txtPathAddr.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -97,7 +100,7 @@ namespace DataWrangler.Forms
             this.txtPathAddr.SelectionLength = 0;
             this.txtPathAddr.SelectionStart = 0;
             this.txtPathAddr.ShortcutsEnabled = true;
-            this.txtPathAddr.Size = new System.Drawing.Size(341, 23);
+            this.txtPathAddr.Size = new System.Drawing.Size(331, 23);
             this.txtPathAddr.TabIndex = 1;
             this.txtPathAddr.UseSelectable = true;
             this.txtPathAddr.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -114,8 +117,9 @@ namespace DataWrangler.Forms
             // 
             // btnChooseFile
             // 
+            this.btnChooseFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnChooseFile.AutoSize = true;
-            this.btnChooseFile.Location = new System.Drawing.Point(454, 81);
+            this.btnChooseFile.Location = new System.Drawing.Point(444, 81);
             this.btnChooseFile.Name = "btnChooseFile";
             this.btnChooseFile.Size = new System.Drawing.Size(72, 29);
             this.btnChooseFile.TabIndex = 6;
@@ -125,6 +129,8 @@ namespace DataWrangler.Forms
             // 
             // comboImportOptions
             // 
+            this.comboImportOptions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.comboImportOptions.Enabled = false;
             this.comboImportOptions.FormattingEnabled = true;
             this.comboImportOptions.ItemHeight = 23;
@@ -133,7 +139,7 @@ namespace DataWrangler.Forms
             "Existing Record Type"});
             this.comboImportOptions.Location = new System.Drawing.Point(107, 120);
             this.comboImportOptions.Name = "comboImportOptions";
-            this.comboImportOptions.Size = new System.Drawing.Size(341, 29);
+            this.comboImportOptions.Size = new System.Drawing.Size(409, 29);
             this.comboImportOptions.TabIndex = 2;
             this.comboImportOptions.UseSelectable = true;
             this.comboImportOptions.SelectedIndexChanged += new System.EventHandler(this.comboImportOptions_SelectedIndexChanged);
@@ -170,6 +176,9 @@ namespace DataWrangler.Forms
             this.gridFieldAssignment.AllowUserToAddRows = false;
             this.gridFieldAssignment.AllowUserToDeleteRows = false;
             this.gridFieldAssignment.AllowUserToResizeRows = false;
+            this.gridFieldAssignment.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gridFieldAssignment.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.gridFieldAssignment.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.gridFieldAssignment.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
@@ -211,30 +220,34 @@ namespace DataWrangler.Forms
             this.gridFieldAssignment.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.gridFieldAssignment.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.gridFieldAssignment.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridFieldAssignment.Size = new System.Drawing.Size(572, 220);
+            this.gridFieldAssignment.Size = new System.Drawing.Size(501, 255);
             this.gridFieldAssignment.TabIndex = 11;
             this.gridFieldAssignment.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridFieldAssignment_CellEndEdit);
             this.gridFieldAssignment.MouseClick += new System.Windows.Forms.MouseEventHandler(this.gridFieldAssignment_MouseClick);
             // 
             // comboRecordTypeSelector
             // 
+            this.comboRecordTypeSelector.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.comboRecordTypeSelector.Enabled = false;
             this.comboRecordTypeSelector.FormattingEnabled = true;
             this.comboRecordTypeSelector.ItemHeight = 23;
             this.comboRecordTypeSelector.Location = new System.Drawing.Point(107, 165);
             this.comboRecordTypeSelector.Name = "comboRecordTypeSelector";
-            this.comboRecordTypeSelector.Size = new System.Drawing.Size(341, 29);
+            this.comboRecordTypeSelector.Size = new System.Drawing.Size(409, 29);
             this.comboRecordTypeSelector.TabIndex = 3;
             this.comboRecordTypeSelector.UseSelectable = true;
             this.comboRecordTypeSelector.SelectedIndexChanged += new System.EventHandler(this.comboRecordTypeSelector_SelectedIndexChanged);
             // 
             // txtRecordTypeName
             // 
+            this.txtRecordTypeName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             // 
             // 
             // 
             this.txtRecordTypeName.CustomButton.Image = null;
-            this.txtRecordTypeName.CustomButton.Location = new System.Drawing.Point(23, 1);
+            this.txtRecordTypeName.CustomButton.Location = new System.Drawing.Point(-22, 1);
             this.txtRecordTypeName.CustomButton.Name = "";
             this.txtRecordTypeName.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.txtRecordTypeName.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -243,7 +256,7 @@ namespace DataWrangler.Forms
             this.txtRecordTypeName.CustomButton.UseSelectable = true;
             this.txtRecordTypeName.CustomButton.Visible = false;
             this.txtRecordTypeName.Lines = new string[0];
-            this.txtRecordTypeName.Location = new System.Drawing.Point(481, 171);
+            this.txtRecordTypeName.Location = new System.Drawing.Point(214, 39);
             this.txtRecordTypeName.MaxLength = 32767;
             this.txtRecordTypeName.Name = "txtRecordTypeName";
             this.txtRecordTypeName.PasswordChar = '\0';
@@ -252,7 +265,7 @@ namespace DataWrangler.Forms
             this.txtRecordTypeName.SelectionLength = 0;
             this.txtRecordTypeName.SelectionStart = 0;
             this.txtRecordTypeName.ShortcutsEnabled = true;
-            this.txtRecordTypeName.Size = new System.Drawing.Size(45, 23);
+            this.txtRecordTypeName.Size = new System.Drawing.Size(0, 23);
             this.txtRecordTypeName.TabIndex = 14;
             this.txtRecordTypeName.UseSelectable = true;
             this.txtRecordTypeName.Visible = false;
@@ -264,7 +277,7 @@ namespace DataWrangler.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(599, 493);
+            this.ClientSize = new System.Drawing.Size(528, 528);
             this.Controls.Add(this.txtRecordTypeName);
             this.Controls.Add(this.comboRecordTypeSelector);
             this.Controls.Add(this.lblRecordType);
@@ -277,9 +290,10 @@ namespace DataWrangler.Forms
             this.Controls.Add(this.txtPathAddr);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnImport);
+            this.MinimumSize = new System.Drawing.Size(528, 528);
             this.Name = "ImportRecords";
-            this.Resizable = false;
             this.Text = "Import Records";
+            this.Resize += new System.EventHandler(this.ImportRecords_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.gridFieldAssignment)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

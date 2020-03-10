@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using DataWrangler.DBOs;
 using DataWrangler.FormControls;
 using DataWrangler.Retrievers;
+using MetroFramework.Controls;
+using MetroFramework.Forms;
 
 namespace DataWrangler.Forms
 {
-    public partial class ManageRecords : Form
+    public partial class ManageRecords : MetroForm
     {
         private readonly Dictionary<string, string> _dbSettings;
         private readonly UserAccount _user;
@@ -28,6 +31,7 @@ namespace DataWrangler.Forms
                 new object[] { true });
             _dbSettings = dbSettings;
             _user = user;
+            BringToFront();
         }
 
         private void LoadRecordTypeBox()
@@ -58,11 +62,14 @@ namespace DataWrangler.Forms
                 gridRecords.Columns.Clear();
                 gridRecords.Rows.Clear();
 
+                
                 foreach (var column in _retriever.Columns)
                     gridRecords.Columns.Add(column, column);
 
                 gridRecords.RowCount = _retriever.RowCount;
                 txtRowCnt.Text = _retriever.RowCount.ToString();
+
+                
             }
             catch (Exception ex)
             {
@@ -93,8 +100,9 @@ namespace DataWrangler.Forms
             comboField.Enabled = true;
         }
 
-        private void dataGridView1_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
+        private void gridRecords_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
         {
+            if (comboRecType.SelectedItem == null || _dataCache == null) return;
             e.Value = _dataCache.RetrieveElement(e.RowIndex, e.ColumnIndex);
         }
 
@@ -119,6 +127,7 @@ namespace DataWrangler.Forms
 
         private Record GetRecordBySelectedRow(int rowIdx)
         {
+            if (rowIdx < 0) return null;
             int rowId = Convert.ToInt32(gridRecords.Rows[rowIdx].Cells[0].Value);
             Record record = null;
             using (var oH = new ObjectHelper(_dbSettings, _user))
@@ -139,40 +148,40 @@ namespace DataWrangler.Forms
         private void editRecordMenuItem_Click(object sender, EventArgs e)
         {
             var rec = GetRecordBySelectedRow(_rowIdxSel);
-            var editForm = new EditRecord(_dbSettings, _user, rec, _recordTypeSel);
-            var editFormResult = editForm.ShowDialog();
-            if (editFormResult == DialogResult.OK)
+            if (rec != null)
             {
-                RecordGridRefresh();
+                var editForm = new EditRecord(_dbSettings, _user, rec, _recordTypeSel);
+                var editFormResult = editForm.ShowDialog();
+                if (editFormResult == DialogResult.OK)
+                {
+                    RecordGridRefresh();
+                }
             }
+            
         }
 
         private void deleteRecordMenuItem_Click(object sender, EventArgs e)
         {
             var rec = GetRecordBySelectedRow(_rowIdxSel);
-            var confirm = MessageBox.Show("DataWrangler Confirmation", "Are you sure you wish to delete this record?",
-                MessageBoxButtons.YesNoCancel);
-
-            if (confirm == DialogResult.Yes)
+            if (rec != null)
             {
-                using (var oH = new ObjectHelper(_dbSettings, _user))
-                {
-                    var deleteStatus = oH.DeleteRecord(rec);
-                    if (!deleteStatus.Success)
-                    {
-                        MessageBox.Show("DataWrangler Error",
-                            "An error occured when deleting a record.\n Error: " + deleteStatus.Result);
-                    }
-                }
-                RecordGridRefresh();
-            }
-            
-        }
+                var confirm = MessageBox.Show("DataWrangler Confirmation", "Are you sure you wish to delete this record?",
+                    MessageBoxButtons.YesNoCancel);
 
-        private void viewAttachmentsMenuItem_Click(object sender, EventArgs e)
-        {
-            //Spawn a Message box confirming to delete
-            var rec = GetRecordBySelectedRow(_rowIdxSel);
+                if (confirm == DialogResult.Yes)
+                {
+                    using (var oH = new ObjectHelper(_dbSettings, _user))
+                    {
+                        var deleteStatus = oH.DeleteRecord(rec);
+                        if (!deleteStatus.Success)
+                        {
+                            MessageBox.Show("DataWrangler Error",
+                                "An error occured when deleting a record.\n Error: " + deleteStatus.Result);
+                        }
+                    }
+                    RecordGridRefresh();
+                }
+            }
         }
 
         private void gridRecords_MouseClick(object sender, MouseEventArgs e)
@@ -189,9 +198,9 @@ namespace DataWrangler.Forms
                 gridRecords.ClearSelection();
                 gridRecords.Rows[_rowIdxSel].Selected = true;
 
-                var cm = new ContextMenu();
-                cm.MenuItems.Add(new MenuItem("Edit Record", editRecordMenuItem_Click));
-                cm.MenuItems.Add(new MenuItem("Delete Record", deleteRecordMenuItem_Click));
+                var cm = new MetroContextMenu(Container);
+                cm.Items.Add("Edit Record", null, editRecordMenuItem_Click);
+                cm.Items.Add("Delete Record", null, deleteRecordMenuItem_Click);
 
                 cm.Show(gridRecords, gridRecords.PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)));
             }
@@ -220,12 +229,21 @@ namespace DataWrangler.Forms
         private void gridRecords_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             var rec = GetRecordBySelectedRow(e.RowIndex);
-            var editForm = new EditRecord(_dbSettings, _user, rec, _recordTypeSel);
-            var editFormResult = editForm.ShowDialog();
-            if (editFormResult == DialogResult.OK)
+            if (rec != null)
             {
-                RecordGridRefresh();
+                var editForm = new EditRecord(_dbSettings, _user, rec, _recordTypeSel);
+                var editFormResult = editForm.ShowDialog();
+                if (editFormResult == DialogResult.OK)
+                {
+                    RecordGridRefresh();
+                }
             }
+            
+        }
+
+        private void ManageRecords_Resize(object sender, EventArgs e)
+        {
+            txtFieldSearch.Refresh();
         }
     }
 }
