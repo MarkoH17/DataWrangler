@@ -9,22 +9,27 @@ using System.Windows.Forms;
 using DataWrangler.DBOs;
 using DataWrangler.FormControls;
 using DataWrangler.Retrievers;
+using MetroFramework.Components;
+using MetroFramework.Controls;
+using MetroFramework.Forms;
 
 namespace DataWrangler.Forms
 {
-    public partial class EditRecord : Form
+    public partial class EditRecord : MetroForm
     {
         private readonly Dictionary<string, string> _dbSettings;
         private readonly UserAccount _user;
         private Record _record;
         private RecordType _recordType;
 
-        private List<TextBox> _txtControls = new List<TextBox>();
+        private List<MetroTextBox> _txtControls = new List<MetroTextBox>();
 
         private DataCache _dataCache;
         private IDataRetriever _retriever;
 
-        private int _attachmentsRowIdxSel;
+        private int _attachmentsSelIdx;
+        private MetroToolTip hintToolTip = new MetroToolTip();
+        private string[] recordAttachments;
         public EditRecord(Dictionary<string, string> dbSettings, UserAccount user, Record record, RecordType recordType)
         {
             InitializeComponent();
@@ -41,6 +46,7 @@ namespace DataWrangler.Forms
             LoadFields();
             LoadHistory();
             LoadAttachments();
+            tabControl1.SelectedTab = tabAttributes;
         }
 
         public void LoadFields()
@@ -55,15 +61,16 @@ namespace DataWrangler.Forms
                 var attrValue = "";
                 _record.Attributes.TryGetValue(attr.Key, out attrValue);
 
-                var newLbl = new Label {Text = _recordType.Attributes[attr.Key]};
-                var newTxtBox = new TextBox {Text = attrValue, Tag = attr.Key};
+                var newLbl = new MetroLabel {Text = _recordType.Attributes[attr.Key]};
+                var newTxtBox = new MetroTextBox {Text = attrValue, Tag = attr.Key};
 
                 newLbl.Left = 5;
-                newLbl.Top = ctrlCtr * 25 + 10;
+                newLbl.Top = ctrlCtr * 30 + 15;
+                newLbl.MouseHover += label_Hover;
 
                 newTxtBox.Left = newLbl.Width + 5;
-                newTxtBox.Top = ctrlCtr * 25 + 10;
-                newTxtBox.Width = tabControl1.Width - newTxtBox.Left - 25 - 5;
+                newTxtBox.Top = ctrlCtr * 30 + 15;
+                newTxtBox.Width = tabControl1.Width - newTxtBox.Left - 20;
 
                 _txtControls.Add(newTxtBox);
 
@@ -96,14 +103,36 @@ namespace DataWrangler.Forms
 
         public void LoadAttachments()
         {
+            listAttachments.Clear();
+            listAttachments.Columns.Add("File Name");
             if (_record.Attachments != null && _record.Attachments.Count > 0)
             {
                 foreach (var attachment in _record.Attachments)
                 {
                     var attachmentName = attachment.Split('/').Last();
-                    var listItem = new TextValueItem() {Text = attachmentName, Value = attachment};
-                    listAttachments.Items.Add(listItem);
+                    var lvi = new ListViewItem(new string[] { attachmentName });
+                    listAttachments.Items.Add(lvi);
                 }
+
+                recordAttachments = _record.Attachments.ToArray();
+            }
+            listAttachments.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+            listAttachments.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+            listAttachments.AllowSorting = true;
+
+        }
+
+        private void label_Hover(object sender, EventArgs e)
+        {
+            var labelSender = (MetroLabel) sender;
+            int origSize = labelSender.Width;
+            labelSender.AutoSize = true;
+            int newSize = labelSender.Width;
+            labelSender.AutoSize = false;
+
+            if (newSize >= origSize)
+            {
+                hintToolTip.SetToolTip(labelSender, labelSender.Text);
             }
         }
 
@@ -171,7 +200,7 @@ namespace DataWrangler.Forms
 
         private void downloadAttachmentMenuItem_Click(object sender, EventArgs e)
         {
-            var attachmentPath = ((TextValueItem) listAttachments.Items[_attachmentsRowIdxSel]).Value.ToString();
+            var attachmentPath = recordAttachments[_attachmentsSelIdx];
             var attachmentName = attachmentPath.Split('/').Last();
             
             string filePath = null;
@@ -206,16 +235,28 @@ namespace DataWrangler.Forms
                     }
                 }
             }
-
+            
             
         }
         private void deleteAttachmentMenuItem_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            var attachmentPath = recordAttachments[_attachmentsSelIdx];
+            StatusObject deleteAttachmentStatus;
+            using (var oH = new ObjectHelper(_dbSettings, _user))
+            {
+                deleteAttachmentStatus = oH.DeleteAttachmentFromRecord(_record, attachmentPath);
+            }
+            if (deleteAttachmentStatus != null)
+            {
+                RefreshRecord();
+                LoadAttachments();
+                LoadHistory();
+                if (!deleteAttachmentStatus.Success)
+                    MessageBox.Show("Failed to delete attachment.");
+            }
         }
         private void addAttachmentMenuItem_Click(object sender, EventArgs e)
         {
-            string[] filePaths = null;
             using (var dialog = new OpenFileDialog())
             {
                 dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -223,24 +264,23 @@ namespace DataWrangler.Forms
                 dialog.Multiselect = true;
 
                 if (dialog.ShowDialog() == DialogResult.OK)
-                    filePaths = dialog.FileNames;
-            }
-
-            if (filePaths.Length > 0)
-            {
-                StatusObject addAttachmentStatus = null;
-                using (var oH = new ObjectHelper(_dbSettings, _user))
                 {
-                    addAttachmentStatus = oH.AddAttachmentsToRecord(_record, filePaths);
-                }
+                    StatusObject addAttachmentStatus;
+                    using (var oH = new ObjectHelper(_dbSettings, _user))
+                    {
+                        addAttachmentStatus = oH.AddAttachmentsToRecord(_record, dialog.FileNames);
+                    }
 
-                if (addAttachmentStatus != null)
-                {
-                    RefreshRecord();
-                    LoadAttachments();
-                    if(!addAttachmentStatus.Success)
-                        MessageBox.Show("Failed to add attachment.");
+                    if (addAttachmentStatus != null)
+                    {
+                        RefreshRecord();
+                        LoadAttachments();
+                        LoadHistory();
+                        if (!addAttachmentStatus.Success)
+                            MessageBox.Show("Failed to add attachment.");
+                    }
                 }
+                    
             }
         }
 
@@ -263,19 +303,21 @@ namespace DataWrangler.Forms
         {
             if (e.Button == MouseButtons.Right)
             {
-                var cm = new ContextMenu();
+                var cm = new MetroContextMenu(Container);
+                var hitTest = listAttachments.HitTest(e.X, e.Y);
+                
+                _attachmentsSelIdx = -1;
 
-                int selIdx = listAttachments.IndexFromPoint(e.Location);
-                if (selIdx != ListBox.NoMatches)
+                if (hitTest.Item != null) _attachmentsSelIdx = hitTest.Item.Index;
+                
+                if (_attachmentsSelIdx > -1)
                 {
-                    _attachmentsRowIdxSel = selIdx;
-                    listAttachments.SelectedIndex = _attachmentsRowIdxSel;
-                    cm.MenuItems.Add(new MenuItem("Download Attachment", downloadAttachmentMenuItem_Click));
-                    cm.MenuItems.Add(new MenuItem("Delete Attachment", deleteAttachmentMenuItem_Click));
-                    cm.MenuItems.Add("-"); //horizontal separator on context menu
+                    cm.Items.Add("Download Attachment", null, downloadAttachmentMenuItem_Click);
+                    cm.Items.Add("Delete Attachment", null, deleteAttachmentMenuItem_Click);
+                    cm.Items.Add("-"); //horizontal separator on context menu
                 }
                 
-                cm.MenuItems.Add(new MenuItem("Add Attachment", addAttachmentMenuItem_Click));
+                cm.Items.Add("Add Attachment", null, addAttachmentMenuItem_Click);
 
                 cm.Show(listAttachments, listAttachments.PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)));
             }

@@ -13,14 +13,14 @@ namespace DataWrangler
     {
         public const string CollectionPrefix = "col_";
         private readonly LiteDatabase _db;
-        private readonly bool _skipAuditEntries;
+        public bool skipAuditEntries;
         private readonly UserAccount _user;
 
         public DataAccess(string connectionString, UserAccount user = null, bool skipAuditEntries = false)
         {
             _db = new LiteDatabase(connectionString);
             _user = user;
-            _skipAuditEntries = skipAuditEntries;
+            this.skipAuditEntries = skipAuditEntries;
 
             BsonMapper.Global.Entity<AuditEntry>().DbRef(x => x.User, _getCollectionName(typeof(UserAccount)));
         }
@@ -127,9 +127,9 @@ namespace DataWrangler
                         {
                             fileIds.Add(result.Id);
 
-                            if (!_skipAuditEntries)
+                            if (!skipAuditEntries)
                             {
-                                var auditResult = _addAuditEntry(r.Id, r, _user, StatusObject.OperationTypes.FileAdd);
+                                var auditResult = _addAuditEntry(r.Id, r, _user, StatusObject.OperationTypes.FileAdd, null, "Record_" + r.TypeId);
                                 if (!auditResult.Success) return auditResult;
                             }
                         }
@@ -173,9 +173,9 @@ namespace DataWrangler
 
             var result = fs.Delete(fileId);
 
-            if (!_skipAuditEntries)
+            if (!skipAuditEntries)
             {
-                var auditResult = _addAuditEntry(r.Id, r, _user, StatusObject.OperationTypes.FileRemove);
+                var auditResult = _addAuditEntry(r.Id, r, _user, StatusObject.OperationTypes.FileRemove, null, "Record_" + r.TypeId);
                 if (!auditResult.Success) return auditResult;
             }
 
@@ -183,6 +183,7 @@ namespace DataWrangler
             if (result)
             {
                 r.Attachments.Remove(fileId);
+                skipAuditEntries = true;
                 return UpdateObject(r, "Record_" + r.TypeId);
             }
 
@@ -205,7 +206,7 @@ namespace DataWrangler
                         "Failed to bulk remove files from all records orphaned under Record Type " + rT.Name, false);
             }
 
-            if (!_skipAuditEntries)
+            if (!skipAuditEntries)
             {
                 var auditResult = _addAuditEntry(rT.Id, rT, _user, StatusObject.OperationTypes.FileRemove,
                     "Deleted " + files.Count + " File Attachments for Record Type " + rT.Name);
@@ -225,7 +226,7 @@ namespace DataWrangler
                 var objIdVal = Convert.ToInt32(objId);
                 var result = collection.Delete(objIdVal);
 
-                if (!_skipAuditEntries)
+                if (!skipAuditEntries)
                 {
                     var auditResult = _addAuditEntry(objIdVal, obj, _user, StatusObject.OperationTypes.Delete, null, colName);
                     if (!auditResult.Success) return auditResult;
@@ -449,7 +450,7 @@ namespace DataWrangler
                 var collection = _getCollection<T>(colName, indexCol, unique);
                 int result = collection.Insert(obj);
 
-                if (!_skipAuditEntries)
+                if (!skipAuditEntries)
                 {
                     var auditResult = _addAuditEntry(result, obj, _user, StatusObject.OperationTypes.Create, null, colName);
                     if (!auditResult.Success) return auditResult;
@@ -470,7 +471,7 @@ namespace DataWrangler
                 var collection = _getCollection<T>(colName, indexCol);
                 var result = collection.InsertBulk(objs);
 
-                if (!_skipAuditEntries)
+                if (!skipAuditEntries)
                 {
                     var auditResult = _addAuditEntry(-1, objs[0], _user, StatusObject.OperationTypes.Create,
                         "Insert Bulk operation with " + objs.Length + " items", colName);
@@ -544,7 +545,7 @@ namespace DataWrangler
 
                 var objId = (int) obj.GetType().GetProperty("Id").GetValue(obj);
 
-                if (!_skipAuditEntries)
+                if (!skipAuditEntries)
                 {
                     var auditResult = _addAuditEntry(objId, obj, _user, StatusObject.OperationTypes.Update, null, colName);
                     if (!auditResult.Success) return auditResult;

@@ -25,7 +25,7 @@ namespace DataWrangler.Forms
 
                 var loginStatus = oH.LoginUserAccount(username, password);
 
-                if (loginStatus.Success)
+                if (loginStatus.Success && loginStatus.Result != null)
                 {
                     var user = (UserAccount) loginStatus.Result;
                     try
@@ -34,7 +34,7 @@ namespace DataWrangler.Forms
 
                         Settings.Default.Save();
 
-                        if (user != null && user.Active)
+                        if (user.Active)
                             Program.SwitchForm(new ManageRecords(_dbSettings, user));
                         else
                             MessageBox.Show("Account disabled! Please contact administrator.");
@@ -47,6 +47,7 @@ namespace DataWrangler.Forms
                 else
                 {
                     MessageBox.Show("Authentication Failure");
+                    
                 }
             }
         }

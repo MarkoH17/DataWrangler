@@ -38,7 +38,9 @@ namespace DataWrangler
             var uploadResults = _dA.AddFilesToRecord(r, attachmentPaths);
             if (uploadResults.Success)
             {
-                r.Attachments = (List<string>) uploadResults.Result;
+                if(r.Attachments == null) r.Attachments = new List<string>();
+                r.Attachments.AddRange((List<string>) uploadResults.Result);
+                _dA.skipAuditEntries = true;
                 return UpdateRecord(r);
             }
 
@@ -320,6 +322,8 @@ namespace DataWrangler
                 var calculatedHash = UserAccount.GetPasswordHash(password, salt);
                 if (calculatedHash.Equals(storedHash))
                     result.Result = (UserAccount) result.Result;
+                else
+                    result.Result = null;
             }
 
             return result;
