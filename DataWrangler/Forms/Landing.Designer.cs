@@ -42,23 +42,10 @@ namespace DataWrangler.Forms
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tileUserAccts = new MetroFramework.Controls.MetroTile();
             this.label3 = new System.Windows.Forms.Label();
-            this.metroContextMenu2 = new MetroFramework.Controls.MetroContextMenu(this.components);
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.searchRecordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.viewToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tileRecords.SuspendLayout();
             this.tileRecTypes.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.tileUserAccts.SuspendLayout();
-            this.metroContextMenu2.SuspendLayout();
-            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tileRecords
@@ -160,83 +147,7 @@ namespace DataWrangler.Forms
             this.label3.Size = new System.Drawing.Size(40, 24);
             this.label3.TabIndex = 0;
             this.label3.Text = "100";
-            // 
-            // metroContextMenu2
-            // 
-            this.metroContextMenu2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.searchRecordsToolStripMenuItem,
-            this.optionsToolStripMenuItem});
-            this.metroContextMenu2.Name = "metroContextMenu2";
-            this.metroContextMenu2.Size = new System.Drawing.Size(155, 70);
-            // 
-            // fileToolStripMenuItem
-            // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.viewToolStripMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-            this.fileToolStripMenuItem.Text = "File";
-            // 
-            // viewToolStripMenuItem
-            // 
-            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.helpToolStripMenuItem});
-            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            this.viewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.viewToolStripMenuItem.Text = "View";
-            // 
-            // helpToolStripMenuItem
-            // 
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.helpToolStripMenuItem.Text = "Help";
-            // 
-            // searchRecordsToolStripMenuItem
-            // 
-            this.searchRecordsToolStripMenuItem.Name = "searchRecordsToolStripMenuItem";
-            this.searchRecordsToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-            this.searchRecordsToolStripMenuItem.Text = "Search Records";
-            // 
-            // optionsToolStripMenuItem
-            // 
-            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-            this.optionsToolStripMenuItem.Text = "Options";
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem1});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(93, 26);
-            // 
-            // fileToolStripMenuItem1
-            // 
-            this.fileToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.viewToolStripMenuItem1});
-            this.fileToolStripMenuItem1.Name = "fileToolStripMenuItem1";
-            this.fileToolStripMenuItem1.Size = new System.Drawing.Size(92, 22);
-            this.fileToolStripMenuItem1.Text = "File";
-            // 
-            // viewToolStripMenuItem1
-            // 
-            this.viewToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.helpToolStripMenuItem1});
-            this.viewToolStripMenuItem1.Name = "viewToolStripMenuItem1";
-            this.viewToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.viewToolStripMenuItem1.Text = "View";
-            // 
-            // helpToolStripMenuItem1
-            // 
-            this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
-            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.helpToolStripMenuItem1.Text = "Help";
-            // 
-            // contextMenuStrip2
-            // 
-            this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(61, 4);
+         
             // 
             // Landing
             // 
@@ -257,8 +168,6 @@ namespace DataWrangler.Forms
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.tileUserAccts.ResumeLayout(false);
             this.tileUserAccts.PerformLayout();
-            this.metroContextMenu2.ResumeLayout(false);
-            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

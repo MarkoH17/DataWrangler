@@ -34,7 +34,6 @@ namespace DataWrangler.Forms
 
                 foreach( var rT in recordTypes)
                 {
-                    var recordType = new 
                     recordTotal += 1;
                 }
                 lblRecCount.Text = recordTotal.ToString();
