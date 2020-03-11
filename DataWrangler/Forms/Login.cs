@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using DataWrangler.DBOs;
 using DataWrangler.Properties;
+using MetroFramework.Forms;
 
 namespace DataWrangler.Forms
 {
-    public partial class Login : Form
+    public partial class Login : MetroForm
     {
         private readonly Dictionary<string, string> _dbSettings;
 

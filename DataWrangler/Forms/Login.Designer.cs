@@ -1,4 +1,6 @@
-﻿namespace DataWrangler.Forms
+﻿using System.Windows.Forms;
+using MetroFramework.Controls;
+namespace DataWrangler.Forms
 {
     partial class Login
     {
@@ -28,13 +30,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnLogin = new System.Windows.Forms.Button();
-            this.txtUserName = new System.Windows.Forms.TextBox();
-            this.txtPassword = new System.Windows.Forms.TextBox();
-            this.lblUsername = new System.Windows.Forms.Label();
-            this.lblPassword = new System.Windows.Forms.Label();
-            this.chckRemember = new System.Windows.Forms.CheckBox();
-            this.chckShowPass = new System.Windows.Forms.CheckBox();
+            this.btnLogin = new MetroButton();
+            this.txtUserName = new MetroTextBox();
+            this.txtPassword = new MetroTextBox();
+            this.lblUsername = new MetroLabel();
+            this.lblPassword = new MetroLabel();
+            this.chckRemember = new MetroCheckBox();
+            this.chckShowPass = new MetroCheckBox();
             this.SuspendLayout();
             // 
             // btnLogin
@@ -75,7 +77,7 @@
             // 
             // lblUsername
             // 
-            this.lblUsername.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.lblUsername.AccessibleRole = AccessibleRole.None;
             this.lblUsername.AutoSize = true;
             this.lblUsername.BackColor = System.Drawing.Color.Gainsboro;
             this.lblUsername.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -88,7 +90,7 @@
             // 
             // lblPassword
             // 
-            this.lblPassword.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.lblPassword.AccessibleRole = AccessibleRole.None;
             this.lblPassword.AutoSize = true;
             this.lblPassword.BackColor = System.Drawing.Color.Gainsboro;
             this.lblPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -101,7 +103,7 @@
             // 
             // chckRemember
             // 
-            this.chckRemember.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.chckRemember.AccessibleRole = AccessibleRole.None;
             this.chckRemember.AutoSize = true;
             this.chckRemember.BackColor = System.Drawing.Color.Gainsboro;
             this.chckRemember.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -115,11 +117,11 @@
             // 
             // chckShowPass
             // 
-            this.chckShowPass.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.chckShowPass.AccessibleRole = AccessibleRole.None;
             this.chckShowPass.AutoSize = true;
             this.chckShowPass.BackColor = System.Drawing.Color.Gainsboro;
             this.chckShowPass.Checked = true;
-            this.chckShowPass.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chckShowPass.CheckState = CheckState.Checked;
             this.chckShowPass.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chckShowPass.ForeColor = System.Drawing.Color.Black;
             this.chckShowPass.Location = new System.Drawing.Point(196, 253);
@@ -134,7 +136,7 @@
             // 
             this.AcceptButton = this.btnLogin;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(541, 367);
             this.Controls.Add(this.chckShowPass);
             this.Controls.Add(this.chckRemember);
@@ -154,12 +156,12 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnLogin;
-        private System.Windows.Forms.TextBox txtUserName;
-        private System.Windows.Forms.TextBox txtPassword;
-        private System.Windows.Forms.Label lblUsername;
-        private System.Windows.Forms.Label lblPassword;
-        private System.Windows.Forms.CheckBox chckRemember;
-        private System.Windows.Forms.CheckBox chckShowPass;
+        private MetroButton btnLogin;
+        private MetroTextBox txtUserName;
+        private MetroTextBox txtPassword;
+        private MetroLabel lblUsername;
+        private MetroLabel lblPassword;
+        private MetroCheckBox chckRemember;
+        private MetroCheckBox chckShowPass;
     }
 }

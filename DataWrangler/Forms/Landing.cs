@@ -14,8 +14,8 @@ namespace DataWrangler.Forms
         private void btnImport_Click(object sender, EventArgs e)
         {
             Hide();
-            var imForm = new ImportRecords();
-            imForm.Show();
+            //var imForm = new ImportRecords();
+            //imForm.Show();
         }
 
         private void btnManage_Click(object sender, EventArgs e)
