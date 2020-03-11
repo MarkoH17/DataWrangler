@@ -43,23 +43,22 @@ namespace DataWrangler.Forms
             _record = record;
             _recordType = recordType;
 
-            LoadFields();
-            if (record != null)
+            LoadAttributes();
+            if (record == null)
+            {
+                Text = "Add Record";
+                tabControl.TabPages.Remove(tabHistory);
+                tabControl.TabPages.Remove(tabAttachments);
+            }
+            else
             {
                 LoadHistory();
                 LoadAttachments();
             }
-            else
-            {
-                Text = "Add Record";
-                tabControl1.TabPages.Remove(tabHistory);
-                tabControl1.TabPages.Remove(tabAttachments);
-            }
-            
-            tabControl1.SelectedTab = tabAttributes;
+            tabControl.SelectedTab = tabAttributes;
         }
 
-        public void LoadFields()
+        public void LoadAttributes()
         {
             int ctrlCtr = 0;
 
@@ -84,7 +83,7 @@ namespace DataWrangler.Forms
 
                 newTxtBox.Left = newLbl.Width + 5;
                 newTxtBox.Top = ctrlCtr * 30 + 15;
-                newTxtBox.Width = tabControl1.Width - newTxtBox.Left - 20;
+                newTxtBox.Width = tabControl.Width - newTxtBox.Left - 20;
 
                 _txtControls.Add(newTxtBox);
 
@@ -274,8 +273,6 @@ namespace DataWrangler.Forms
                     }
                 }
             }
-            
-            
         }
         private void deleteAttachmentMenuItem_Click(object sender, EventArgs e)
         {
@@ -288,8 +285,6 @@ namespace DataWrangler.Forms
             if (deleteAttachmentStatus != null)
             {
                 RefreshRecord();
-                LoadAttachments();
-                LoadHistory();
                 if (!deleteAttachmentStatus.Success)
                     MessageBox.Show("Failed to delete attachment.");
             }
@@ -313,8 +308,6 @@ namespace DataWrangler.Forms
                     if (addAttachmentStatus != null)
                     {
                         RefreshRecord();
-                        LoadAttachments();
-                        LoadHistory();
                         if (!addAttachmentStatus.Success)
                             MessageBox.Show("Failed to add attachment.");
                     }
@@ -336,6 +329,9 @@ namespace DataWrangler.Forms
                     }
                 }
             }
+            LoadAttributes();
+            LoadHistory();
+            LoadAttachments();
         }
 
         private void listAttachments_MouseUp(object sender, MouseEventArgs e)

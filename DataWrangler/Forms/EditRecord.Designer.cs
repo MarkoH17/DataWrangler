@@ -41,7 +41,7 @@ namespace DataWrangler.Forms
             this.tabHistory = new MetroFramework.Controls.MetroTabPage();
             this.gridAuditHistory = new MetroFramework.Controls.MetroGrid();
             this.tabAttributes = new MetroFramework.Controls.MetroTabPage();
-            this.tabControl1 = new MetroFramework.Controls.MetroTabControl();
+            this.tabControl = new MetroFramework.Controls.MetroTabControl();
             this.tabAttachments = new MetroFramework.Controls.MetroTabPage();
             this.listAttachments = new MetroFramework.Controls.MetroListView();
             this.btnUpdate = new MetroFramework.Controls.MetroButton();
@@ -49,7 +49,7 @@ namespace DataWrangler.Forms
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
             this.tabHistory.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridAuditHistory)).BeginInit();
-            this.tabControl1.SuspendLayout();
+            this.tabControl.SuspendLayout();
             this.tabAttachments.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -222,17 +222,17 @@ namespace DataWrangler.Forms
             this.tabAttributes.VerticalScrollbarHighlightOnWheel = false;
             this.tabAttributes.VerticalScrollbarSize = 10;
             // 
-            // tabControl1
+            // tabControl
             // 
-            this.tabControl1.Controls.Add(this.tabAttributes);
-            this.tabControl1.Controls.Add(this.tabHistory);
-            this.tabControl1.Controls.Add(this.tabAttachments);
-            this.tabControl1.Location = new System.Drawing.Point(12, 99);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 2;
-            this.tabControl1.Size = new System.Drawing.Size(416, 326);
-            this.tabControl1.TabIndex = 5;
-            this.tabControl1.UseSelectable = true;
+            this.tabControl.Controls.Add(this.tabAttributes);
+            this.tabControl.Controls.Add(this.tabAttachments);
+            this.tabControl.Controls.Add(this.tabHistory);
+            this.tabControl.Location = new System.Drawing.Point(12, 99);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 1;
+            this.tabControl.Size = new System.Drawing.Size(416, 326);
+            this.tabControl.TabIndex = 5;
+            this.tabControl.UseSelectable = true;
             // 
             // tabAttachments
             // 
@@ -305,7 +305,7 @@ namespace DataWrangler.Forms
             this.Controls.Add(this.metroLabel1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnUpdate);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.tabControl);
             this.Controls.Add(this.lblTypeId);
             this.Controls.Add(this.txtRecType);
             this.Controls.Add(this.txtRecId);
@@ -315,7 +315,7 @@ namespace DataWrangler.Forms
             this.Text = "Edit Record";
             this.tabHistory.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridAuditHistory)).EndInit();
-            this.tabControl1.ResumeLayout(false);
+            this.tabControl.ResumeLayout(false);
             this.tabAttachments.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -329,7 +329,7 @@ namespace DataWrangler.Forms
         private MetroLabel lblTypeId;
         private MetroTabPage tabHistory;
         private MetroTabPage tabAttributes;
-        private MetroTabControl tabControl1;
+        private MetroTabControl tabControl;
         private MetroButton btnUpdate;
         private MetroButton btnCancel;
         private MetroGrid gridAuditHistory;
