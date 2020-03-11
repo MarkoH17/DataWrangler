@@ -28,138 +28,133 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.comboDatabase = new System.Windows.Forms.ComboBox();
-            this.lblOptions = new System.Windows.Forms.Label();
-            this.btnSelect = new System.Windows.Forms.Button();
-            this.txtCurrentPassword = new System.Windows.Forms.TextBox();
-            this.lblCurrentPassword = new System.Windows.Forms.Label();
-            this.lblNewPassword = new System.Windows.Forms.Label();
-            this.txtNewPassword = new System.Windows.Forms.TextBox();
-            this.lblConfirmPassword = new System.Windows.Forms.Label();
-            this.txtConfirmPassword = new System.Windows.Forms.TextBox();
-            this.chckAddEncrypt = new System.Windows.Forms.CheckBox();
+            this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
+            this.DatabasePathLabel = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel3 = new MetroFramework.Controls.MetroLabel();
+            this.DatabasePathLabelText = new MetroFramework.Controls.MetroLabel();
+            this.DatabaseSizeLabel = new MetroFramework.Controls.MetroLabel();
+            this.rebuildDatabaseButton = new MetroFramework.Controls.MetroButton();
+            this.metroButton2 = new MetroFramework.Controls.MetroButton();
+            this.metroLabel6 = new MetroFramework.Controls.MetroLabel();
+            this.metroComboBox1 = new MetroFramework.Controls.MetroComboBox();
             this.SuspendLayout();
             // 
-            // comboDatabase
+            // metroLabel1
             // 
-            this.comboDatabase.FormattingEnabled = true;
-            this.comboDatabase.Location = new System.Drawing.Point(56, 117);
-            this.comboDatabase.Name = "comboDatabase";
-            this.comboDatabase.Size = new System.Drawing.Size(244, 21);
-            this.comboDatabase.TabIndex = 0;
-            this.comboDatabase.Text = "Select a database...";
+            this.metroLabel1.AutoSize = true;
+            this.metroLabel1.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.metroLabel1.Location = new System.Drawing.Point(34, 79);
+            this.metroLabel1.Name = "metroLabel1";
+            this.metroLabel1.Size = new System.Drawing.Size(124, 25);
+            this.metroLabel1.TabIndex = 0;
+            this.metroLabel1.Text = "Database Path:";
             // 
-            // lblOptions
+            // DatabasePathLabel
             // 
-            this.lblOptions.AutoSize = true;
-            this.lblOptions.Font = new System.Drawing.Font("Bernard MT Condensed", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblOptions.ForeColor = System.Drawing.Color.Black;
-            this.lblOptions.Location = new System.Drawing.Point(329, 13);
-            this.lblOptions.Name = "lblOptions";
-            this.lblOptions.Size = new System.Drawing.Size(163, 57);
-            this.lblOptions.TabIndex = 1;
-            this.lblOptions.Text = "Options";
+            this.DatabasePathLabel.AutoSize = true;
+            this.DatabasePathLabel.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.DatabasePathLabel.Location = new System.Drawing.Point(164, 79);
+            this.DatabasePathLabel.Name = "DatabasePathLabel";
+            this.DatabasePathLabel.Size = new System.Drawing.Size(0, 0);
+            this.DatabasePathLabel.TabIndex = 1;
             // 
-            // btnSelect
+            // metroLabel2
             // 
-            this.btnSelect.AutoSize = true;
-            this.btnSelect.BackColor = System.Drawing.Color.Gray;
-            this.btnSelect.Font = new System.Drawing.Font("Book Antiqua", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSelect.ForeColor = System.Drawing.Color.Transparent;
-            this.btnSelect.Location = new System.Drawing.Point(317, 113);
-            this.btnSelect.Name = "btnSelect";
-            this.btnSelect.Size = new System.Drawing.Size(91, 27);
-            this.btnSelect.TabIndex = 2;
-            this.btnSelect.Text = "Select";
-            this.btnSelect.UseVisualStyleBackColor = false;
+            this.metroLabel2.AutoSize = true;
+            this.metroLabel2.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.metroLabel2.Location = new System.Drawing.Point(164, 121);
+            this.metroLabel2.Name = "metroLabel2";
+            this.metroLabel2.Size = new System.Drawing.Size(0, 0);
+            this.metroLabel2.TabIndex = 3;
             // 
-            // txtCurrentPassword
+            // metroLabel3
             // 
-            this.txtCurrentPassword.Location = new System.Drawing.Point(56, 175);
-            this.txtCurrentPassword.Name = "txtCurrentPassword";
-            this.txtCurrentPassword.Size = new System.Drawing.Size(244, 20);
-            this.txtCurrentPassword.TabIndex = 3;
-            this.txtCurrentPassword.Text = "Enter current password";
+            this.metroLabel3.AutoSize = true;
+            this.metroLabel3.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.metroLabel3.Location = new System.Drawing.Point(34, 121);
+            this.metroLabel3.Name = "metroLabel3";
+            this.metroLabel3.Size = new System.Drawing.Size(121, 25);
+            this.metroLabel3.TabIndex = 2;
+            this.metroLabel3.Text = "Database Size:";
             // 
-            // lblCurrentPassword
+            // DatabasePathLabelText
             // 
-            this.lblCurrentPassword.AutoSize = true;
-            this.lblCurrentPassword.Font = new System.Drawing.Font("Book Antiqua", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurrentPassword.ForeColor = System.Drawing.Color.Black;
-            this.lblCurrentPassword.Location = new System.Drawing.Point(56, 155);
-            this.lblCurrentPassword.Name = "lblCurrentPassword";
-            this.lblCurrentPassword.Size = new System.Drawing.Size(114, 17);
-            this.lblCurrentPassword.TabIndex = 4;
-            this.lblCurrentPassword.Text = "Current Password";
+            this.DatabasePathLabelText.AutoSize = true;
+            this.DatabasePathLabelText.Location = new System.Drawing.Point(187, 84);
+            this.DatabasePathLabelText.Name = "DatabasePathLabelText";
+            this.DatabasePathLabelText.Size = new System.Drawing.Size(83, 19);
+            this.DatabasePathLabelText.TabIndex = 4;
+            this.DatabasePathLabelText.Text = "metroLabel4";
             // 
-            // lblNewPassword
+            // DatabaseSizeLabel
             // 
-            this.lblNewPassword.AutoSize = true;
-            this.lblNewPassword.Font = new System.Drawing.Font("Book Antiqua", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNewPassword.ForeColor = System.Drawing.Color.Black;
-            this.lblNewPassword.Location = new System.Drawing.Point(56, 211);
-            this.lblNewPassword.Name = "lblNewPassword";
-            this.lblNewPassword.Size = new System.Drawing.Size(97, 17);
-            this.lblNewPassword.TabIndex = 6;
-            this.lblNewPassword.Text = "New Password";
-            this.lblNewPassword.Click += new System.EventHandler(this.label1_Click);
+            this.DatabaseSizeLabel.AutoSize = true;
+            this.DatabaseSizeLabel.Location = new System.Drawing.Point(187, 126);
+            this.DatabaseSizeLabel.Name = "DatabaseSizeLabel";
+            this.DatabaseSizeLabel.Size = new System.Drawing.Size(83, 19);
+            this.DatabaseSizeLabel.TabIndex = 5;
+            this.DatabaseSizeLabel.Text = "metroLabel5";
             // 
-            // txtNewPassword
+            // rebuildDatabaseButton
             // 
-            this.txtNewPassword.Location = new System.Drawing.Point(56, 231);
-            this.txtNewPassword.Name = "txtNewPassword";
-            this.txtNewPassword.Size = new System.Drawing.Size(244, 20);
-            this.txtNewPassword.TabIndex = 5;
-            this.txtNewPassword.Text = "Enter new password";
-            this.txtNewPassword.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.rebuildDatabaseButton.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.rebuildDatabaseButton.FontWeight = MetroFramework.MetroButtonWeight.Light;
+            this.rebuildDatabaseButton.Location = new System.Drawing.Point(232, 291);
+            this.rebuildDatabaseButton.Name = "rebuildDatabaseButton";
+            this.rebuildDatabaseButton.Size = new System.Drawing.Size(124, 27);
+            this.rebuildDatabaseButton.TabIndex = 6;
+            this.rebuildDatabaseButton.Text = "Rebuild Database";
+            this.rebuildDatabaseButton.UseSelectable = true;
+            this.rebuildDatabaseButton.Click += new System.EventHandler(this.rebuildDatabaseButton_Click);
             // 
-            // lblConfirmPassword
+            // metroButton2
             // 
-            this.lblConfirmPassword.AutoSize = true;
-            this.lblConfirmPassword.Font = new System.Drawing.Font("Book Antiqua", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblConfirmPassword.ForeColor = System.Drawing.Color.Black;
-            this.lblConfirmPassword.Location = new System.Drawing.Point(56, 273);
-            this.lblConfirmPassword.Name = "lblConfirmPassword";
-            this.lblConfirmPassword.Size = new System.Drawing.Size(117, 17);
-            this.lblConfirmPassword.TabIndex = 8;
-            this.lblConfirmPassword.Text = "Confirm Password";
+            this.metroButton2.BackColor = System.Drawing.Color.White;
+            this.metroButton2.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.metroButton2.FontWeight = MetroFramework.MetroButtonWeight.Light;
+            this.metroButton2.Location = new System.Drawing.Point(34, 291);
+            this.metroButton2.Name = "metroButton2";
+            this.metroButton2.Size = new System.Drawing.Size(124, 27);
+            this.metroButton2.TabIndex = 7;
+            this.metroButton2.Text = "User Management";
+            this.metroButton2.UseSelectable = true;
             // 
-            // txtConfirmPassword
+            // metroLabel6
             // 
-            this.txtConfirmPassword.Location = new System.Drawing.Point(56, 293);
-            this.txtConfirmPassword.Name = "txtConfirmPassword";
-            this.txtConfirmPassword.Size = new System.Drawing.Size(244, 20);
-            this.txtConfirmPassword.TabIndex = 7;
-            this.txtConfirmPassword.Text = "Confirm password";
+            this.metroLabel6.AutoSize = true;
+            this.metroLabel6.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.metroLabel6.Location = new System.Drawing.Point(34, 161);
+            this.metroLabel6.Name = "metroLabel6";
+            this.metroLabel6.Size = new System.Drawing.Size(137, 25);
+            this.metroLabel6.TabIndex = 8;
+            this.metroLabel6.Text = "Default Window:";
             // 
-            // chckAddEncrypt
+            // metroComboBox1
             // 
-            this.chckAddEncrypt.AutoSize = true;
-            this.chckAddEncrypt.Font = new System.Drawing.Font("Book Antiqua", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chckAddEncrypt.ForeColor = System.Drawing.Color.Black;
-            this.chckAddEncrypt.Location = new System.Drawing.Point(56, 343);
-            this.chckAddEncrypt.Name = "chckAddEncrypt";
-            this.chckAddEncrypt.Size = new System.Drawing.Size(188, 21);
-            this.chckAddEncrypt.TabIndex = 9;
-            this.chckAddEncrypt.Text = "Add encryption to database";
-            this.chckAddEncrypt.UseVisualStyleBackColor = true;
+            this.metroComboBox1.FormattingEnabled = true;
+            this.metroComboBox1.ItemHeight = 23;
+            this.metroComboBox1.Location = new System.Drawing.Point(187, 161);
+            this.metroComboBox1.Name = "metroComboBox1";
+            this.metroComboBox1.Size = new System.Drawing.Size(169, 29);
+            this.metroComboBox1.TabIndex = 9;
+            this.metroComboBox1.UseSelectable = true;
             // 
             // Options
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Gainsboro;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.chckAddEncrypt);
-            this.Controls.Add(this.lblConfirmPassword);
-            this.Controls.Add(this.txtConfirmPassword);
-            this.Controls.Add(this.lblNewPassword);
-            this.Controls.Add(this.txtNewPassword);
-            this.Controls.Add(this.lblCurrentPassword);
-            this.Controls.Add(this.txtCurrentPassword);
-            this.Controls.Add(this.btnSelect);
-            this.Controls.Add(this.lblOptions);
-            this.Controls.Add(this.comboDatabase);
+            this.ClientSize = new System.Drawing.Size(418, 351);
+            this.Controls.Add(this.metroComboBox1);
+            this.Controls.Add(this.metroLabel6);
+            this.Controls.Add(this.metroButton2);
+            this.Controls.Add(this.rebuildDatabaseButton);
+            this.Controls.Add(this.DatabaseSizeLabel);
+            this.Controls.Add(this.DatabasePathLabelText);
+            this.Controls.Add(this.metroLabel2);
+            this.Controls.Add(this.metroLabel3);
+            this.Controls.Add(this.DatabasePathLabel);
+            this.Controls.Add(this.metroLabel1);
             this.Name = "Options";
             this.Text = "Options";
             this.ResumeLayout(false);
@@ -169,15 +164,15 @@
 
         #endregion
 
-        private System.Windows.Forms.ComboBox comboDatabase;
-        private System.Windows.Forms.Label lblOptions;
-        private System.Windows.Forms.Button btnSelect;
-        private System.Windows.Forms.TextBox txtCurrentPassword;
-        private System.Windows.Forms.Label lblCurrentPassword;
-        private System.Windows.Forms.Label lblNewPassword;
-        private System.Windows.Forms.TextBox txtNewPassword;
-        private System.Windows.Forms.Label lblConfirmPassword;
-        private System.Windows.Forms.TextBox txtConfirmPassword;
-        private System.Windows.Forms.CheckBox chckAddEncrypt;
+        private MetroFramework.Controls.MetroLabel metroLabel1;
+        private MetroFramework.Controls.MetroLabel DatabasePathLabel;
+        private MetroFramework.Controls.MetroLabel metroLabel2;
+        private MetroFramework.Controls.MetroLabel metroLabel3;
+        private MetroFramework.Controls.MetroLabel DatabasePathLabelText;
+        private MetroFramework.Controls.MetroLabel DatabaseSizeLabel;
+        private MetroFramework.Controls.MetroButton rebuildDatabaseButton;
+        private MetroFramework.Controls.MetroButton metroButton2;
+        private MetroFramework.Controls.MetroLabel metroLabel6;
+        private MetroFramework.Controls.MetroComboBox metroComboBox1;
     }
 }

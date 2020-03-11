@@ -28,117 +28,142 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.NextButton = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.radioNewSystem = new System.Windows.Forms.RadioButton();
-            this.radioExistingSystem = new System.Windows.Forms.RadioButton();
-            this.FilePathBox = new System.Windows.Forms.TextBox();
-            this.FileBrowseButton = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox1.SuspendLayout();
+            this.metroPanel1 = new MetroFramework.Controls.MetroPanel();
+            this.radioExistingSystem = new MetroFramework.Controls.MetroRadioButton();
+            this.radioNewSystem = new MetroFramework.Controls.MetroRadioButton();
+            this.FileBrowseButton = new MetroFramework.Controls.MetroButton();
+            this.NextButton = new MetroFramework.Controls.MetroButton();
+            this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
+            this.FilePathBox = new MetroFramework.Controls.MetroTextBox();
+            this.metroPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // NextButton
+            // metroPanel1
             // 
-            this.NextButton.Enabled = false;
-            this.NextButton.Location = new System.Drawing.Point(413, 286);
-            this.NextButton.Name = "NextButton";
-            this.NextButton.Size = new System.Drawing.Size(207, 45);
-            this.NextButton.TabIndex = 3;
-            this.NextButton.Text = "Next";
-            this.NextButton.UseVisualStyleBackColor = true;
-            this.NextButton.Click += new System.EventHandler(this.NextButton_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Book Antiqua", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(148, 208);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(41, 20);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Path";
-            // 
-            // radioNewSystem
-            // 
-            this.radioNewSystem.AutoSize = true;
-            this.radioNewSystem.Font = new System.Drawing.Font("Book Antiqua", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioNewSystem.Location = new System.Drawing.Point(17, 17);
-            this.radioNewSystem.Name = "radioNewSystem";
-            this.radioNewSystem.Size = new System.Drawing.Size(174, 24);
-            this.radioNewSystem.TabIndex = 5;
-            this.radioNewSystem.TabStop = true;
-            this.radioNewSystem.Text = "Create new database";
-            this.radioNewSystem.UseVisualStyleBackColor = true;
+            this.metroPanel1.Controls.Add(this.radioExistingSystem);
+            this.metroPanel1.Controls.Add(this.radioNewSystem);
+            this.metroPanel1.HorizontalScrollbarBarColor = true;
+            this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroPanel1.HorizontalScrollbarSize = 10;
+            this.metroPanel1.Location = new System.Drawing.Point(105, 63);
+            this.metroPanel1.Name = "metroPanel1";
+            this.metroPanel1.Size = new System.Drawing.Size(348, 139);
+            this.metroPanel1.TabIndex = 10;
+            this.metroPanel1.VerticalScrollbarBarColor = true;
+            this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
+            this.metroPanel1.VerticalScrollbarSize = 10;
             // 
             // radioExistingSystem
             // 
             this.radioExistingSystem.AutoSize = true;
-            this.radioExistingSystem.Font = new System.Drawing.Font("Book Antiqua", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioExistingSystem.Location = new System.Drawing.Point(17, 41);
+            this.radioExistingSystem.FontSize = MetroFramework.MetroCheckBoxSize.Tall;
+            this.radioExistingSystem.Location = new System.Drawing.Point(30, 92);
             this.radioExistingSystem.Name = "radioExistingSystem";
-            this.radioExistingSystem.Size = new System.Drawing.Size(251, 24);
-            this.radioExistingSystem.TabIndex = 6;
-            this.radioExistingSystem.TabStop = true;
-            this.radioExistingSystem.Text = "Connect to an existing database";
-            this.radioExistingSystem.UseVisualStyleBackColor = true;
+            this.radioExistingSystem.Size = new System.Drawing.Size(259, 25);
+            this.radioExistingSystem.TabIndex = 3;
+            this.radioExistingSystem.Text = "Connect to Existing Database";
+            this.radioExistingSystem.UseSelectable = true;
             // 
-            // FilePathBox
+            // radioNewSystem
             // 
-            this.FilePathBox.Location = new System.Drawing.Point(196, 208);
-            this.FilePathBox.Name = "FilePathBox";
-            this.FilePathBox.ReadOnly = true;
-            this.FilePathBox.Size = new System.Drawing.Size(379, 20);
-            this.FilePathBox.TabIndex = 7;
+            this.radioNewSystem.AutoSize = true;
+            this.radioNewSystem.FontSize = MetroFramework.MetroCheckBoxSize.Tall;
+            this.radioNewSystem.Location = new System.Drawing.Point(30, 23);
+            this.radioNewSystem.Name = "radioNewSystem";
+            this.radioNewSystem.Size = new System.Drawing.Size(197, 25);
+            this.radioNewSystem.TabIndex = 2;
+            this.radioNewSystem.Text = "Create New Database";
+            this.radioNewSystem.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.radioNewSystem.UseSelectable = true;
             // 
             // FileBrowseButton
             // 
-            this.FileBrowseButton.Location = new System.Drawing.Point(581, 208);
+            this.FileBrowseButton.Location = new System.Drawing.Point(459, 221);
             this.FileBrowseButton.Name = "FileBrowseButton";
-            this.FileBrowseButton.Size = new System.Drawing.Size(27, 21);
-            this.FileBrowseButton.TabIndex = 8;
-            this.FileBrowseButton.Text = "...";
-            this.FileBrowseButton.UseVisualStyleBackColor = true;
+            this.FileBrowseButton.Size = new System.Drawing.Size(27, 24);
+            this.FileBrowseButton.TabIndex = 11;
+            this.FileBrowseButton.Text = ". . .";
+            this.FileBrowseButton.UseSelectable = true;
             this.FileBrowseButton.Click += new System.EventHandler(this.FileBrowseButton_Click);
             // 
-            // groupBox1
+            // NextButton
             // 
-            this.groupBox1.Controls.Add(this.radioExistingSystem);
-            this.groupBox1.Controls.Add(this.radioNewSystem);
-            this.groupBox1.Location = new System.Drawing.Point(152, 78);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(498, 100);
-            this.groupBox1.TabIndex = 9;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = " ";
+            this.NextButton.FontSize = MetroFramework.MetroButtonSize.Tall;
+            this.NextButton.FontWeight = MetroFramework.MetroButtonWeight.Regular;
+            this.NextButton.Location = new System.Drawing.Point(377, 251);
+            this.NextButton.Name = "NextButton";
+            this.NextButton.Size = new System.Drawing.Size(109, 24);
+            this.NextButton.TabIndex = 12;
+            this.NextButton.Text = "Next";
+            this.NextButton.UseSelectable = true;
+            this.NextButton.Click += new System.EventHandler(this.NextButton_Click);
+            // 
+            // metroLabel1
+            // 
+            this.metroLabel1.AutoSize = true;
+            this.metroLabel1.Location = new System.Drawing.Point(30, 221);
+            this.metroLabel1.Name = "metroLabel1";
+            this.metroLabel1.Size = new System.Drawing.Size(61, 19);
+            this.metroLabel1.TabIndex = 13;
+            this.metroLabel1.Text = "File Path:";
+            // 
+            // FilePathBox
+            // 
+            // 
+            // 
+            // 
+            this.FilePathBox.CustomButton.Image = null;
+            this.FilePathBox.CustomButton.Location = new System.Drawing.Point(326, 1);
+            this.FilePathBox.CustomButton.Name = "";
+            this.FilePathBox.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.FilePathBox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.FilePathBox.CustomButton.TabIndex = 1;
+            this.FilePathBox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.FilePathBox.CustomButton.UseSelectable = true;
+            this.FilePathBox.CustomButton.Visible = false;
+            this.FilePathBox.Lines = new string[0];
+            this.FilePathBox.Location = new System.Drawing.Point(105, 221);
+            this.FilePathBox.MaxLength = 32767;
+            this.FilePathBox.Name = "FilePathBox";
+            this.FilePathBox.PasswordChar = '\0';
+            this.FilePathBox.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.FilePathBox.SelectedText = "";
+            this.FilePathBox.SelectionLength = 0;
+            this.FilePathBox.SelectionStart = 0;
+            this.FilePathBox.ShortcutsEnabled = true;
+            this.FilePathBox.Size = new System.Drawing.Size(348, 23);
+            this.FilePathBox.TabIndex = 14;
+            this.FilePathBox.UseSelectable = true;
+            this.FilePathBox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.FilePathBox.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
             // Welcome
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.FileBrowseButton);
+            this.ClientSize = new System.Drawing.Size(510, 296);
             this.Controls.Add(this.FilePathBox);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.metroLabel1);
             this.Controls.Add(this.NextButton);
+            this.Controls.Add(this.FileBrowseButton);
+            this.Controls.Add(this.metroPanel1);
             this.Name = "Welcome";
-            this.Text = "Form1";
+            this.Text = "First Time Setup";
             this.Load += new System.EventHandler(this.Welcome_Load);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.metroPanel1.ResumeLayout(false);
+            this.metroPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Button NextButton;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.RadioButton radioNewSystem;
-        private System.Windows.Forms.RadioButton radioExistingSystem;
-        private System.Windows.Forms.TextBox FilePathBox;
-        private System.Windows.Forms.Button FileBrowseButton;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private MetroFramework.Controls.MetroPanel metroPanel1;
+        private MetroFramework.Controls.MetroRadioButton radioExistingSystem;
+        private MetroFramework.Controls.MetroRadioButton radioNewSystem;
+        private MetroFramework.Controls.MetroButton FileBrowseButton;
+        private MetroFramework.Controls.MetroButton NextButton;
+        private MetroFramework.Controls.MetroLabel metroLabel1;
+        private MetroFramework.Controls.MetroTextBox FilePathBox;
     }
 }
