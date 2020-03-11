@@ -149,7 +149,6 @@
             this.Controls.Add(this.metroPanel1);
             this.Name = "Welcome";
             this.Text = "First Time Setup";
-            this.Load += new System.EventHandler(this.Welcome_Load);
             this.metroPanel1.ResumeLayout(false);
             this.metroPanel1.PerformLayout();
             this.ResumeLayout(false);

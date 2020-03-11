@@ -82,7 +82,7 @@ namespace DataWrangler.Forms
             Program.SwitchForm(new Login(_dbSettings));
         }
 
-        private void Welcome_Load(object sender, EventArgs e)
+        protected override void OnLoad(EventArgs e)
         {
             if (_dbSettings.Count > 0) Program.SwitchForm(new Login(_dbSettings));
         }
