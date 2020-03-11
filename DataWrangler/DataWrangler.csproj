@@ -209,6 +209,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="Forms\EditRecord.resx">
       <DependentUpon>EditRecord.cs</DependentUpon>
@@ -248,6 +249,20 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Assets\Images\download.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Images\edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Images\minus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Images\plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Images\trash.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

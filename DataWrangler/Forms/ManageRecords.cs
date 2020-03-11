@@ -145,6 +145,16 @@ namespace DataWrangler.Forms
             return record;
         }
 
+        private void addRecordMenuItem_Click(object sender, EventArgs e)
+        {
+            var addForm = new EditRecord(_dbSettings, _user, null, _recordTypeSel);
+            var addFormResult = addForm.ShowDialog();
+            if (addFormResult == DialogResult.OK)
+            {
+                RecordGridRefresh();
+            }
+        }
+
         private void editRecordMenuItem_Click(object sender, EventArgs e)
         {
             var rec = GetRecordBySelectedRow(_rowIdxSel);
@@ -189,18 +199,21 @@ namespace DataWrangler.Forms
             if (_recordTypeSel != null && e.Button == MouseButtons.Right)
             {
                 var hitTest = gridRecords.HitTest(e.X, e.Y);
-                
-                if (hitTest.RowIndex < 0)
-                    return;
-                
-                _rowIdxSel = hitTest.RowIndex;
-
-                gridRecords.ClearSelection();
-                gridRecords.Rows[_rowIdxSel].Selected = true;
 
                 var cm = new MetroContextMenu(Container);
-                cm.Items.Add("Edit Record", null, editRecordMenuItem_Click);
-                cm.Items.Add("Delete Record", null, deleteRecordMenuItem_Click);
+                if (hitTest.RowIndex > 0)
+                {
+                    _rowIdxSel = hitTest.RowIndex;
+
+                    gridRecords.ClearSelection();
+                    gridRecords.Rows[_rowIdxSel].Selected = true;
+
+                    cm.Items.Add("Edit Record", Properties.Resources.edit, editRecordMenuItem_Click);
+                    cm.Items.Add("Delete Record", Properties.Resources.trash, deleteRecordMenuItem_Click);
+                    cm.Items.Add("-");
+                }
+
+                cm.Items.Add("Add Record", Properties.Resources.plus, addRecordMenuItem_Click);
 
                 cm.Show(gridRecords, gridRecords.PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)));
             }

@@ -245,7 +245,7 @@ namespace DataWrangler.Forms
                 gridFieldAssignment.Rows[hitTest.RowIndex].Selected = true;
 
                 var cm = new MetroContextMenu(Container);
-                cm.Items.Add("Delete Row", null, deleteToolStrip_Click);
+                cm.Items.Add("Delete Row", Properties.Resources.trash, deleteToolStrip_Click);
 
                 cm.Show(gridFieldAssignment,
                     gridFieldAssignment.PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)));

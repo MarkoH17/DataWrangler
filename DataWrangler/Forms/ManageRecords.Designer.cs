@@ -73,7 +73,7 @@ namespace DataWrangler.Forms
             this.txtRowCnt.CustomButton.Visible = false;
             this.txtRowCnt.Enabled = false;
             this.txtRowCnt.Lines = new string[0];
-            this.txtRowCnt.Location = new System.Drawing.Point(777, 726);
+            this.txtRowCnt.Location = new System.Drawing.Point(904, 514);
             this.txtRowCnt.MaxLength = 32767;
             this.txtRowCnt.Name = "txtRowCnt";
             this.txtRowCnt.PasswordChar = '\0';
@@ -93,7 +93,7 @@ namespace DataWrangler.Forms
             // 
             this.lblCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblCount.AutoSize = true;
-            this.lblCount.Location = new System.Drawing.Point(727, 726);
+            this.lblCount.Location = new System.Drawing.Point(854, 514);
             this.lblCount.Name = "lblCount";
             this.lblCount.Size = new System.Drawing.Size(44, 19);
             this.lblCount.TabIndex = 6;
@@ -107,7 +107,7 @@ namespace DataWrangler.Forms
             this.comboRecType.Location = new System.Drawing.Point(97, 6);
             this.comboRecType.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
             this.comboRecType.Name = "comboRecType";
-            this.comboRecType.Size = new System.Drawing.Size(173, 29);
+            this.comboRecType.Size = new System.Drawing.Size(215, 29);
             this.comboRecType.TabIndex = 7;
             this.comboRecType.UseSelectable = true;
             this.comboRecType.SelectedIndexChanged += new System.EventHandler(this.comboRecType_SelectedIndexChanged);
@@ -140,7 +140,7 @@ namespace DataWrangler.Forms
             // 
             // 
             this.txtFieldSearch.CustomButton.Image = null;
-            this.txtFieldSearch.CustomButton.Location = new System.Drawing.Point(150, 2);
+            this.txtFieldSearch.CustomButton.Location = new System.Drawing.Point(193, 2);
             this.txtFieldSearch.CustomButton.Name = "";
             this.txtFieldSearch.CustomButton.Size = new System.Drawing.Size(29, 29);
             this.txtFieldSearch.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -160,7 +160,7 @@ namespace DataWrangler.Forms
             this.txtFieldSearch.SelectionLength = 0;
             this.txtFieldSearch.SelectionStart = 0;
             this.txtFieldSearch.ShortcutsEnabled = true;
-            this.txtFieldSearch.Size = new System.Drawing.Size(182, 34);
+            this.txtFieldSearch.Size = new System.Drawing.Size(225, 34);
             this.txtFieldSearch.TabIndex = 12;
             this.txtFieldSearch.UseSelectable = true;
             this.txtFieldSearch.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -171,7 +171,7 @@ namespace DataWrangler.Forms
             // 
             this.btnAdvSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnAdvSearch.Enabled = false;
-            this.btnAdvSearch.Location = new System.Drawing.Point(12, 726);
+            this.btnAdvSearch.Location = new System.Drawing.Point(12, 514);
             this.btnAdvSearch.Name = "btnAdvSearch";
             this.btnAdvSearch.Size = new System.Drawing.Size(111, 23);
             this.btnAdvSearch.TabIndex = 13;
@@ -185,7 +185,7 @@ namespace DataWrangler.Forms
             this.lblHorSep1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.lblHorSep1.Location = new System.Drawing.Point(15, 120);
             this.lblHorSep1.Name = "lblHorSep1";
-            this.lblHorSep1.Size = new System.Drawing.Size(835, 2);
+            this.lblHorSep1.Size = new System.Drawing.Size(962, 2);
             this.lblHorSep1.TabIndex = 14;
             // 
             // tableLayoutPanel1
@@ -203,7 +203,7 @@ namespace DataWrangler.Forms
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(838, 46);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(965, 46);
             this.tableLayoutPanel1.TabIndex = 15;
             // 
             // subTblCol3
@@ -214,11 +214,11 @@ namespace DataWrangler.Forms
             this.subTblCol3.Controls.Add(this.lblFieldSearch, 0, 0);
             this.subTblCol3.Controls.Add(this.txtFieldSearch, 1, 0);
             this.subTblCol3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.subTblCol3.Location = new System.Drawing.Point(561, 3);
+            this.subTblCol3.Location = new System.Drawing.Point(645, 3);
             this.subTblCol3.Name = "subTblCol3";
             this.subTblCol3.RowCount = 1;
             this.subTblCol3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.subTblCol3.Size = new System.Drawing.Size(274, 40);
+            this.subTblCol3.Size = new System.Drawing.Size(317, 40);
             this.subTblCol3.TabIndex = 16;
             // 
             // subTblCol1
@@ -233,7 +233,7 @@ namespace DataWrangler.Forms
             this.subTblCol1.Name = "subTblCol1";
             this.subTblCol1.RowCount = 1;
             this.subTblCol1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.subTblCol1.Size = new System.Drawing.Size(273, 40);
+            this.subTblCol1.Size = new System.Drawing.Size(315, 40);
             this.subTblCol1.TabIndex = 16;
             // 
             // lblRecType
@@ -255,11 +255,11 @@ namespace DataWrangler.Forms
             this.subTblCol2.Controls.Add(this.lblField, 0, 0);
             this.subTblCol2.Controls.Add(this.comboField, 1, 0);
             this.subTblCol2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.subTblCol2.Location = new System.Drawing.Point(282, 3);
+            this.subTblCol2.Location = new System.Drawing.Point(324, 3);
             this.subTblCol2.Name = "subTblCol2";
             this.subTblCol2.RowCount = 1;
             this.subTblCol2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.subTblCol2.Size = new System.Drawing.Size(273, 40);
+            this.subTblCol2.Size = new System.Drawing.Size(315, 40);
             this.subTblCol2.TabIndex = 16;
             // 
             // comboField
@@ -271,7 +271,7 @@ namespace DataWrangler.Forms
             this.comboField.Location = new System.Drawing.Point(47, 6);
             this.comboField.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
             this.comboField.Name = "comboField";
-            this.comboField.Size = new System.Drawing.Size(223, 29);
+            this.comboField.Size = new System.Drawing.Size(265, 29);
             this.comboField.TabIndex = 10;
             this.comboField.UseSelectable = true;
             this.comboField.SelectedIndexChanged += new System.EventHandler(this.comboField_SelectedIndexChanged);
@@ -281,10 +281,10 @@ namespace DataWrangler.Forms
             this.lblHorSep2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblHorSep2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblHorSep2.Location = new System.Drawing.Point(12, 716);
+            this.lblHorSep2.Location = new System.Drawing.Point(12, 504);
             this.lblHorSep2.Margin = new System.Windows.Forms.Padding(0);
             this.lblHorSep2.Name = "lblHorSep2";
-            this.lblHorSep2.Size = new System.Drawing.Size(849, 2);
+            this.lblHorSep2.Size = new System.Drawing.Size(976, 2);
             this.lblHorSep2.TabIndex = 16;
             // 
             // gridRecords
@@ -336,7 +336,7 @@ namespace DataWrangler.Forms
             this.gridRecords.RowHeadersVisible = false;
             this.gridRecords.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.gridRecords.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridRecords.Size = new System.Drawing.Size(838, 580);
+            this.gridRecords.Size = new System.Drawing.Size(965, 368);
             this.gridRecords.TabIndex = 4;
             this.gridRecords.VirtualMode = true;
             this.gridRecords.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridRecords_CellDoubleClick);
@@ -347,7 +347,7 @@ namespace DataWrangler.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(873, 762);
+            this.ClientSize = new System.Drawing.Size(1000, 550);
             this.Controls.Add(this.lblHorSep2);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.lblHorSep1);
@@ -355,7 +355,7 @@ namespace DataWrangler.Forms
             this.Controls.Add(this.lblCount);
             this.Controls.Add(this.txtRowCnt);
             this.Controls.Add(this.gridRecords);
-            this.MinimumSize = new System.Drawing.Size(873, 762);
+            this.MinimumSize = new System.Drawing.Size(1000, 550);
             this.Name = "ManageRecords";
             this.Text = "Manage Records";
             this.Load += new System.EventHandler(this.ManageRecords_Load);

@@ -44,8 +44,18 @@ namespace DataWrangler.Forms
             _recordType = recordType;
 
             LoadFields();
-            LoadHistory();
-            LoadAttachments();
+            if (record != null)
+            {
+                LoadHistory();
+                LoadAttachments();
+            }
+            else
+            {
+                Text = "Add Record";
+                tabControl1.TabPages.Remove(tabHistory);
+                tabControl1.TabPages.Remove(tabAttachments);
+            }
+            
             tabControl1.SelectedTab = tabAttributes;
         }
 
@@ -53,13 +63,17 @@ namespace DataWrangler.Forms
         {
             int ctrlCtr = 0;
 
-            txtRecId.Text = _record.Id.ToString();
+            txtRecId.Text = _record != null ? _record.Id.ToString() : "---";
             txtRecType.Text = _recordType.Name;
             
             foreach (var attr in _recordType.Attributes)
             {
                 var attrValue = "";
-                _record.Attributes.TryGetValue(attr.Key, out attrValue);
+                if (_record != null)
+                {
+                    _record.Attributes.TryGetValue(attr.Key, out attrValue);
+                }
+                
 
                 var newLbl = new MetroLabel {Text = _recordType.Attributes[attr.Key]};
                 var newTxtBox = new MetroTextBox {Text = attrValue, Tag = attr.Key};
@@ -138,8 +152,15 @@ namespace DataWrangler.Forms
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            bool needsUpdate = false;
-            //Update Record Object here, and submit to database
+            bool needsDbAction = false;
+
+            if (_record == null)
+            {
+                _record = new Record();
+                _record.Attributes = new Dictionary<string, string>();
+                _record.Active = true;
+            }
+            
             foreach (var ctrl in _txtControls)
             {
                 var attrId = ctrl.Tag.ToString();
@@ -150,7 +171,7 @@ namespace DataWrangler.Forms
 
                 if (!_record.Attributes.ContainsKey(attrId))
                 {
-                    _record.Attributes.Add(attrId, "");
+                    _record.Attributes.Add(attrId, null);
                 }
 
                 var currAttrVal = _record.Attributes[attrId];
@@ -158,25 +179,43 @@ namespace DataWrangler.Forms
                 if (attrVal != currAttrVal)
                 {
                     _record.Attributes[attrId] = attrVal;
-                    needsUpdate = true;
-
+                    needsDbAction = true;
                 }
             }
 
-            if (needsUpdate)
+            if (needsDbAction)
             {
+                StatusObject dbActionStatus;
                 using (var oH = new ObjectHelper(_dbSettings, _user))
                 {
-                    var updateStatus = oH.UpdateRecord(_record);
-                    if (updateStatus.Success)
+                    if (_record.Id == 0)
                     {
-                        DialogResult = DialogResult.OK;
-                        Close();
+                        dbActionStatus = oH.AddRecord(_recordType, _record.Attributes, true);
+                        if (dbActionStatus.Success)
+                        {
+                            DialogResult = DialogResult.OK;
+                            Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Failed to add new record!");
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("Failed to update record!");
+                        dbActionStatus = oH.UpdateRecord(_record);
+                        if (dbActionStatus.Success)
+                        {
+                            DialogResult = DialogResult.OK;
+                            Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Failed to update record!");
+                        }
                     }
+                    
+                    
                 }
             }
             else
@@ -312,12 +351,12 @@ namespace DataWrangler.Forms
                 
                 if (_attachmentsSelIdx > -1)
                 {
-                    cm.Items.Add("Download Attachment", null, downloadAttachmentMenuItem_Click);
-                    cm.Items.Add("Delete Attachment", null, deleteAttachmentMenuItem_Click);
+                    cm.Items.Add("Download Attachment", Properties.Resources.download, downloadAttachmentMenuItem_Click);
+                    cm.Items.Add("Delete Attachment", Properties.Resources.trash, deleteAttachmentMenuItem_Click);
                     cm.Items.Add("-"); //horizontal separator on context menu
                 }
                 
-                cm.Items.Add("Add Attachment", null, addAttachmentMenuItem_Click);
+                cm.Items.Add("Add Attachment", Properties.Resources.plus, addAttachmentMenuItem_Click);
 
                 cm.Show(listAttachments, listAttachments.PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)));
             }
