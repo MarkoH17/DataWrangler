@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace DataWrangler.Forms
 {
-    public partial class Welcome : Form
+    public partial class Welcome : MetroFramework.Forms.MetroForm
     {
         private Dictionary<string, string> _dbSettings;
         private string _userDefinedDbPath;
@@ -86,5 +86,6 @@ namespace DataWrangler.Forms
         {
             if (_dbSettings.Count > 0) Program.SwitchForm(new Login(_dbSettings));
         }
+
     }
 }
