@@ -1,4 +1,6 @@
-﻿namespace DataWrangler.Forms
+﻿using System.Windows.Forms;
+using MetroFramework.Controls;
+namespace DataWrangler.Forms
 {
     partial class Landing
     {
@@ -28,174 +30,248 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnView = new System.Windows.Forms.Button();
-            this.btnImport = new System.Windows.Forms.Button();
-            this.btnManage = new System.Windows.Forms.Button();
-            this.btnOptions = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.comboDatabase = new System.Windows.Forms.ComboBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.panel1.SuspendLayout();
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            this.tileRecords = new MetroFramework.Controls.MetroTile();
+            this.lblRecCount = new System.Windows.Forms.Label();
+            this.tileRecTypes = new MetroFramework.Controls.MetroTile();
+            this.label2 = new System.Windows.Forms.Label();
+            this.metroContextMenu1 = new MetroFramework.Controls.MetroContextMenu(this.components);
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.tileUserAccts = new MetroFramework.Controls.MetroTile();
+            this.label3 = new System.Windows.Forms.Label();
+            this.metroContextMenu2 = new MetroFramework.Controls.MetroContextMenu(this.components);
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.searchRecordsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tileRecords.SuspendLayout();
+            this.tileRecTypes.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            this.tileUserAccts.SuspendLayout();
+            this.metroContextMenu2.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // btnView
+            // tileRecords
             // 
-            this.btnView.BackColor = System.Drawing.Color.Gray;
-            this.btnView.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnView.ForeColor = System.Drawing.Color.Transparent;
-            this.btnView.Location = new System.Drawing.Point(89, 85);
-            this.btnView.Name = "btnView";
-            this.btnView.Size = new System.Drawing.Size(148, 64);
-            this.btnView.TabIndex = 0;
-            this.btnView.Text = "View";
-            this.btnView.UseVisualStyleBackColor = false;
-            this.btnView.Click += new System.EventHandler(this.btnView_Click);
+            this.tileRecords.ActiveControl = null;
+            this.tileRecords.Controls.Add(this.lblRecCount);
+            this.tileRecords.Location = new System.Drawing.Point(69, 98);
+            this.tileRecords.Name = "tileRecords";
+            this.tileRecords.Size = new System.Drawing.Size(139, 121);
+            this.tileRecords.TabIndex = 0;
+            this.tileRecords.Text = "Records";
+            this.tileRecords.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tileRecords.TileImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.tileRecords.TileTextFontSize = MetroFramework.MetroTileTextSize.Tall;
+            this.tileRecords.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Regular;
+            this.tileRecords.UseSelectable = true;
             // 
-            // btnImport
+            // lblRecCount
             // 
-            this.btnImport.BackColor = System.Drawing.Color.Gray;
-            this.btnImport.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnImport.ForeColor = System.Drawing.Color.Transparent;
-            this.btnImport.Location = new System.Drawing.Point(89, 171);
-            this.btnImport.Name = "btnImport";
-            this.btnImport.Size = new System.Drawing.Size(147, 66);
-            this.btnImport.TabIndex = 1;
-            this.btnImport.Text = "Import";
-            this.btnImport.UseVisualStyleBackColor = false;
-            this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
+            this.lblRecCount.AutoSize = true;
+            this.lblRecCount.BackColor = System.Drawing.Color.Transparent;
+            this.lblRecCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRecCount.ForeColor = System.Drawing.Color.White;
+            this.lblRecCount.Location = new System.Drawing.Point(40, 26);
+            this.lblRecCount.Name = "lblRecCount";
+            this.lblRecCount.Size = new System.Drawing.Size(0, 24);
+            this.lblRecCount.TabIndex = 0;
             // 
-            // btnManage
+            // tileRecTypes
             // 
-            this.btnManage.BackColor = System.Drawing.Color.Gray;
-            this.btnManage.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnManage.ForeColor = System.Drawing.Color.Transparent;
-            this.btnManage.Location = new System.Drawing.Point(89, 263);
-            this.btnManage.Name = "btnManage";
-            this.btnManage.Size = new System.Drawing.Size(148, 64);
-            this.btnManage.TabIndex = 2;
-            this.btnManage.Text = "Mange";
-            this.btnManage.UseVisualStyleBackColor = false;
-            this.btnManage.Click += new System.EventHandler(this.btnManage_Click);
+            this.tileRecTypes.ActiveControl = null;
+            this.tileRecTypes.Controls.Add(this.label2);
+            this.tileRecTypes.Location = new System.Drawing.Point(309, 98);
+            this.tileRecTypes.Name = "tileRecTypes";
+            this.tileRecTypes.Size = new System.Drawing.Size(139, 121);
+            this.tileRecTypes.TabIndex = 1;
+            this.tileRecTypes.Text = "Record Types";
+            this.tileRecTypes.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tileRecTypes.TileTextFontSize = MetroFramework.MetroTileTextSize.Tall;
+            this.tileRecTypes.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Regular;
+            this.tileRecTypes.UseSelectable = true;
             // 
-            // btnOptions
+            // label2
             // 
-            this.btnOptions.BackColor = System.Drawing.Color.Gray;
-            this.btnOptions.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOptions.ForeColor = System.Drawing.Color.Transparent;
-            this.btnOptions.Location = new System.Drawing.Point(89, 353);
-            this.btnOptions.Name = "btnOptions";
-            this.btnOptions.Size = new System.Drawing.Size(148, 64);
-            this.btnOptions.TabIndex = 3;
-            this.btnOptions.Text = "Options";
-            this.btnOptions.UseVisualStyleBackColor = false;
-            this.btnOptions.Click += new System.EventHandler(this.btnOptions_Click);
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(56, 36);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(40, 24);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "100";
             // 
-            // label1
+            // metroContextMenu1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(185, 15);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(552, 46);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Welcome back, {{Username}}!";
+            this.metroContextMenu1.Name = "metroContextMenu1";
+            this.metroContextMenu1.Size = new System.Drawing.Size(61, 4);
             // 
-            // pictureBox1
+            // chart1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(608, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(100, 50);
-            this.pictureBox1.TabIndex = 5;
-            this.pictureBox1.TabStop = false;
+            chartArea3.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.chart1.Legends.Add(legend3);
+            this.chart1.Location = new System.Drawing.Point(12, 270);
+            this.chart1.Name = "chart1";
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series3.Legend = "Legend1";
+            series3.Name = "Maps";
+            this.chart1.Series.Add(series3);
+            this.chart1.Size = new System.Drawing.Size(778, 178);
+            this.chart1.TabIndex = 3;
+            this.chart1.Text = "chart1";
             // 
-            // listView1
+            // tileUserAccts
             // 
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(281, 149);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(454, 267);
-            this.listView1.TabIndex = 6;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
+            this.tileUserAccts.ActiveControl = null;
+            this.tileUserAccts.Controls.Add(this.label3);
+            this.tileUserAccts.Location = new System.Drawing.Point(549, 98);
+            this.tileUserAccts.Name = "tileUserAccts";
+            this.tileUserAccts.Size = new System.Drawing.Size(139, 121);
+            this.tileUserAccts.TabIndex = 4;
+            this.tileUserAccts.Text = "User Accounts";
+            this.tileUserAccts.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.tileUserAccts.TileTextFontSize = MetroFramework.MetroTileTextSize.Tall;
+            this.tileUserAccts.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Regular;
+            this.tileUserAccts.UseSelectable = true;
             // 
-            // comboDatabase
+            // label3
             // 
-            this.comboDatabase.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboDatabase.FormattingEnabled = true;
-            this.comboDatabase.Location = new System.Drawing.Point(281, 101);
-            this.comboDatabase.Name = "comboDatabase";
-            this.comboDatabase.Size = new System.Drawing.Size(321, 33);
-            this.comboDatabase.TabIndex = 7;
-            this.comboDatabase.Text = "Select your database...";
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(54, 36);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(40, 24);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "100";
             // 
-            // panel1
+            // metroContextMenu2
             // 
-            this.panel1.Controls.Add(this.textBox1);
-            this.panel1.Location = new System.Drawing.Point(43, 32);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(200, 100);
-            this.panel1.TabIndex = 8;
+            this.metroContextMenu2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.searchRecordsToolStripMenuItem,
+            this.optionsToolStripMenuItem});
+            this.metroContextMenu2.Name = "metroContextMenu2";
+            this.metroContextMenu2.Size = new System.Drawing.Size(155, 70);
             // 
-            // textBox1
+            // fileToolStripMenuItem
             // 
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Location = new System.Drawing.Point(0, 0);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(200, 20);
-            this.textBox1.TabIndex = 9;
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.fileToolStripMenuItem.Text = "File";
             // 
-            // richTextBox1
+            // viewToolStripMenuItem
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(193, 140);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(308, 227);
-            this.richTextBox1.TabIndex = 9;
-            this.richTextBox1.Text = "";
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.helpToolStripMenuItem});
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.viewToolStripMenuItem.Text = "View";
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // searchRecordsToolStripMenuItem
+            // 
+            this.searchRecordsToolStripMenuItem.Name = "searchRecordsToolStripMenuItem";
+            this.searchRecordsToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.searchRecordsToolStripMenuItem.Text = "Search Records";
+            // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.optionsToolStripMenuItem.Text = "Options";
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem1});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(93, 26);
+            // 
+            // fileToolStripMenuItem1
+            // 
+            this.fileToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.viewToolStripMenuItem1});
+            this.fileToolStripMenuItem1.Name = "fileToolStripMenuItem1";
+            this.fileToolStripMenuItem1.Size = new System.Drawing.Size(92, 22);
+            this.fileToolStripMenuItem1.Text = "File";
+            // 
+            // viewToolStripMenuItem1
+            // 
+            this.viewToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.helpToolStripMenuItem1});
+            this.viewToolStripMenuItem1.Name = "viewToolStripMenuItem1";
+            this.viewToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.viewToolStripMenuItem1.Text = "View";
+            // 
+            // helpToolStripMenuItem1
+            // 
+            this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
+            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.helpToolStripMenuItem1.Text = "Help";
+            // 
+            // contextMenuStrip2
+            // 
+            this.contextMenuStrip2.Name = "contextMenuStrip2";
+            this.contextMenuStrip2.Size = new System.Drawing.Size(61, 4);
             // 
             // Landing
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.richTextBox1);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.comboDatabase);
-            this.Controls.Add(this.listView1);
-            this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.btnOptions);
-            this.Controls.Add(this.btnManage);
-            this.Controls.Add(this.btnImport);
-            this.Controls.Add(this.btnView);
+            this.Controls.Add(this.tileUserAccts);
+            this.Controls.Add(this.chart1);
+            this.Controls.Add(this.tileRecTypes);
+            this.Controls.Add(this.tileRecords);
             this.Name = "Landing";
             this.Text = "Data Wrangler Main";
             this.Load += new System.EventHandler(this.LandingScreen_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.tileRecords.ResumeLayout(false);
+            this.tileRecords.PerformLayout();
+            this.tileRecTypes.ResumeLayout(false);
+            this.tileRecTypes.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            this.tileUserAccts.ResumeLayout(false);
+            this.tileUserAccts.PerformLayout();
+            this.metroContextMenu2.ResumeLayout(false);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button btnView;
-        private System.Windows.Forms.Button btnImport;
-        private System.Windows.Forms.Button btnManage;
-        private System.Windows.Forms.Button btnOptions;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.ComboBox comboDatabase;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private MetroTile tileRecords;
+        private MetroTile tileRecTypes;
+        private MetroContextMenu metroContextMenu1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private Label lblRecCount;
+        private MetroTile tileUserAccts;
+        private Label label2;
+        private Label label3;
     }
 }
