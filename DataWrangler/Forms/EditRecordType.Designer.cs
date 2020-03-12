@@ -98,13 +98,11 @@ namespace DataWrangler.Forms
             this.txtRecType.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.txtRecType.CustomButton.UseSelectable = true;
             this.txtRecType.CustomButton.Visible = false;
-            this.txtRecType.Enabled = false;
             this.txtRecType.Lines = new string[0];
             this.txtRecType.Location = new System.Drawing.Point(242, 61);
             this.txtRecType.MaxLength = 32767;
             this.txtRecType.Name = "txtRecType";
             this.txtRecType.PasswordChar = '\0';
-            this.txtRecType.ReadOnly = true;
             this.txtRecType.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.txtRecType.SelectedText = "";
             this.txtRecType.SelectionLength = 0;
@@ -139,13 +137,14 @@ namespace DataWrangler.Forms
             this.tabAttributes.TabIndex = 0;
             this.tabAttributes.Text = "Attributes";
             this.tabAttributes.UseVisualStyleBackColor = true;
-            this.tabAttributes.VerticalScrollbar = true;
             this.tabAttributes.VerticalScrollbarBarColor = true;
             this.tabAttributes.VerticalScrollbarHighlightOnWheel = false;
             this.tabAttributes.VerticalScrollbarSize = 10;
             // 
             // tabControl1
             // 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabAttributes);
             this.tabControl1.Location = new System.Drawing.Point(12, 99);
             this.tabControl1.Name = "tabControl1";
@@ -196,7 +195,6 @@ namespace DataWrangler.Forms
             this.Controls.Add(this.txtRecId);
             this.Controls.Add(this.lblId);
             this.Name = "EditRecordType";
-            this.Resizable = false;
             this.Text = "Edit Record Types";
             this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
