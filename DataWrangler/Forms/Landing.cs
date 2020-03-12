@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using DataWrangler.DBOs;
 using DataWrangler.Properties;
+using DataWrangler.Retrievers;
 using MetroFramework.Forms;
 
 namespace DataWrangler.Forms
@@ -11,33 +12,63 @@ namespace DataWrangler.Forms
     {
         private readonly Dictionary<string, string> _dbSettings;
         private readonly UserAccount _user;
+
         public Landing(Dictionary<string, string> dbSettings, UserAccount user)
         {
             InitializeComponent();
             _dbSettings = dbSettings;
             _user = user;
+            BringToFront();
         }
 
         private void LandingScreen_Load(object sender, EventArgs e)
         {
         }
 
-        private void lblRecord_OnLoad(object sender, EventArgs e)
+        private void tileRecords_Click(object sender, EventArgs e)
         {
-            using(var oH = new ObjectHelper(_dbSettings))
-            {
-                RecordType[] recordTypes = null;
-                var recordTotal = 0;
+            Program.SwitchForm(new ManageRecords(_dbSettings, _user));
+        }
 
-                var recCount = oH.GetRecordTypes();
-                if (recCount.Success) recordTypes = (RecordType[])recCount.Result;
+        private void tileRecTypes_Click(object sender, EventArgs e)
+        {
+            Program.SwitchForm(new ManageRecordTypes(_dbSettings, _user));
+        }
 
-                foreach( var rT in recordTypes)
-                {
-                    recordTotal += 1;
-                }
-                lblRecCount.Text = recordTotal.ToString();
-            }
+        private void tileUserAccts_Click(object sender, EventArgs e)
+        {
+            Program.SwitchForm(new ManageUserAccounts(_dbSettings, _user));
+        }
+
+        private void btnManage_Click(object sender, EventArgs e)
+        {
+            contextManage.Show(btnManage, 0, btnManage.Height);
+        }
+
+        private void btnImport_Click(object sender, EventArgs e)
+        {
+            Program.SwitchForm(new ImportRecords(_dbSettings, _user));
+        }
+
+        private void btnOptions_Click(object sender, EventArgs e)
+        {
+            Program.SwitchForm(new Options(_dbSettings, _user));
+
+        }
+
+        private void btnManageRec_Click(object sender, EventArgs e)
+        {
+            Program.SwitchForm(new ManageRecords(_dbSettings, _user));
+        }
+
+        private void btnManageRecType_Click(object sender, EventArgs e)
+        {
+            Program.SwitchForm(new ManageRecordTypes(_dbSettings, _user));
+        }
+
+        private void btnManageUsers_Click(object sender, EventArgs e)
+        {
+            Program.SwitchForm(new ManageUserAccounts(_dbSettings, _user));
         }
     }
 }

@@ -16,7 +16,7 @@ namespace DataWrangler.Forms
             InitializeComponent();
             _dbSettings = dbSettings;
         }
-
+       
         private void btnLogin_Click(object sender, EventArgs e)
         {
             using (var oH = new ObjectHelper(_dbSettings))

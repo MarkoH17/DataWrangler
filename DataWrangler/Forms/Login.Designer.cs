@@ -36,7 +36,7 @@ namespace DataWrangler.Forms
             this.txtPassword = new MetroFramework.Controls.MetroTextBox();
             this.chckRemember = new MetroFramework.Controls.MetroCheckBox();
             this.chckShowPass = new MetroFramework.Controls.MetroCheckBox();
-            this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
+            this.lblPlease = new MetroFramework.Controls.MetroLabel();
             this.SuspendLayout();
             // 
             // btnLogin
@@ -162,14 +162,14 @@ namespace DataWrangler.Forms
             this.chckShowPass.UseSelectable = true;
             this.chckShowPass.CheckedChanged += new System.EventHandler(this.chckShowPass_CheckedChanged);
             // 
-            // metroLabel1
+            // lblPlease
             // 
-            this.metroLabel1.AutoSize = true;
-            this.metroLabel1.Location = new System.Drawing.Point(169, 109);
-            this.metroLabel1.Name = "metroLabel1";
-            this.metroLabel1.Size = new System.Drawing.Size(120, 19);
-            this.metroLabel1.TabIndex = 7;
-            this.metroLabel1.Text = "Please login below.";
+            this.lblPlease.AutoSize = true;
+            this.lblPlease.Location = new System.Drawing.Point(169, 109);
+            this.lblPlease.Name = "lblPlease";
+            this.lblPlease.Size = new System.Drawing.Size(120, 19);
+            this.lblPlease.TabIndex = 1;
+            this.lblPlease.Text = "Please login below.";
             // 
             // Login
             // 
@@ -177,7 +177,7 @@ namespace DataWrangler.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(541, 367);
-            this.Controls.Add(this.metroLabel1);
+            this.Controls.Add(this.lblPlease);
             this.Controls.Add(this.chckShowPass);
             this.Controls.Add(this.chckRemember);
             this.Controls.Add(this.txtPassword);
@@ -198,6 +198,6 @@ namespace DataWrangler.Forms
         private MetroTextBox txtPassword;
         private MetroCheckBox chckRemember;
         private MetroCheckBox chckShowPass;
-        private MetroLabel metroLabel1;
+        private MetroLabel lblPlease;
     }
 }

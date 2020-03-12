@@ -28,76 +28,168 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataUserInfo = new System.Windows.Forms.DataGridView();
-            this.lblUserManage = new System.Windows.Forms.Label();
-            this.btnSelectUser = new System.Windows.Forms.Button();
-            this.comboSelectUser = new System.Windows.Forms.ComboBox();
-            ((System.ComponentModel.ISupportInitialize)(this.dataUserInfo)).BeginInit();
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.gridUsers = new MetroFramework.Controls.MetroGrid();
+            this.btnSearch = new MetroFramework.Controls.MetroButton();
+            this.userAccountRetrieverBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.columnsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.userAccountBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.activeDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lastUpdatedDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.passwordDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.usernameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.userAccountBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.gridUsers)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.userAccountRetrieverBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.columnsBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.userAccountBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.userAccountBindingSource1)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataUserInfo
+            // gridUsers
             // 
-            this.dataUserInfo.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataUserInfo.Location = new System.Drawing.Point(41, 177);
-            this.dataUserInfo.Name = "dataUserInfo";
-            this.dataUserInfo.Size = new System.Drawing.Size(467, 251);
-            this.dataUserInfo.TabIndex = 7;
+            this.gridUsers.AllowUserToAddRows = false;
+            this.gridUsers.AllowUserToResizeRows = false;
+            this.gridUsers.AutoGenerateColumns = false;
+            this.gridUsers.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.gridUsers.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gridUsers.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.gridUsers.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridUsers.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.gridUsers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridUsers.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.activeDataGridViewCheckBoxColumn,
+            this.idDataGridViewTextBoxColumn,
+            this.lastUpdatedDataGridViewTextBoxColumn,
+            this.passwordDataGridViewTextBoxColumn,
+            this.usernameDataGridViewTextBoxColumn});
+            this.gridUsers.DataSource = this.userAccountBindingSource1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridUsers.DefaultCellStyle = dataGridViewCellStyle2;
+            this.gridUsers.EnableHeadersVisualStyles = false;
+            this.gridUsers.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.gridUsers.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.gridUsers.Location = new System.Drawing.Point(23, 166);
+            this.gridUsers.Name = "gridUsers";
+            this.gridUsers.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridUsers.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.gridUsers.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.gridUsers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.gridUsers.Size = new System.Drawing.Size(520, 259);
+            this.gridUsers.TabIndex = 0;
+            this.gridUsers.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.PopulateGrid);
             // 
-            // lblUserManage
+            // btnSearch
             // 
-            this.lblUserManage.AutoSize = true;
-            this.lblUserManage.Font = new System.Drawing.Font("Bernard MT Condensed", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUserManage.Location = new System.Drawing.Point(105, 9);
-            this.lblUserManage.Name = "lblUserManage";
-            this.lblUserManage.Size = new System.Drawing.Size(347, 57);
-            this.lblUserManage.TabIndex = 6;
-            this.lblUserManage.Text = "User Management";
+            this.btnSearch.Location = new System.Drawing.Point(419, 101);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(102, 29);
+            this.btnSearch.TabIndex = 2;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.UseSelectable = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
-            // btnSelectUser
+            // userAccountRetrieverBindingSource
             // 
-            this.btnSelectUser.BackColor = System.Drawing.Color.Gray;
-            this.btnSelectUser.Font = new System.Drawing.Font("Book Antiqua", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSelectUser.ForeColor = System.Drawing.Color.Transparent;
-            this.btnSelectUser.Location = new System.Drawing.Point(433, 114);
-            this.btnSelectUser.Name = "btnSelectUser";
-            this.btnSelectUser.Size = new System.Drawing.Size(75, 23);
-            this.btnSelectUser.TabIndex = 5;
-            this.btnSelectUser.Text = "Select User";
-            this.btnSelectUser.UseVisualStyleBackColor = false;
+            this.userAccountRetrieverBindingSource.DataSource = typeof(DataWrangler.Retrievers.UserAccountRetriever);
             // 
-            // comboSelectUser
+            // columnsBindingSource
             // 
-            this.comboSelectUser.Font = new System.Drawing.Font("Book Antiqua", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboSelectUser.FormattingEnabled = true;
-            this.comboSelectUser.Location = new System.Drawing.Point(41, 114);
-            this.comboSelectUser.Name = "comboSelectUser";
-            this.comboSelectUser.Size = new System.Drawing.Size(371, 23);
-            this.comboSelectUser.TabIndex = 4;
-            this.comboSelectUser.Text = "Select a user...";
+            this.columnsBindingSource.DataMember = "Columns";
+            this.columnsBindingSource.DataSource = this.userAccountRetrieverBindingSource;
             // 
-            // UserManage
+            // userAccountBindingSource
+            // 
+            this.userAccountBindingSource.DataSource = typeof(DataWrangler.DBOs.UserAccount);
+            // 
+            // activeDataGridViewCheckBoxColumn
+            // 
+            this.activeDataGridViewCheckBoxColumn.DataPropertyName = "Active";
+            this.activeDataGridViewCheckBoxColumn.HeaderText = "Active";
+            this.activeDataGridViewCheckBoxColumn.Name = "activeDataGridViewCheckBoxColumn";
+            // 
+            // idDataGridViewTextBoxColumn
+            // 
+            this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
+            this.idDataGridViewTextBoxColumn.HeaderText = "Id";
+            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
+            // 
+            // lastUpdatedDataGridViewTextBoxColumn
+            // 
+            this.lastUpdatedDataGridViewTextBoxColumn.DataPropertyName = "LastUpdated";
+            this.lastUpdatedDataGridViewTextBoxColumn.HeaderText = "LastUpdated";
+            this.lastUpdatedDataGridViewTextBoxColumn.Name = "lastUpdatedDataGridViewTextBoxColumn";
+            // 
+            // passwordDataGridViewTextBoxColumn
+            // 
+            this.passwordDataGridViewTextBoxColumn.DataPropertyName = "Password";
+            this.passwordDataGridViewTextBoxColumn.HeaderText = "Password";
+            this.passwordDataGridViewTextBoxColumn.Name = "passwordDataGridViewTextBoxColumn";
+            // 
+            // usernameDataGridViewTextBoxColumn
+            // 
+            this.usernameDataGridViewTextBoxColumn.DataPropertyName = "Username";
+            this.usernameDataGridViewTextBoxColumn.HeaderText = "Username";
+            this.usernameDataGridViewTextBoxColumn.Name = "usernameDataGridViewTextBoxColumn";
+            // 
+            // userAccountBindingSource1
+            // 
+            this.userAccountBindingSource1.DataSource = typeof(DataWrangler.DBOs.UserAccount);
+            // 
+            // ManageUserAccounts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Gainsboro;
             this.ClientSize = new System.Drawing.Size(566, 448);
-            this.Controls.Add(this.dataUserInfo);
-            this.Controls.Add(this.lblUserManage);
-            this.Controls.Add(this.btnSelectUser);
-            this.Controls.Add(this.comboSelectUser);
-            this.Name = "UserManage";
-            this.Text = "UserManage";
-            ((System.ComponentModel.ISupportInitialize)(this.dataUserInfo)).EndInit();
+            this.Controls.Add(this.btnSearch);
+            this.Controls.Add(this.gridUsers);
+            this.Name = "ManageUserAccounts";
+            this.Text = "User Management";
+            ((System.ComponentModel.ISupportInitialize)(this.gridUsers)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.userAccountRetrieverBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.columnsBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.userAccountBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.userAccountBindingSource1)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataUserInfo;
-        private System.Windows.Forms.Label lblUserManage;
-        private System.Windows.Forms.Button btnSelectUser;
-        private System.Windows.Forms.ComboBox comboSelectUser;
+        private MetroFramework.Controls.MetroGrid gridUsers;
+        private MetroFramework.Controls.MetroButton btnSearch;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn activeDataGridViewCheckBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn idDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn lastUpdatedDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn passwordDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn usernameDataGridViewTextBoxColumn;
+        private System.Windows.Forms.BindingSource userAccountBindingSource1;
+        private System.Windows.Forms.BindingSource userAccountRetrieverBindingSource;
+        private System.Windows.Forms.BindingSource columnsBindingSource;
+        private System.Windows.Forms.BindingSource userAccountBindingSource;
     }
 }
