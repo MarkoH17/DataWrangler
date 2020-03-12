@@ -137,13 +137,14 @@ namespace DataWrangler.Forms
             this.tabAttributes.TabIndex = 0;
             this.tabAttributes.Text = "Attributes";
             this.tabAttributes.UseVisualStyleBackColor = true;
+            this.tabAttributes.VerticalScrollbar = true;
             this.tabAttributes.VerticalScrollbarBarColor = true;
             this.tabAttributes.VerticalScrollbarHighlightOnWheel = false;
             this.tabAttributes.VerticalScrollbarSize = 10;
             // 
             // tabControl1
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabAttributes);
             this.tabControl1.Location = new System.Drawing.Point(12, 99);
@@ -155,6 +156,7 @@ namespace DataWrangler.Forms
             // 
             // btnUpdate
             // 
+            this.btnUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnUpdate.Location = new System.Drawing.Point(353, 431);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(75, 23);
@@ -165,6 +167,7 @@ namespace DataWrangler.Forms
             // 
             // btnCancel
             // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.Location = new System.Drawing.Point(272, 431);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
@@ -194,8 +197,10 @@ namespace DataWrangler.Forms
             this.Controls.Add(this.txtRecType);
             this.Controls.Add(this.txtRecId);
             this.Controls.Add(this.lblId);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "EditRecordType";
-            this.Text = "Edit Record Types";
+            this.Text = "Edit Record Type";
             this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -59,9 +59,9 @@ namespace DataWrangler.Forms
             // 
             // 
             this.txtUserName.CustomButton.Image = null;
-            this.txtUserName.CustomButton.Location = new System.Drawing.Point(149, 2);
+            this.txtUserName.CustomButton.Location = new System.Drawing.Point(145, 1);
             this.txtUserName.CustomButton.Name = "";
-            this.txtUserName.CustomButton.Size = new System.Drawing.Size(15, 15);
+            this.txtUserName.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.txtUserName.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.txtUserName.CustomButton.TabIndex = 1;
             this.txtUserName.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -83,7 +83,7 @@ namespace DataWrangler.Forms
             this.txtUserName.SelectionLength = 0;
             this.txtUserName.SelectionStart = 0;
             this.txtUserName.ShortcutsEnabled = true;
-            this.txtUserName.Size = new System.Drawing.Size(167, 20);
+            this.txtUserName.Size = new System.Drawing.Size(167, 23);
             this.txtUserName.TabIndex = 2;
             this.txtUserName.Text = "Username";
             this.txtUserName.UseSelectable = true;
@@ -97,10 +97,10 @@ namespace DataWrangler.Forms
             // 
             // 
             this.txtPassword.CustomButton.Image = null;
-            this.txtPassword.CustomButton.Location = new System.Drawing.Point(149, 2);
+            this.txtPassword.CustomButton.Location = new System.Drawing.Point(145, 1);
             this.txtPassword.CustomButton.Name = "";
             this.txtPassword.CustomButton.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
-            this.txtPassword.CustomButton.Size = new System.Drawing.Size(15, 15);
+            this.txtPassword.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.txtPassword.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.txtPassword.CustomButton.TabIndex = 1;
             this.txtPassword.CustomButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -124,7 +124,7 @@ namespace DataWrangler.Forms
             this.txtPassword.SelectionLength = 0;
             this.txtPassword.SelectionStart = 0;
             this.txtPassword.ShortcutsEnabled = true;
-            this.txtPassword.Size = new System.Drawing.Size(167, 20);
+            this.txtPassword.Size = new System.Drawing.Size(167, 23);
             this.txtPassword.TabIndex = 3;
             this.txtPassword.Text = "Password";
             this.txtPassword.UseSelectable = true;
@@ -139,7 +139,7 @@ namespace DataWrangler.Forms
             this.chckRemember.AutoSize = true;
             this.chckRemember.BackColor = System.Drawing.Color.Gainsboro;
             this.chckRemember.ForeColor = System.Drawing.Color.Black;
-            this.chckRemember.Location = new System.Drawing.Point(184, 206);
+            this.chckRemember.Location = new System.Drawing.Point(184, 210);
             this.chckRemember.Name = "chckRemember";
             this.chckRemember.Size = new System.Drawing.Size(137, 15);
             this.chckRemember.TabIndex = 5;
@@ -154,7 +154,7 @@ namespace DataWrangler.Forms
             this.chckShowPass.Checked = true;
             this.chckShowPass.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chckShowPass.ForeColor = System.Drawing.Color.Black;
-            this.chckShowPass.Location = new System.Drawing.Point(184, 229);
+            this.chckShowPass.Location = new System.Drawing.Point(184, 231);
             this.chckShowPass.Name = "chckShowPass";
             this.chckShowPass.Size = new System.Drawing.Size(105, 15);
             this.chckShowPass.TabIndex = 6;

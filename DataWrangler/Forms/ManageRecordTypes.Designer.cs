@@ -77,6 +77,7 @@
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.RecordTypeGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.RecordTypeGridView.RowHeadersVisible = false;
             this.RecordTypeGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.RecordTypeGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.RecordTypeGridView.Size = new System.Drawing.Size(754, 334);

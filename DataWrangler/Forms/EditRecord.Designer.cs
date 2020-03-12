@@ -310,6 +310,8 @@ namespace DataWrangler.Forms
             this.Controls.Add(this.txtRecType);
             this.Controls.Add(this.txtRecId);
             this.Controls.Add(this.lblId);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "EditRecord";
             this.Resizable = false;
             this.Text = "Edit Record";
