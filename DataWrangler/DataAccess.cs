@@ -341,6 +341,20 @@ namespace DataWrangler
             }
         }
 
+        public StatusObject GetDbSize()
+        {
+            try
+            {
+                var cmd = "SELECT dataFileSize FROM $database;";
+                var result = _db.Execute(cmd);
+                return GetStatusObject(StatusObject.OperationTypes.System, result.Current, true);
+            }
+            catch (LiteException e)
+            {
+                return GetStatusObject(StatusObject.OperationTypes.System, e, false);
+            }
+        }
+
         public StatusObject GetObjectByFieldSearch<T>(string searchField, string searchValue, string colName = null)
         {
             try

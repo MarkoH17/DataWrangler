@@ -163,6 +163,11 @@ namespace DataWrangler
             return _dA.GetCountOfAuditEntryByObj(objLookupCol, objId);
         }
 
+        public StatusObject GetDbSize()
+        {
+            return _dA.GetDbSize();
+        }
+
         public StatusObject GetRecordAuditEntries(RecordType rT, int objectId, int skip = 0, int limit = DefaultRecordSetSize)
         {
             return _dA.GetAuditEntriesByObjId<Record>(objectId, skip, limit, "Record_" + rT.Id);

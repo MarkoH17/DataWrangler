@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using LiteDB;
 
 namespace DataWrangler.Forms
 {
@@ -22,8 +23,35 @@ namespace DataWrangler.Forms
             _dbSettings = dbSettings;
             _user = user;
            
-            //this.DatabaseSizeLabel = _dbSettings
-            DatabasePathLabelText.Text = _dbSettings["dbFilePath"].ToString();
+            
+            LoadValues();
+            
+        }
+
+        private void LoadValues()
+        {
+            var dbFilePath = "";
+            if (_dbSettings != null)
+            {
+                _dbSettings.TryGetValue("dbFilePath", out dbFilePath);
+            }
+
+            DatabasePathLabelText.Text = dbFilePath;
+
+            var dbSize = 0;
+            using (var oH = new ObjectHelper(_dbSettings, _user))
+            {
+                var fetchSizeStatus = oH.GetDbSize();
+                if (fetchSizeStatus.Success)
+                {
+                    var fetchResult = (BsonDocument) fetchSizeStatus.Result;
+                    fetchResult.TryGetValue("dataFileSize", out var dbSizeVal);
+                    if (dbSizeVal != null)
+                        dbSize = dbSizeVal.AsInt32;
+                }
+            }
+
+            DatabaseSizeLabel.Text = dbSize.ToString();
         }
 
         private void rebuildDatabaseButton_Click(object sender, EventArgs e)
