@@ -58,20 +58,11 @@ namespace DataWrangler.Forms
             base.OnLoad(e);
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
         private void RecordTypeGridView_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
         {
             e.Value = _dataCache.RetrieveElement(e.RowIndex, e.ColumnIndex);
         }
 
-        private void EditRecordTypeButton_Click(object sender, EventArgs e)
-        {
-
-        }
         private RecordType GetRecordTypeBySelectedRow(int rowIdx)
         {
             if (rowIdx < 0) return null;
@@ -94,6 +85,16 @@ namespace DataWrangler.Forms
 
         private void addRecordTypeMenuItem_Click(object sender, EventArgs e)
         {
+            var addForm = new EditRecordType(_dbSettings, _user, null);
+            var addFormResult = addForm.ShowDialog();
+            if (addFormResult == DialogResult.OK)
+            {
+                RecordTypeGridRefresh();
+            }
+        }
+
+        private void editRecordTypeMenuItem_Click(object sender, EventArgs e)
+        {
             var recType = GetRecordTypeBySelectedRow(_rowIdxSel);
             if(recType != null)
             {
@@ -101,6 +102,30 @@ namespace DataWrangler.Forms
                 var editFormResult = editForm.ShowDialog();
                 if (editFormResult == DialogResult.OK)
                 {
+                    RecordTypeGridRefresh();
+                }
+            }
+        }
+
+        private void deleteRecordTypeMenuItem_Click(object sender, EventArgs e)
+        {
+            var recType = GetRecordTypeBySelectedRow(_rowIdxSel);
+            if (recType != null)
+            {
+                var confirm = MessageBox.Show("DataWrangler Confirmation", "Are you sure you wish to delete this record type? (orphaned records will also be deleted!)",
+                    MessageBoxButtons.YesNoCancel);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    using (var oH = new ObjectHelper(_dbSettings, _user))
+                    {
+                        var deleteStatus = oH.DeleteRecordType(recType, true);
+                        if (!deleteStatus.Success)
+                        {
+                            MessageBox.Show("DataWrangler Error",
+                                "An error occured when deleting a record type.\n Error: " + deleteStatus.Result);
+                        }
+                    }
                     RecordTypeGridRefresh();
                 }
             }
@@ -116,6 +141,7 @@ namespace DataWrangler.Forms
 
         private void RefreshVisibleRows()
         {
+            if (RecordTypeGridView.RowCount < 1) return;
             var firstRowIdx = RecordTypeGridView.FirstDisplayedCell.RowIndex;
             var lastRowIdx = (firstRowIdx + RecordTypeGridView.DisplayedRowCount(true)) - 1;
 
@@ -133,21 +159,35 @@ namespace DataWrangler.Forms
                 var hitTest = RecordTypeGridView.HitTest(e.X, e.Y);
 
                 var cm = new MetroContextMenu(Container);
-                if (hitTest.RowIndex > 0)
+                if (hitTest.RowIndex > -1)
                 {
                     _rowIdxSel = hitTest.RowIndex;
 
                     RecordTypeGridView.ClearSelection();
                     RecordTypeGridView.Rows[_rowIdxSel].Selected = true;
 
-                    //cm.Items.Add("Edit Record", Properties.Resources.edit, editRecordMenuItem_Click);
-                    //cm.Items.Add("Delete Record", Properties.Resources.trash, deleteRecordMenuItem_Click);
-                    //cm.Items.Add("-");
+                    cm.Items.Add("Edit Type", Properties.Resources.edit, editRecordTypeMenuItem_Click);
+                    cm.Items.Add("Delete Type", Properties.Resources.trash, deleteRecordTypeMenuItem_Click);
+                    cm.Items.Add("-");
                 }
 
-                cm.Items.Add("Add Record", Properties.Resources.plus, addRecordTypeMenuItem_Click);
+                cm.Items.Add("Add Type", Properties.Resources.plus, addRecordTypeMenuItem_Click);
 
                 cm.Show(RecordTypeGridView, RecordTypeGridView.PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)));
+            }
+        }
+
+        private void RecordTypeGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var recType = GetRecordTypeBySelectedRow(e.RowIndex);
+            if (recType != null)
+            {
+                var editForm = new EditRecordType(_dbSettings, _user, recType);
+                var editFormResult = editForm.ShowDialog();
+                if (editFormResult == DialogResult.OK)
+                {
+                    RecordTypeGridRefresh();
+                }
             }
         }
     }

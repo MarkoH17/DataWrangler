@@ -98,13 +98,11 @@ namespace DataWrangler.Forms
             this.txtRecType.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
             this.txtRecType.CustomButton.UseSelectable = true;
             this.txtRecType.CustomButton.Visible = false;
-            this.txtRecType.Enabled = false;
             this.txtRecType.Lines = new string[0];
             this.txtRecType.Location = new System.Drawing.Point(242, 61);
             this.txtRecType.MaxLength = 32767;
             this.txtRecType.Name = "txtRecType";
             this.txtRecType.PasswordChar = '\0';
-            this.txtRecType.ReadOnly = true;
             this.txtRecType.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.txtRecType.SelectedText = "";
             this.txtRecType.SelectionLength = 0;
@@ -146,6 +144,8 @@ namespace DataWrangler.Forms
             // 
             // tabControl1
             // 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabAttributes);
             this.tabControl1.Location = new System.Drawing.Point(12, 99);
             this.tabControl1.Name = "tabControl1";
@@ -156,6 +156,7 @@ namespace DataWrangler.Forms
             // 
             // btnUpdate
             // 
+            this.btnUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnUpdate.Location = new System.Drawing.Point(353, 431);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(75, 23);
@@ -166,6 +167,7 @@ namespace DataWrangler.Forms
             // 
             // btnCancel
             // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.Location = new System.Drawing.Point(272, 431);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
@@ -195,9 +197,10 @@ namespace DataWrangler.Forms
             this.Controls.Add(this.txtRecType);
             this.Controls.Add(this.txtRecId);
             this.Controls.Add(this.lblId);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "EditRecordType";
-            this.Resizable = false;
-            this.Text = "Edit Record Types";
+            this.Text = "Edit Record Type";
             this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
