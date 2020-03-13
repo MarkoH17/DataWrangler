@@ -194,6 +194,38 @@ namespace DataWrangler
             return _dA.GetCountOfObjByExpr<Record>(expr, "Record_" + rT.Id);
         }
 
+        public StatusObject GetRecordCounts()
+        {
+            var sizeResults = new Dictionary<string, int>();
+            var fetchRecordTypesStatus = GetRecordTypes(0, int.MaxValue);
+            if (fetchRecordTypesStatus.Success)
+            {
+                RecordType[] recordTypes = null;
+                
+                if(fetchRecordTypesStatus.Result != null)
+                    recordTypes = (RecordType[]) fetchRecordTypesStatus.Result;
+
+                foreach (var rT in recordTypes)
+                {
+                    var fetchCountStatus = GetRecordCountByRecordType(rT);
+                    if (fetchCountStatus.Success)
+                    {
+                        sizeResults.Add(rT.Name, (int)fetchCountStatus.Result);
+                    }
+                    else
+                    {
+                        return fetchCountStatus;
+                    }
+                }
+            }
+            else
+            {
+                return fetchRecordTypesStatus;
+            }
+
+            return _dA.GetStatusObject(StatusObject.OperationTypes.Read, sizeResults, true);
+        }
+
         public StatusObject GetRecordsByGlobalSearch(RecordType rT, string searchValue, int skip = 0,
             int limit = DefaultRecordSetSize)
         {
