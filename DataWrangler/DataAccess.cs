@@ -259,25 +259,6 @@ namespace DataWrangler
             }
         }
 
-        public StatusObject GetAuditEntriesByRecord(Record r, int skip, int limit)
-        {
-            try
-            {
-                var collection = _getCollection<AuditEntry>();
-                var result = collection
-                    .Include(x => x.User)
-                    .FindAll()
-                    .OrderByDescending(x => x.Date).Skip(skip).Take(limit)
-                    .Where(x => x.ObjectLookupCol.Equals(_getCollection<Record>("Record_" + r.Id).Name) && x.ObjectId == r.Id)
-                    .ToArray();
-                return GetStatusObject(StatusObject.OperationTypes.Read, result, true);
-            }
-            catch (LiteException e)
-            {
-                return GetStatusObject(StatusObject.OperationTypes.Read, e, false);
-            }
-        }
-
         public StatusObject GetCountOfObj<T>(string colName = null)
         {
             try
