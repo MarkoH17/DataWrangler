@@ -119,11 +119,15 @@ namespace DataWrangler.Forms
                 {
                     using (var oH = new ObjectHelper(_dbSettings, _user))
                     {
-                        var deleteStatus = oH.DeleteRecordType(recType, true);
+                        var countStatus = oH.GetRecordCountByRecordType(recType);
+                        var deleteOrphans = (int) countStatus.Result > 0;
+
+                        var deleteStatus = oH.DeleteRecordType(recType, deleteOrphans);
                         if (!deleteStatus.Success)
                         {
                             MessageBox.Show("DataWrangler Error",
                                 "An error occured when deleting a record type.\n Error: " + deleteStatus.Result);
+                            return;
                         }
                     }
                     RecordTypeGridRefresh();

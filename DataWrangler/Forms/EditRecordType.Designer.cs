@@ -36,10 +36,12 @@ namespace DataWrangler.Forms
             this.txtRecType = new MetroFramework.Controls.MetroTextBox();
             this.lblTypeId = new MetroFramework.Controls.MetroLabel();
             this.tabAttributes = new MetroFramework.Controls.MetroTabPage();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tabControl1 = new MetroFramework.Controls.MetroTabControl();
             this.btnUpdate = new MetroFramework.Controls.MetroButton();
             this.btnCancel = new MetroFramework.Controls.MetroButton();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
+            this.tabAttributes.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -126,6 +128,7 @@ namespace DataWrangler.Forms
             // tabAttributes
             // 
             this.tabAttributes.AutoScroll = true;
+            this.tabAttributes.Controls.Add(this.tableLayoutPanel1);
             this.tabAttributes.HorizontalScrollbar = true;
             this.tabAttributes.HorizontalScrollbarBarColor = true;
             this.tabAttributes.HorizontalScrollbarHighlightOnWheel = false;
@@ -141,6 +144,19 @@ namespace DataWrangler.Forms
             this.tabAttributes.VerticalScrollbarBarColor = true;
             this.tabAttributes.VerticalScrollbarHighlightOnWheel = false;
             this.tabAttributes.VerticalScrollbarSize = 10;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 260F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 278F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(402, 278);
+            this.tableLayoutPanel1.TabIndex = 2;
             // 
             // tabControl1
             // 
@@ -201,6 +217,7 @@ namespace DataWrangler.Forms
             this.MinimizeBox = false;
             this.Name = "EditRecordType";
             this.Text = "Edit Record Type";
+            this.tabAttributes.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -217,5 +234,6 @@ namespace DataWrangler.Forms
         private MetroButton btnUpdate;
         private MetroButton btnCancel;
         private MetroLabel metroLabel1;
+        private TableLayoutPanel tableLayoutPanel1;
     }
 }
