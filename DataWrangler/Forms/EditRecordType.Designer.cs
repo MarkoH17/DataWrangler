@@ -31,28 +31,35 @@ namespace DataWrangler.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblId = new MetroFramework.Controls.MetroLabel();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.lblRecTypeId = new MetroFramework.Controls.MetroLabel();
             this.txtRecId = new MetroFramework.Controls.MetroTextBox();
-            this.txtRecType = new MetroFramework.Controls.MetroTextBox();
-            this.lblTypeId = new MetroFramework.Controls.MetroLabel();
+            this.txtRecTypeName = new MetroFramework.Controls.MetroTextBox();
+            this.lblTypeName = new MetroFramework.Controls.MetroLabel();
             this.tabAttributes = new MetroFramework.Controls.MetroTabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tabControl1 = new MetroFramework.Controls.MetroTabControl();
+            this.tabHistory = new System.Windows.Forms.TabPage();
+            this.gridAuditHistory = new MetroFramework.Controls.MetroGrid();
             this.btnUpdate = new MetroFramework.Controls.MetroButton();
             this.btnCancel = new MetroFramework.Controls.MetroButton();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
             this.tabAttributes.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.tabHistory.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridAuditHistory)).BeginInit();
             this.SuspendLayout();
             // 
-            // lblId
+            // lblRecTypeId
             // 
-            this.lblId.AutoSize = true;
-            this.lblId.Location = new System.Drawing.Point(12, 62);
-            this.lblId.Name = "lblId";
-            this.lblId.Size = new System.Drawing.Size(67, 19);
-            this.lblId.TabIndex = 1;
-            this.lblId.Text = "Record ID";
+            this.lblRecTypeId.AutoSize = true;
+            this.lblRecTypeId.Location = new System.Drawing.Point(12, 62);
+            this.lblRecTypeId.Name = "lblRecTypeId";
+            this.lblRecTypeId.Size = new System.Drawing.Size(67, 19);
+            this.lblRecTypeId.TabIndex = 1;
+            this.lblRecTypeId.Text = "Record ID";
             // 
             // txtRecId
             // 
@@ -86,44 +93,47 @@ namespace DataWrangler.Forms
             this.txtRecId.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtRecId.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
-            // txtRecType
+            // txtRecTypeName
+            // 
+            this.txtRecTypeName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             // 
             // 
             // 
+            this.txtRecTypeName.CustomButton.Image = null;
+            this.txtRecTypeName.CustomButton.Location = new System.Drawing.Point(153, 1);
+            this.txtRecTypeName.CustomButton.Name = "";
+            this.txtRecTypeName.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.txtRecTypeName.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.txtRecTypeName.CustomButton.TabIndex = 1;
+            this.txtRecTypeName.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.txtRecTypeName.CustomButton.UseSelectable = true;
+            this.txtRecTypeName.CustomButton.Visible = false;
+            this.txtRecTypeName.Lines = new string[0];
+            this.txtRecTypeName.Location = new System.Drawing.Point(242, 61);
+            this.txtRecTypeName.MaxLength = 32767;
+            this.txtRecTypeName.Name = "txtRecTypeName";
+            this.txtRecTypeName.PasswordChar = '\0';
+            this.txtRecTypeName.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.txtRecTypeName.SelectedText = "";
+            this.txtRecTypeName.SelectionLength = 0;
+            this.txtRecTypeName.SelectionStart = 0;
+            this.txtRecTypeName.ShortcutsEnabled = true;
+            this.txtRecTypeName.Size = new System.Drawing.Size(175, 23);
+            this.txtRecTypeName.TabIndex = 3;
+            this.txtRecTypeName.UseSelectable = true;
+            this.txtRecTypeName.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.txtRecTypeName.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.txtRecTypeName.TextChanged += new System.EventHandler(this.txtRecType_TextChanged);
             // 
-            this.txtRecType.CustomButton.Image = null;
-            this.txtRecType.CustomButton.Location = new System.Drawing.Point(153, 1);
-            this.txtRecType.CustomButton.Name = "";
-            this.txtRecType.CustomButton.Size = new System.Drawing.Size(21, 21);
-            this.txtRecType.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.txtRecType.CustomButton.TabIndex = 1;
-            this.txtRecType.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.txtRecType.CustomButton.UseSelectable = true;
-            this.txtRecType.CustomButton.Visible = false;
-            this.txtRecType.Lines = new string[0];
-            this.txtRecType.Location = new System.Drawing.Point(242, 61);
-            this.txtRecType.MaxLength = 32767;
-            this.txtRecType.Name = "txtRecType";
-            this.txtRecType.PasswordChar = '\0';
-            this.txtRecType.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.txtRecType.SelectedText = "";
-            this.txtRecType.SelectionLength = 0;
-            this.txtRecType.SelectionStart = 0;
-            this.txtRecType.ShortcutsEnabled = true;
-            this.txtRecType.Size = new System.Drawing.Size(175, 23);
-            this.txtRecType.TabIndex = 3;
-            this.txtRecType.UseSelectable = true;
-            this.txtRecType.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.txtRecType.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // lblTypeName
             // 
-            // lblTypeId
-            // 
-            this.lblTypeId.AutoSize = true;
-            this.lblTypeId.Location = new System.Drawing.Point(154, 62);
-            this.lblTypeId.Name = "lblTypeId";
-            this.lblTypeId.Size = new System.Drawing.Size(82, 19);
-            this.lblTypeId.TabIndex = 4;
-            this.lblTypeId.Text = "Record Type";
+            this.lblTypeName.AutoSize = true;
+            this.lblTypeName.Location = new System.Drawing.Point(154, 62);
+            this.lblTypeName.Name = "lblTypeName";
+            this.lblTypeName.Size = new System.Drawing.Size(76, 19);
+            this.lblTypeName.TabIndex = 4;
+            this.lblTypeName.Text = "Type Name";
             // 
             // tabAttributes
             // 
@@ -160,15 +170,79 @@ namespace DataWrangler.Forms
             // 
             // tabControl1
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabAttributes);
+            this.tabControl1.Controls.Add(this.tabHistory);
             this.tabControl1.Location = new System.Drawing.Point(12, 99);
             this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.SelectedIndex = 1;
             this.tabControl1.Size = new System.Drawing.Size(416, 326);
             this.tabControl1.TabIndex = 5;
             this.tabControl1.UseSelectable = true;
+            // 
+            // tabHistory
+            // 
+            this.tabHistory.Controls.Add(this.gridAuditHistory);
+            this.tabHistory.Location = new System.Drawing.Point(4, 38);
+            this.tabHistory.Name = "tabHistory";
+            this.tabHistory.Size = new System.Drawing.Size(408, 284);
+            this.tabHistory.TabIndex = 1;
+            this.tabHistory.Text = "History";
+            // 
+            // gridAuditHistory
+            // 
+            this.gridAuditHistory.AllowUserToAddRows = false;
+            this.gridAuditHistory.AllowUserToDeleteRows = false;
+            this.gridAuditHistory.AllowUserToResizeColumns = false;
+            this.gridAuditHistory.AllowUserToResizeRows = false;
+            this.gridAuditHistory.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.gridAuditHistory.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.gridAuditHistory.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gridAuditHistory.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.gridAuditHistory.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridAuditHistory.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.gridAuditHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridAuditHistory.DefaultCellStyle = dataGridViewCellStyle2;
+            this.gridAuditHistory.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridAuditHistory.EnableHeadersVisualStyles = false;
+            this.gridAuditHistory.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.gridAuditHistory.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.gridAuditHistory.Location = new System.Drawing.Point(0, 0);
+            this.gridAuditHistory.MultiSelect = false;
+            this.gridAuditHistory.Name = "gridAuditHistory";
+            this.gridAuditHistory.ReadOnly = true;
+            this.gridAuditHistory.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridAuditHistory.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.gridAuditHistory.RowHeadersVisible = false;
+            this.gridAuditHistory.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.gridAuditHistory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.gridAuditHistory.Size = new System.Drawing.Size(408, 284);
+            this.gridAuditHistory.TabIndex = 0;
+            this.gridAuditHistory.VirtualMode = true;
+            this.gridAuditHistory.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.gridAuditHistory_CellValueNeeded);
             // 
             // btnUpdate
             // 
@@ -209,31 +283,36 @@ namespace DataWrangler.Forms
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnUpdate);
             this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.lblTypeId);
-            this.Controls.Add(this.txtRecType);
+            this.Controls.Add(this.lblTypeName);
+            this.Controls.Add(this.txtRecTypeName);
             this.Controls.Add(this.txtRecId);
-            this.Controls.Add(this.lblId);
+            this.Controls.Add(this.lblRecTypeId);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "EditRecordType";
+            this.Resizable = false;
             this.Text = "Edit Record Type";
             this.tabAttributes.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
+            this.tabHistory.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridAuditHistory)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private MetroLabel lblId;
+        private MetroLabel lblRecTypeId;
         private MetroTextBox txtRecId;
-        private MetroTextBox txtRecType;
-        private MetroLabel lblTypeId;
+        private MetroTextBox txtRecTypeName;
+        private MetroLabel lblTypeName;
         private MetroTabPage tabAttributes;
         private MetroTabControl tabControl1;
         private MetroButton btnUpdate;
         private MetroButton btnCancel;
         private MetroLabel metroLabel1;
         private TableLayoutPanel tableLayoutPanel1;
+        private TabPage tabHistory;
+        private MetroGrid gridAuditHistory;
     }
 }

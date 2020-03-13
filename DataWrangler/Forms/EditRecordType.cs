@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Windows.Forms;
 using DataWrangler.DBOs;
-using DataWrangler.FormControls;
 using DataWrangler.Retrievers;
-using MetroFramework.Components;
 using MetroFramework.Controls;
 using MetroFramework.Forms;
-using MetroFramework.Interfaces;
 
 namespace DataWrangler.Forms
 {
@@ -28,6 +22,9 @@ namespace DataWrangler.Forms
         private MetroLabel _addRowLabel;
         private MetroButton _addRowButton;
 
+        private DataCache _dataCache;
+        private IDataRetriever _retriever;
+
         private List<string> _removedAttrs = new List<string>();
         private List<string> _addedAttrs = new List<string>();
 
@@ -42,15 +39,17 @@ namespace DataWrangler.Forms
             if (recordType == null)
             {
                 Text = "Add Record Type";
+                tabControl1.TabPages.Remove(tabHistory);
                 LoadAddRow(0);
             }
             else
             {
                 LoadAttributes();
+                LoadHistory();
             }
 
             txtRecId.Text = _recordType != null ? _recordType.Id.ToString() : "---";
-            txtRecType.Text = _recordType != null ? _recordType.Name : "";
+            txtRecTypeName.Text = _recordType != null ? _recordType.Name : "";
 
             tabControl1.SelectedTab = tabAttributes;
             tableLayoutPanel1.RowStyles[0].Height = 30F;
@@ -103,6 +102,32 @@ namespace DataWrangler.Forms
                 tableLayoutPanel1.ResumeLayout();
                 tabAttributes.ResumeLayout();
             }
+        }
+
+        public void LoadHistory()
+        {
+            try
+            {
+                _retriever = new AuditEntryRetriever(_dbSettings, _recordType);
+                _dataCache = new DataCache(_retriever, 500);
+
+                gridAuditHistory.Columns.Clear();
+                gridAuditHistory.Rows.Clear();
+
+                foreach (var column in _retriever.Columns)
+                    gridAuditHistory.Columns.Add(column, column);
+
+                gridAuditHistory.RowCount = _retriever.RowCount;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error was encountered: " + ex.Message);
+            }
+        }
+
+        private void gridAuditHistory_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
+        {
+            e.Value = _dataCache.RetrieveElement(e.RowIndex, e.ColumnIndex);
         }
 
         public void LoadAddRow(int row)
@@ -226,6 +251,12 @@ namespace DataWrangler.Forms
                 needsDbAction = true;
             }
 
+            if (_recordType != null && !_recordType.Name.Equals(txtRecTypeName.Text))
+            {
+                _recordType.Name = txtRecTypeName.Text;
+                needsDbAction = true;
+            }
+                
 
             foreach (var ctrl in _txtControls)
             {
@@ -254,7 +285,7 @@ namespace DataWrangler.Forms
                 //Adding a new one
                 using (var oH = new ObjectHelper(_dbSettings, _user))
                 {
-                    var addStatus = oH.AddRecordType(txtRecType.Text, newAttrs, true);
+                    var addStatus = oH.AddRecordType(txtRecTypeName.Text, newAttrs, true);
                     if (addStatus.Success)
                     {
                         DialogResult = DialogResult.OK;
@@ -297,6 +328,11 @@ namespace DataWrangler.Forms
                     }
                 }
             }
+            else
+            {
+                DialogResult = DialogResult.Cancel;
+                Close();
+            }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -320,5 +356,9 @@ namespace DataWrangler.Forms
             LoadAttributes();
         }
 
+        private void txtRecType_TextChanged(object sender, EventArgs e)
+        {
+            btnUpdate.Enabled = txtRecTypeName.Text.Replace(" ", "").Length > 0;
+        }
     }
 }
