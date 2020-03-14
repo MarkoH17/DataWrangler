@@ -255,7 +255,7 @@ namespace DataWrangler
 
         public static StatusObject InitializeSystem(string dbPath, bool dbEncrypt = false, bool overwrite = false)
         {
-            if (!overwrite && new FileInfo(dbPath).Exists)
+           if (!overwrite && new FileInfo(dbPath).Exists)
                 return new StatusObject
                 {
                     OperationType = StatusObject.OperationTypes.Delete,
