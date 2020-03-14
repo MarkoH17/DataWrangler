@@ -42,13 +42,13 @@ namespace DataWrangler.Forms
                 _retriever = new RecordTypeRetriever(_dbSettings);
                 _dataCache = new DataCache(_retriever, 500);
 
-                RecordTypeGridView.Columns.Clear();
-                RecordTypeGridView.Rows.Clear();
+                gridRecordTypes.Columns.Clear();
+                gridRecordTypes.Rows.Clear();
 
                 foreach (var column in _retriever.Columns)
-                    RecordTypeGridView.Columns.Add(column, column);
+                    gridRecordTypes.Columns.Add(column, column);
 
-                RecordTypeGridView.RowCount = _retriever.RowCount;
+                gridRecordTypes.RowCount = _retriever.RowCount;
                 //textBox1.Text = _retriever.RowCount.ToString();
             }
             catch (Exception ex)
@@ -66,7 +66,7 @@ namespace DataWrangler.Forms
         private RecordType GetRecordTypeBySelectedRow(int rowIdx)
         {
             if (rowIdx < 0) return null;
-            int rowId = Convert.ToInt32(RecordTypeGridView.Rows[rowIdx].Cells[0].Value);
+            int rowId = Convert.ToInt32(gridRecordTypes.Rows[rowIdx].Cells[0].Value);
             RecordType record = null;
             using (var oH = new ObjectHelper(_dbSettings, _user))
             {
@@ -119,11 +119,15 @@ namespace DataWrangler.Forms
                 {
                     using (var oH = new ObjectHelper(_dbSettings, _user))
                     {
-                        var deleteStatus = oH.DeleteRecordType(recType, true);
+                        var countStatus = oH.GetRecordCountByRecordType(recType);
+                        var deleteOrphans = (int) countStatus.Result > 0;
+
+                        var deleteStatus = oH.DeleteRecordType(recType, deleteOrphans);
                         if (!deleteStatus.Success)
                         {
                             MessageBox.Show("DataWrangler Error",
                                 "An error occured when deleting a record type.\n Error: " + deleteStatus.Result);
+                            return;
                         }
                     }
                     RecordTypeGridRefresh();
@@ -134,21 +138,21 @@ namespace DataWrangler.Forms
         private void RecordTypeGridRefresh()
         {
             _retriever.ResetRowCount();
-            RecordTypeGridView.RowCount = _retriever.RowCount;
+            gridRecordTypes.RowCount = _retriever.RowCount;
             //txtRowCnt.Text = _retriever.RowCount.ToString();
             RefreshVisibleRows();
         }
 
         private void RefreshVisibleRows()
         {
-            if (RecordTypeGridView.RowCount < 1) return;
-            var firstRowIdx = RecordTypeGridView.FirstDisplayedCell.RowIndex;
-            var lastRowIdx = (firstRowIdx + RecordTypeGridView.DisplayedRowCount(true)) - 1;
+            if (gridRecordTypes.RowCount < 1) return;
+            var firstRowIdx = gridRecordTypes.FirstDisplayedCell.RowIndex;
+            var lastRowIdx = (firstRowIdx + gridRecordTypes.DisplayedRowCount(true)) - 1;
 
             _dataCache.RefreshCacheByRange(firstRowIdx, lastRowIdx);
             for (int i = firstRowIdx; i <= lastRowIdx; i++)
             {
-                RecordTypeGridView.InvalidateRow(i);
+                gridRecordTypes.InvalidateRow(i);
             }
         }
 
@@ -156,15 +160,15 @@ namespace DataWrangler.Forms
         {
             if (e.Button == MouseButtons.Right)
             {
-                var hitTest = RecordTypeGridView.HitTest(e.X, e.Y);
+                var hitTest = gridRecordTypes.HitTest(e.X, e.Y);
 
                 var cm = new MetroContextMenu(Container);
                 if (hitTest.RowIndex > -1)
                 {
                     _rowIdxSel = hitTest.RowIndex;
 
-                    RecordTypeGridView.ClearSelection();
-                    RecordTypeGridView.Rows[_rowIdxSel].Selected = true;
+                    gridRecordTypes.ClearSelection();
+                    gridRecordTypes.Rows[_rowIdxSel].Selected = true;
 
                     cm.Items.Add("Edit Type", Properties.Resources.edit, editRecordTypeMenuItem_Click);
                     cm.Items.Add("Delete Type", Properties.Resources.trash, deleteRecordTypeMenuItem_Click);
@@ -173,7 +177,7 @@ namespace DataWrangler.Forms
 
                 cm.Items.Add("Add Type", Properties.Resources.plus, addRecordTypeMenuItem_Click);
 
-                cm.Show(RecordTypeGridView, RecordTypeGridView.PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)));
+                cm.Show(gridRecordTypes, gridRecordTypes.PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)));
             }
         }
 
