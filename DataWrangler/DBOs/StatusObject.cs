@@ -11,7 +11,8 @@
             FileAdd,
             FileRemove,
             System,
-            Login
+            LoginSuccess,
+            LoginFailure
         }
 
         public OperationTypes OperationType { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Windows.Forms;
 using DataWrangler.DBOs;
 using DataWrangler.Properties;
@@ -15,6 +16,24 @@ namespace DataWrangler.Forms
         {
             InitializeComponent();
             _dbSettings = dbSettings;
+            BringToFront();
+        }
+
+        private void LoadSavedFields()
+        {
+            var savedLoginConfig = ConfigurationHelper.GetLoginSettings();
+            var username = "";
+            if (savedLoginConfig.Keys.Count > 0)
+            {
+                savedLoginConfig.TryGetValue("Username", out username);
+            }
+
+            if (!string.IsNullOrEmpty(username))
+            {
+                txtUserName.Text = username;
+                chckRemember.Checked = true;
+            }
+            
         }
        
         private void btnLogin_Click(object sender, EventArgs e)
@@ -31,9 +50,11 @@ namespace DataWrangler.Forms
                     var user = (UserAccount) loginStatus.Result;
                     try
                     {
-                        Settings.Default.Username = chckRemember.Checked ? txtUserName.Text : "";
-
-                        Settings.Default.Save();
+                        if(chckRemember.Checked)
+                            ConfigurationHelper.SaveLoginSettings(username);
+                        else
+                            ConfigurationHelper.SaveLoginSettings(null);
+                        
 
                         if (user.Active)
                             Program.SwitchForm(new Landing(_dbSettings, user));
@@ -55,7 +76,15 @@ namespace DataWrangler.Forms
 
         private void chckShowPass_CheckedChanged(object sender, EventArgs e)
         {
-            txtPassword.UseSystemPasswordChar = !chckShowPass.Checked;
+            if (chckShowPass.Checked)
+            {
+                txtPassword.UseSystemPasswordChar = false;
+                txtPassword.PasswordChar = '\0';
+            }
+            else
+            {
+                txtPassword.UseSystemPasswordChar = true;
+            }
         }
 
         public void ChckUserPassTxt_OnChange(object sender, EventArgs e)
@@ -66,19 +95,18 @@ namespace DataWrangler.Forms
                 btnLogin.Enabled = false;
         }
 
+        private void Login_Shown(object sender, EventArgs e)
+        {
+            if (txtUserName.Text.Length > 0)
+                txtPassword.Focus();
+            else
+                txtUserName.Focus();
+            
+        }
+
         private void Login_Load(object sender, EventArgs e)
         {
-            if (Settings.Default.Username != string.Empty) txtUserName.Text = Settings.Default.Username;
-        }
-
-        private void txtPassword_Focus(object sender, EventArgs e)
-        {
-            txtPassword.Text = "";
-        }
-
-        private void txtUserName_Focus(object sender, EventArgs e)
-        {
-            txtUserName.Text = "";
+            LoadSavedFields();
         }
     }
 }

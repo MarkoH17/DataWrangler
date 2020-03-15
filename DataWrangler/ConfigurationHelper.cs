@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Configuration;
 using System.Reflection;
+using DataWrangler.Properties;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 
 namespace DataWrangler
 {
@@ -63,6 +65,28 @@ namespace DataWrangler
             configuration.Save();
             ConfigurationManager.RefreshSection("appSettings");
             return true;
+        }
+
+        public static bool SaveLoginSettings(string username)
+        {
+            Settings.Default.Reset();
+            Settings.Default["Username"] = username;
+            Settings.Default.Save();
+            return true;
+        }
+
+        public static Dictionary<string, string> GetLoginSettings()
+        {
+            var settings = new Dictionary<string, string>();
+
+            var keys = new[] {"Username"};
+            foreach (var key in keys)
+            {
+                var keyValue = Settings.Default[key].ToString();
+                if (!string.IsNullOrEmpty(keyValue)) settings.Add(key, keyValue);
+            }
+
+            return settings;
         }
     }
 }

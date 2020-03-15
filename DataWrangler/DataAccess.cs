@@ -481,6 +481,37 @@ namespace DataWrangler
             }
         }
 
+        public StatusObject LoginUserAccount(string username, string password)
+        {
+            var result = GetObjectByFieldSearch<UserAccount>("username", username);
+            if (result.Success && result.Result != null)
+            {
+                var userObj = (UserAccount) result.Result;
+                var storedHash = userObj.Password;
+                var hashBytes = Convert.FromBase64String(storedHash);
+
+                var salt = new byte[16];
+                Array.Copy(hashBytes, 0, salt, 0, 16);
+
+                var calculatedHash = UserAccount.GetPasswordHash(password, salt);
+                bool loginSuccess = false;
+                if (calculatedHash.Equals(storedHash))
+                {
+                    result.Result = userObj;
+                    loginSuccess = true;
+                }
+                else
+                {
+                    result.Result = null;
+                }
+
+                var auditResult = _addAuditEntry(userObj.Id, userObj, userObj, loginSuccess ? StatusObject.OperationTypes.LoginSuccess : StatusObject.OperationTypes.LoginFailure);
+                if (!auditResult.Success) return auditResult;
+            }
+
+            return result;
+        }
+
         public StatusObject RebuildDatabase(Dictionary<string, string> dbSettings, bool usePassword = false,
             string newPassword = null)
         {
