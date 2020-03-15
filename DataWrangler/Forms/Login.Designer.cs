@@ -72,12 +72,12 @@ namespace DataWrangler.Forms
             this.txtUserName.FontWeight = MetroFramework.MetroTextBoxWeight.Light;
             this.txtUserName.Icon = ((System.Drawing.Image)(resources.GetObject("txtUserName.Icon")));
             this.txtUserName.IconRight = true;
-            this.txtUserName.Lines = new string[] {
-        "Username"};
+            this.txtUserName.Lines = new string[0];
             this.txtUserName.Location = new System.Drawing.Point(184, 145);
             this.txtUserName.MaxLength = 62;
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.PasswordChar = '\0';
+            this.txtUserName.PromptText = "Username";
             this.txtUserName.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.txtUserName.SelectedText = "";
             this.txtUserName.SelectionLength = 0;
@@ -85,11 +85,10 @@ namespace DataWrangler.Forms
             this.txtUserName.ShortcutsEnabled = true;
             this.txtUserName.Size = new System.Drawing.Size(167, 23);
             this.txtUserName.TabIndex = 2;
-            this.txtUserName.Text = "Username";
             this.txtUserName.UseSelectable = true;
+            this.txtUserName.WaterMark = "Username";
             this.txtUserName.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtUserName.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
-            this.txtUserName.GotFocus += new System.EventHandler(this.txtUserName_Focus);
             // 
             // txtPassword
             // 
@@ -112,12 +111,12 @@ namespace DataWrangler.Forms
             this.txtPassword.FontWeight = MetroFramework.MetroTextBoxWeight.Light;
             this.txtPassword.Icon = ((System.Drawing.Image)(resources.GetObject("txtPassword.Icon")));
             this.txtPassword.IconRight = true;
-            this.txtPassword.Lines = new string[] {
-        "Password"};
+            this.txtPassword.Lines = new string[0];
             this.txtPassword.Location = new System.Drawing.Point(184, 180);
             this.txtPassword.MaxLength = 32;
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.PasswordChar = '\0';
+            this.txtPassword.PasswordChar = '●';
+            this.txtPassword.PromptText = "Password";
             this.txtPassword.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.txtPassword.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.txtPassword.SelectedText = "";
@@ -126,12 +125,12 @@ namespace DataWrangler.Forms
             this.txtPassword.ShortcutsEnabled = true;
             this.txtPassword.Size = new System.Drawing.Size(167, 23);
             this.txtPassword.TabIndex = 3;
-            this.txtPassword.Text = "Password";
             this.txtPassword.UseSelectable = true;
+            this.txtPassword.UseSystemPasswordChar = true;
+            this.txtPassword.WaterMark = "Password";
             this.txtPassword.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtPassword.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             this.txtPassword.TextChanged += new System.EventHandler(this.ChckUserPassTxt_OnChange);
-            this.txtPassword.GotFocus += new System.EventHandler(this.txtPassword_Focus);
             // 
             // chckRemember
             // 
@@ -151,8 +150,6 @@ namespace DataWrangler.Forms
             this.chckShowPass.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.chckShowPass.AutoSize = true;
             this.chckShowPass.BackColor = System.Drawing.Color.Gainsboro;
-            this.chckShowPass.Checked = true;
-            this.chckShowPass.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chckShowPass.ForeColor = System.Drawing.Color.Black;
             this.chckShowPass.Location = new System.Drawing.Point(184, 231);
             this.chckShowPass.Name = "chckShowPass";
@@ -186,6 +183,7 @@ namespace DataWrangler.Forms
             this.Name = "Login";
             this.Text = "Data Wrangler Login";
             this.Load += new System.EventHandler(this.Login_Load);
+            this.Shown += new System.EventHandler(this.Login_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
 
