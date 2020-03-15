@@ -22,10 +22,7 @@ namespace DataWrangler.Forms
             InitializeComponent();
             _dbSettings = dbSettings;
             _user = user;
-           
-            
             LoadValues();
-            
         }
 
         private void LoadValues()
@@ -44,10 +41,7 @@ namespace DataWrangler.Forms
                 var fetchSizeStatus = oH.GetDbSize();
                 if (fetchSizeStatus.Success)
                 {
-                    var fetchResult = (BsonDocument) fetchSizeStatus.Result;
-                    fetchResult.TryGetValue("dataFileSize", out var dbSizeVal);
-                    if (dbSizeVal != null)
-                        dbSize = dbSizeVal.AsInt32;
+                    dbSize = (int)fetchSizeStatus.Result;
                 }
             }
 
@@ -61,7 +55,7 @@ namespace DataWrangler.Forms
                 var rebuildStatus = oH.RebuildDb(_dbSettings);
                 if (rebuildStatus.Success)
                 {
-                    MessageBox.Show("Rebuild Sucessful");
+                    MessageBox.Show("Rebuild Successful");
                 }
             }
         }

@@ -326,9 +326,10 @@ namespace DataWrangler
         {
             try
             {
-                var cmd = "SELECT dataFileSize FROM $database;";
-                var result = _db.Execute(cmd);
-                return GetStatusObject(StatusObject.OperationTypes.System, result.Current, true);
+                var collection = _db.GetCollection("$database");
+                var sizeResult = collection.FindAll().FirstOrDefault();
+                sizeResult.TryGetValue("dataFileSize", out var size);
+                return GetStatusObject(StatusObject.OperationTypes.System, size.AsInt32, true);
             }
             catch (LiteException e)
             {

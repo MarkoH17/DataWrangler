@@ -38,6 +38,7 @@ namespace DataWrangler.Forms
        
         private void btnLogin_Click(object sender, EventArgs e)
         {
+            UserAccount user = null;
             using (var oH = new ObjectHelper(_dbSettings))
             {
                 var username = txtUserName.Text;
@@ -47,30 +48,22 @@ namespace DataWrangler.Forms
 
                 if (loginStatus.Success && loginStatus.Result != null)
                 {
-                    var user = (UserAccount) loginStatus.Result;
-                    try
-                    {
-                        if(chckRemember.Checked)
-                            ConfigurationHelper.SaveLoginSettings(username);
-                        else
-                            ConfigurationHelper.SaveLoginSettings(null);
-                        
-
-                        if (user.Active)
-                            Program.SwitchForm(new Landing(_dbSettings, user));
-                        else
-                            MessageBox.Show("Account disabled! Please contact administrator.");
-                    }
-                    catch (Exception)
-                    {
-                        MessageBox.Show("Something went wrong. Please retry.");
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Authentication Failure");
+                    user = (UserAccount) loginStatus.Result;
                     
+                    ConfigurationHelper.SaveLoginSettings(chckRemember.Checked ? username : null);
+
+                    if (!user.Active)
+                        MessageBox.Show("Account disabled! Please contact administrator.");
                 }
+            }
+
+            if (user != null)
+            {
+                Program.SwitchForm(new Landing(_dbSettings, user));
+            }
+            else
+            {
+                MessageBox.Show("Authentication Failure. Please contact your administrator");
             }
         }
 

@@ -37,8 +37,9 @@ namespace DataWrangler.Forms
 
         private void Records_Total()
         {
-            using(var oH = new ObjectHelper(_dbSettings, _user))
+            using (var oH = new ObjectHelper(_dbSettings, _user))
             {
+
                 var cnt = oH.GetRecordCounts();
                 var overallSum = ((Dictionary<string, int>)cnt.Result).Sum(x => x.Value);
 
@@ -47,14 +48,11 @@ namespace DataWrangler.Forms
         }
         private void RecordType_Total()
         {
-            using(var oH =  new ObjectHelper(_dbSettings, _user))
+            using (var oH = new ObjectHelper(_dbSettings, _user))
             {
-                _retriever = new RecordTypeRetriever(_dbSettings);
-                _dataCache = new DataCache(_retriever, 500);
-
-                int sum = _retriever.RowCount;
-
-                lblRecTypes.Text = sum.ToString();
+                var fetchTotal = oH.GetRecordTypeCount();
+                if (fetchTotal.Success)
+                    lblRecTypes.Text = (fetchTotal.Result).ToString();
             }
         }
 
@@ -62,12 +60,9 @@ namespace DataWrangler.Forms
         {
             using(var oH = new ObjectHelper(_dbSettings, _user))
             {
-                _retriever = new UserAccountRetriever(_dbSettings);
-                _dataCache = new DataCache(_retriever, 500);
-
-                int sum = _retriever.RowCount;
-
-                lblUserAcc.Text = sum.ToString();
+                var fetchTotal = oH.GetUserAccountCount();
+                if(fetchTotal.Success)
+                    lblUserAcc.Text = (fetchTotal.Result).ToString();
             }
         }
         private void tileRecords_Click(object sender, EventArgs e)
