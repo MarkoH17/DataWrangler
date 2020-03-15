@@ -275,11 +275,6 @@ namespace DataWrangler
             return _dA.GetObjectById<UserAccount>(id);
         }
 
-        public StatusObject GetUserAccountByUsername(string username)
-        {
-            return _dA.GetObjectByFieldSearch<UserAccount>("username", username);
-        }
-
         public StatusObject GetUserAccountCount()
         {
             return _dA.GetCountOfObj<UserAccount>();
@@ -347,23 +342,7 @@ namespace DataWrangler
 
         public StatusObject LoginUserAccount(string username, string password)
         {
-            var result = GetUserAccountByUsername(username);
-            if (result.Success && result.Result != null)
-            {
-                var storedHash = ((UserAccount) result.Result).Password;
-                var hashBytes = Convert.FromBase64String(storedHash);
-
-                var salt = new byte[16];
-                Array.Copy(hashBytes, 0, salt, 0, 16);
-
-                var calculatedHash = UserAccount.GetPasswordHash(password, salt);
-                if (calculatedHash.Equals(storedHash))
-                    result.Result = (UserAccount) result.Result;
-                else
-                    result.Result = null;
-            }
-
-            return result;
+            return _dA.LoginUserAccount(username, password);
         }
 
         public StatusObject RebuildDb(Dictionary<string, string> dbSettings, bool usePassword = false,
