@@ -35,12 +35,13 @@ namespace DataWrangler.Forms
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.tileRecords = new MetroFramework.Controls.MetroTile();
+            this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
             this.lblRecCount = new System.Windows.Forms.Label();
             this.tileRecTypes = new MetroFramework.Controls.MetroTile();
-            this.label2 = new System.Windows.Forms.Label();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.lblRecTypes = new System.Windows.Forms.Label();
+            this.chartData = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tileUserAccts = new MetroFramework.Controls.MetroTile();
-            this.label3 = new System.Windows.Forms.Label();
+            this.lblUserAcc = new System.Windows.Forms.Label();
             this.btnManage = new MetroFramework.Controls.MetroButton();
             this.contextManage = new MetroFramework.Controls.MetroContextMenu(this.components);
             this.btnManageRec = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,7 +51,7 @@ namespace DataWrangler.Forms
             this.btnOptions = new MetroFramework.Controls.MetroButton();
             this.tileRecords.SuspendLayout();
             this.tileRecTypes.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartData)).BeginInit();
             this.tileUserAccts.SuspendLayout();
             this.contextManage.SuspendLayout();
             this.SuspendLayout();
@@ -58,6 +59,7 @@ namespace DataWrangler.Forms
             // tileRecords
             // 
             this.tileRecords.ActiveControl = null;
+            this.tileRecords.Controls.Add(this.metroLabel1);
             this.tileRecords.Controls.Add(this.lblRecCount);
             this.tileRecords.Location = new System.Drawing.Point(43, 134);
             this.tileRecords.Name = "tileRecords";
@@ -70,6 +72,14 @@ namespace DataWrangler.Forms
             this.tileRecords.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Regular;
             this.tileRecords.UseSelectable = true;
             this.tileRecords.Click += new System.EventHandler(this.tileRecords_Click);
+            // 
+            // metroLabel1
+            // 
+            this.metroLabel1.AutoSize = true;
+            this.metroLabel1.Location = new System.Drawing.Point(28, 31);
+            this.metroLabel1.Name = "metroLabel1";
+            this.metroLabel1.Size = new System.Drawing.Size(0, 0);
+            this.metroLabel1.TabIndex = 1;
             // 
             // lblRecCount
             // 
@@ -85,7 +95,7 @@ namespace DataWrangler.Forms
             // tileRecTypes
             // 
             this.tileRecTypes.ActiveControl = null;
-            this.tileRecTypes.Controls.Add(this.label2);
+            this.tileRecTypes.Controls.Add(this.lblRecTypes);
             this.tileRecTypes.Location = new System.Drawing.Point(304, 134);
             this.tileRecTypes.Name = "tileRecTypes";
             this.tileRecTypes.Size = new System.Drawing.Size(139, 121);
@@ -97,39 +107,39 @@ namespace DataWrangler.Forms
             this.tileRecTypes.UseSelectable = true;
             this.tileRecTypes.Click += new System.EventHandler(this.tileRecTypes_Click);
             // 
-            // label2
+            // lblRecTypes
             // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(56, 36);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(40, 24);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "100";
+            this.lblRecTypes.AutoSize = true;
+            this.lblRecTypes.BackColor = System.Drawing.Color.Transparent;
+            this.lblRecTypes.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRecTypes.ForeColor = System.Drawing.Color.White;
+            this.lblRecTypes.Location = new System.Drawing.Point(56, 36);
+            this.lblRecTypes.Name = "lblRecTypes";
+            this.lblRecTypes.Size = new System.Drawing.Size(0, 24);
+            this.lblRecTypes.TabIndex = 0;
             // 
-            // chart1
+            // chartData
             // 
+            this.chartData.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
             chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
+            this.chartData.ChartAreas.Add(chartArea1);
+            this.chartData.Cursor = System.Windows.Forms.Cursors.Default;
             legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(12, 270);
-            this.chart1.Name = "chart1";
+            this.chartData.Legends.Add(legend1);
+            this.chartData.Location = new System.Drawing.Point(12, 270);
+            this.chartData.Name = "chartData";
             series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series1.Legend = "Legend1";
-            series1.Name = "Maps";
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(778, 178);
-            this.chart1.TabIndex = 3;
-            this.chart1.Text = "chart1";
+            series1.Name = "Records By Type";
+            this.chartData.Series.Add(series1);
+            this.chartData.Size = new System.Drawing.Size(778, 178);
+            this.chartData.TabIndex = 3;
+            this.chartData.Text = "Records Per Record Type";
             // 
             // tileUserAccts
             // 
             this.tileUserAccts.ActiveControl = null;
-            this.tileUserAccts.Controls.Add(this.label3);
+            this.tileUserAccts.Controls.Add(this.lblUserAcc);
             this.tileUserAccts.Location = new System.Drawing.Point(570, 134);
             this.tileUserAccts.Name = "tileUserAccts";
             this.tileUserAccts.Size = new System.Drawing.Size(139, 121);
@@ -141,17 +151,16 @@ namespace DataWrangler.Forms
             this.tileUserAccts.UseSelectable = true;
             this.tileUserAccts.Click += new System.EventHandler(this.tileUserAccts_Click);
             // 
-            // label3
+            // lblUserAcc
             // 
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.Transparent;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(54, 36);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(40, 24);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "100";
+            this.lblUserAcc.AutoSize = true;
+            this.lblUserAcc.BackColor = System.Drawing.Color.Transparent;
+            this.lblUserAcc.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUserAcc.ForeColor = System.Drawing.Color.White;
+            this.lblUserAcc.Location = new System.Drawing.Point(54, 36);
+            this.lblUserAcc.Name = "lblUserAcc";
+            this.lblUserAcc.Size = new System.Drawing.Size(0, 24);
+            this.lblUserAcc.TabIndex = 0;
             // 
             // btnManage
             // 
@@ -222,7 +231,7 @@ namespace DataWrangler.Forms
             this.Controls.Add(this.btnImport);
             this.Controls.Add(this.btnManage);
             this.Controls.Add(this.tileUserAccts);
-            this.Controls.Add(this.chart1);
+            this.Controls.Add(this.chartData);
             this.Controls.Add(this.tileRecTypes);
             this.Controls.Add(this.tileRecords);
             this.Name = "Landing";
@@ -232,7 +241,7 @@ namespace DataWrangler.Forms
             this.tileRecords.PerformLayout();
             this.tileRecTypes.ResumeLayout(false);
             this.tileRecTypes.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartData)).EndInit();
             this.tileUserAccts.ResumeLayout(false);
             this.tileUserAccts.PerformLayout();
             this.contextManage.ResumeLayout(false);
@@ -244,11 +253,11 @@ namespace DataWrangler.Forms
 
         private MetroTile tileRecords;
         private MetroTile tileRecTypes;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartData;
         private Label lblRecCount;
         private MetroTile tileUserAccts;
-        private Label label2;
-        private Label label3;
+        private Label lblRecTypes;
+        private Label lblUserAcc;
         private MetroButton btnManage;
         private MetroContextMenu contextManage;
         private ToolStripMenuItem btnManageRec;
@@ -256,5 +265,6 @@ namespace DataWrangler.Forms
         private ToolStripMenuItem btnManageUsers;
         private MetroButton btnImport;
         private MetroButton btnOptions;
+        private MetroLabel metroLabel1;
     }
 }

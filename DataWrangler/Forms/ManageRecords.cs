@@ -258,5 +258,11 @@ namespace DataWrangler.Forms
         {
             txtFieldSearch.Refresh();
         }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+            Program.SwitchForm(new Landing(_dbSettings, _user));
+        }
     }
 }

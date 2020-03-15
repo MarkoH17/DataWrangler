@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using DataWrangler.DBOs;
+using DataWrangler.FormControls;
 using DataWrangler.Properties;
 using DataWrangler.Retrievers;
 using MetroFramework.Forms;
@@ -13,6 +16,9 @@ namespace DataWrangler.Forms
         private readonly Dictionary<string, string> _dbSettings;
         private readonly UserAccount _user;
 
+        private DataCache _dataCache;
+        private IDataRetriever _retriever;
+        private RecordType _recordtype;
         public Landing(Dictionary<string, string> dbSettings, UserAccount user)
         {
             InitializeComponent();
@@ -23,8 +29,47 @@ namespace DataWrangler.Forms
 
         private void LandingScreen_Load(object sender, EventArgs e)
         {
+            ChartData_Load();
+            Records_Total();
+            UserAccount_Total();
+            RecordType_Total();
         }
 
+        private void Records_Total()
+        {
+            using(var oH = new ObjectHelper(_dbSettings, _user))
+            {
+                var cnt = oH.GetRecordCounts();
+                var overallSum = ((Dictionary<string, int>)cnt.Result).Sum(x => x.Value);
+
+                lblRecCount.Text = overallSum.ToString();
+            }
+        }
+        private void RecordType_Total()
+        {
+            using(var oH =  new ObjectHelper(_dbSettings, _user))
+            {
+                _retriever = new RecordTypeRetriever(_dbSettings);
+                _dataCache = new DataCache(_retriever, 500);
+
+                int sum = _retriever.RowCount;
+
+                lblRecTypes.Text = sum.ToString();
+            }
+        }
+
+        private void UserAccount_Total()
+        {
+            using(var oH = new ObjectHelper(_dbSettings, _user))
+            {
+                _retriever = new UserAccountRetriever(_dbSettings);
+                _dataCache = new DataCache(_retriever, 500);
+
+                int sum = _retriever.RowCount;
+
+                lblUserAcc.Text = sum.ToString();
+            }
+        }
         private void tileRecords_Click(object sender, EventArgs e)
         {
             Program.SwitchForm(new ManageRecords(_dbSettings, _user));
@@ -69,6 +114,27 @@ namespace DataWrangler.Forms
         private void btnManageUsers_Click(object sender, EventArgs e)
         {
             Program.SwitchForm(new ManageUserAccounts(_dbSettings, _user));
+        }
+
+        private void ChartData_Load()
+        {
+            RecordType[] recordTypes = null;
+            Dictionary<string, int> recordVals = null;
+            //var keyArray = new List<string>();
+            //var cntArray = new List<int>();
+            using (var oH = new ObjectHelper(_dbSettings, _user))
+            {
+                var result = oH.GetRecordTypes();
+                if (result.Success) recordTypes = (RecordType[])result.Result;
+                var cnt = oH.GetRecordCounts();
+                if (cnt.Success) recordVals = (Dictionary<string, int>)cnt.Result;
+                string[] keyArray = recordVals.Keys.ToArray();
+                int[] cntArray = recordVals.Values.ToArray();
+                for (int i = 0; i < recordTypes.Length; i++)
+                {
+                    chartData.Series["Records By Type"].Points.AddXY(keyArray[i].ToString(), Convert.ToInt32(cntArray[i]));
+                }
+             }
         }
     }
 }

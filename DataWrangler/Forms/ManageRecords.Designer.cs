@@ -49,6 +49,7 @@ namespace DataWrangler.Forms
             this.comboField = new MetroFramework.Controls.MetroComboBox();
             this.lblHorSep2 = new MetroFramework.Controls.MetroLabel();
             this.gridRecords = new MetroFramework.Controls.MetroGrid();
+            this.btnCancel = new MetroFramework.Controls.MetroButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.subTblCol3.SuspendLayout();
             this.subTblCol1.SuspendLayout();
@@ -344,11 +345,22 @@ namespace DataWrangler.Forms
             this.gridRecords.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.gridRecords_CellValueNeeded);
             this.gridRecords.MouseClick += new System.Windows.Forms.MouseEventHandler(this.gridRecords_MouseClick);
             // 
+            // btnCancel
+            // 
+            this.btnCancel.Location = new System.Drawing.Point(699, 513);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.TabIndex = 17;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseSelectable = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
             // ManageRecords
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1000, 550);
+            this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.lblHorSep2);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.lblHorSep1);
@@ -391,5 +403,6 @@ namespace DataWrangler.Forms
         private TableLayoutPanel subTblCol3;
         private MetroLabel lblHorSep2;
         private MetroGrid gridRecords;
+        private MetroButton btnCancel;
     }
 }
