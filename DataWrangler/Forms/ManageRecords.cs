@@ -6,7 +6,9 @@ using System.Reflection;
 using System.Windows.Forms;
 using DataWrangler.DBOs;
 using DataWrangler.FormControls;
+using DataWrangler.Properties;
 using DataWrangler.Retrievers;
+using MetroFramework;
 using MetroFramework.Controls;
 using MetroFramework.Forms;
 
@@ -26,6 +28,7 @@ namespace DataWrangler.Forms
         public ManageRecords(Dictionary<string, string> dbSettings, UserAccount user)
         {
             InitializeComponent();
+            StyleHelper.LoadFormSavedStyle(this);
             typeof(DataGridView).InvokeMember("DoubleBuffered",
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, gridRecords,
                 new object[] { true });
@@ -268,6 +271,18 @@ namespace DataWrangler.Forms
         private void btnBack_Click(object sender, EventArgs e)
         {
             Program.SwitchPrimaryForm(new Landing(_dbSettings, _user));
+        }
+
+        public void SwitchIconStyle()
+        {
+            if (Theme == MetroThemeStyle.Dark)
+            {
+                btnBack.Image = Resources.arrow_back_light;
+            }
+            else
+            {
+                btnBack.Image = Resources.arrow_back_dark;
+            }
         }
     }
 }

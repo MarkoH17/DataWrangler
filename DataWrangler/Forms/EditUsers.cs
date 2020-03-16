@@ -31,7 +31,7 @@ namespace DataWrangler.Forms
         public EditUsers(Dictionary<string, string> dbSettings, UserAccount user, UserAccount users)
         {
             InitializeComponent();
-
+            StyleHelper.LoadFormSavedStyle(this);
             typeof(DataGridView).InvokeMember("DoubleBuffered",
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, tabUser,
                 new object[] { true });
@@ -48,6 +48,8 @@ namespace DataWrangler.Forms
             {
                 LoadUser();
             }
+            StyleHelper.LoadFormSavedStyle(this);
+            BringToFront();
         }
 
         private void LoadUser()

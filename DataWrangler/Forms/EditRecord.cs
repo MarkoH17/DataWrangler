@@ -8,7 +8,9 @@ using System.Reflection;
 using System.Windows.Forms;
 using DataWrangler.DBOs;
 using DataWrangler.FormControls;
+using DataWrangler.Properties;
 using DataWrangler.Retrievers;
+using MetroFramework;
 using MetroFramework.Components;
 using MetroFramework.Controls;
 using MetroFramework.Forms;
@@ -33,7 +35,7 @@ namespace DataWrangler.Forms
         public EditRecord(Dictionary<string, string> dbSettings, UserAccount user, Record record, RecordType recordType)
         {
             InitializeComponent();
-
+            StyleHelper.LoadFormSavedStyle(this);
             typeof(DataGridView).InvokeMember("DoubleBuffered",
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, gridAuditHistory,
                 new object[] { true });
@@ -56,6 +58,7 @@ namespace DataWrangler.Forms
                 LoadAttachments();
             }
             tabControl.SelectedTab = tabAttributes;
+            BringToFront();
         }
 
         public void LoadAttributes()
@@ -74,8 +77,19 @@ namespace DataWrangler.Forms
                 }
                 
 
-                var newLbl = new MetroLabel {Text = _recordType.Attributes[attr.Key]};
-                var newTxtBox = new MetroTextBox {Text = attrValue, Tag = attr.Key};
+                var newLbl = new MetroLabel
+                {
+                    Text = _recordType.Attributes[attr.Key],
+                    Theme = Theme,
+                    Style = Style
+                };
+                var newTxtBox = new MetroTextBox
+                {
+                    Text = attrValue,
+                    Tag = attr.Key,
+                    Theme = Theme,
+                    Style = Style
+                };
 
                 newLbl.Left = 5;
                 newLbl.Top = ctrlCtr * 30 + 15;
@@ -347,12 +361,12 @@ namespace DataWrangler.Forms
                 
                 if (_attachmentsSelIdx > -1)
                 {
-                    cm.Items.Add("Download Attachment", Properties.Resources.download_dark, downloadAttachmentMenuItem_Click);
-                    cm.Items.Add("Delete Attachment", Properties.Resources.download_dark, deleteAttachmentMenuItem_Click);
+                    cm.Items.Add("Download Attachment", Theme == MetroThemeStyle.Dark ? Resources.download_light : Resources.download_dark, downloadAttachmentMenuItem_Click);
+                    cm.Items.Add("Delete Attachment", Theme == MetroThemeStyle.Dark ? Resources.trash_light : Resources.trash_dark, deleteAttachmentMenuItem_Click);
                     cm.Items.Add("-"); //horizontal separator on context menu
                 }
                 
-                cm.Items.Add("Add Attachment", Properties.Resources.download_dark, addAttachmentMenuItem_Click);
+                cm.Items.Add("Add Attachment", Theme == MetroThemeStyle.Dark ? Resources.plus_light : Resources.plus_dark, addAttachmentMenuItem_Click);
 
                 cm.Show(listAttachments, listAttachments.PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)));
             }

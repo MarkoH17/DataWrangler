@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DataWrangler.Properties;
+using MetroFramework;
 
 namespace DataWrangler.Forms
 {
@@ -29,8 +31,10 @@ namespace DataWrangler.Forms
         public ManageRecordTypes(Dictionary<string, string> dbSettings, UserAccount user)
         {
             InitializeComponent();
+            StyleHelper.LoadFormSavedStyle(this);
             _dbSettings = dbSettings;
             _user = user;
+            BringToFront();
         }
 
         protected override void OnLoad(EventArgs e)
@@ -168,12 +172,12 @@ namespace DataWrangler.Forms
                     gridRecordTypes.ClearSelection();
                     gridRecordTypes.Rows[_rowIdxSel].Selected = true;
 
-                    cm.Items.Add("Edit Type", Properties.Resources.edit_dark, editRecordTypeMenuItem_Click);
-                    cm.Items.Add("Delete Type", Properties.Resources.trash_dark, deleteRecordTypeMenuItem_Click);
+                    cm.Items.Add("Edit Type", Resources.edit_dark, editRecordTypeMenuItem_Click);
+                    cm.Items.Add("Delete Type", Resources.trash_dark, deleteRecordTypeMenuItem_Click);
                     cm.Items.Add("-");
                 }
 
-                cm.Items.Add("Add Type", Properties.Resources.plus_dark, addRecordTypeMenuItem_Click);
+                cm.Items.Add("Add Type", Resources.plus_dark, addRecordTypeMenuItem_Click);
 
                 cm.Show(gridRecordTypes, gridRecordTypes.PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)));
             }
@@ -196,6 +200,18 @@ namespace DataWrangler.Forms
         private void btnBack_Click(object sender, EventArgs e)
         {
             Program.SwitchPrimaryForm(new Landing(_dbSettings, _user));
+        }
+
+        public void SwitchIconStyle()
+        {
+            if (Theme == MetroThemeStyle.Dark)
+            {
+                btnBack.Image = Resources.arrow_back_light;
+            }
+            else
+            {
+                btnBack.Image = Resources.arrow_back_dark;
+            }
         }
     }
 }

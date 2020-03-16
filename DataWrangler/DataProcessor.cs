@@ -66,9 +66,8 @@ namespace DataWrangler
             {
                 var dR = dT.NewRow();
                 dR["Id"] = rec.Id;
-                /*foreach (var attr in rec.Attributes)
-                    dR[attr.Key] = attr.Value;*/
-
+                foreach (var attr in rec.Attributes)
+                    dR[attr.Key] = attr.Value;
                 dT.Rows.Add(dR);
             }
 

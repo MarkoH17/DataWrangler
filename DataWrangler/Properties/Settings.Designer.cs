@@ -34,5 +34,29 @@ namespace DataWrangler.Properties {
                 this["Username"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Light")]
+        public global::MetroFramework.MetroThemeStyle ThemeStyle {
+            get {
+                return ((global::MetroFramework.MetroThemeStyle)(this["ThemeStyle"]));
+            }
+            set {
+                this["ThemeStyle"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Orange")]
+        public global::MetroFramework.MetroColorStyle ColorStyle {
+            get {
+                return ((global::MetroFramework.MetroColorStyle)(this["ColorStyle"]));
+            }
+            set {
+                this["ColorStyle"] = value;
+            }
+        }
     }
 }

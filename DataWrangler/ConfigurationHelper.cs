@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Reflection;
+using System.Windows.Forms;
 using DataWrangler.Properties;
+using MetroFramework;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 
 namespace DataWrangler
@@ -69,12 +73,11 @@ namespace DataWrangler
 
         public static bool SaveLoginSettings(string username)
         {
-            Settings.Default.Reset();
             Settings.Default["Username"] = username;
             Settings.Default.Save();
             return true;
         }
-
+        
         public static Dictionary<string, string> GetLoginSettings()
         {
             var settings = new Dictionary<string, string>();
@@ -82,11 +85,59 @@ namespace DataWrangler
             var keys = new[] {"Username"};
             foreach (var key in keys)
             {
-                var keyValue = Settings.Default[key].ToString();
+                var keyValue = Settings.Default[key]?.ToString();
                 if (!string.IsNullOrEmpty(keyValue)) settings.Add(key, keyValue);
             }
 
             return settings;
+        }
+
+        public static bool SaveStyleSettings(MetroThemeStyle themeStyle, MetroColorStyle colorStyle)
+        {
+            Settings.Default["ThemeStyle"] = themeStyle;
+            Settings.Default["ColorStyle"] = colorStyle;
+            Settings.Default.Save();
+            return true;
+        }
+
+        public static Dictionary<string, string> GetStyleSettings()
+        {
+            var settings = new Dictionary<string, string>();
+
+            var keys = new[] {"ThemeStyle", "ColorStyle"};
+            foreach (var key in keys)
+            {
+                var keyValue = Settings.Default[key].ToString();
+                if (!string.IsNullOrEmpty(keyValue)) settings.Add(key, keyValue);
+            }
+
+            var themeValid = false;
+            if (settings.ContainsKey("ThemeStyle"))
+            {
+                var themeStyleValue = settings["ThemeStyle"];
+                foreach (var themeStyle in Enum.GetValues(typeof(MetroThemeStyle)))
+                {
+                    if (themeStyle.ToString().Equals(themeStyleValue))
+                        themeValid = true;
+                }
+            }
+
+            var colorValid = false;
+            if (settings.ContainsKey("ColorStyle"))
+            {
+                var colorStyleValue = settings["ColorStyle"];
+                foreach (var colorStyle in Enum.GetValues(typeof(MetroColorStyle)))
+                {
+                    if (colorStyle.ToString().Equals(colorStyleValue))
+                        colorValid = true;
+                }
+            }
+
+            if (themeValid && colorValid)
+            {
+                return settings;
+            }
+            return null;
         }
     }
 }

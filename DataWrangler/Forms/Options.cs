@@ -8,7 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DataWrangler.Properties;
 using LiteDB;
+using MetroFramework;
+using MetroFramework.Forms;
 
 namespace DataWrangler.Forms
 {
@@ -16,16 +19,21 @@ namespace DataWrangler.Forms
     {
         private Dictionary<string, string> _dbSettings;
         private UserAccount _user;
+        private MetroForm _parentForm;
 
-        public Options(Dictionary<string, string> dbSettings, UserAccount user)
+        public Options(MetroForm parentForm, Dictionary<string, string> dbSettings, UserAccount user)
         {
             InitializeComponent();
+            StyleHelper.LoadFormSavedStyle(this);
             _dbSettings = dbSettings;
             _user = user;
-            LoadValues();
+            _parentForm = parentForm;
+            LoadDatabaseValues();
+            LoadStyles();
+            BringToFront();
         }
 
-        private void LoadValues()
+        private void LoadDatabaseValues()
         {
             var dbFilePath = "";
             if (_dbSettings != null)
@@ -33,7 +41,7 @@ namespace DataWrangler.Forms
                 _dbSettings.TryGetValue("dbFilePath", out dbFilePath);
             }
 
-            DatabasePathLabelText.Text = dbFilePath;
+            lblDatabasePathValue.Text = dbFilePath;
 
             var dbSize = 0;
             using (var oH = new ObjectHelper(_dbSettings, _user))
@@ -45,7 +53,24 @@ namespace DataWrangler.Forms
                 }
             }
 
-            DatabaseSizeLabel.Text = dbSize.ToString();
+            lblDatabaseSizeValue.Text = dbSize.ToString();
+        }
+
+        private void LoadStyles()
+        {
+            foreach (var color in Enum.GetValues(typeof(MetroColorStyle)))
+            {
+                if (color.ToString().Equals("White") || color.ToString().Equals("Black") || color.ToString().Equals("Default")) continue;
+                comboStyle.Items.Add(color);
+            }
+
+            var currThemeStyle = Theme;
+            var currColorStyle = Style;
+
+            if (currThemeStyle == MetroThemeStyle.Dark)
+                tglDarkMode.Checked = true;
+
+            comboStyle.SelectedItem = currColorStyle;
         }
 
         private void rebuildDatabaseButton_Click(object sender, EventArgs e)
@@ -60,9 +85,29 @@ namespace DataWrangler.Forms
             }
         }
 
-        private void btnBack_Click(object sender, EventArgs e)
+        private void btnClose_Click(object sender, EventArgs e)
         {
-            Program.SwitchPrimaryForm(new Landing(_dbSettings, _user));
+            var useDarkMode = tglDarkMode.Checked;
+            var themeStyle = useDarkMode ? MetroThemeStyle.Dark : MetroThemeStyle.Light;
+            var colorStyle = (MetroColorStyle)comboStyle.SelectedItem;
+
+            ConfigurationHelper.SaveStyleSettings(themeStyle, colorStyle);
+            StyleHelper.LoadFormSavedStyle(this);
+            StyleHelper.LoadFormSavedStyle(_parentForm);
+            Close();
+        }
+
+        private void comboStyle_SelectedValueChanged(object sender, EventArgs e)
+        {
+            var colorStyle = (MetroColorStyle)comboStyle.SelectedItem;
+            StyleHelper.PreviewFormStyle(this, Theme, colorStyle);
+        }
+
+        private void tglDarkMode_CheckedChanged(object sender, EventArgs e)
+        {
+            var useDarkMode = tglDarkMode.Checked;
+            var themeStyle = useDarkMode ? MetroThemeStyle.Dark : MetroThemeStyle.Light;
+            StyleHelper.PreviewFormStyle(this, themeStyle, Style);
         }
     }
 }

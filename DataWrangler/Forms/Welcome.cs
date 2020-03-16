@@ -12,7 +12,9 @@ namespace DataWrangler.Forms
         public Welcome()
         {
             InitializeComponent();
+            StyleHelper.LoadFormSavedStyle(this);
             _dbSettings = ConfigurationHelper.GetDbSettings();
+            BringToFront();
         }
 
         private void FileBrowseButton_Click(object sender, EventArgs e)
@@ -86,6 +88,5 @@ namespace DataWrangler.Forms
         {
             if (_dbSettings.Count > 0) Program.SwitchPrimaryForm(new Login(_dbSettings));
         }
-
     }
 }

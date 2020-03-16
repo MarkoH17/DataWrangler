@@ -24,6 +24,7 @@ namespace DataWrangler.Forms
         public Landing(Dictionary<string, string> dbSettings, UserAccount user)
         {
             InitializeComponent();
+            StyleHelper.LoadFormSavedStyle(this);
             _dbSettings = dbSettings;
             _user = user;
             BringToFront();
@@ -94,8 +95,8 @@ namespace DataWrangler.Forms
 
         private void btnOptions_Click(object sender, EventArgs e)
         {
-            Program.SwitchPrimaryForm(new Options(_dbSettings, _user));
-
+            var optionsForm = new Options(this, _dbSettings, _user);
+            optionsForm.ShowDialog();
         }
 
         private void btnManageRec_Click(object sender, EventArgs e)
@@ -137,6 +138,18 @@ namespace DataWrangler.Forms
         private void btnBack_Click(object sender, EventArgs e)
         {
             Program.SwitchPrimaryForm(new Login(_dbSettings));
+        }
+
+        public void SwitchIconStyle()
+        {
+            if (Theme == MetroThemeStyle.Dark)
+            {
+                btnBack.Image = Resources.arrow_back_light;
+            }
+            else
+            {
+                btnBack.Image = Resources.arrow_back_dark;
+            }
         }
     }
 }

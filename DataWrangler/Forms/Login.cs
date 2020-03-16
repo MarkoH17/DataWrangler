@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Windows.Forms;
 using DataWrangler.DBOs;
 using DataWrangler.Properties;
+using MetroFramework;
 using MetroFramework.Forms;
 
 namespace DataWrangler.Forms
@@ -15,6 +16,7 @@ namespace DataWrangler.Forms
         public Login(Dictionary<string, string> dbSettings)
         {
             InitializeComponent();
+            StyleHelper.LoadFormSavedStyle(this);
             _dbSettings = dbSettings;
             BringToFront();
         }
@@ -100,6 +102,10 @@ namespace DataWrangler.Forms
         private void Login_Load(object sender, EventArgs e)
         {
             LoadSavedFields();
+
+            txtUserName.Icon = Theme == MetroThemeStyle.Dark ? Resources.user_light : Resources.user_dark;
+            txtPassword.Icon = Theme == MetroThemeStyle.Dark ? Resources.key_light : Resources.key_dark;
         }
+        
     }
 }
