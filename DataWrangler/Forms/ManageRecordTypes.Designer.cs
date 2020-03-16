@@ -31,7 +31,9 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManageRecordTypes));
             this.gridRecordTypes = new MetroFramework.Controls.MetroGrid();
+            this.btnBack = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.gridRecordTypes)).BeginInit();
             this.SuspendLayout();
             // 
@@ -90,14 +92,30 @@
             this.gridRecordTypes.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.RecordTypeGridView_CellValueNeeded);
             this.gridRecordTypes.MouseClick += new System.Windows.Forms.MouseEventHandler(this.RecordTypeGridView_MouseClick);
             // 
+            // btnBack
+            // 
+            this.btnBack.BackColor = System.Drawing.Color.Transparent;
+            this.btnBack.FlatAppearance.BorderSize = 0;
+            this.btnBack.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btnBack.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBack.Image = ((System.Drawing.Image)(resources.GetObject("btnBack.Image")));
+            this.btnBack.Location = new System.Drawing.Point(23, 25);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(24, 24);
+            this.btnBack.TabIndex = 11;
+            this.btnBack.UseVisualStyleBackColor = false;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+            // 
             // ManageRecordTypes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnBack);
             this.Controls.Add(this.gridRecordTypes);
             this.Name = "ManageRecordTypes";
-            this.Text = "Manage Record Types";
+            this.Text = "     Manage Record Types";
             ((System.ComponentModel.ISupportInitialize)(this.gridRecordTypes)).EndInit();
             this.ResumeLayout(false);
 
@@ -105,5 +123,6 @@
 
         #endregion
         private MetroFramework.Controls.MetroGrid gridRecordTypes;
+        private System.Windows.Forms.Button btnBack;
     }
 }

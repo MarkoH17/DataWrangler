@@ -31,9 +31,9 @@ namespace DataWrangler.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea9 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend9 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.tileRecords = new MetroFramework.Controls.MetroTile();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
             this.lblRecCount = new System.Windows.Forms.Label();
@@ -49,6 +49,7 @@ namespace DataWrangler.Forms
             this.btnManageUsers = new System.Windows.Forms.ToolStripMenuItem();
             this.btnImport = new MetroFramework.Controls.MetroButton();
             this.btnOptions = new MetroFramework.Controls.MetroButton();
+            this.btnBack = new System.Windows.Forms.Button();
             this.tileRecords.SuspendLayout();
             this.tileRecTypes.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartData)).BeginInit();
@@ -121,17 +122,17 @@ namespace DataWrangler.Forms
             // chartData
             // 
             this.chartData.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
-            chartArea1.Name = "ChartArea1";
-            this.chartData.ChartAreas.Add(chartArea1);
+            chartArea9.Name = "ChartArea1";
+            this.chartData.ChartAreas.Add(chartArea9);
             this.chartData.Cursor = System.Windows.Forms.Cursors.Default;
-            legend1.Name = "Legend1";
-            this.chartData.Legends.Add(legend1);
+            legend9.Name = "Legend1";
+            this.chartData.Legends.Add(legend9);
             this.chartData.Location = new System.Drawing.Point(12, 270);
             this.chartData.Name = "chartData";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Records By Type";
-            this.chartData.Series.Add(series1);
+            series9.ChartArea = "ChartArea1";
+            series9.Legend = "Legend1";
+            series9.Name = "Records By Type";
+            this.chartData.Series.Add(series9);
             this.chartData.Size = new System.Drawing.Size(778, 178);
             this.chartData.TabIndex = 3;
             this.chartData.Text = "Records Per Record Type";
@@ -222,11 +223,27 @@ namespace DataWrangler.Forms
             this.btnOptions.UseSelectable = true;
             this.btnOptions.Click += new System.EventHandler(this.btnOptions_Click);
             // 
+            // btnBack
+            // 
+            this.btnBack.BackColor = System.Drawing.Color.Transparent;
+            this.btnBack.FlatAppearance.BorderSize = 0;
+            this.btnBack.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btnBack.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBack.Image = global::DataWrangler.Properties.Resources.arrow_back_dark;
+            this.btnBack.Location = new System.Drawing.Point(23, 25);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(24, 24);
+            this.btnBack.TabIndex = 10;
+            this.btnBack.UseVisualStyleBackColor = false;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+            // 
             // Landing
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnBack);
             this.Controls.Add(this.btnOptions);
             this.Controls.Add(this.btnImport);
             this.Controls.Add(this.btnManage);
@@ -235,7 +252,7 @@ namespace DataWrangler.Forms
             this.Controls.Add(this.tileRecTypes);
             this.Controls.Add(this.tileRecords);
             this.Name = "Landing";
-            this.Text = "Data Wrangler Main";
+            this.Text = "     Data Wrangler Main";
             this.Load += new System.EventHandler(this.LandingScreen_Load);
             this.tileRecords.ResumeLayout(false);
             this.tileRecords.PerformLayout();
@@ -266,5 +283,6 @@ namespace DataWrangler.Forms
         private MetroButton btnImport;
         private MetroButton btnOptions;
         private MetroLabel metroLabel1;
+        private Button btnBack;
     }
 }

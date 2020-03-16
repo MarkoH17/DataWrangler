@@ -79,12 +79,12 @@ namespace DataWrangler.Forms
                 
             _dbSettings = ConfigurationHelper.GetDbSettings();
 
-            Program.SwitchForm(new Login(_dbSettings));
+            Program.SwitchPrimaryForm(new Login(_dbSettings));
         }
 
         protected override void OnLoad(EventArgs e)
         {
-            if (_dbSettings.Count > 0) Program.SwitchForm(new Login(_dbSettings));
+            if (_dbSettings.Count > 0) Program.SwitchPrimaryForm(new Login(_dbSettings));
         }
 
     }

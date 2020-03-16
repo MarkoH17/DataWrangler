@@ -22,7 +22,7 @@ namespace DataWrangler.Forms
 
         private RecordType _recordTypeSel;
         private int _rowIdxSel;
-
+        
         public ManageRecords(Dictionary<string, string> dbSettings, UserAccount user)
         {
             InitializeComponent();
@@ -208,12 +208,12 @@ namespace DataWrangler.Forms
                     gridRecords.ClearSelection();
                     gridRecords.Rows[_rowIdxSel].Selected = true;
 
-                    cm.Items.Add("Edit Record", Properties.Resources.edit, editRecordMenuItem_Click);
-                    cm.Items.Add("Delete Record", Properties.Resources.trash, deleteRecordMenuItem_Click);
+                    cm.Items.Add("Edit Record", Properties.Resources.edit_dark, editRecordMenuItem_Click);
+                    cm.Items.Add("Delete Record", Properties.Resources.trash_dark, deleteRecordMenuItem_Click);
                     cm.Items.Add("-");
                 }
 
-                cm.Items.Add("Add Record", Properties.Resources.plus, addRecordMenuItem_Click);
+                cm.Items.Add("Add Record", Properties.Resources.plus_dark, addRecordMenuItem_Click);
 
                 cm.Show(gridRecords, gridRecords.PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)));
             }
@@ -262,7 +262,12 @@ namespace DataWrangler.Forms
         private void btnCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
-            Program.SwitchForm(new Landing(_dbSettings, _user));
+            Program.SwitchPrimaryForm(new Landing(_dbSettings, _user));
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            Program.SwitchPrimaryForm(new Landing(_dbSettings, _user));
         }
     }
 }

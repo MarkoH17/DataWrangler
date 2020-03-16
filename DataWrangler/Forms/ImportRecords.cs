@@ -245,7 +245,7 @@ namespace DataWrangler.Forms
                 gridFieldAssignment.Rows[hitTest.RowIndex].Selected = true;
 
                 var cm = new MetroContextMenu(Container);
-                cm.Items.Add("Delete Row", Properties.Resources.trash, deleteToolStrip_Click);
+                cm.Items.Add("Delete Row", Properties.Resources.trash_dark, deleteToolStrip_Click);
 
                 cm.Show(gridFieldAssignment,
                     gridFieldAssignment.PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)));
@@ -340,7 +340,12 @@ namespace DataWrangler.Forms
         private void btnCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
-            Program.SwitchForm(new Landing(_dbSettings, _user));
+            Program.SwitchPrimaryForm(new Landing(_dbSettings, _user));
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            Program.SwitchPrimaryForm(new Landing(_dbSettings, _user));
         }
     }
 }

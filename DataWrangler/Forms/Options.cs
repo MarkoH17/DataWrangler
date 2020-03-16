@@ -59,5 +59,10 @@ namespace DataWrangler.Forms
                 }
             }
         }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            Program.SwitchPrimaryForm(new Landing(_dbSettings, _user));
+        }
     }
 }

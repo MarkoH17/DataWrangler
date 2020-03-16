@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -7,6 +8,7 @@ using DataWrangler.DBOs;
 using DataWrangler.FormControls;
 using DataWrangler.Properties;
 using DataWrangler.Retrievers;
+using MetroFramework;
 using MetroFramework.Forms;
 
 namespace DataWrangler.Forms
@@ -58,26 +60,26 @@ namespace DataWrangler.Forms
 
         private void UserAccount_Total()
         {
-            using(var oH = new ObjectHelper(_dbSettings, _user))
+            using (var oH = new ObjectHelper(_dbSettings, _user))
             {
                 var fetchTotal = oH.GetUserAccountCount();
-                if(fetchTotal.Success)
+                if (fetchTotal.Success)
                     lblUserAcc.Text = (fetchTotal.Result).ToString();
             }
         }
         private void tileRecords_Click(object sender, EventArgs e)
         {
-            Program.SwitchForm(new ManageRecords(_dbSettings, _user));
+            Program.SwitchPrimaryForm(new ManageRecords(_dbSettings, _user));
         }
 
         private void tileRecTypes_Click(object sender, EventArgs e)
         {
-            Program.SwitchForm(new ManageRecordTypes(_dbSettings, _user));
+            Program.SwitchPrimaryForm(new ManageRecordTypes(_dbSettings, _user));
         }
 
         private void tileUserAccts_Click(object sender, EventArgs e)
         {
-            Program.SwitchForm(new ManageUserAccounts(_dbSettings, _user));
+            Program.SwitchPrimaryForm(new ManageUserAccounts(_dbSettings, _user));
         }
 
         private void btnManage_Click(object sender, EventArgs e)
@@ -87,28 +89,28 @@ namespace DataWrangler.Forms
 
         private void btnImport_Click(object sender, EventArgs e)
         {
-            Program.SwitchForm(new ImportRecords(_dbSettings, _user));
+            Program.SwitchPrimaryForm(new ImportRecords(_dbSettings, _user));
         }
 
         private void btnOptions_Click(object sender, EventArgs e)
         {
-            Program.SwitchForm(new Options(_dbSettings, _user));
+            Program.SwitchPrimaryForm(new Options(_dbSettings, _user));
 
         }
 
         private void btnManageRec_Click(object sender, EventArgs e)
         {
-            Program.SwitchForm(new ManageRecords(_dbSettings, _user));
+            Program.SwitchPrimaryForm(new ManageRecords(_dbSettings, _user));
         }
 
         private void btnManageRecType_Click(object sender, EventArgs e)
         {
-            Program.SwitchForm(new ManageRecordTypes(_dbSettings, _user));
+            Program.SwitchPrimaryForm(new ManageRecordTypes(_dbSettings, _user));
         }
 
         private void btnManageUsers_Click(object sender, EventArgs e)
         {
-            Program.SwitchForm(new ManageUserAccounts(_dbSettings, _user));
+            Program.SwitchPrimaryForm(new ManageUserAccounts(_dbSettings, _user));
         }
 
         private void ChartData_Load()
@@ -129,7 +131,12 @@ namespace DataWrangler.Forms
                 {
                     chartData.Series["Records By Type"].Points.AddXY(keyArray[i].ToString(), Convert.ToInt32(cntArray[i]));
                 }
-             }
+            }
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            Program.SwitchPrimaryForm(new Login(_dbSettings));
         }
     }
 }

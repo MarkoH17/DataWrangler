@@ -118,11 +118,11 @@ namespace DataWrangler.Forms
                     gridUsers.ClearSelection();
                     gridUsers.Rows[rowIdUsers].Selected = true;
 
-                    cm.Items.Add("Edit Record", Properties.Resources.edit, editUsersMenuItem_Click);
+                    cm.Items.Add("Edit Record", Properties.Resources.edit_dark, editUsersMenuItem_Click);
                     cm.Items.Add("-");
                 }
 
-                cm.Items.Add("Add Record", Properties.Resources.plus, addUserMenuItem_Click);
+                cm.Items.Add("Add Record", Properties.Resources.plus_dark, addUserMenuItem_Click);
 
                 cm.Show(gridUsers, gridUsers.PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)));
             }
@@ -171,6 +171,11 @@ namespace DataWrangler.Forms
             {
                 RecordGridRefresh();
             }
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            Program.SwitchPrimaryForm(new Landing(_dbSettings, _user));
         }
     }
 }

@@ -32,6 +32,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManageUserAccounts));
             this.columnsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.userAccountRetrieverBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.gridUsers = new MetroFramework.Controls.MetroGrid();
@@ -40,6 +41,7 @@
             this.userAccountBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.btnAddNew = new MetroFramework.Controls.MetroButton();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
+            this.btnBack = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.columnsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.userAccountRetrieverBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridUsers)).BeginInit();
@@ -163,17 +165,33 @@
             this.metroLabel1.TabIndex = 8;
             this.metroLabel1.Text = "Users of Current Database.";
             // 
+            // btnBack
+            // 
+            this.btnBack.BackColor = System.Drawing.Color.Transparent;
+            this.btnBack.FlatAppearance.BorderSize = 0;
+            this.btnBack.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btnBack.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBack.Image = ((System.Drawing.Image)(resources.GetObject("btnBack.Image")));
+            this.btnBack.Location = new System.Drawing.Point(23, 25);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(24, 24);
+            this.btnBack.TabIndex = 11;
+            this.btnBack.UseVisualStyleBackColor = false;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+            // 
             // ManageUserAccounts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(566, 448);
+            this.Controls.Add(this.btnBack);
             this.Controls.Add(this.metroLabel1);
             this.Controls.Add(this.btnAddNew);
             this.Controls.Add(this.txtRowCnt);
             this.Controls.Add(this.gridUsers);
             this.Name = "ManageUserAccounts";
-            this.Text = "User Management";
+            this.Text = "     User Management";
             ((System.ComponentModel.ISupportInitialize)(this.columnsBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.userAccountRetrieverBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridUsers)).EndInit();
@@ -198,5 +216,6 @@
         private MetroFramework.Controls.MetroTextBox txtRowCnt;
         private MetroFramework.Controls.MetroButton btnAddNew;
         private MetroFramework.Controls.MetroLabel metroLabel1;
+        private System.Windows.Forms.Button btnBack;
     }
 }

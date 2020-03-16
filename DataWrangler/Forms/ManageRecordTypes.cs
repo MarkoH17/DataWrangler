@@ -24,9 +24,8 @@ namespace DataWrangler.Forms
         private RecordType _recordTypeSel;
         private int _rowIdxSel;
 
-
         private IDataRetriever _retriever; //Needed for paging the data table
-
+        
         public ManageRecordTypes(Dictionary<string, string> dbSettings, UserAccount user)
         {
             InitializeComponent();
@@ -38,7 +37,6 @@ namespace DataWrangler.Forms
         {
             try
             {
-                //Change 'UserAccountRetriever' below to proper retriever. E.g. for showing Records, use RecordRetriever, for showing RecordType use RecordTypeRetriever. Update constructor parameters if required.
                 _retriever = new RecordTypeRetriever(_dbSettings);
                 _dataCache = new DataCache(_retriever, 500);
 
@@ -49,7 +47,7 @@ namespace DataWrangler.Forms
                     gridRecordTypes.Columns.Add(column, column);
 
                 gridRecordTypes.RowCount = _retriever.RowCount;
-                //textBox1.Text = _retriever.RowCount.ToString();
+                
             }
             catch (Exception ex)
             {
@@ -170,12 +168,12 @@ namespace DataWrangler.Forms
                     gridRecordTypes.ClearSelection();
                     gridRecordTypes.Rows[_rowIdxSel].Selected = true;
 
-                    cm.Items.Add("Edit Type", Properties.Resources.edit, editRecordTypeMenuItem_Click);
-                    cm.Items.Add("Delete Type", Properties.Resources.trash, deleteRecordTypeMenuItem_Click);
+                    cm.Items.Add("Edit Type", Properties.Resources.edit_dark, editRecordTypeMenuItem_Click);
+                    cm.Items.Add("Delete Type", Properties.Resources.trash_dark, deleteRecordTypeMenuItem_Click);
                     cm.Items.Add("-");
                 }
 
-                cm.Items.Add("Add Type", Properties.Resources.plus, addRecordTypeMenuItem_Click);
+                cm.Items.Add("Add Type", Properties.Resources.plus_dark, addRecordTypeMenuItem_Click);
 
                 cm.Show(gridRecordTypes, gridRecordTypes.PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)));
             }
@@ -193,6 +191,11 @@ namespace DataWrangler.Forms
                     RecordTypeGridRefresh();
                 }
             }
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            Program.SwitchPrimaryForm(new Landing(_dbSettings, _user));
         }
     }
 }

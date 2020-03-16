@@ -59,7 +59,7 @@ namespace DataWrangler.Forms
 
             if (user != null)
             {
-                Program.SwitchForm(new Landing(_dbSettings, user));
+                Program.SwitchPrimaryForm(new Landing(_dbSettings, user));
             }
             else
             {

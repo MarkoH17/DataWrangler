@@ -22,7 +22,7 @@ namespace DataWrangler
             Application.Run(_appContext);
         }
 
-        public static void SwitchForm(Form newForm)
+        public static void SwitchPrimaryForm(Form newForm)
         {
             var oldForm = _appContext.MainForm;
             _appContext.MainForm = newForm;

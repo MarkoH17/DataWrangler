@@ -20,13 +20,12 @@ namespace DataWrangler.Forms
         private List<int> _topPoints = new List<int>();
         private MetroTextBox _addRowTextBox;
         private MetroLabel _addRowLabel;
-        private MetroButton _addRowButton;
+        private Button _addRowButton;
 
         private DataCache _dataCache;
         private IDataRetriever _retriever;
 
         private List<string> _removedAttrs = new List<string>();
-        private List<string> _addedAttrs = new List<string>();
 
         public EditRecordType(Dictionary<string, string> dbSettings, UserAccount user, RecordType recordType)
         {
@@ -77,7 +76,7 @@ namespace DataWrangler.Forms
 
                     var newLbl = new MetroLabel {Text = "Attribute " + (ctrlCtr + 1), Name = "Row" + ctrlCtr};
                     var newTxtBox = new MetroTextBox {Text = attrValue, Tag = attr.Key, Name = "Row" + ctrlCtr, Width = 250};
-                    var deleteButton = new MetroButton {Width = 25, BackgroundImage = Properties.Resources.trash, BackColor = Color.Transparent, Name = "Row" + ctrlCtr };
+                    var deleteButton = new Button {Width = 25, BackgroundImage = Properties.Resources.trash_dark, BackColor = Color.Transparent, Name = "Row" + ctrlCtr, FlatStyle = FlatStyle.Flat, FlatAppearance = { BorderSize = 0, MouseDownBackColor = Color.Transparent, MouseOverBackColor = Color.Transparent } };
 
                     deleteButton.Click += (sender, args) => RemoveRow(sender);
 
@@ -134,7 +133,7 @@ namespace DataWrangler.Forms
         {
             _addRowLabel = new MetroLabel { Text = "New Attribute", Tag = "NEW"};
             _addRowTextBox = new MetroTextBox { Tag = "NEW", Width = 250};
-            _addRowButton = new MetroButton { Width = 25, BackgroundImage = Properties.Resources.plus, BackColor = Color.Transparent, Tag = "NEW" };
+            _addRowButton = new Button { Width = 25, BackgroundImage = Properties.Resources.plus_dark, BackColor = Color.Transparent, Tag = "NEW", FlatStyle = FlatStyle.Flat, FlatAppearance = { BorderSize = 0, MouseDownBackColor = Color.Transparent, MouseOverBackColor = Color.Transparent } };
 
             _addRowButton.Click += (sender, args) => AddRow();
 
@@ -161,7 +160,7 @@ namespace DataWrangler.Forms
 
             var newLbl = new MetroLabel { Text = "Attribute " + (_txtControls.Count + 1), Name = "Row" + (ctrlCnt + 1) };
             var newTxtBox = new MetroTextBox { Text = addValue, Tag = "ADDED", Name = "Row" + (ctrlCnt + 1), Width = 250 };
-            var deleteButton = new MetroButton { Width = 25, BackgroundImage = Properties.Resources.trash, BackColor = Color.Transparent, Name = "Row" + (ctrlCnt + 1) };
+            var deleteButton = new Button { Width = 25, BackgroundImage = Properties.Resources.trash_dark, BackColor = Color.Transparent, Name = "Row" + (ctrlCnt + 1), FlatStyle = FlatStyle.Flat, FlatAppearance = { BorderSize = 0, MouseDownBackColor = Color.Transparent, MouseOverBackColor = Color.Transparent}};
 
             deleteButton.Click += (sender, args) => RemoveRow(sender);
 
@@ -190,7 +189,7 @@ namespace DataWrangler.Forms
         {
             tabAttributes.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
-            var senderBtn = (MetroButton) sender;
+            var senderBtn = (Button) sender;
 
             var rowName = senderBtn.Name;
             var rowNum = tableLayoutPanel1.GetRow(senderBtn);

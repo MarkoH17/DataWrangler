@@ -33,6 +33,7 @@ namespace DataWrangler.Forms
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ManageRecords));
             this.txtRowCnt = new MetroFramework.Controls.MetroTextBox();
             this.lblCount = new MetroFramework.Controls.MetroLabel();
             this.comboRecType = new MetroFramework.Controls.MetroComboBox();
@@ -50,6 +51,7 @@ namespace DataWrangler.Forms
             this.lblHorSep2 = new MetroFramework.Controls.MetroLabel();
             this.gridRecords = new MetroFramework.Controls.MetroGrid();
             this.btnCancel = new MetroFramework.Controls.MetroButton();
+            this.btnBack = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.subTblCol3.SuspendLayout();
             this.subTblCol1.SuspendLayout();
@@ -355,11 +357,27 @@ namespace DataWrangler.Forms
             this.btnCancel.UseSelectable = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // btnBack
+            // 
+            this.btnBack.BackColor = System.Drawing.Color.Transparent;
+            this.btnBack.FlatAppearance.BorderSize = 0;
+            this.btnBack.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.btnBack.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBack.Image = ((System.Drawing.Image)(resources.GetObject("btnBack.Image")));
+            this.btnBack.Location = new System.Drawing.Point(23, 25);
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(24, 24);
+            this.btnBack.TabIndex = 18;
+            this.btnBack.UseVisualStyleBackColor = false;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
+            // 
             // ManageRecords
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1000, 550);
+            this.Controls.Add(this.btnBack);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.lblHorSep2);
             this.Controls.Add(this.tableLayoutPanel1);
@@ -370,7 +388,7 @@ namespace DataWrangler.Forms
             this.Controls.Add(this.gridRecords);
             this.MinimumSize = new System.Drawing.Size(1000, 550);
             this.Name = "ManageRecords";
-            this.Text = "Manage Records";
+            this.Text = "     Manage Records";
             this.Load += new System.EventHandler(this.ManageRecords_Load);
             this.Resize += new System.EventHandler(this.ManageRecords_Resize);
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -404,5 +422,6 @@ namespace DataWrangler.Forms
         private MetroLabel lblHorSep2;
         private MetroGrid gridRecords;
         private MetroButton btnCancel;
+        private Button btnBack;
     }
 }

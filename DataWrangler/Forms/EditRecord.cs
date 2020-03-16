@@ -347,12 +347,12 @@ namespace DataWrangler.Forms
                 
                 if (_attachmentsSelIdx > -1)
                 {
-                    cm.Items.Add("Download Attachment", Properties.Resources.download, downloadAttachmentMenuItem_Click);
-                    cm.Items.Add("Delete Attachment", Properties.Resources.trash, deleteAttachmentMenuItem_Click);
+                    cm.Items.Add("Download Attachment", Properties.Resources.download_dark, downloadAttachmentMenuItem_Click);
+                    cm.Items.Add("Delete Attachment", Properties.Resources.download_dark, deleteAttachmentMenuItem_Click);
                     cm.Items.Add("-"); //horizontal separator on context menu
                 }
                 
-                cm.Items.Add("Add Attachment", Properties.Resources.plus, addAttachmentMenuItem_Click);
+                cm.Items.Add("Add Attachment", Properties.Resources.download_dark, addAttachmentMenuItem_Click);
 
                 cm.Show(listAttachments, listAttachments.PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)));
             }
