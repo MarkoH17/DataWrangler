@@ -109,23 +109,23 @@ namespace DataWrangler.Forms
 
         private void gridUsers_MouseClick(object sender, MouseEventArgs e)
         {
-            if (_users!= null && e.Button == MouseButtons.Right)
+            if (_user != null && e.Button == MouseButtons.Right)
             {
                 var hitTest = gridUsers.HitTest(e.X, e.Y);
 
                 var cm = new MetroContextMenu(Container);
-                if (hitTest.RowIndex > 0)
+                if (hitTest.RowIndex >= 0)
                 {
                     rowIdUsers = hitTest.RowIndex;
 
                     gridUsers.ClearSelection();
                     gridUsers.Rows[rowIdUsers].Selected = true;
 
-                    cm.Items.Add("Edit Record", Properties.Resources.edit_dark, editUsersMenuItem_Click);
+                    cm.Items.Add("Edit User", Properties.Resources.edit_dark, editUsersMenuItem_Click);
                     cm.Items.Add("-");
                 }
 
-                cm.Items.Add("Add Record", Properties.Resources.plus_dark, addUserMenuItem_Click);
+                cm.Items.Add("Add User", Properties.Resources.plus_dark, addUserMenuItem_Click);
 
                 cm.Show(gridUsers, gridUsers.PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)));
             }
@@ -164,16 +164,6 @@ namespace DataWrangler.Forms
                 }
             }
 
-        }
-
-        private void btnAddNew_Click(object sender, EventArgs e)
-        {
-            var editForm = new EditUsers(_dbSettings, _user, null);
-            var editFormResult = editForm.ShowDialog();
-            if (editFormResult == DialogResult.OK)
-            {
-                RecordGridRefresh();
-            }
         }
 
         private void btnBack_Click(object sender, EventArgs e)
