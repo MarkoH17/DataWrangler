@@ -84,7 +84,9 @@ namespace DataWrangler.Forms
 
         private void addUserMenuItem_Click(object sender, EventArgs e)
         {
+            _users = null;
             var addForm = new EditUsers(_dbSettings, _user, _users);
+            addForm.Text = "Add User";
             var addFormResult = addForm.ShowDialog();
             if (addFormResult == DialogResult.OK)
             {

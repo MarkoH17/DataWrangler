@@ -19,14 +19,10 @@ namespace DataWrangler.Forms
     {
         private readonly Dictionary<string, string> _dbSettings;
         private readonly UserAccount _user;
-        private UserAccount _users;
-
-        private List<MetroTextBox> _txtControls = new List<MetroTextBox>();
+        private  UserAccount _users;
 
         private DataCache _dataCache;
         private IDataRetriever _retriever;
-
-        private MetroToolTip hintToolTip = new MetroToolTip();
    
         public EditUsers(Dictionary<string, string> dbSettings, UserAccount user, UserAccount users)
         {
@@ -61,7 +57,7 @@ namespace DataWrangler.Forms
             txtUpdated.Text = updated.ToString();
 
             var status = _users.Active;
-            txtActiveStat.Text = status.ToString();
+            togActiveStat.Checked = status;
 
             var username = _users.Username;
             txtUsername.Text = username;
@@ -89,13 +85,13 @@ namespace DataWrangler.Forms
             Close();
         }
 
-        private void btnUpdate_Click(object sender, EventArgs e)
+        private void btnUpdate_Click()
         {
             bool needsDbAction = false;
 
             var txtUser = txtUsername.Text;
             var currTxtUser = _users.Username;
-            bool stat = Boolean.Parse(txtActiveStat.Text);
+            bool stat = togActiveStat.Checked;
             bool currStat = _users.Active;
             var txtPass = txtOldPassword.Text;
             var newPass = txtNewPassword.Text;
@@ -109,7 +105,6 @@ namespace DataWrangler.Forms
             }
             if (hashedNew != hashedPass)
             {
-                
                 _users.Password = hashedNew;
                 needsDbAction = true;
             }
@@ -139,25 +134,73 @@ namespace DataWrangler.Forms
             }
         }
 
-        private void btnAddUser_Click(object sender, EventArgs e)
+        private void btnAddUser_Click()
         {
-            using (var oH = new ObjectHelper(_dbSettings, _users))
-            {
-                var username = txtUsername.Text;
-                var password = txtNewPassword.Text;
-                bool active = Boolean.Parse(txtActiveStat.Text);
-                var success = oH.AddUserAccount(username, password, active);
+            tabControl.TabPages.Remove(tabHistory);
+            var username = txtUsername.Text;
+            var password = txtOldPassword.Text;
+            var passVerify = txtNewPassword.Text;
+            bool active = togActiveStat.Checked;
 
-                if(success.Success)
+            if (password == passVerify)
+            {
+                using (var oH = new ObjectHelper(_dbSettings, _users))
                 {
-                    DialogResult = DialogResult.OK;
-                    MessageBox.Show("You successfully added a new account.");
-                    Close();
+                    var success = oH.AddUserAccount(username, password, active);
+                    if (success.Success)
+                    {
+                        DialogResult = DialogResult.OK;
+                        MessageBox.Show("You successfully added a new account.");
+                        Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to add new account!");
+                    }
                 }
-                else
-                {
-                    MessageBox.Show("Failed to add new account!");
-                }
+            }
+            else
+            {
+                MessageBox.Show("The passwords do not match!");
+            }
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            if (_users == null)
+            {
+                btnAddUser_Click();
+            }
+            else
+            {
+                btnUpdate_Click();
+                LoadHistory();
+            }
+        }
+
+        private void gridAuditHistory_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
+        {
+            e.Value = _dataCache.RetrieveElement(e.RowIndex, e.ColumnIndex);
+        }
+
+        public void LoadHistory()
+        {
+            try
+            {
+                _retriever = new AuditEntryRetriever(_dbSettings, _users);
+                _dataCache = new DataCache(_retriever, 500);
+
+                gridAuditHistory.Columns.Clear();
+                gridAuditHistory.Rows.Clear();
+
+                foreach (var column in _retriever.Columns)
+                    gridAuditHistory.Columns.Add(column, column);
+
+                gridAuditHistory.RowCount = _retriever.RowCount;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error was encountered: " + ex.Message);
             }
         }
     }
