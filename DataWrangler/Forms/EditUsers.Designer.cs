@@ -28,33 +28,40 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl = new MetroFramework.Controls.MetroTabControl();
             this.tabUser = new MetroFramework.Controls.MetroTabPage();
+            this.togActiveStat = new MetroFramework.Controls.MetroToggle();
+            this.btnSave = new MetroFramework.Controls.MetroButton();
             this.btnCancel = new MetroFramework.Controls.MetroButton();
-            this.btnUpdate = new MetroFramework.Controls.MetroButton();
-            this.btnAddUser = new MetroFramework.Controls.MetroButton();
             this.txtNewPassword = new MetroFramework.Controls.MetroTextBox();
             this.metroLabel2 = new MetroFramework.Controls.MetroLabel();
             this.txtUsername = new MetroFramework.Controls.MetroTextBox();
             this.lblUsername = new MetroFramework.Controls.MetroLabel();
             this.txtOldPassword = new MetroFramework.Controls.MetroTextBox();
             this.lblPassword = new MetroFramework.Controls.MetroLabel();
-            this.txtActiveStat = new MetroFramework.Controls.MetroTextBox();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
             this.lbUpdated = new MetroFramework.Controls.MetroLabel();
             this.txtUpdated = new MetroFramework.Controls.MetroTextBox();
             this.txtUserId = new MetroFramework.Controls.MetroTextBox();
             this.lblId = new MetroFramework.Controls.MetroLabel();
+            this.tabHistory = new MetroFramework.Controls.MetroTabPage();
+            this.gridAuditHistory = new MetroFramework.Controls.MetroGrid();
             this.tabControl.SuspendLayout();
             this.tabUser.SuspendLayout();
+            this.tabHistory.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridAuditHistory)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl
             // 
             this.tabControl.Controls.Add(this.tabUser);
+            this.tabControl.Controls.Add(this.tabHistory);
             this.tabControl.Location = new System.Drawing.Point(28, 101);
             this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 0;
+            this.tabControl.SelectedIndex = 1;
             this.tabControl.Size = new System.Drawing.Size(416, 326);
             this.tabControl.TabIndex = 10;
             this.tabControl.UseSelectable = true;
@@ -62,16 +69,15 @@
             // tabUser
             // 
             this.tabUser.AutoScroll = true;
+            this.tabUser.Controls.Add(this.togActiveStat);
+            this.tabUser.Controls.Add(this.btnSave);
             this.tabUser.Controls.Add(this.btnCancel);
-            this.tabUser.Controls.Add(this.btnUpdate);
-            this.tabUser.Controls.Add(this.btnAddUser);
             this.tabUser.Controls.Add(this.txtNewPassword);
             this.tabUser.Controls.Add(this.metroLabel2);
             this.tabUser.Controls.Add(this.txtUsername);
             this.tabUser.Controls.Add(this.lblUsername);
             this.tabUser.Controls.Add(this.txtOldPassword);
             this.tabUser.Controls.Add(this.lblPassword);
-            this.tabUser.Controls.Add(this.txtActiveStat);
             this.tabUser.Controls.Add(this.metroLabel1);
             this.tabUser.HorizontalScrollbar = true;
             this.tabUser.HorizontalScrollbarBarColor = true;
@@ -89,9 +95,29 @@
             this.tabUser.VerticalScrollbarHighlightOnWheel = false;
             this.tabUser.VerticalScrollbarSize = 10;
             // 
+            // togActiveStat
+            // 
+            this.togActiveStat.AutoSize = true;
+            this.togActiveStat.Location = new System.Drawing.Point(7, 42);
+            this.togActiveStat.Name = "togActiveStat";
+            this.togActiveStat.Size = new System.Drawing.Size(80, 17);
+            this.togActiveStat.TabIndex = 14;
+            this.togActiveStat.Text = "Off";
+            this.togActiveStat.UseSelectable = true;
+            // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(252, 258);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.TabIndex = 13;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseSelectable = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(327, 255);
+            this.btnCancel.Location = new System.Drawing.Point(333, 258);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 12;
@@ -99,33 +125,13 @@
             this.btnCancel.UseSelectable = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click_1);
             // 
-            // btnUpdate
-            // 
-            this.btnUpdate.Location = new System.Drawing.Point(247, 255);
-            this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(75, 23);
-            this.btnUpdate.TabIndex = 11;
-            this.btnUpdate.Text = "Update User";
-            this.btnUpdate.UseSelectable = true;
-            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
-            // 
-            // btnAddUser
-            // 
-            this.btnAddUser.Location = new System.Drawing.Point(165, 255);
-            this.btnAddUser.Name = "btnAddUser";
-            this.btnAddUser.Size = new System.Drawing.Size(75, 23);
-            this.btnAddUser.TabIndex = 10;
-            this.btnAddUser.Text = "Add User";
-            this.btnAddUser.UseSelectable = true;
-            this.btnAddUser.Click += new System.EventHandler(this.btnAddUser_Click);
-            // 
             // txtNewPassword
             // 
             // 
             // 
             // 
             this.txtNewPassword.CustomButton.Image = null;
-            this.txtNewPassword.CustomButton.Location = new System.Drawing.Point(126, 1);
+            this.txtNewPassword.CustomButton.Location = new System.Drawing.Point(138, 1);
             this.txtNewPassword.CustomButton.Name = "";
             this.txtNewPassword.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.txtNewPassword.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -154,9 +160,9 @@
             this.metroLabel2.AutoSize = true;
             this.metroLabel2.Location = new System.Drawing.Point(226, 166);
             this.metroLabel2.Name = "metroLabel2";
-            this.metroLabel2.Size = new System.Drawing.Size(161, 19);
+            this.metroLabel2.Size = new System.Drawing.Size(107, 19);
             this.metroLabel2.TabIndex = 8;
-            this.metroLabel2.Text = "New Password (New User)";
+            this.metroLabel2.Text = "Password (Verify)";
             // 
             // txtUsername
             // 
@@ -203,7 +209,7 @@
             // 
             // 
             this.txtOldPassword.CustomButton.Image = null;
-            this.txtOldPassword.CustomButton.Location = new System.Drawing.Point(126, 1);
+            this.txtOldPassword.CustomButton.Location = new System.Drawing.Point(184, 1);
             this.txtOldPassword.CustomButton.Name = "";
             this.txtOldPassword.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.txtOldPassword.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -232,39 +238,9 @@
             this.lblPassword.AutoSize = true;
             this.lblPassword.Location = new System.Drawing.Point(12, 166);
             this.lblPassword.Name = "lblPassword";
-            this.lblPassword.Size = new System.Drawing.Size(207, 19);
+            this.lblPassword.Size = new System.Drawing.Size(63, 19);
             this.lblPassword.TabIndex = 4;
-            this.lblPassword.Text = "Old Password (Current Users Only";
-            // 
-            // txtActiveStat
-            // 
-            // 
-            // 
-            // 
-            this.txtActiveStat.CustomButton.Image = null;
-            this.txtActiveStat.CustomButton.Location = new System.Drawing.Point(126, 1);
-            this.txtActiveStat.CustomButton.Name = "";
-            this.txtActiveStat.CustomButton.Size = new System.Drawing.Size(21, 21);
-            this.txtActiveStat.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.txtActiveStat.CustomButton.TabIndex = 1;
-            this.txtActiveStat.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.txtActiveStat.CustomButton.UseSelectable = true;
-            this.txtActiveStat.CustomButton.Visible = false;
-            this.txtActiveStat.Lines = new string[0];
-            this.txtActiveStat.Location = new System.Drawing.Point(7, 43);
-            this.txtActiveStat.MaxLength = 32767;
-            this.txtActiveStat.Name = "txtActiveStat";
-            this.txtActiveStat.PasswordChar = '\0';
-            this.txtActiveStat.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.txtActiveStat.SelectedText = "";
-            this.txtActiveStat.SelectionLength = 0;
-            this.txtActiveStat.SelectionStart = 0;
-            this.txtActiveStat.ShortcutsEnabled = true;
-            this.txtActiveStat.Size = new System.Drawing.Size(148, 23);
-            this.txtActiveStat.TabIndex = 3;
-            this.txtActiveStat.UseSelectable = true;
-            this.txtActiveStat.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.txtActiveStat.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.lblPassword.Text = "Password";
             // 
             // metroLabel1
             // 
@@ -358,6 +334,68 @@
             this.lblId.TabIndex = 6;
             this.lblId.Text = "User ID";
             // 
+            // tabHistory
+            // 
+            this.tabHistory.Controls.Add(this.gridAuditHistory);
+            this.tabHistory.HorizontalScrollbarBarColor = true;
+            this.tabHistory.HorizontalScrollbarHighlightOnWheel = false;
+            this.tabHistory.HorizontalScrollbarSize = 10;
+            this.tabHistory.Location = new System.Drawing.Point(4, 38);
+            this.tabHistory.Name = "tabHistory";
+            this.tabHistory.Size = new System.Drawing.Size(408, 284);
+            this.tabHistory.TabIndex = 1;
+            this.tabHistory.Text = "History";
+            this.tabHistory.VerticalScrollbarBarColor = true;
+            this.tabHistory.VerticalScrollbarHighlightOnWheel = false;
+            this.tabHistory.VerticalScrollbarSize = 10;
+            // 
+            // gridAuditHistory
+            // 
+            this.gridAuditHistory.AllowUserToAddRows = false;
+            this.gridAuditHistory.AllowUserToDeleteRows = false;
+            this.gridAuditHistory.AllowUserToResizeRows = false;
+            this.gridAuditHistory.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.gridAuditHistory.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gridAuditHistory.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.gridAuditHistory.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridAuditHistory.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.gridAuditHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridAuditHistory.DefaultCellStyle = dataGridViewCellStyle2;
+            this.gridAuditHistory.EnableHeadersVisualStyles = false;
+            this.gridAuditHistory.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.gridAuditHistory.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.gridAuditHistory.Location = new System.Drawing.Point(4, 23);
+            this.gridAuditHistory.Name = "gridAuditHistory";
+            this.gridAuditHistory.ReadOnly = true;
+            this.gridAuditHistory.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridAuditHistory.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.gridAuditHistory.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.gridAuditHistory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.gridAuditHistory.Size = new System.Drawing.Size(397, 258);
+            this.gridAuditHistory.TabIndex = 2;
+            this.gridAuditHistory.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.gridAuditHistory_CellValueNeeded);
+            // 
             // EditUsers
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -369,10 +407,12 @@
             this.Controls.Add(this.txtUserId);
             this.Controls.Add(this.lblId);
             this.Name = "EditUsers";
-            this.Text = "Edit Users";
+            this.Text = "Edit User";
             this.tabControl.ResumeLayout(false);
             this.tabUser.ResumeLayout(false);
             this.tabUser.PerformLayout();
+            this.tabHistory.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridAuditHistory)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -390,12 +430,13 @@
         private MetroFramework.Controls.MetroLabel lblUsername;
         private MetroFramework.Controls.MetroTextBox txtOldPassword;
         private MetroFramework.Controls.MetroLabel lblPassword;
-        private MetroFramework.Controls.MetroTextBox txtActiveStat;
         private MetroFramework.Controls.MetroLabel metroLabel1;
         private MetroFramework.Controls.MetroTextBox txtNewPassword;
         private MetroFramework.Controls.MetroLabel metroLabel2;
         private MetroFramework.Controls.MetroButton btnCancel;
-        private MetroFramework.Controls.MetroButton btnUpdate;
-        private MetroFramework.Controls.MetroButton btnAddUser;
+        private MetroFramework.Controls.MetroButton btnSave;
+        private MetroFramework.Controls.MetroToggle togActiveStat;
+        private MetroFramework.Controls.MetroTabPage tabHistory;
+        private MetroFramework.Controls.MetroGrid gridAuditHistory;
     }
 }
