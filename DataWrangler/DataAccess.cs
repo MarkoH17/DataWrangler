@@ -259,6 +259,25 @@ namespace DataWrangler
             }
         }
 
+        public StatusObject GetAuditEntriesByUser(UserAccount user, int skip, int limit)
+        {
+            try
+            {
+                var collection = _getCollection<AuditEntry>();
+                var result = collection
+                    .Include(x => x.User)
+                    .FindAll()
+                    .Where(x => x.User.Id == user.Id)
+                    .OrderByDescending(x => x.Date).Skip(skip)
+                    .Take(limit).ToArray();
+                return GetStatusObject(StatusObject.OperationTypes.Read, result, true);
+            }
+            catch (LiteException e)
+            {
+                return GetStatusObject(StatusObject.OperationTypes.Read, e, false);
+            }
+        }
+
         public StatusObject GetCountOfObj<T>(string colName = null)
         {
             try
