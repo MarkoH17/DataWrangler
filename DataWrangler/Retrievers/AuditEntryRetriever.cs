@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using DataWrangler.DBOs;
 
 namespace DataWrangler.Retrievers
@@ -113,7 +114,13 @@ namespace DataWrangler.Retrievers
 
         private void LoadColumns()
         {
-            foreach (var col in new[] {"User", "Operation", "Date"})
+            string[] cols;
+            if (_mode == 0)
+                cols = new[] {"Object Type", "Object ID", "Operation", "Date"};
+            else
+                cols = new[] { "User", "Operation", "Date" };
+            
+            foreach (var col in cols)
                 ColumnsValue.Add(col);
         }
     }

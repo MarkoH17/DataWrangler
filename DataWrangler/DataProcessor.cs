@@ -23,10 +23,31 @@ namespace DataWrangler
             foreach (var i in auditEntries)
             {
                 var dR = dT.NewRow();
-                dR["User"] = i.User.Username;
-                //dR["Object Type"] = i.ObjectLookupCol.Replace(DataAccess.CollectionPrefix, "");
-                dR["Operation"] = i.Operation;
-                dR["Date"] = string.Format("{0} ({1})", i.Date.ToShortDateString(), i.Date.ToShortTimeString());
+                foreach (DataColumn col in dT.Columns)
+                {
+                    var value = "";
+                    switch (col.ColumnName)
+                    {
+                        case "User":
+                            value = i.User.Username;
+                            break;
+                        case "Operation":
+                            value = i.Operation.ToString();
+                            break;
+                        case "Date":
+                            value = string.Format("{0} ({1})", i.Date.ToShortDateString(), i.Date.ToShortTimeString());
+                            break;
+                        case "Object Type":
+                            value = i.ObjectLookupCol.Replace(DataAccess.CollectionPrefix, "")
+                                .Substring(i.ObjectLookupCol.IndexOf('_'));
+                            break;
+                        case "Object ID":
+                            value = i.ObjectId.ToString();
+                            break;
+                    }
+
+                    dR[col.Ordinal] = value;
+                }
                 dT.Rows.Add(dR);
             }
 
@@ -45,8 +66,8 @@ namespace DataWrangler
             {
                 var dR = dT.NewRow();
                 dR["Id"] = rec.Id;
-                foreach (var attr in rec.Attributes)
-                    dR[attr.Key] = attr.Value;
+                /*foreach (var attr in rec.Attributes)
+                    dR[attr.Key] = attr.Value;*/
 
                 dT.Rows.Add(dR);
             }
