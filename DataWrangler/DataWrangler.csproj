@@ -281,6 +281,8 @@
     <Content Include="Assets\Images\edit_light.png" />
     <Content Include="Assets\Images\key_dark.png" />
     <Content Include="Assets\Images\key_light.png" />
+    <Content Include="Assets\Images\logout_dark.png" />
+    <Content Include="Assets\Images\logout_light.png" />
     <Content Include="Assets\Images\minus_dark.png" />
     <Content Include="Assets\Images\minus_light.png" />
     <Content Include="Assets\Images\plus_dark.png" />

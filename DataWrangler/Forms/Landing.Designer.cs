@@ -31,9 +31,9 @@ namespace DataWrangler.Forms
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea9 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend9 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.tileRecords = new MetroFramework.Controls.MetroTile();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
             this.lblRecCount = new System.Windows.Forms.Label();
@@ -122,17 +122,17 @@ namespace DataWrangler.Forms
             // chartData
             // 
             this.chartData.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
-            chartArea9.Name = "ChartArea1";
-            this.chartData.ChartAreas.Add(chartArea9);
+            chartArea1.Name = "ChartArea1";
+            this.chartData.ChartAreas.Add(chartArea1);
             this.chartData.Cursor = System.Windows.Forms.Cursors.Default;
-            legend9.Name = "Legend1";
-            this.chartData.Legends.Add(legend9);
+            legend1.Name = "Legend1";
+            this.chartData.Legends.Add(legend1);
             this.chartData.Location = new System.Drawing.Point(12, 270);
             this.chartData.Name = "chartData";
-            series9.ChartArea = "ChartArea1";
-            series9.Legend = "Legend1";
-            series9.Name = "Records By Type";
-            this.chartData.Series.Add(series9);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Records By Type";
+            this.chartData.Series.Add(series1);
             this.chartData.Size = new System.Drawing.Size(778, 178);
             this.chartData.TabIndex = 3;
             this.chartData.Text = "Records Per Record Type";
@@ -230,7 +230,7 @@ namespace DataWrangler.Forms
             this.btnBack.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.btnBack.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btnBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBack.Image = global::DataWrangler.Properties.Resources.arrow_back_dark;
+            this.btnBack.Image = global::DataWrangler.Properties.Resources.logout_dark;
             this.btnBack.Location = new System.Drawing.Point(23, 25);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(24, 24);

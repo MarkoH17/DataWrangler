@@ -36,6 +36,7 @@ namespace DataWrangler.Forms
             Records_Total();
             UserAccount_Total();
             RecordType_Total();
+            btnBack.Image = Theme == MetroThemeStyle.Dark ? Resources.logout_light : Resources.logout_dark;
         }
 
         private void Records_Total()
@@ -144,11 +145,11 @@ namespace DataWrangler.Forms
         {
             if (Theme == MetroThemeStyle.Dark)
             {
-                btnBack.Image = Resources.arrow_back_light;
+                btnBack.Image = Resources.logout_light;
             }
             else
             {
-                btnBack.Image = Resources.arrow_back_dark;
+                btnBack.Image = Resources.logout_dark;
             }
         }
     }
