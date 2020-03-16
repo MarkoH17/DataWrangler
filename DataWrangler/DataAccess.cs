@@ -586,5 +586,20 @@ namespace DataWrangler
                 return GetStatusObject(StatusObject.OperationTypes.Update, e, false);
             }
         }
+
+        public StatusObject UpdateObjects<T>(T[] objs, string colName = null)
+        {
+            try
+            {
+                var collection = _getCollection<T>(colName);
+                var result = collection.Update(objs);
+                
+                return GetStatusObject(StatusObject.OperationTypes.Update, result, result == objs.Length);
+            }
+            catch (LiteException e)
+            {
+                return GetStatusObject(StatusObject.OperationTypes.Update, e, false);
+            }
+        }
     }
 }
