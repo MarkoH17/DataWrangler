@@ -52,10 +52,29 @@ namespace DataWrangler.Forms
                     dbSize = (int)fetchSizeStatus.Result;
                 }
             }
-
-            lblDatabaseSizeValue.Text = dbSize.ToString();
+            lblDatabaseSizeValue.Text = dbSizeConverter(dbSize);
+            //lblDatabaseSizeValue.Text = dbSize.ToString();
         }
+        private string dbSizeConverter(Int64 dbSize)
+        {
+            string[] SizeSuffixes = { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
 
+            string SizeSuffix(Int64 value, int decimalPlaces = 1) {
+                if (value < 0) { return "-" + SizeSuffix(-value); }
+
+                int i = 0;
+                decimal dValue = (decimal)value;
+                while (Math.Round(dValue, decimalPlaces) >= 1000)
+                {
+                    dValue /= 1024;
+                    i++;
+                }
+
+                return string.Format("{0:n" + decimalPlaces + "} {1}", dValue, SizeSuffixes[i]);
+            }
+            return SizeSuffix(dbSize);
+
+        }
         private void LoadStyles()
         {
             foreach (var color in Enum.GetValues(typeof(MetroColorStyle)))
