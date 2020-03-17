@@ -163,6 +163,12 @@ namespace DataWrangler
             return _dA.GetCountOfAuditEntryByObj(objLookupCol, objId);
         }
 
+        public StatusObject GetAuditEntryCountByUser(UserAccount user)
+        {
+            var expr = BsonExpression.Create(string.Format("User.$id = {0}", user.Id));
+            return _dA.GetCountOfObjByExpr<AuditEntry>(expr);
+        }
+
         public StatusObject GetDbSize()
         {
             return _dA.GetDbSize();
@@ -268,6 +274,11 @@ namespace DataWrangler
         public StatusObject GetUserAccountAuditEntries(int objectId, int skip = 0, int limit = DefaultRecordSetSize)
         {
             return _dA.GetAuditEntriesByObjId<UserAccount>(objectId, skip, limit);
+        }
+
+        public StatusObject GetAuditEntriesByUserAccount(UserAccount user, int skip = 0, int limit = DefaultRecordSetSize)
+        {
+            return _dA.GetAuditEntriesByUser(user, skip, limit);
         }
 
         public StatusObject GetUserAccountById(int id)

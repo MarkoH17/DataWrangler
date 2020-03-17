@@ -38,8 +38,9 @@ namespace DataWrangler
                             value = string.Format("{0} ({1})", i.Date.ToShortDateString(), i.Date.ToShortTimeString());
                             break;
                         case "Object Type":
-                            value = i.ObjectLookupCol.Replace(DataAccess.CollectionPrefix, "")
-                                .Substring(i.ObjectLookupCol.IndexOf('_'));
+                            value = i.ObjectLookupCol.Replace(DataAccess.CollectionPrefix, "");
+                            if(value.Contains("_"))
+                                value = value.Substring(0, value.LastIndexOf("_"));
                             break;
                         case "Object ID":
                             value = i.ObjectId.ToString();

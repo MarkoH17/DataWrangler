@@ -13,19 +13,20 @@ namespace DataWrangler.Retrievers
 
         /*
          * AuditEntryRetriever Modes
-         * 0 -> By UserAccount obj
+         * 0 -> For a UserAccount obj
          * 1 -> For a Record obj of a Record Type
          * 2 -> For a RecordType obj
+         * 3 -> For all by a UserAccount
          */
         private readonly int _mode;
         
 
-        public AuditEntryRetriever(Dictionary<string, string> dbSettings, UserAccount user)
+        public AuditEntryRetriever(Dictionary<string, string> dbSettings, UserAccount user, bool auditsByUser = false)
         {
             //AuditEntries by Username
             DbSettings = dbSettings;
             _user = user;
-            _mode = 0;
+            _mode = auditsByUser ? 3 : 0;
             LoadColumns();
         }
 
@@ -66,6 +67,9 @@ namespace DataWrangler.Retrievers
                     case 2:
                         fetchStatus = oH.GetRecordTypeAuditEntries(_objectId, lowerPageBoundary, rowsPerPage);
                         break;
+                    case 3:
+                        fetchStatus = oH.GetAuditEntriesByUserAccount(_user, lowerPageBoundary, rowsPerPage);
+                        break;
                 }
 
                 if (fetchStatus.Success)
@@ -94,7 +98,7 @@ namespace DataWrangler.Retrievers
                     StatusObject countStatus = null;
                     if (_mode == 0)
                     {
-                        countStatus = oH.GetAuditEntryCountByObj("User.$id", _user.Id);
+                        countStatus = oH.GetAuditEntryCountByObj("UserAccount", _user.Id);
                     }
                     else if (_mode == 1)
                     {
@@ -103,6 +107,10 @@ namespace DataWrangler.Retrievers
                     else if (_mode == 2)
                     {
                         countStatus = oH.GetAuditEntryCountByObj("RecordType", _objectId);
+                    }
+                    else if (_mode == 3)
+                    {
+                        countStatus = oH.GetAuditEntryCountByUser(_user);
                     }
                     
                     if (countStatus.Success) RowCountValue = (int) countStatus.Result;
@@ -115,7 +123,7 @@ namespace DataWrangler.Retrievers
         private void LoadColumns()
         {
             string[] cols;
-            if (_mode == 0)
+            if (_mode == 3)
                 cols = new[] {"Object Type", "Object ID", "Operation", "Date"};
             else
                 cols = new[] { "User", "Operation", "Date" };
