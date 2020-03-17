@@ -119,7 +119,7 @@ namespace DataWrangler.Forms
                         }
                         else
                         {
-                            MessageBox.Show("Failed to add user!");
+                            NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to add this new user account. Please try again.");
                         }
                     }
                     else
@@ -132,7 +132,7 @@ namespace DataWrangler.Forms
                         }
                         else
                         {
-                            MessageBox.Show("Failed to update user!");
+                            NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to update this user account. Please try again.");
                         }
                     }
                     
@@ -162,7 +162,7 @@ namespace DataWrangler.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show("An error was encountered: " + ex.Message);
+                NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to load audit information for this user. Please try again.");
             }
         }
 
@@ -183,7 +183,7 @@ namespace DataWrangler.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show("An error was encountered: " + ex.Message);
+                NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to load history for this user. Please try again.");
             }
         }
 

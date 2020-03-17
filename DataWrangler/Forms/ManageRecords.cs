@@ -76,7 +76,7 @@ namespace DataWrangler.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show("An error was encountered: " + ex.Message);
+                NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to load records. Please try again.");
             }
         }
 
@@ -142,7 +142,7 @@ namespace DataWrangler.Forms
                 }
                 else
                 {
-                    MessageBox.Show("Failed to fetch record!");
+                    NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to fetch this record. Please try again.");
                 }
             }
             return record;
@@ -188,8 +188,7 @@ namespace DataWrangler.Forms
                         var deleteStatus = oH.DeleteRecord(rec);
                         if (!deleteStatus.Success)
                         {
-                            MessageBox.Show("DataWrangler Error",
-                                "An error occured when deleting a record.\n Error: " + deleteStatus.Result);
+                            NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to delete this record. Please try again.");
                         }
                     }
                     RecordGridRefresh();

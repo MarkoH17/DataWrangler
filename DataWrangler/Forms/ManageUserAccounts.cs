@@ -52,7 +52,7 @@ namespace DataWrangler.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show("An error was encountered: " + ex.Message);
+                NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to load user accounts. Please try again.");
             }
         }
         private void gridUsers_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
@@ -76,7 +76,7 @@ namespace DataWrangler.Forms
                 }
                 else
                 {
-                    MessageBox.Show("Failed to fetch record!");
+                    NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to fetch this user account. Please try again.");
                 }
             }
             return users;

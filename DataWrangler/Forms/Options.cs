@@ -99,7 +99,11 @@ namespace DataWrangler.Forms
                 var rebuildStatus = oH.RebuildDb(_dbSettings);
                 if (rebuildStatus.Success)
                 {
-                    MessageBox.Show("Rebuild Successful");
+                    NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Information, "Successfully rebuilt database!");
+                }
+                else
+                {
+                    NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to rebuild database. Please try again.");
                 }
             }
         }

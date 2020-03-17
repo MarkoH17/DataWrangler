@@ -149,7 +149,7 @@ namespace DataWrangler.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show("An error was encountered: " + ex.Message);
+                NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to load history for this record type. Please try again.");
             }
         }
 
@@ -372,9 +372,7 @@ namespace DataWrangler.Forms
                     }
                     else
                     {
-                        MessageBox.Show("Failed to add record type");
-                        DialogResult = DialogResult.Cancel;
-                        Close();
+                        NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to add this new record type. Please try again.");
                     }
                 }
             }
@@ -401,9 +399,7 @@ namespace DataWrangler.Forms
                     }
                     else
                     {
-                        MessageBox.Show("Failed to update record type");
-                        DialogResult = DialogResult.Cancel;
-                        Close();
+                        NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to update this record type. Please try again.");
                     }
                 }
             }

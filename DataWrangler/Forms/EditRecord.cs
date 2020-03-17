@@ -124,7 +124,7 @@ namespace DataWrangler.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show("An error was encountered: " + ex.Message);
+                NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to load history for this record. Please try again.");
             }
         }
 
@@ -211,7 +211,7 @@ namespace DataWrangler.Forms
                         }
                         else
                         {
-                            MessageBox.Show("Failed to add new record!");
+                            NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to add this new record. Please try again.");
                         }
                     }
                     else
@@ -224,11 +224,9 @@ namespace DataWrangler.Forms
                         }
                         else
                         {
-                            MessageBox.Show("Failed to update record!");
+                            NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to update this record. Please try again.");
                         }
                     }
-                    
-                    
                 }
             }
             else
@@ -277,7 +275,7 @@ namespace DataWrangler.Forms
                     var saveStatus = oH.SaveFileFromRecord(attachmentPath, filePath);
                     if (!saveStatus.Success || !new FileInfo(filePath).Exists)
                     {
-                        MessageBox.Show("An error occured while saving the file!");
+                        NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to download this file. Please try again.");
                     }
                     else
                     {
@@ -300,7 +298,7 @@ namespace DataWrangler.Forms
             {
                 RefreshRecord();
                 if (!deleteAttachmentStatus.Success)
-                    MessageBox.Show("Failed to delete attachment.");
+                    NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to delete this file. Please try again.");
             }
         }
         private void addAttachmentMenuItem_Click(object sender, EventArgs e)
@@ -323,7 +321,7 @@ namespace DataWrangler.Forms
                     {
                         RefreshRecord();
                         if (!addAttachmentStatus.Success)
-                            MessageBox.Show("Failed to add attachment.");
+                            NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Warning, "Failed to add attachment to this record.");
                     }
                 }
                     

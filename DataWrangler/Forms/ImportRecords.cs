@@ -104,6 +104,7 @@ namespace DataWrangler.Forms
                     selectedHeaders.Add(colIndex, attrName);
                 }
 
+            StatusObject importStatus = null;
             if (comboImportOptions.SelectedIndex == 0)
             {
                 RecordType rT = null;
@@ -123,11 +124,7 @@ namespace DataWrangler.Forms
                     if (records.Length > 0)
                         using (var oH = new ObjectHelper(_dbSettings, _user))
                         {
-                            var importStatus = oH.AddRecords(records, rT);
-                            if (importStatus.Success)
-                                MessageBox.Show("Successfully imported " + (int) importStatus.Result + " records!");
-                            else
-                                MessageBox.Show("Failed to import records!");
+                            importStatus = oH.AddRecords(records, rT);
                         }
                 }
             }
@@ -138,13 +135,13 @@ namespace DataWrangler.Forms
                 if (records.Length > 0)
                     using (var oH = new ObjectHelper(_dbSettings, _user))
                     {
-                        var importStatus = oH.AddRecords(records, rT);
-                        if (importStatus.Success)
-                            MessageBox.Show("Successfully imported " + (int) importStatus.Result + " records!");
-                        else
-                            MessageBox.Show("Failed to import records!");
+                        importStatus = oH.AddRecords(records, rT);
                     }
             }
+            if (importStatus != null && importStatus.Success)
+                NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Information, "Successfully imported " + (int)importStatus.Result + " records!");
+            else
+                NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to import records. Please try again.");
         }
 
         private void comboImportOptions_SelectedIndexChanged(object sender, EventArgs e)

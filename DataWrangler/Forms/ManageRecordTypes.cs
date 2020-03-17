@@ -55,7 +55,7 @@ namespace DataWrangler.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show("An error was encountered: " + ex.Message);
+                NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to load record types. Please try again.");
             }
             base.OnLoad(e);
         }
@@ -79,7 +79,7 @@ namespace DataWrangler.Forms
                 }
                 else
                 {
-                    MessageBox.Show("Failed to fetch record!");
+                    NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to fetch this record type. Please try again.");
                 }
             }
             return record;
@@ -127,8 +127,7 @@ namespace DataWrangler.Forms
                         var deleteStatus = oH.DeleteRecordType(recType, deleteOrphans);
                         if (!deleteStatus.Success)
                         {
-                            MessageBox.Show("DataWrangler Error",
-                                "An error occured when deleting a record type.\n Error: " + deleteStatus.Result);
+                            NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to delete this record type. Please try again.");
                             return;
                         }
                     }
