@@ -119,8 +119,6 @@ namespace DataWrangler.Forms
         {
             RecordType[] recordTypes = null;
             Dictionary<string, int> recordVals = null;
-            //var keyArray = new List<string>();
-            //var cntArray = new List<int>();
             using (var oH = new ObjectHelper(_dbSettings, _user))
             {
                 var result = oH.GetRecordTypes();

@@ -43,12 +43,12 @@
             this.txtOldPassword = new MetroFramework.Controls.MetroTextBox();
             this.lblPassword = new MetroFramework.Controls.MetroLabel();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
+            this.tabHistory = new MetroFramework.Controls.MetroTabPage();
+            this.gridAuditHistory = new MetroFramework.Controls.MetroGrid();
             this.lbUpdated = new MetroFramework.Controls.MetroLabel();
             this.txtUpdated = new MetroFramework.Controls.MetroTextBox();
             this.txtUserId = new MetroFramework.Controls.MetroTextBox();
             this.lblId = new MetroFramework.Controls.MetroLabel();
-            this.tabHistory = new MetroFramework.Controls.MetroTabPage();
-            this.gridAuditHistory = new MetroFramework.Controls.MetroGrid();
             this.tabControl.SuspendLayout();
             this.tabUser.SuspendLayout();
             this.tabHistory.SuspendLayout();
@@ -251,6 +251,69 @@
             this.metroLabel1.TabIndex = 2;
             this.metroLabel1.Text = "Active Status";
             // 
+            // tabHistory
+            // 
+            this.tabHistory.Controls.Add(this.gridAuditHistory);
+            this.tabHistory.HorizontalScrollbarBarColor = true;
+            this.tabHistory.HorizontalScrollbarHighlightOnWheel = false;
+            this.tabHistory.HorizontalScrollbarSize = 10;
+            this.tabHistory.Location = new System.Drawing.Point(4, 38);
+            this.tabHistory.Name = "tabHistory";
+            this.tabHistory.Size = new System.Drawing.Size(408, 284);
+            this.tabHistory.TabIndex = 1;
+            this.tabHistory.Text = "History";
+            this.tabHistory.VerticalScrollbarBarColor = true;
+            this.tabHistory.VerticalScrollbarHighlightOnWheel = false;
+            this.tabHistory.VerticalScrollbarSize = 10;
+            // 
+            // gridAuditHistory
+            // 
+            this.gridAuditHistory.AllowUserToAddRows = false;
+            this.gridAuditHistory.AllowUserToDeleteRows = false;
+            this.gridAuditHistory.AllowUserToResizeRows = false;
+            this.gridAuditHistory.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.gridAuditHistory.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.gridAuditHistory.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.gridAuditHistory.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridAuditHistory.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.gridAuditHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridAuditHistory.DefaultCellStyle = dataGridViewCellStyle2;
+            this.gridAuditHistory.EnableHeadersVisualStyles = false;
+            this.gridAuditHistory.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.gridAuditHistory.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.gridAuditHistory.Location = new System.Drawing.Point(4, 23);
+            this.gridAuditHistory.Name = "gridAuditHistory";
+            this.gridAuditHistory.ReadOnly = true;
+            this.gridAuditHistory.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gridAuditHistory.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            this.gridAuditHistory.RowHeadersVisible = false;
+            this.gridAuditHistory.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.gridAuditHistory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.gridAuditHistory.Size = new System.Drawing.Size(397, 258);
+            this.gridAuditHistory.TabIndex = 2;
+            this.gridAuditHistory.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.gridAuditHistory_CellValueNeeded);
+            // 
             // lbUpdated
             // 
             this.lbUpdated.AutoSize = true;
@@ -333,68 +396,6 @@
             this.lblId.Size = new System.Drawing.Size(51, 19);
             this.lblId.TabIndex = 6;
             this.lblId.Text = "User ID";
-            // 
-            // tabHistory
-            // 
-            this.tabHistory.Controls.Add(this.gridAuditHistory);
-            this.tabHistory.HorizontalScrollbarBarColor = true;
-            this.tabHistory.HorizontalScrollbarHighlightOnWheel = false;
-            this.tabHistory.HorizontalScrollbarSize = 10;
-            this.tabHistory.Location = new System.Drawing.Point(4, 38);
-            this.tabHistory.Name = "tabHistory";
-            this.tabHistory.Size = new System.Drawing.Size(408, 284);
-            this.tabHistory.TabIndex = 1;
-            this.tabHistory.Text = "History";
-            this.tabHistory.VerticalScrollbarBarColor = true;
-            this.tabHistory.VerticalScrollbarHighlightOnWheel = false;
-            this.tabHistory.VerticalScrollbarSize = 10;
-            // 
-            // gridAuditHistory
-            // 
-            this.gridAuditHistory.AllowUserToAddRows = false;
-            this.gridAuditHistory.AllowUserToDeleteRows = false;
-            this.gridAuditHistory.AllowUserToResizeRows = false;
-            this.gridAuditHistory.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.gridAuditHistory.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.gridAuditHistory.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
-            this.gridAuditHistory.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridAuditHistory.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.gridAuditHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(136)))), ((int)(((byte)(136)))), ((int)(((byte)(136)))));
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridAuditHistory.DefaultCellStyle = dataGridViewCellStyle2;
-            this.gridAuditHistory.EnableHeadersVisualStyles = false;
-            this.gridAuditHistory.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.gridAuditHistory.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.gridAuditHistory.Location = new System.Drawing.Point(4, 23);
-            this.gridAuditHistory.Name = "gridAuditHistory";
-            this.gridAuditHistory.ReadOnly = true;
-            this.gridAuditHistory.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(174)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(198)))), ((int)(((byte)(247)))));
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gridAuditHistory.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            this.gridAuditHistory.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.gridAuditHistory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridAuditHistory.Size = new System.Drawing.Size(397, 258);
-            this.gridAuditHistory.TabIndex = 2;
-            this.gridAuditHistory.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.gridAuditHistory_CellValueNeeded);
             // 
             // EditUsers
             // 
