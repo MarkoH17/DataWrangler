@@ -38,11 +38,12 @@ namespace DataWrangler.Forms
 
             if (_users == null)
             {
-                
+                tabControl.DisableTab(tabHistory);
             }
             else
             {
                 LoadUser();
+                LoadHistory();
             }
             StyleHelper.LoadFormSavedStyle(this);
             BringToFront();
@@ -136,7 +137,7 @@ namespace DataWrangler.Forms
 
         private void btnAddUser_Click()
         {
-            tabControl.TabPages.Remove(tabHistory);
+
             var username = txtUsername.Text;
             var password = txtOldPassword.Text;
             var passVerify = txtNewPassword.Text;
@@ -174,7 +175,6 @@ namespace DataWrangler.Forms
             else
             {
                 btnUpdate_Click();
-                LoadHistory();
             }
         }
 
@@ -187,11 +187,8 @@ namespace DataWrangler.Forms
         {
             try
             {
-                _retriever = new AuditEntryRetriever(_dbSettings, _users);
+                _retriever = new AuditEntryRetriever(_dbSettings, _users, true);
                 _dataCache = new DataCache(_retriever, 500);
-
-                gridAuditHistory.Columns.Clear();
-                gridAuditHistory.Rows.Clear();
 
                 foreach (var column in _retriever.Columns)
                     gridAuditHistory.Columns.Add(column, column);
