@@ -55,7 +55,11 @@ namespace DataWrangler.Forms
                     ConfigurationHelper.SaveLoginSettings(chckRemember.Checked ? username : null);
 
                     if (!user.Active)
+                    {
+
                         MessageBox.Show("Account disabled! Please contact administrator.");
+                        return;
+                    }
                 }
             }
 

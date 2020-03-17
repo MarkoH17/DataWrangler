@@ -140,7 +140,7 @@
             this.btnBack.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btnBack.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBack.Image = ((System.Drawing.Image)(resources.GetObject("btnBack.Image")));
-            this.btnBack.Location = new System.Drawing.Point(1, 24);
+            this.btnBack.Location = new System.Drawing.Point(23, 25);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(24, 24);
             this.btnBack.TabIndex = 11;
@@ -167,7 +167,7 @@
             this.Controls.Add(this.txtRowCnt);
             this.Controls.Add(this.gridUsers);
             this.Name = "ManageUserAccounts";
-            this.Text = "Manage User Accounts";
+            this.Text = "     Manage User Accounts";
             ((System.ComponentModel.ISupportInitialize)(this.gridUsers)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -85,7 +85,7 @@ namespace DataWrangler.Forms
         private void addUserMenuItem_Click(object sender, EventArgs e)
         {
             _users = null;
-            var addForm = new EditUsers(_dbSettings, _user, _users);
+            var addForm = new EditUser(_dbSettings, _user, _users);
             addForm.Text = "Add User";
             var addFormResult = addForm.ShowDialog();
             if (addFormResult == DialogResult.OK)
@@ -99,7 +99,7 @@ namespace DataWrangler.Forms
             var rec = GetUserBySelectedRow(rowIdUsers);
             if (rec != null)
             {
-                var editForm = new EditUsers(_dbSettings, _user, rec);
+                var editForm = new EditUser(_dbSettings, _user, rec);
                 var editFormResult = editForm.ShowDialog();
                 if (editFormResult == DialogResult.OK)
                 {
@@ -158,7 +158,7 @@ namespace DataWrangler.Forms
             var rec = GetUserBySelectedRow(e.RowIndex);
             if (rec != null)
             {
-                var editForm = new EditUsers(_dbSettings, _user, rec);
+                var editForm = new EditUser(_dbSettings, _user, rec);
                 var editFormResult = editForm.ShowDialog();
                 if (editFormResult == DialogResult.OK)
                 {
