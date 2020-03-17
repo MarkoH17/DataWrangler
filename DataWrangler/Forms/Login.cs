@@ -56,8 +56,8 @@ namespace DataWrangler.Forms
 
                     if (!user.Active)
                     {
-
-                        MessageBox.Show("Account disabled! Please contact administrator.");
+                        NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Your account is disabled. Please contact your administrator.");
+                        txtUserName.Focus();
                         return;
                     }
                 }
@@ -69,7 +69,8 @@ namespace DataWrangler.Forms
             }
             else
             {
-                MessageBox.Show("Authentication Failure. Please contact your administrator");
+                NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Authentication failure. Please try again.");
+                txtUserName.Focus();
             }
         }
 

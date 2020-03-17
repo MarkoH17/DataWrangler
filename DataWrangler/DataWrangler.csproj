@@ -176,6 +176,7 @@
     <Compile Include="Forms\ManageRecords.Designer.cs">
       <DependentUpon>ManageRecords.cs</DependentUpon>
     </Compile>
+    <Compile Include="NotificationHelper.cs" />
     <Compile Include="Retrievers\DataRetriever.cs" />
     <Compile Include="Retrievers\IDataRetriever.cs" />
     <Compile Include="Retrievers\AuditEntryRetriever.cs" />
