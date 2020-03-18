@@ -121,10 +121,15 @@ namespace DataWrangler.Forms
             // 
             // chartData
             // 
+            this.chartData.BackColor = System.Drawing.Color.Transparent;
             this.chartData.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
+            this.chartData.BorderlineWidth = 0;
+            chartArea1.BackColor = System.Drawing.Color.Transparent;
+            chartArea1.BorderWidth = 0;
             chartArea1.Name = "ChartArea1";
             this.chartData.ChartAreas.Add(chartArea1);
             this.chartData.Cursor = System.Windows.Forms.Cursors.Default;
+            legend1.BackColor = System.Drawing.Color.Transparent;
             legend1.Name = "Legend1";
             this.chartData.Legends.Add(legend1);
             this.chartData.Location = new System.Drawing.Point(12, 270);

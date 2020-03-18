@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -149,6 +150,14 @@ namespace DataWrangler.Forms
             {
                 btnBack.Image = Resources.logout_dark;
             }
+            var foreColor = Theme == MetroThemeStyle.Dark ? Color.White : Color.Black;
+            chartData.Legends[0].ForeColor = foreColor;
+            chartData.ChartAreas[0].AxisX.LineColor = foreColor;
+            chartData.ChartAreas[0].AxisX.MajorGrid.LineColor = foreColor;
+            chartData.ChartAreas[0].AxisX.LabelStyle.ForeColor = foreColor;
+            chartData.ChartAreas[0].AxisY.LineColor = foreColor;
+            chartData.ChartAreas[0].AxisY.MajorGrid.LineColor = foreColor;
+            chartData.ChartAreas[0].AxisY.LabelStyle.ForeColor = foreColor;
         }
     }
 }
