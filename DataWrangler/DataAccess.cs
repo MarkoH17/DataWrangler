@@ -68,7 +68,7 @@ namespace DataWrangler
 
         private string _getCollectionName<T>()
         {
-            
+
             return _getCollectionName(typeof(T));
         }
 
@@ -506,7 +506,7 @@ namespace DataWrangler
             var result = GetObjectByFieldSearch<UserAccount>("username", username);
             if (result.Success && result.Result != null)
             {
-                var userObj = (UserAccount) result.Result;
+                var userObj = (UserAccount)result.Result;
                 var storedHash = userObj.Password;
                 var hashBytes = Convert.FromBase64String(storedHash);
 
@@ -565,7 +565,7 @@ namespace DataWrangler
         public StatusObject SaveFile(string fileId, string savePath)
         {
             var fs = _db.FileStorage;
-            
+
             LiteFileInfo<string> saveFile;
 
             using (var fileStream = File.Create(savePath))
@@ -589,7 +589,7 @@ namespace DataWrangler
                 var collection = _getCollection<T>(colName);
                 var result = collection.Update(obj);
 
-                var objId = (int) obj.GetType().GetProperty("Id").GetValue(obj);
+                var objId = (int)obj.GetType().GetProperty("Id").GetValue(obj);
 
                 if (!skipAuditEntries)
                 {
@@ -612,13 +612,70 @@ namespace DataWrangler
             {
                 var collection = _getCollection<T>(colName);
                 var result = collection.Update(objs);
-                
+
                 return GetStatusObject(StatusObject.OperationTypes.Update, result, result == objs.Length);
             }
             catch (LiteException e)
             {
                 return GetStatusObject(StatusObject.OperationTypes.Update, e, false);
             }
+        }
+
+        public StatusObject CleanupRecordAttributes(RecordType rT, List<string> removedAttrs)
+        {
+            var recordCountStatus = GetCountOfObj<Record>("Record_" + rT.Id);
+            var recordCount = 0;
+            if (recordCountStatus.Success)
+            {
+                recordCount = Convert.ToInt32(recordCountStatus.Result);
+            }
+
+            for (var i = 0; i < recordCount; i += 500)
+            {
+                var recordFetchStatus = GetObjectsByType<Record>(i, i + 500, "Record_" + rT.Id);
+                Record[] recordFetch;
+                var updateNeeded = false;
+                if (recordFetchStatus.Success)
+                {
+                    recordFetch = (Record[])recordFetchStatus.Result;
+                }
+                else
+                {
+                    return recordFetchStatus;
+                }
+
+                foreach (var rec in recordFetch)
+                {
+                    if (rec.Attributes.Keys.Intersect(removedAttrs).Any())
+                    {
+                        updateNeeded = true;
+                        foreach (var removedAttr in removedAttrs)
+                        {
+                            if (rec.Attributes.Keys.Contains(removedAttr))
+                                rec.Attributes.Remove(removedAttr);
+                        }
+                    }
+                }
+
+                if (updateNeeded)
+                {
+                    var recordUpdateStatus = UpdateObjects(recordFetch, "Record_" + rT.Id);
+                    if (recordUpdateStatus.Success)
+                    {
+                        var auditResult = _addAuditEntry(-1, recordFetch[0], _user, StatusObject.OperationTypes.Update,
+                            "Performed record attribute cleanup", "Record_" + rT.Id);
+                        if (!auditResult.Success) return auditResult;
+                    }
+                    else
+                    {
+                        return recordUpdateStatus;
+                    }
+
+                }
+
+            }
+
+            return GetStatusObject(StatusObject.OperationTypes.Update, true, true);
         }
     }
 }

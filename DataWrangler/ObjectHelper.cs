@@ -47,6 +47,11 @@ namespace DataWrangler
             return uploadResults;
         }
 
+        public StatusObject CleanupRecordAttributes(RecordType rT, List<string> removedAttrs)
+        {
+            return _dA.CleanupRecordAttributes(rT, removedAttrs);
+        }
+
         public StatusObject AddRecord(RecordType rT, Dictionary<string, string> attributes, bool active)
         {
             if (!attributes.Keys.Except(rT.Attributes.Keys).Any())

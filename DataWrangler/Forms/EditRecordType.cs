@@ -329,12 +329,18 @@ namespace DataWrangler.Forms
                     _recordType.Attributes.Remove(rAttr);
                 needsDbAction = true;
             }
-
+            
             if (_recordType != null && !_recordType.Name.Equals(txtRecTypeName.Text))
             {
                 _recordType.Name = txtRecTypeName.Text;
                 needsDbAction = true;
             }
+
+            if (_removedAttrs.Count > 0)
+            {
+                needsDbAction = true;
+            }
+                
                 
 
             foreach (var ctrl in _txtControls)
@@ -392,14 +398,25 @@ namespace DataWrangler.Forms
                 using (var oH = new ObjectHelper(_dbSettings, _user))
                 {
                     var updateStatus = oH.UpdateRecordType(_recordType);
-                    if (updateStatus.Success)
+                    if (!updateStatus.Success)
+                    {
+                        NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error,
+                            "Failed to update this record type. Please try again.");
+                        return;
+                    }
+
+                    var cleanupStatus = oH.CleanupRecordAttributes(_recordType, _removedAttrs);
+                    if (!cleanupStatus.Success)
+                    {
+                        NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error,
+                            "Failed to remove attributes from orphaned records. Please try again.");
+                        return;
+                    }
+
+                    if (updateStatus.Success && cleanupStatus.Success)
                     {
                         DialogResult = DialogResult.OK;
                         Close();
-                    }
-                    else
-                    {
-                        NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to update this record type. Please try again.");
                     }
                 }
             }
