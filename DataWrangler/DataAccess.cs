@@ -13,14 +13,14 @@ namespace DataWrangler
     {
         public const string CollectionPrefix = "col_";
         private readonly LiteDatabase _db;
-        public bool skipAuditEntries;
         private readonly UserAccount _user;
+        public bool SkipAuditEntries;
 
         public DataAccess(string connectionString, UserAccount user = null, bool skipAuditEntries = false)
         {
             _db = new LiteDatabase(connectionString);
             _user = user;
-            this.skipAuditEntries = skipAuditEntries;
+            SkipAuditEntries = skipAuditEntries;
 
             BsonMapper.Global.Entity<AuditEntry>().DbRef(x => x.User, _getCollectionName(typeof(UserAccount)));
         }
@@ -57,8 +57,7 @@ namespace DataWrangler
 
         private ILiteCollection<T> _getCollection<T>(string colName = null, string indexCol = null, bool unique = false)
         {
-            ILiteCollection<T> collection;
-            collection = _db.GetCollection<T>(!string.IsNullOrEmpty(colName)
+            var collection = _db.GetCollection<T>(!string.IsNullOrEmpty(colName)
                 ? _getCollectionName(colName)
                 : _getCollectionName<T>());
             if (indexCol != null)
@@ -68,7 +67,6 @@ namespace DataWrangler
 
         private string _getCollectionName<T>()
         {
-
             return _getCollectionName(typeof(T));
         }
 
@@ -88,8 +86,7 @@ namespace DataWrangler
 
             for (var i = 0; i < rT.Attributes.Keys.Count; i++)
             {
-                exprCmd.Append(string.Format("{0} like \"%{1}%\"", "Attributes." + rT.Attributes.ElementAt(i).Key,
-                    searchValue));
+                exprCmd.Append($"{"Attributes." + rT.Attributes.ElementAt(i).Key} like \"%{searchValue}%\"");
                 if (i < rT.Attributes.Keys.Count - 1)
                     exprCmd.Append(" OR ");
             }
@@ -109,17 +106,14 @@ namespace DataWrangler
                 {
                     var fileName = fileInfo.Name;
                     if (r.Attachments != null)
-                    {
                         if (r.Attachments.Select(x => x.Split('/').Last()).ToList().Contains(fileInfo.Name))
                         {
                             var newName = Path.GetFileNameWithoutExtension(fileInfo.FullName);
                             newName += " - Copy";
                             fileName = newName + fileInfo.Extension;
                         }
-                    }
 
-                    var dbFilePath = string.Format("$/records/{0}/{1}/{2}/{3}", r.TypeId, r.Id,
-                        Guid.NewGuid().ToString(), fileName);
+                    var dbFilePath = $"$/records/{r.TypeId}/{r.Id}/{Guid.NewGuid().ToString()}/{fileName}";
                     using (var fileStream = File.OpenRead(filePath))
                     {
                         var result = fs.Upload(dbFilePath, fileName, fileStream);
@@ -127,16 +121,17 @@ namespace DataWrangler
                         {
                             fileIds.Add(result.Id);
 
-                            if (!skipAuditEntries)
+                            if (!SkipAuditEntries)
                             {
-                                var auditResult = _addAuditEntry(r.Id, r, _user, StatusObject.OperationTypes.FileAdd, null, "Record_" + r.TypeId);
+                                var auditResult = _addAuditEntry(r.Id, r, _user, StatusObject.OperationTypes.FileAdd,
+                                    null, "Record_" + r.TypeId);
                                 if (!auditResult.Success) return auditResult;
                             }
                         }
                         else
                         {
                             return GetStatusObject(StatusObject.OperationTypes.FileAdd,
-                                string.Format("Failed to add file '{0}' to record", fileInfo.Name), false);
+                                $"Failed to add file '{fileInfo.Name}' to record", false);
                         }
                     }
                 }
@@ -147,6 +142,50 @@ namespace DataWrangler
             }
 
             return GetStatusObject(StatusObject.OperationTypes.FileAdd, fileIds, true);
+        }
+
+        public StatusObject CleanupRecordAttributes(RecordType rT, List<string> removedAttrs)
+        {
+            var recordCountStatus = GetCountOfObj<Record>("Record_" + rT.Id);
+            var recordCount = 0;
+            if (recordCountStatus.Success) recordCount = Convert.ToInt32(recordCountStatus.Result);
+
+            for (var i = 0; i < recordCount; i += 500)
+            {
+                var recordFetchStatus = GetObjectsByType<Record>(i, i + 500, "Record_" + rT.Id);
+                Record[] recordFetch;
+                var updateNeeded = false;
+                if (recordFetchStatus.Success)
+                    recordFetch = (Record[]) recordFetchStatus.Result;
+                else
+                    return recordFetchStatus;
+
+                foreach (var rec in recordFetch)
+                    if (rec.Attributes.Keys.Intersect(removedAttrs).Any())
+                    {
+                        updateNeeded = true;
+                        foreach (var removedAttr in removedAttrs)
+                            if (rec.Attributes.Keys.Contains(removedAttr))
+                                rec.Attributes.Remove(removedAttr);
+                    }
+
+                if (updateNeeded)
+                {
+                    var recordUpdateStatus = UpdateObjects(recordFetch, "Record_" + rT.Id);
+                    if (recordUpdateStatus.Success)
+                    {
+                        var auditResult = _addAuditEntry(-1, recordFetch[0], _user, StatusObject.OperationTypes.Update,
+                            "Performed record attribute cleanup", "Record_" + rT.Id);
+                        if (!auditResult.Success) return auditResult;
+                    }
+                    else
+                    {
+                        return recordUpdateStatus;
+                    }
+                }
+            }
+
+            return GetStatusObject(StatusObject.OperationTypes.Update, true, true);
         }
 
         public StatusObject DeleteCollection<T>(string colName = null)
@@ -173,9 +212,10 @@ namespace DataWrangler
 
             var result = fs.Delete(fileId);
 
-            if (!skipAuditEntries)
+            if (!SkipAuditEntries)
             {
-                var auditResult = _addAuditEntry(r.Id, r, _user, StatusObject.OperationTypes.FileRemove, null, "Record_" + r.TypeId);
+                var auditResult = _addAuditEntry(r.Id, r, _user, StatusObject.OperationTypes.FileRemove, null,
+                    "Record_" + r.TypeId);
                 if (!auditResult.Success) return auditResult;
             }
 
@@ -183,7 +223,7 @@ namespace DataWrangler
             if (result)
             {
                 r.Attachments.Remove(fileId);
-                skipAuditEntries = true;
+                SkipAuditEntries = true;
                 return UpdateObject(r, "Record_" + r.TypeId);
             }
 
@@ -194,7 +234,7 @@ namespace DataWrangler
         {
             var fs = _db.FileStorage;
 
-            var expr = BsonExpression.Create(string.Format("_id like \"$/records/{0}%\"", rT.Id));
+            var expr = BsonExpression.Create($"_id like \"$/records/{rT.Id}%\"");
 
             var files = fs.Find(expr).ToList();
 
@@ -206,7 +246,7 @@ namespace DataWrangler
                         "Failed to bulk remove files from all records orphaned under Record Type " + rT.Name, false);
             }
 
-            if (!skipAuditEntries)
+            if (!SkipAuditEntries)
             {
                 var auditResult = _addAuditEntry(rT.Id, rT, _user, StatusObject.OperationTypes.FileRemove,
                     "Deleted " + files.Count + " File Attachments for Record Type " + rT.Name);
@@ -226,9 +266,10 @@ namespace DataWrangler
                 var objIdVal = Convert.ToInt32(objId);
                 var result = collection.Delete(objIdVal);
 
-                if (!skipAuditEntries)
+                if (!SkipAuditEntries)
                 {
-                    var auditResult = _addAuditEntry(objIdVal, obj, _user, StatusObject.OperationTypes.Delete, null, colName);
+                    var auditResult = _addAuditEntry(objIdVal, obj, _user, StatusObject.OperationTypes.Delete, null,
+                        colName);
                     if (!auditResult.Success) return auditResult;
                 }
 
@@ -248,7 +289,8 @@ namespace DataWrangler
                 var result = collection
                     .Include(x => x.User)
                     .Find(Query.And(Query.EQ("ObjectId", objId),
-                        Query.EQ("ObjectLookupCol", colName == null ? _getCollectionName<T>() : _getCollectionName(colName))))
+                        Query.EQ("ObjectLookupCol",
+                            colName == null ? _getCollectionName<T>() : _getCollectionName(colName))))
                     .OrderByDescending(x => x.Date).Skip(skip)
                     .Take(limit).ToArray();
                 return GetStatusObject(StatusObject.OperationTypes.Read, result, true);
@@ -278,6 +320,23 @@ namespace DataWrangler
             }
         }
 
+        public StatusObject GetCountOfAuditEntryByObj(string objLookupCol, int objId)
+        {
+            var expr = BsonExpression.Create(
+                $"ObjectLookupCol = \"{_getCollectionName(objLookupCol)}\" and ObjectId = {objId}");
+            try
+            {
+                var collection = _getCollection<AuditEntry>();
+
+                var result = collection.Count(expr);
+                return GetStatusObject(StatusObject.OperationTypes.Read, result, true);
+            }
+            catch (LiteException e)
+            {
+                return GetStatusObject(StatusObject.OperationTypes.Read, e, false);
+            }
+        }
+
         public StatusObject GetCountOfObj<T>(string colName = null)
         {
             try
@@ -297,23 +356,6 @@ namespace DataWrangler
             try
             {
                 var collection = _getCollection<T>(colName);
-
-                var result = collection.Count(expr);
-                return GetStatusObject(StatusObject.OperationTypes.Read, result, true);
-            }
-            catch (LiteException e)
-            {
-                return GetStatusObject(StatusObject.OperationTypes.Read, e, false);
-            }
-        }
-
-        public StatusObject GetCountOfAuditEntryByObj(string objLookupCol, int objId)
-        {
-            var expr = BsonExpression.Create(string.Format("ObjectLookupCol = \"{0}\" and ObjectId = {1}",
-                _getCollectionName(objLookupCol), objId));
-            try
-            {
-                var collection = _getCollection<AuditEntry>();
 
                 var result = collection.Count(expr);
                 return GetStatusObject(StatusObject.OperationTypes.Read, result, true);
@@ -465,9 +507,10 @@ namespace DataWrangler
                 var collection = _getCollection<T>(colName, indexCol, unique);
                 int result = collection.Insert(obj);
 
-                if (!skipAuditEntries)
+                if (!SkipAuditEntries)
                 {
-                    var auditResult = _addAuditEntry(result, obj, _user, StatusObject.OperationTypes.Create, null, colName);
+                    var auditResult = _addAuditEntry(result, obj, _user, StatusObject.OperationTypes.Create, null,
+                        colName);
                     if (!auditResult.Success) return auditResult;
                 }
 
@@ -486,7 +529,7 @@ namespace DataWrangler
                 var collection = _getCollection<T>(colName, indexCol);
                 var result = collection.InsertBulk(objs);
 
-                if (!skipAuditEntries)
+                if (!SkipAuditEntries)
                 {
                     var auditResult = _addAuditEntry(-1, objs[0], _user, StatusObject.OperationTypes.Create,
                         "Insert Bulk operation with " + objs.Length + " items", colName);
@@ -506,7 +549,7 @@ namespace DataWrangler
             var result = GetObjectByFieldSearch<UserAccount>("username", username);
             if (result.Success && result.Result != null)
             {
-                var userObj = (UserAccount)result.Result;
+                var userObj = (UserAccount) result.Result;
                 var storedHash = userObj.Password;
                 var hashBytes = Convert.FromBase64String(storedHash);
 
@@ -514,7 +557,7 @@ namespace DataWrangler
                 Array.Copy(hashBytes, 0, salt, 0, 16);
 
                 var calculatedHash = UserAccount.GetPasswordHash(password, salt);
-                bool loginSuccess = false;
+                var loginSuccess = false;
                 if (calculatedHash.Equals(storedHash))
                 {
                     result.Result = userObj;
@@ -525,7 +568,8 @@ namespace DataWrangler
                     result.Result = null;
                 }
 
-                var auditResult = _addAuditEntry(userObj.Id, userObj, userObj, loginSuccess ? StatusObject.OperationTypes.LoginSuccess : StatusObject.OperationTypes.LoginFailure);
+                var auditResult = _addAuditEntry(userObj.Id, userObj, userObj,
+                    loginSuccess ? StatusObject.OperationTypes.LoginSuccess : StatusObject.OperationTypes.LoginFailure);
                 if (!auditResult.Success) return auditResult;
             }
 
@@ -589,11 +633,12 @@ namespace DataWrangler
                 var collection = _getCollection<T>(colName);
                 var result = collection.Update(obj);
 
-                var objId = (int)obj.GetType().GetProperty("Id").GetValue(obj);
+                var objId = (int) obj.GetType().GetProperty("Id").GetValue(obj);
 
-                if (!skipAuditEntries)
+                if (!SkipAuditEntries)
                 {
-                    var auditResult = _addAuditEntry(objId, obj, _user, StatusObject.OperationTypes.Update, null, colName);
+                    var auditResult = _addAuditEntry(objId, obj, _user, StatusObject.OperationTypes.Update, null,
+                        colName);
                     if (!auditResult.Success) return auditResult;
                 }
 
@@ -619,63 +664,6 @@ namespace DataWrangler
             {
                 return GetStatusObject(StatusObject.OperationTypes.Update, e, false);
             }
-        }
-
-        public StatusObject CleanupRecordAttributes(RecordType rT, List<string> removedAttrs)
-        {
-            var recordCountStatus = GetCountOfObj<Record>("Record_" + rT.Id);
-            var recordCount = 0;
-            if (recordCountStatus.Success)
-            {
-                recordCount = Convert.ToInt32(recordCountStatus.Result);
-            }
-
-            for (var i = 0; i < recordCount; i += 500)
-            {
-                var recordFetchStatus = GetObjectsByType<Record>(i, i + 500, "Record_" + rT.Id);
-                Record[] recordFetch;
-                var updateNeeded = false;
-                if (recordFetchStatus.Success)
-                {
-                    recordFetch = (Record[])recordFetchStatus.Result;
-                }
-                else
-                {
-                    return recordFetchStatus;
-                }
-
-                foreach (var rec in recordFetch)
-                {
-                    if (rec.Attributes.Keys.Intersect(removedAttrs).Any())
-                    {
-                        updateNeeded = true;
-                        foreach (var removedAttr in removedAttrs)
-                        {
-                            if (rec.Attributes.Keys.Contains(removedAttr))
-                                rec.Attributes.Remove(removedAttr);
-                        }
-                    }
-                }
-
-                if (updateNeeded)
-                {
-                    var recordUpdateStatus = UpdateObjects(recordFetch, "Record_" + rT.Id);
-                    if (recordUpdateStatus.Success)
-                    {
-                        var auditResult = _addAuditEntry(-1, recordFetch[0], _user, StatusObject.OperationTypes.Update,
-                            "Performed record attribute cleanup", "Record_" + rT.Id);
-                        if (!auditResult.Success) return auditResult;
-                    }
-                    else
-                    {
-                        return recordUpdateStatus;
-                    }
-
-                }
-
-            }
-
-            return GetStatusObject(StatusObject.OperationTypes.Update, true, true);
         }
     }
 }

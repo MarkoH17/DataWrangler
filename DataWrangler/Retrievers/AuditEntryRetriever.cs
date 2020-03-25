@@ -1,16 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using DataWrangler.DBOs;
 
 namespace DataWrangler.Retrievers
 {
     public class AuditEntryRetriever : DataRetriever, IDataRetriever
     {
-        private readonly UserAccount _user;
-        private readonly RecordType _recordType;
-        private readonly int _objectId;
-
         /*
          * AuditEntryRetriever Modes
          * 0 -> For a UserAccount obj
@@ -19,7 +14,10 @@ namespace DataWrangler.Retrievers
          * 3 -> For all by a UserAccount
          */
         private readonly int _mode;
-        
+        private readonly int _objectId;
+        private readonly RecordType _recordType;
+        private readonly UserAccount _user;
+
 
         public AuditEntryRetriever(Dictionary<string, string> dbSettings, UserAccount user, bool auditsByUser = false)
         {
@@ -92,27 +90,18 @@ namespace DataWrangler.Retrievers
             {
                 if (RowCountValue != -1) return RowCountValue;
 
-                
+
                 using (var oH = new ObjectHelper(DbSettings))
                 {
                     StatusObject countStatus = null;
                     if (_mode == 0)
-                    {
                         countStatus = oH.GetAuditEntryCountByObj("UserAccount", _user.Id);
-                    }
                     else if (_mode == 1)
-                    {
                         countStatus = oH.GetAuditEntryCountByObj("Record_" + _recordType.Id, _objectId);
-                    }
                     else if (_mode == 2)
-                    {
                         countStatus = oH.GetAuditEntryCountByObj("RecordType", _objectId);
-                    }
-                    else if (_mode == 3)
-                    {
-                        countStatus = oH.GetAuditEntryCountByUser(_user);
-                    }
-                    
+                    else if (_mode == 3) countStatus = oH.GetAuditEntryCountByUser(_user);
+
                     if (countStatus.Success) RowCountValue = (int) countStatus.Result;
                 }
 
@@ -124,10 +113,10 @@ namespace DataWrangler.Retrievers
         {
             string[] cols;
             if (_mode == 3)
-                cols = new[] { "Date", "Object Type", "Object ID", "Operation", "Notes"};
+                cols = new[] {"Date", "Object Type", "Object ID", "Operation", "Notes"};
             else
-                cols = new[] { "User", "Operation", "Date" };
-            
+                cols = new[] {"User", "Operation", "Date"};
+
             foreach (var col in cols)
                 ColumnsValue.Add(col);
         }

@@ -6,7 +6,7 @@ namespace DataWrangler
 {
     internal static class Program
     {
-        private static ApplicationContext _appContext { get; set; }
+        private static ApplicationContext AppContext { get; set; }
 
         /// <summary>
         ///     The main entry point for the application.
@@ -17,14 +17,14 @@ namespace DataWrangler
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            _appContext = new ApplicationContext(new Welcome());
-            Application.Run(_appContext);
+            AppContext = new ApplicationContext(new Welcome());
+            Application.Run(AppContext);
         }
 
         public static void SwitchPrimaryForm(Form newForm)
         {
-            var oldForm = _appContext.MainForm;
-            _appContext.MainForm = newForm;
+            var oldForm = AppContext.MainForm;
+            AppContext.MainForm = newForm;
             oldForm?.Close();
             newForm.Show();
         }

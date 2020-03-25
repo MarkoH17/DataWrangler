@@ -27,7 +27,7 @@ namespace DataWrangler.Retrievers
             Record[] records = null;
             using (var oH = new ObjectHelper(DbSettings))
             {
-                StatusObject fetchStatus = null;
+                StatusObject fetchStatus;
                 if (searchField != null || searchTerm != null)
                 {
                     if (searchField.Equals("*"))
@@ -49,6 +49,7 @@ namespace DataWrangler.Retrievers
 
             return DataProcessor.FillRecordDataTable(_recordType, records);
         }
+
         public void ResetRowCount()
         {
             RowCountValue = -1;

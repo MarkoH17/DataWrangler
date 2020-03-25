@@ -35,11 +35,11 @@ namespace DataWrangler
                             value = i.Operation.ToString();
                             break;
                         case "Date":
-                            value = string.Format("{0} ({1})", i.Date.ToShortDateString(), i.Date.ToShortTimeString());
+                            value = $"{i.Date.ToShortDateString()} ({i.Date.ToShortTimeString()})";
                             break;
                         case "Object Type":
                             value = i.ObjectLookupCol.Replace(DataAccess.CollectionPrefix, "");
-                            if(value.Contains("_"))
+                            if (value.Contains("_"))
                                 value = value.Substring(0, value.LastIndexOf("_"));
                             break;
                         case "Object ID":
@@ -52,6 +52,7 @@ namespace DataWrangler
 
                     dR[col.Ordinal] = value;
                 }
+
                 dT.Rows.Add(dR);
             }
 

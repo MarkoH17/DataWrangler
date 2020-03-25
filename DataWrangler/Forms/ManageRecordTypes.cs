@@ -1,33 +1,27 @@
-﻿using DataWrangler.DBOs;
-using DataWrangler.Retrievers;
-using MetroFramework.Controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using DataWrangler.DBOs;
 using DataWrangler.Properties;
+using DataWrangler.Retrievers;
 using MetroFramework;
+using MetroFramework.Controls;
+using MetroFramework.Forms;
 
 namespace DataWrangler.Forms
 {
-
-    public partial class ManageRecordTypes : MetroFramework.Forms.MetroForm
+    public partial class ManageRecordTypes : MetroForm
     {
-
         private readonly Dictionary<string, string> _dbSettings;
         private readonly UserAccount _user;
         private DataCache _dataCache; //Needed for caching entries with the data table
 
         private RecordType _recordTypeSel;
-        private int _rowIdxSel;
 
         private IDataRetriever _retriever; //Needed for paging the data table
-        
+        private int _rowIdxSel;
+
         public ManageRecordTypes(Dictionary<string, string> dbSettings, UserAccount user)
         {
             InitializeComponent();
@@ -35,6 +29,77 @@ namespace DataWrangler.Forms
             _dbSettings = dbSettings;
             _user = user;
             BringToFront();
+        }
+
+        private void addRecordTypeMenuItem_Click(object sender, EventArgs e)
+        {
+            var addForm = new EditRecordType(_dbSettings, _user, null);
+            var addFormResult = addForm.ShowDialog();
+            if (addFormResult == DialogResult.OK) RecordTypeGridRefresh();
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            Program.SwitchPrimaryForm(new Landing(_dbSettings, _user));
+        }
+
+        private void deleteRecordTypeMenuItem_Click(object sender, EventArgs e)
+        {
+            var recType = GetRecordTypeBySelectedRow(_rowIdxSel);
+            if (recType != null)
+            {
+                var confirm = MessageBox.Show("DataWrangler Confirmation",
+                    "Are you sure you wish to delete this record type? (orphaned records will also be deleted!)",
+                    MessageBoxButtons.YesNoCancel);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    using (var oH = new ObjectHelper(_dbSettings, _user))
+                    {
+                        var countStatus = oH.GetRecordCountByRecordType(recType);
+                        var deleteOrphans = (int) countStatus.Result > 0;
+
+                        var deleteStatus = oH.DeleteRecordType(recType, deleteOrphans);
+                        if (!deleteStatus.Success)
+                        {
+                            NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error,
+                                "Failed to delete this record type. Please try again.");
+                            return;
+                        }
+                    }
+
+                    RecordTypeGridRefresh();
+                }
+            }
+        }
+
+        private void editRecordTypeMenuItem_Click(object sender, EventArgs e)
+        {
+            var recType = GetRecordTypeBySelectedRow(_rowIdxSel);
+            if (recType != null)
+            {
+                var editForm = new EditRecordType(_dbSettings, _user, recType);
+                var editFormResult = editForm.ShowDialog();
+                if (editFormResult == DialogResult.OK) RecordTypeGridRefresh();
+            }
+        }
+
+        private RecordType GetRecordTypeBySelectedRow(int rowIdx)
+        {
+            if (rowIdx < 0) return null;
+            var rowId = Convert.ToInt32(gridRecordTypes.Rows[rowIdx].Cells[0].Value);
+            RecordType record = null;
+            using (var oH = new ObjectHelper(_dbSettings, _user))
+            {
+                var recordFetchStatus = oH.GetRecordTypeById(rowId);
+                if (recordFetchStatus.Success)
+                    record = (RecordType) recordFetchStatus.Result;
+                else
+                    NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error,
+                        "Failed to fetch this record type. Please try again.");
+            }
+
+            return record;
         }
 
         private void LoadRecordTypes()
@@ -53,87 +118,16 @@ namespace DataWrangler.Forms
                 gridRecordTypes.RowCount = _retriever.RowCount;
                 txtRowCnt.Text = _retriever.RowCount.ToString();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to load record types. Please try again.");
+                NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error,
+                    "Failed to load record types. Please try again.");
             }
         }
 
-        private void RecordTypeGridView_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
+        private void ManageRecordTypes_Load(object sender, EventArgs e)
         {
-            e.Value = _dataCache.RetrieveElement(e.RowIndex, e.ColumnIndex);
-        }
-
-        private RecordType GetRecordTypeBySelectedRow(int rowIdx)
-        {
-            if (rowIdx < 0) return null;
-            int rowId = Convert.ToInt32(gridRecordTypes.Rows[rowIdx].Cells[0].Value);
-            RecordType record = null;
-            using (var oH = new ObjectHelper(_dbSettings, _user))
-            {
-                var recordFetchStatus = oH.GetRecordTypeById(rowId);
-                if (recordFetchStatus.Success)
-                {
-                    record = (RecordType)recordFetchStatus.Result;
-                }
-                else
-                {
-                    NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to fetch this record type. Please try again.");
-                }
-            }
-            return record;
-        }
-
-        private void addRecordTypeMenuItem_Click(object sender, EventArgs e)
-        {
-            var addForm = new EditRecordType(_dbSettings, _user, null);
-            var addFormResult = addForm.ShowDialog();
-            if (addFormResult == DialogResult.OK)
-            {
-                RecordTypeGridRefresh();
-            }
-        }
-
-        private void editRecordTypeMenuItem_Click(object sender, EventArgs e)
-        {
-            var recType = GetRecordTypeBySelectedRow(_rowIdxSel);
-            if(recType != null)
-            {
-                var editForm = new EditRecordType(_dbSettings, _user, recType);
-                var editFormResult = editForm.ShowDialog();
-                if (editFormResult == DialogResult.OK)
-                {
-                    RecordTypeGridRefresh();
-                }
-            }
-        }
-
-        private void deleteRecordTypeMenuItem_Click(object sender, EventArgs e)
-        {
-            var recType = GetRecordTypeBySelectedRow(_rowIdxSel);
-            if (recType != null)
-            {
-                var confirm = MessageBox.Show("DataWrangler Confirmation", "Are you sure you wish to delete this record type? (orphaned records will also be deleted!)",
-                    MessageBoxButtons.YesNoCancel);
-
-                if (confirm == DialogResult.Yes)
-                {
-                    using (var oH = new ObjectHelper(_dbSettings, _user))
-                    {
-                        var countStatus = oH.GetRecordCountByRecordType(recType);
-                        var deleteOrphans = (int) countStatus.Result > 0;
-
-                        var deleteStatus = oH.DeleteRecordType(recType, deleteOrphans);
-                        if (!deleteStatus.Success)
-                        {
-                            NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to delete this record type. Please try again.");
-                            return;
-                        }
-                    }
-                    RecordTypeGridRefresh();
-
-                }
-            }
+            LoadRecordTypes();
         }
 
         private void RecordTypeGridRefresh()
@@ -144,17 +138,20 @@ namespace DataWrangler.Forms
             RefreshVisibleRows();
         }
 
-        private void RefreshVisibleRows()
+        private void RecordTypeGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (gridRecordTypes.RowCount < 1) return;
-            var firstRowIdx = gridRecordTypes.FirstDisplayedCell.RowIndex;
-            var lastRowIdx = (firstRowIdx + gridRecordTypes.DisplayedRowCount(true)) - 1;
-
-            _dataCache.RefreshCacheByRange(firstRowIdx, lastRowIdx);
-            for (int i = firstRowIdx; i <= lastRowIdx; i++)
+            var recType = GetRecordTypeBySelectedRow(e.RowIndex);
+            if (recType != null)
             {
-                gridRecordTypes.InvalidateRow(i);
+                var editForm = new EditRecordType(_dbSettings, _user, recType);
+                var editFormResult = editForm.ShowDialog();
+                if (editFormResult == DialogResult.OK) RecordTypeGridRefresh();
             }
+        }
+
+        private void RecordTypeGridView_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
+        {
+            e.Value = _dataCache.RetrieveElement(e.RowIndex, e.ColumnIndex);
         }
 
         private void RecordTypeGridView_MouseClick(object sender, MouseEventArgs e)
@@ -178,44 +175,24 @@ namespace DataWrangler.Forms
 
                 cm.Items.Add("Add Type", Resources.plus_dark, addRecordTypeMenuItem_Click);
 
-                cm.Show(gridRecordTypes, gridRecordTypes.PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)));
+                cm.Show(gridRecordTypes,
+                    gridRecordTypes.PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)));
             }
         }
 
-        private void RecordTypeGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void RefreshVisibleRows()
         {
-            var recType = GetRecordTypeBySelectedRow(e.RowIndex);
-            if (recType != null)
-            {
-                var editForm = new EditRecordType(_dbSettings, _user, recType);
-                var editFormResult = editForm.ShowDialog();
-                if (editFormResult == DialogResult.OK)
-                {
-                    RecordTypeGridRefresh();
-                }
-            }
-        }
+            if (gridRecordTypes.RowCount < 1) return;
+            var firstRowIdx = gridRecordTypes.FirstDisplayedCell.RowIndex;
+            var lastRowIdx = firstRowIdx + gridRecordTypes.DisplayedRowCount(true) - 1;
 
-        private void btnBack_Click(object sender, EventArgs e)
-        {
-            Program.SwitchPrimaryForm(new Landing(_dbSettings, _user));
+            _dataCache.RefreshCacheByRange(firstRowIdx, lastRowIdx);
+            for (var i = firstRowIdx; i <= lastRowIdx; i++) gridRecordTypes.InvalidateRow(i);
         }
 
         public void SwitchFormStyle()
         {
-            if (Theme == MetroThemeStyle.Dark)
-            {
-                btnBack.Image = Resources.arrow_back_light;
-            }
-            else
-            {
-                btnBack.Image = Resources.arrow_back_dark;
-            }
-        }
-
-        private void ManageRecordTypes_Load(object sender, EventArgs e)
-        {
-            LoadRecordTypes();
+            btnBack.Image = Theme == MetroThemeStyle.Dark ? Resources.arrow_back_light : Resources.arrow_back_dark;
         }
     }
 }

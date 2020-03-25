@@ -116,6 +116,23 @@ namespace DataWrangler
             }
         }
 
+        public void RefreshCacheByRange(int rowIdxMin, int rowIdxMax)
+        {
+            for (var i = 0; i < _usedPages; i++)
+                if (IsRowCachedInPage(i, rowIdxMin))
+                {
+                    var table = _dataSupply.SupplyPageOfData(
+                        DataPage.MapToLowerBoundary(rowIdxMin), _rowsPerPage, _searchField, _searchValue);
+                    _cachePages[i] = new DataPage(table, _cachePages[i].LowestIndex, _cachePages[i].HighestIndex);
+                }
+                else if (IsRowCachedInPage(i, rowIdxMax))
+                {
+                    var table = _dataSupply.SupplyPageOfData(
+                        DataPage.MapToLowerBoundary(rowIdxMin), _rowsPerPage, _searchField, _searchValue);
+                    _cachePages[i] = new DataPage(table, _cachePages[i].LowestIndex, _cachePages[i].HighestIndex);
+                }
+        }
+
         private string RetrieveData_CacheIt_ThenReturnElement(
             int rowIndex, int columnIndex)
         {
@@ -141,24 +158,6 @@ namespace DataWrangler
             if (table.Rows.Count > 0)
                 return RetrieveElement(rowIndex, columnIndex);
             return null;
-        }
-
-        public void RefreshCacheByRange(int rowIdxMin, int rowIdxMax)
-        {
-            for (var i = 0; i < _usedPages; i++)
-            {
-                if (IsRowCachedInPage(i, rowIdxMin))
-                {
-                    var table = _dataSupply.SupplyPageOfData(
-                        DataPage.MapToLowerBoundary(rowIdxMin), _rowsPerPage, _searchField, _searchValue);
-                    _cachePages[i] = new DataPage(table, _cachePages[i].LowestIndex, _cachePages[i].HighestIndex);
-                }else if (IsRowCachedInPage(i, rowIdxMax))
-                {
-                    var table = _dataSupply.SupplyPageOfData(
-                        DataPage.MapToLowerBoundary(rowIdxMin), _rowsPerPage, _searchField, _searchValue);
-                    _cachePages[i] = new DataPage(table, _cachePages[i].LowestIndex, _cachePages[i].HighestIndex);
-                }
-            }
         }
 
         public string RetrieveElement(int rowIndex, int columnIndex)

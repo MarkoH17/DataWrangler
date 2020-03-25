@@ -1,16 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using DataWrangler.DBOs;
-using DataWrangler.FormControls;
 using DataWrangler.Retrievers;
-using MetroFramework.Components;
-using MetroFramework.Controls;
 using MetroFramework.Forms;
 
 namespace DataWrangler.Forms
@@ -19,23 +12,23 @@ namespace DataWrangler.Forms
     {
         private readonly Dictionary<string, string> _dbSettings;
         private readonly UserAccount _user;
-        private  UserAccount _userObj;
+        private readonly UserAccount _userObj;
 
         private DataCache _dataCacheAuditHistory;
-        private IDataRetriever _retrieverAuditHistory;
 
         private DataCache _dataCacheHistory;
+
+        private bool _passwordModified;
+        private IDataRetriever _retrieverAuditHistory;
         private IDataRetriever _retrieverHistory;
 
-        private bool passwordModified;
-   
         public EditUser(Dictionary<string, string> dbSettings, UserAccount user, UserAccount userObj)
         {
             InitializeComponent();
             StyleHelper.LoadFormSavedStyle(this);
             typeof(DataGridView).InvokeMember("DoubleBuffered",
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, tabUser,
-                new object[] { true });
+                new object[] {true});
 
             _dbSettings = dbSettings;
             _user = user;
@@ -50,16 +43,9 @@ namespace DataWrangler.Forms
             {
                 LoadUser();
             }
+
             tabControl.SelectedTab = tabUser;
             BringToFront();
-        }
-
-        private void LoadUser()
-        {
-            txtUserId.Text = _userObj.Id.ToString();
-            txtUpdated.Text = _userObj.LastUpdated.ToShortDateString();
-            togActiveStat.Checked = _userObj.Active;
-            txtUsername.Text = _userObj.Username;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -67,13 +53,13 @@ namespace DataWrangler.Forms
             DialogResult = DialogResult.Cancel;
             Close();
         }
-        
+
         private void btnSave_Click(object sender, EventArgs e)
         {
-            bool needsDbAction = false;
+            var needsDbAction = false;
 
             var txtUser = txtUsername.Text;
-            bool active = togActiveStat.Checked;
+            var active = togActiveStat.Checked;
             var txtPass = txtPassword.Text;
 
             if (_userObj == null)
@@ -94,7 +80,7 @@ namespace DataWrangler.Forms
                     needsDbAction = true;
                 }
 
-                if (passwordModified)
+                if (_passwordModified)
                 {
                     _userObj.Password = UserAccount.GetPasswordHash(txtPass);
                     needsDbAction = true;
@@ -102,13 +88,10 @@ namespace DataWrangler.Forms
             }
 
 
-            
-
             if (needsDbAction)
-            {
-                StatusObject dbActionStatus;
                 using (var oH = new ObjectHelper(_dbSettings, _user))
                 {
+                    StatusObject dbActionStatus;
                     if (_userObj == null)
                     {
                         dbActionStatus = oH.AddUserAccount(txtUser, txtPass, active);
@@ -119,7 +102,8 @@ namespace DataWrangler.Forms
                         }
                         else
                         {
-                            NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to add this new user account. Please try again.");
+                            NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error,
+                                "Failed to add this new user account. Please try again.");
                         }
                     }
                     else
@@ -132,17 +116,21 @@ namespace DataWrangler.Forms
                         }
                         else
                         {
-                            NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to update this user account. Please try again.");
+                            NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error,
+                                "Failed to update this user account. Please try again.");
                         }
                     }
-                    
                 }
-            }
         }
 
         private void gridAuditHistory_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
         {
             e.Value = _dataCacheAuditHistory.RetrieveElement(e.RowIndex, e.ColumnIndex);
+        }
+
+        private void gridHistory_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
+        {
+            e.Value = _dataCacheHistory.RetrieveElement(e.RowIndex, e.ColumnIndex);
         }
 
         public void LoadAuditHistory()
@@ -160,9 +148,10 @@ namespace DataWrangler.Forms
 
                 gridAuditHistory.RowCount = _retrieverAuditHistory.RowCount;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to load audit information for this user. Please try again.");
+                NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error,
+                    "Failed to load audit information for this user. Please try again.");
             }
         }
 
@@ -181,15 +170,26 @@ namespace DataWrangler.Forms
 
                 gridHistory.RowCount = _retrieverHistory.RowCount;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to load history for this user. Please try again.");
+                NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error,
+                    "Failed to load history for this user. Please try again.");
             }
         }
 
-        private void VerifyPasswords()
+        private void LoadUser()
         {
-            btnClose.Enabled = txtPassword.Text.Equals(txtPasswordVerify.Text);
+            txtUserId.Text = _userObj.Id.ToString();
+            txtUpdated.Text = _userObj.LastUpdated.ToShortDateString();
+            togActiveStat.Checked = _userObj.Active;
+            txtUsername.Text = _userObj.Username;
+        }
+
+        private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tabControl.SelectedTab == tabHistory && _retrieverHistory == null)
+                LoadHistory();
+            else if (tabControl.SelectedTab == tabAuditHistory && _retrieverAuditHistory == null) LoadAuditHistory();
         }
 
         private void txtPassword_TextChanged(object sender, EventArgs e)
@@ -197,40 +197,26 @@ namespace DataWrangler.Forms
             if (txtPassword.Text.Length > 0)
             {
                 txtPasswordVerify.Enabled = true;
-                passwordModified = true;
+                _passwordModified = true;
                 VerifyPasswords();
             }
             else
             {
                 txtPasswordVerify.Enabled = false;
                 txtPasswordVerify.Text = "";
-                passwordModified = false;
+                _passwordModified = false;
             }
         }
 
         private void txtPasswordVerify_TextChanged(object sender, EventArgs e)
         {
-            if(passwordModified)
+            if (_passwordModified)
                 VerifyPasswords();
         }
 
-        private void gridHistory_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
+        private void VerifyPasswords()
         {
-            e.Value = _dataCacheHistory.RetrieveElement(e.RowIndex, e.ColumnIndex);
-        }
-
-        private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (tabControl.SelectedTab == tabHistory && _retrieverHistory == null)
-            {
-
-                LoadHistory();
-                
-            }
-            else if (tabControl.SelectedTab == tabAuditHistory && _retrieverAuditHistory == null)
-            {
-                LoadAuditHistory();
-            }
+            btnClose.Enabled = txtPassword.Text.Equals(txtPasswordVerify.Text);
         }
     }
 }

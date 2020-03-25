@@ -13,11 +13,6 @@ namespace DataWrangler
         public const int DefaultRecordSetSize = 500;
         private readonly DataAccess _dA;
 
-        public ObjectHelper(string connectionString, UserAccount user = null)
-        {
-            _dA = new DataAccess(connectionString, user, user == null);
-        }
-
         public ObjectHelper(Dictionary<string, string> dbSettings, UserAccount user = null)
         {
             _dA = new DataAccess(ConfigurationHelper.GetConnectionString(dbSettings), user, user == null);
@@ -38,18 +33,13 @@ namespace DataWrangler
             var uploadResults = _dA.AddFilesToRecord(r, attachmentPaths);
             if (uploadResults.Success)
             {
-                if(r.Attachments == null) r.Attachments = new List<string>();
+                if (r.Attachments == null) r.Attachments = new List<string>();
                 r.Attachments.AddRange((List<string>) uploadResults.Result);
-                _dA.skipAuditEntries = true;
+                _dA.SkipAuditEntries = true;
                 return UpdateRecord(r);
             }
 
             return uploadResults;
-        }
-
-        public StatusObject CleanupRecordAttributes(RecordType rT, List<string> removedAttrs)
-        {
-            return _dA.CleanupRecordAttributes(rT, removedAttrs);
         }
 
         public StatusObject AddRecord(RecordType rT, Dictionary<string, string> attributes, bool active)
@@ -127,6 +117,11 @@ namespace DataWrangler
             return _dA.InsertObject(newUserAccount, null, "Username", true);
         }
 
+        public StatusObject CleanupRecordAttributes(RecordType rT, List<string> removedAttrs)
+        {
+            return _dA.CleanupRecordAttributes(rT, removedAttrs);
+        }
+
         public StatusObject DeleteAttachmentFromRecord(Record r, string fileId)
         {
             return _dA.DeleteFileFromRecord(r, fileId);
@@ -163,6 +158,12 @@ namespace DataWrangler
             return _dA.DeleteObject(rT);
         }
 
+        public StatusObject GetAuditEntriesByUserAccount(UserAccount user, int skip = 0,
+            int limit = DefaultRecordSetSize)
+        {
+            return _dA.GetAuditEntriesByUser(user, skip, limit);
+        }
+
         public StatusObject GetAuditEntryCountByObj(string objLookupCol, int objId)
         {
             return _dA.GetCountOfAuditEntryByObj(objLookupCol, objId);
@@ -170,7 +171,7 @@ namespace DataWrangler
 
         public StatusObject GetAuditEntryCountByUser(UserAccount user)
         {
-            var expr = BsonExpression.Create(string.Format("User.$id = {0}", user.Id));
+            var expr = BsonExpression.Create($"User.$id = {user.Id}");
             return _dA.GetCountOfObjByExpr<AuditEntry>(expr);
         }
 
@@ -179,7 +180,8 @@ namespace DataWrangler
             return _dA.GetDbSize();
         }
 
-        public StatusObject GetRecordAuditEntries(RecordType rT, int objectId, int skip = 0, int limit = DefaultRecordSetSize)
+        public StatusObject GetRecordAuditEntries(RecordType rT, int objectId, int skip = 0,
+            int limit = DefaultRecordSetSize)
         {
             return _dA.GetAuditEntriesByObjId<Record>(objectId, skip, limit, "Record_" + rT.Id);
         }
@@ -201,7 +203,7 @@ namespace DataWrangler
 
         public StatusObject GetRecordCountByRecordTypeAndSearch(RecordType rT, string searchField, string searchValue)
         {
-            var expr = BsonExpression.Create(string.Format("{0} like \"%{1}%\"", searchField, searchValue));
+            var expr = BsonExpression.Create($"{searchField} like \"%{searchValue}%\"");
             return _dA.GetCountOfObjByExpr<Record>(expr, "Record_" + rT.Id);
         }
 
@@ -212,21 +214,17 @@ namespace DataWrangler
             if (fetchRecordTypesStatus.Success)
             {
                 RecordType[] recordTypes = null;
-                
-                if(fetchRecordTypesStatus.Result != null)
+
+                if (fetchRecordTypesStatus.Result != null)
                     recordTypes = (RecordType[]) fetchRecordTypesStatus.Result;
 
                 foreach (var rT in recordTypes)
                 {
                     var fetchCountStatus = GetRecordCountByRecordType(rT);
                     if (fetchCountStatus.Success)
-                    {
-                        sizeResults.Add(rT.Name, (int)fetchCountStatus.Result);
-                    }
+                        sizeResults.Add(rT.Name, (int) fetchCountStatus.Result);
                     else
-                    {
                         return fetchCountStatus;
-                    }
                 }
             }
             else
@@ -251,8 +249,7 @@ namespace DataWrangler
         public StatusObject GetRecordsByTypeSearch(RecordType rT, string searchField, string searchValue, int skip = 0,
             int limit = DefaultRecordSetSize)
         {
-            var expr = BsonExpression.Create(string.Format("{0} like \"%{1}%\"", searchField,
-                DataProcessor.SafeString(searchValue)));
+            var expr = BsonExpression.Create($"{searchField} like \"%{DataProcessor.SafeString(searchValue)}%\"");
             return _dA.GetRecordsByExprSearch(expr, skip, limit, "Record_" + rT.Id);
         }
 
@@ -281,11 +278,6 @@ namespace DataWrangler
             return _dA.GetAuditEntriesByObjId<UserAccount>(objectId, skip, limit);
         }
 
-        public StatusObject GetAuditEntriesByUserAccount(UserAccount user, int skip = 0, int limit = DefaultRecordSetSize)
-        {
-            return _dA.GetAuditEntriesByUser(user, skip, limit);
-        }
-
         public StatusObject GetUserAccountById(int id)
         {
             return _dA.GetObjectById<UserAccount>(id);
@@ -303,7 +295,7 @@ namespace DataWrangler
 
         public static StatusObject InitializeSystem(string dbPath, bool dbEncrypt = false, bool overwrite = false)
         {
-           if (!overwrite && new FileInfo(dbPath).Exists)
+            if (!overwrite && new FileInfo(dbPath).Exists)
                 return new StatusObject
                 {
                     OperationType = StatusObject.OperationTypes.Delete,
@@ -349,7 +341,8 @@ namespace DataWrangler
                 status = new StatusObject
                 {
                     OperationType = StatusObject.OperationTypes.System,
-                    Result = new Dictionary<string, string>() { { "newUserName", newUserName }, { "newUserPass", newUserPass}},
+                    Result = new Dictionary<string, string>
+                        {{"newUserName", newUserName}, {"newUserPass", newUserPass}},
                     Success = true
                 };
 

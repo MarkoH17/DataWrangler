@@ -249,7 +249,6 @@ namespace DataWrangler.Forms
             this.statsBackgroundWorker.WorkerSupportsCancellation = true;
             this.statsBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.StatsBackgroundWorker_DoWork);
             this.statsBackgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.StatsBackgroundWorkerOnProgressChanged);
-            this.statsBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.StatsBackgroundWorkerOnRunWorkerCompleted);
             // 
             // Landing
             // 

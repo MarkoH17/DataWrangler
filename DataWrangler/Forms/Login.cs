@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Windows.Forms;
 using DataWrangler.DBOs;
 using DataWrangler.Properties;
 using MetroFramework;
@@ -21,23 +19,6 @@ namespace DataWrangler.Forms
             BringToFront();
         }
 
-        private void LoadSavedFields()
-        {
-            var savedLoginConfig = ConfigurationHelper.GetLoginSettings();
-            var username = "";
-            if (savedLoginConfig.Keys.Count > 0)
-            {
-                savedLoginConfig.TryGetValue("Username", out username);
-            }
-
-            if (!string.IsNullOrEmpty(username))
-            {
-                txtUserName.Text = username;
-                chckRemember.Checked = true;
-            }
-            
-        }
-       
         private void btnLogin_Click(object sender, EventArgs e)
         {
             UserAccount user = null;
@@ -66,11 +47,12 @@ namespace DataWrangler.Forms
                     }
                 }
             }
-            catch (Exception e1)
+            catch (Exception)
             {
-                NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "An error occured while trying to access the database. Try again.");
+                NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error,
+                    "An error occured while trying to access the database. Try again.");
             }
-            
+
 
             if (user != null)
             {
@@ -78,7 +60,8 @@ namespace DataWrangler.Forms
             }
             else
             {
-                NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Authentication failure. Please try again.");
+                NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error,
+                    "Authentication failure. Please try again.");
                 txtUserName.Focus();
             }
         }
@@ -104,13 +87,17 @@ namespace DataWrangler.Forms
                 btnLogin.Enabled = false;
         }
 
-        private void Login_Shown(object sender, EventArgs e)
+        private void LoadSavedFields()
         {
-            if (txtUserName.Text.Length > 0)
-                txtPassword.Focus();
-            else
-                txtUserName.Focus();
-            
+            var savedLoginConfig = ConfigurationHelper.GetLoginSettings();
+            var username = "";
+            if (savedLoginConfig.Keys.Count > 0) savedLoginConfig.TryGetValue("Username", out username);
+
+            if (!string.IsNullOrEmpty(username))
+            {
+                txtUserName.Text = username;
+                chckRemember.Checked = true;
+            }
         }
 
         private void Login_Load(object sender, EventArgs e)
@@ -120,6 +107,13 @@ namespace DataWrangler.Forms
             txtUserName.Icon = Theme == MetroThemeStyle.Dark ? Resources.user_light : Resources.user_dark;
             txtPassword.Icon = Theme == MetroThemeStyle.Dark ? Resources.key_light : Resources.key_dark;
         }
-        
+
+        private void Login_Shown(object sender, EventArgs e)
+        {
+            if (txtUserName.Text.Length > 0)
+                txtPassword.Focus();
+            else
+                txtUserName.Focus();
+        }
     }
 }

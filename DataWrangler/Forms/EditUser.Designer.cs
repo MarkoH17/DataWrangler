@@ -70,9 +70,10 @@
             this.tabControl.Controls.Add(this.tabAuditHistory);
             this.tabControl.Location = new System.Drawing.Point(12, 99);
             this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 1;
+            this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(416, 326);
             this.tabControl.TabIndex = 10;
+            this.tabControl.TabStop = false;
             this.tabControl.UseSelectable = true;
             this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
             // 
@@ -110,7 +111,7 @@
             this.togActiveStat.Location = new System.Drawing.Point(0, 193);
             this.togActiveStat.Name = "togActiveStat";
             this.togActiveStat.Size = new System.Drawing.Size(80, 17);
-            this.togActiveStat.TabIndex = 14;
+            this.togActiveStat.TabIndex = 4;
             this.togActiveStat.Text = "Off";
             this.togActiveStat.UseSelectable = true;
             // 
@@ -141,7 +142,7 @@
             this.txtPasswordVerify.SelectionStart = 0;
             this.txtPasswordVerify.ShortcutsEnabled = true;
             this.txtPasswordVerify.Size = new System.Drawing.Size(217, 23);
-            this.txtPasswordVerify.TabIndex = 9;
+            this.txtPasswordVerify.TabIndex = 3;
             this.txtPasswordVerify.UseSelectable = true;
             this.txtPasswordVerify.UseSystemPasswordChar = true;
             this.txtPasswordVerify.WaterMark = "********";
@@ -183,7 +184,7 @@
             this.txtUsername.SelectionStart = 0;
             this.txtUsername.ShortcutsEnabled = true;
             this.txtUsername.Size = new System.Drawing.Size(217, 23);
-            this.txtUsername.TabIndex = 7;
+            this.txtUsername.TabIndex = 1;
             this.txtUsername.UseSelectable = true;
             this.txtUsername.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtUsername.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
@@ -223,7 +224,7 @@
             this.txtPassword.SelectionStart = 0;
             this.txtPassword.ShortcutsEnabled = true;
             this.txtPassword.Size = new System.Drawing.Size(217, 23);
-            this.txtPassword.TabIndex = 5;
+            this.txtPassword.TabIndex = 2;
             this.txtPassword.UseSelectable = true;
             this.txtPassword.UseSystemPasswordChar = true;
             this.txtPassword.WaterMark = "********";
@@ -313,6 +314,7 @@
             this.gridHistory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gridHistory.Size = new System.Drawing.Size(402, 275);
             this.gridHistory.TabIndex = 2;
+            this.gridHistory.TabStop = false;
             this.gridHistory.VirtualMode = true;
             this.gridHistory.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.gridHistory_CellValueNeeded);
             // 
@@ -381,6 +383,7 @@
             this.gridAuditHistory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gridAuditHistory.Size = new System.Drawing.Size(402, 275);
             this.gridAuditHistory.TabIndex = 2;
+            this.gridAuditHistory.TabStop = false;
             this.gridAuditHistory.UseCustomBackColor = true;
             this.gridAuditHistory.UseCustomForeColor = true;
             this.gridAuditHistory.UseStyleColors = true;
@@ -394,7 +397,7 @@
             this.btnClose.Location = new System.Drawing.Point(361, 431);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(60, 23);
-            this.btnClose.TabIndex = 13;
+            this.btnClose.TabIndex = 6;
             this.btnClose.Text = "Close";
             this.btnClose.UseSelectable = true;
             this.btnClose.Click += new System.EventHandler(this.btnSave_Click);
@@ -406,7 +409,7 @@
             this.btnCancel.Location = new System.Drawing.Point(290, 431);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(65, 23);
-            this.btnCancel.TabIndex = 12;
+            this.btnCancel.TabIndex = 5;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseSelectable = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -448,7 +451,8 @@
             this.txtUpdated.SelectionStart = 0;
             this.txtUpdated.ShortcutsEnabled = true;
             this.txtUpdated.Size = new System.Drawing.Size(170, 23);
-            this.txtUpdated.TabIndex = 8;
+            this.txtUpdated.TabIndex = 0;
+            this.txtUpdated.TabStop = false;
             this.txtUpdated.UseSelectable = true;
             this.txtUpdated.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtUpdated.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
@@ -480,7 +484,8 @@
             this.txtUserId.SelectionStart = 0;
             this.txtUserId.ShortcutsEnabled = true;
             this.txtUserId.Size = new System.Drawing.Size(87, 23);
-            this.txtUserId.TabIndex = 7;
+            this.txtUserId.TabIndex = 0;
+            this.txtUserId.TabStop = false;
             this.txtUserId.UseSelectable = true;
             this.txtUserId.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtUserId.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);

@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.Remoting.Channels;
 using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
 using DataWrangler.DBOs;
-using DataWrangler.FormControls;
 using DataWrangler.Properties;
-using DataWrangler.Retrievers;
 using MetroFramework;
 using MetroFramework.Controls;
 using MetroFramework.Forms;
@@ -19,19 +14,14 @@ namespace DataWrangler.Forms
 {
     public partial class Landing : MetroForm
     {
+        private readonly MetroContextMenu _ctxMenuManage;
         private readonly Dictionary<string, string> _dbSettings;
         private readonly UserAccount _user;
-
-        private DataCache _dataCache;
-        private IDataRetriever _retriever;
-        private RecordType _recordtype;
-
-        private MetroContextMenu ctxMenuManage;
 
         public Landing(Dictionary<string, string> dbSettings, UserAccount user)
         {
             InitializeComponent();
-            ctxMenuManage = new MetroContextMenu(this.Container);
+            _ctxMenuManage = new MetroContextMenu(Container);
             StyleHelper.LoadFormSavedStyle(this);
             _dbSettings = dbSettings;
             _user = user;
@@ -39,70 +29,50 @@ namespace DataWrangler.Forms
             BringToFront();
         }
 
-        private void StatsBackgroundWorkerOnProgressChanged(object sender, ProgressChangedEventArgs e)
+        private void btnBack_Click(object sender, EventArgs e)
         {
-            if (e.ProgressPercentage == 20)
-            {
-                spinner3.Visible = false;
-            }else if (e.ProgressPercentage == 40)
-            {
-                spinner2.Visible = false;
-            }else if (e.ProgressPercentage == 100)
-            {
-                spinner1.Visible = false;
-            }
+            Program.SwitchPrimaryForm(new Login(_dbSettings));
         }
 
-        private void StatsBackgroundWorkerOnRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void Landing_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //spinner1.Visible = false;
-            //spinner2.Visible = false;
-            //spinner3.Visible = false;
+            statsBackgroundWorker.CancelAsync();
+            statsBackgroundWorker.DoWork -= StatsBackgroundWorker_DoWork;
+            statsBackgroundWorker.ProgressChanged -= StatsBackgroundWorkerOnProgressChanged;
         }
 
-        private void StatsBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        private void Landing_Shown(object sender, EventArgs e)
         {
-            if (statsBackgroundWorker.CancellationPending)
-            {
-                e.Cancel = true;
-                return;
-            }
-            UserAccount_Total();
-            if (statsBackgroundWorker.CancellationPending)
-            {
-                e.Cancel = true;
-                return;
-            }
-            RecordType_Total();
-            if (statsBackgroundWorker.CancellationPending)
-            {
-                e.Cancel = true;
-                return;
-            }
-            Records_Total();
-        }
-
-        private void SetupClickListeners()
-        {
-            EventHandler manageRecordsHandler = (sender, args) => Program.SwitchPrimaryForm(new ManageRecords(_dbSettings, _user));
-            EventHandler manageRecordTypesHandler = (sender, args) => Program.SwitchPrimaryForm(new ManageRecordTypes(_dbSettings, _user));
-            EventHandler manageUserAccountsHandler = (sender, args) => Program.SwitchPrimaryForm(new ManageUserAccounts(_dbSettings, _user));
-
-            btnImport.Click += (sender, args) => Program.SwitchPrimaryForm(new ImportRecords(_dbSettings, _user));
-            btnOptions.Click += (sender, args) => new Options(this, _dbSettings, _user).ShowDialog();
-            btnManage.Click += (sender, args) => ctxMenuManage.Show(btnManage, new Point(0, btnManage.Height));
-            tileRecords.Click += manageRecordsHandler;
-            tileRecTypes.Click += manageRecordTypesHandler;
-            tileUserAccts.Click += manageUserAccountsHandler;
-            
-            ctxMenuManage.Items.Add("Manage Records", null, manageRecordsHandler);
-            ctxMenuManage.Items.Add("Manage Record Types", null, manageRecordTypesHandler);
-            ctxMenuManage.Items.Add("Manage User Accounts", null, manageUserAccountsHandler);
+            statsBackgroundWorker.RunWorkerAsync();
         }
 
         private void LandingScreen_Load(object sender, EventArgs e)
         {
             btnBack.Image = Theme == MetroThemeStyle.Dark ? Resources.logout_light : Resources.logout_dark;
+        }
+
+
+        private void LoadChartData(Dictionary<string, int> recordCounts)
+        {
+            if (lblRecTypes.IsDisposed || !IsHandleCreated || statsBackgroundWorker.CancellationPending) return;
+            foreach (var recCnt in recordCounts)
+            {
+                void AddPoint()
+                {
+                    chartData.Series["Records By Type"].Points.AddXY(recCnt.Key, Convert.ToInt32(recCnt.Value));
+                }
+
+                if (statsBackgroundWorker != null && !statsBackgroundWorker.CancellationPending &&
+                    !chartData.IsDisposed)
+                    try
+                    {
+                        chartData.Invoke((Action) AddPoint);
+                    }
+                    catch
+                    {
+                        //ignored
+                    }
+            }
         }
 
         private void Records_Total()
@@ -112,20 +82,21 @@ namespace DataWrangler.Forms
             using (var oH = new ObjectHelper(_dbSettings, _user))
             {
                 var cntStatus = oH.GetRecordCounts();
-                if (cntStatus.Success)
-                {
-                    recordCounts = (Dictionary<string, int>) cntStatus.Result;
-                }
+                if (cntStatus.Success) recordCounts = (Dictionary<string, int>) cntStatus.Result;
             }
 
             if (recordCounts != null)
             {
-                Action setSum = () => lblRecCount.Text = recordCounts.Sum(x => x.Value).ToString();
-                if (statsBackgroundWorker != null && !statsBackgroundWorker.CancellationPending && !lblRecCount.IsDisposed)
+                void SetSum()
                 {
+                    lblRecCount.Text = recordCounts.Sum(x => x.Value).ToString();
+                }
+
+                if (statsBackgroundWorker != null && !statsBackgroundWorker.CancellationPending &&
+                    !lblRecCount.IsDisposed)
                     try
                     {
-                        lblRecCount.Invoke(setSum);
+                        lblRecCount.Invoke((Action) SetSum);
                         LoadChartData(recordCounts);
                         statsBackgroundWorker.ReportProgress(100);
                     }
@@ -133,10 +104,9 @@ namespace DataWrangler.Forms
                     {
                         //ignored
                     }
-                }
             }
-            
         }
+
         private void RecordType_Total()
         {
             if (lblRecTypes.IsDisposed || !IsHandleCreated || statsBackgroundWorker.CancellationPending) return;
@@ -145,75 +115,87 @@ namespace DataWrangler.Forms
                 var fetchTotal = oH.GetRecordTypeCount();
                 if (fetchTotal.Success)
                 {
-                    Action setTotal = () => lblRecTypes.Text = fetchTotal.Result.ToString();
-                    if (statsBackgroundWorker != null && !statsBackgroundWorker.CancellationPending && !lblRecTypes.IsDisposed)
+                    void SetTotal()
                     {
+                        lblRecTypes.Text = fetchTotal.Result.ToString();
+                    }
+
+                    if (statsBackgroundWorker != null && !statsBackgroundWorker.CancellationPending &&
+                        !lblRecTypes.IsDisposed)
                         try
                         {
-                            lblRecTypes.Invoke(setTotal);
+                            lblRecTypes.Invoke((Action) SetTotal);
                             statsBackgroundWorker.ReportProgress(40);
                         }
                         catch
                         {
                             //ignored
                         }
-                    }
-                    
                 }
             }
         }
 
-        private void UserAccount_Total()
+        private void SetupClickListeners()
         {
-            if (lblRecTypes.IsDisposed || !IsHandleCreated || statsBackgroundWorker.CancellationPending) return;
-            using (var oH = new ObjectHelper(_dbSettings, _user))
+            void ManageRecordsHandler(object sender, EventArgs args)
             {
-                var fetchTotal = oH.GetUserAccountCount();
-                if (fetchTotal.Success)
-                {
-                    Action setTotal = () => lblUserAcc.Text = fetchTotal.Result.ToString();
-                    if (statsBackgroundWorker != null && !statsBackgroundWorker.CancellationPending && !lblUserAcc.IsDisposed)
-                    {
-                        try
-                        {
-                            lblUserAcc.Invoke(setTotal);
-                            statsBackgroundWorker.ReportProgress(20);
-                        }
-                        catch
-                        {
-                            //ignored
-                        }
-                    }
-                }
+                Program.SwitchPrimaryForm(new ManageRecords(_dbSettings, _user));
             }
-        }
 
-        
-
-        private void LoadChartData(Dictionary<string, int> recordCounts)
-        {
-            if (lblRecTypes.IsDisposed || !IsHandleCreated || statsBackgroundWorker.CancellationPending) return;
-            foreach (var recCnt in recordCounts)
+            void ManageRecordTypesHandler(object sender, EventArgs args)
             {
-                Action addPoint = () => chartData.Series["Records By Type"].Points.AddXY(recCnt.Key, Convert.ToInt32(recCnt.Value));
-                if (statsBackgroundWorker != null && !statsBackgroundWorker.CancellationPending && !chartData.IsDisposed)
-                {
-                    try
-                    {
-                        chartData.Invoke(addPoint);
-                    }
-                    catch
-                    {
-                        //ignored
-                    }
-                    
-                }
+                Program.SwitchPrimaryForm(new ManageRecordTypes(_dbSettings, _user));
             }
+
+            void ManageUserAccountsHandler(object sender, EventArgs args)
+            {
+                Program.SwitchPrimaryForm(new ManageUserAccounts(_dbSettings, _user));
+            }
+
+            btnImport.Click += (sender, args) => Program.SwitchPrimaryForm(new ImportRecords(_dbSettings, _user));
+            btnOptions.Click += (sender, args) => new Options(this, _dbSettings, _user).ShowDialog();
+            btnManage.Click += (sender, args) => _ctxMenuManage.Show(btnManage, new Point(0, btnManage.Height));
+            tileRecords.Click += ManageRecordsHandler;
+            tileRecTypes.Click += ManageRecordTypesHandler;
+            tileUserAccts.Click += ManageUserAccountsHandler;
+
+            _ctxMenuManage.Items.Add("Manage Records", null, ManageRecordsHandler);
+            _ctxMenuManage.Items.Add("Manage Record Types", null, ManageRecordTypesHandler);
+            _ctxMenuManage.Items.Add("Manage User Accounts", null, ManageUserAccountsHandler);
         }
 
-        private void btnBack_Click(object sender, EventArgs e)
+        private void StatsBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            Program.SwitchPrimaryForm(new Login(_dbSettings));
+            if (statsBackgroundWorker.CancellationPending)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            UserAccount_Total();
+            if (statsBackgroundWorker.CancellationPending)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            RecordType_Total();
+            if (statsBackgroundWorker.CancellationPending)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            Records_Total();
+        }
+
+        private void StatsBackgroundWorkerOnProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            if (e.ProgressPercentage == 20)
+                spinner3.Visible = false;
+            else if (e.ProgressPercentage == 40)
+                spinner2.Visible = false;
+            else if (e.ProgressPercentage == 100) spinner1.Visible = false;
         }
 
         private void SwitchChartStyle()
@@ -232,28 +214,36 @@ namespace DataWrangler.Forms
 
         public void SwitchFormStyle()
         {
-            if (Theme == MetroThemeStyle.Dark)
-            {
-                btnBack.Image = Resources.logout_light;
-            }
-            else
-            {
-                btnBack.Image = Resources.logout_dark;
-            }
+            btnBack.Image = Theme == MetroThemeStyle.Dark ? Resources.logout_light : Resources.logout_dark;
             SwitchChartStyle();
         }
 
-        private void Landing_FormClosing(object sender, FormClosingEventArgs e)
+        private void UserAccount_Total()
         {
-            statsBackgroundWorker.CancelAsync();
-            statsBackgroundWorker.RunWorkerCompleted -= StatsBackgroundWorkerOnRunWorkerCompleted;
-            statsBackgroundWorker.DoWork -= StatsBackgroundWorker_DoWork;
-            statsBackgroundWorker.ProgressChanged -= StatsBackgroundWorkerOnProgressChanged;
-        }
+            if (lblRecTypes.IsDisposed || !IsHandleCreated || statsBackgroundWorker.CancellationPending) return;
+            using (var oH = new ObjectHelper(_dbSettings, _user))
+            {
+                var fetchTotal = oH.GetUserAccountCount();
+                if (fetchTotal.Success)
+                {
+                    void SetTotal()
+                    {
+                        lblUserAcc.Text = fetchTotal.Result.ToString();
+                    }
 
-        private void Landing_Shown(object sender, EventArgs e)
-        {
-            statsBackgroundWorker.RunWorkerAsync();
+                    if (statsBackgroundWorker != null && !statsBackgroundWorker.CancellationPending &&
+                        !lblUserAcc.IsDisposed)
+                        try
+                        {
+                            lblUserAcc.Invoke((Action) SetTotal);
+                            statsBackgroundWorker.ReportProgress(20);
+                        }
+                        catch
+                        {
+                            //ignored
+                        }
+                }
+            }
         }
     }
 }

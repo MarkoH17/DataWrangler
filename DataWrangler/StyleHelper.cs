@@ -1,51 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MetroFramework;
 using MetroFramework.Components;
 using MetroFramework.Forms;
 
 namespace DataWrangler
 {
-    class StyleHelper
+    internal class StyleHelper
     {
-        private static MetroStyleManager _appStyleManager = new MetroStyleManager();
-        private static void SetColorStyle(MetroColorStyle colorStyle)
-        {
-            _appStyleManager.Style = colorStyle;
-        }
-
-        private static void SetThemeStyle(MetroThemeStyle themeStyle)
-        {
-            _appStyleManager.Theme = themeStyle;
-        }
-
-        private static void UpdateFormStyle(MetroForm form)
-        {
-            form.StyleManager = _appStyleManager;
-            _appStyleManager.Owner = form;
-
-            InvokeSwitchStyle(form);
-        }
+        private static readonly MetroStyleManager AppStyleManager = new MetroStyleManager();
 
         private static void InvokeSwitchStyle(MetroForm form)
         {
             var switchFormStyleMethod = form.GetType().GetMethod("SwitchFormStyle");
-            if (switchFormStyleMethod != null)
-            {
-                switchFormStyleMethod.Invoke(form, null);
-            }
-        }
-
-        public static void PreviewFormStyle(MetroForm form, MetroThemeStyle themeStyle, MetroColorStyle colorStyle)
-        {
-            form.StyleManager = _appStyleManager;
-            _appStyleManager.Owner = form;
-            SetThemeStyle(themeStyle);
-            SetColorStyle(colorStyle);
-            InvokeSwitchStyle(form);
+            if (switchFormStyleMethod != null) switchFormStyleMethod.Invoke(form, null);
         }
 
         public static void LoadFormSavedStyle(MetroForm form)
@@ -56,14 +23,41 @@ namespace DataWrangler
             var savedStyle = ConfigurationHelper.GetStyleSettings();
 
             if (savedStyle.ContainsKey("ThemeStyle"))
-                themeStyle = (MetroThemeStyle)Enum.Parse(typeof(MetroThemeStyle), savedStyle["ThemeStyle"]);
+                themeStyle = (MetroThemeStyle) Enum.Parse(typeof(MetroThemeStyle), savedStyle["ThemeStyle"]);
 
             if (savedStyle.ContainsKey("ColorStyle"))
-                colorStyle = (MetroColorStyle)Enum.Parse(typeof(MetroColorStyle), savedStyle["ColorStyle"]);
+                colorStyle = (MetroColorStyle) Enum.Parse(typeof(MetroColorStyle), savedStyle["ColorStyle"]);
 
             SetThemeStyle(themeStyle);
             SetColorStyle(colorStyle);
             UpdateFormStyle(form);
+        }
+
+        public static void PreviewFormStyle(MetroForm form, MetroThemeStyle themeStyle, MetroColorStyle colorStyle)
+        {
+            form.StyleManager = AppStyleManager;
+            AppStyleManager.Owner = form;
+            SetThemeStyle(themeStyle);
+            SetColorStyle(colorStyle);
+            InvokeSwitchStyle(form);
+        }
+
+        private static void SetColorStyle(MetroColorStyle colorStyle)
+        {
+            AppStyleManager.Style = colorStyle;
+        }
+
+        private static void SetThemeStyle(MetroThemeStyle themeStyle)
+        {
+            AppStyleManager.Theme = themeStyle;
+        }
+
+        private static void UpdateFormStyle(MetroForm form)
+        {
+            form.StyleManager = AppStyleManager;
+            AppStyleManager.Owner = form;
+
+            InvokeSwitchStyle(form);
         }
     }
 }

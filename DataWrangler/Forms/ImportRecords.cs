@@ -33,14 +33,15 @@ namespace DataWrangler.Forms
             _fieldsTable.Columns.Add(new DataColumn {ColumnName = "FieldName"});
             _fieldsTable.Columns.Add(new DataColumn {ColumnName = "SheetColumnIndex"});
 
-            var fieldNameCol = new DataGridViewTextBoxColumn();
-            fieldNameCol.Name = "Attribute Name";
+            var fieldNameCol = new DataGridViewTextBoxColumn {Name = "Attribute Name"};
 
-            var fieldValueCol = new DataGridViewComboBoxColumn();
-            fieldValueCol.Name = "Mapped Field";
-            fieldValueCol.DataSource = _fieldsTable;
-            fieldValueCol.DisplayMember = "FieldName";
-            fieldValueCol.ValueMember = "SheetColumnIndex";
+            var fieldValueCol = new DataGridViewComboBoxColumn
+            {
+                Name = "Mapped Field",
+                DataSource = _fieldsTable,
+                DisplayMember = "FieldName",
+                ValueMember = "SheetColumnIndex"
+            };
 
 
             gridFieldAssignment.Columns.Add(fieldValueCol);
@@ -54,6 +55,17 @@ namespace DataWrangler.Forms
             if (comboImportOptions.SelectedIndex != 1 &&
                 ValidRow(gridFieldAssignment.Rows[gridFieldAssignment.RowCount - 1]))
                 gridFieldAssignment.Rows.Add();
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            Program.SwitchPrimaryForm(new Landing(_dbSettings, _user));
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+            Program.SwitchPrimaryForm(new Landing(_dbSettings, _user));
         }
 
         private void btnChooseFile_Click(object sender, EventArgs e)
@@ -138,10 +150,13 @@ namespace DataWrangler.Forms
                         importStatus = oH.AddRecords(records, rT);
                     }
             }
+
             if (importStatus != null && importStatus.Success)
-                NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Information, "Successfully imported " + (int)importStatus.Result + " records!");
+                NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Information,
+                    "Successfully imported " + (int) importStatus.Result + " records!");
             else
-                NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to import records. Please try again.");
+                NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error,
+                    "Failed to import records. Please try again.");
         }
 
         private void comboImportOptions_SelectedIndexChanged(object sender, EventArgs e)
@@ -245,11 +260,16 @@ namespace DataWrangler.Forms
                 gridFieldAssignment.Rows[hitTest.RowIndex].Selected = true;
 
                 var cm = new MetroContextMenu(Container);
-                cm.Items.Add("Delete Row", Properties.Resources.trash_dark, deleteToolStrip_Click);
+                cm.Items.Add("Delete Row", Resources.trash_dark, deleteToolStrip_Click);
 
                 cm.Show(gridFieldAssignment,
                     gridFieldAssignment.PointToClient(new Point(Cursor.Position.X, Cursor.Position.Y)));
             }
+        }
+
+        private void ImportRecords_Resize(object sender, EventArgs e)
+        {
+            txtPathAddr.Refresh();
         }
 
         private void LoadDataSource(string filePath)
@@ -266,6 +286,11 @@ namespace DataWrangler.Forms
                 row["SheetColumnIndex"] = header.Key;
                 _fieldsTable.Rows.Add(row);
             }
+        }
+
+        public void SwitchFormStyle()
+        {
+            btnBack.Image = Theme == MetroThemeStyle.Dark ? Resources.arrow_back_light : Resources.arrow_back_dark;
         }
 
         private void txtRecordTypeName_KeyUp(object sender, KeyEventArgs e)
@@ -330,34 +355,6 @@ namespace DataWrangler.Forms
                 if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
                     return false;
             return true;
-        }
-
-        private void ImportRecords_Resize(object sender, EventArgs e)
-        {
-            txtPathAddr.Refresh();
-        }
-
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-            Program.SwitchPrimaryForm(new Landing(_dbSettings, _user));
-        }
-
-        private void btnBack_Click(object sender, EventArgs e)
-        {
-            Program.SwitchPrimaryForm(new Landing(_dbSettings, _user));
-        }
-
-        public void SwitchFormStyle()
-        {
-            if (Theme == MetroThemeStyle.Dark)
-            {
-                btnBack.Image = Resources.arrow_back_light;
-            }
-            else
-            {
-                btnBack.Image = Resources.arrow_back_dark;
-            }
         }
     }
 }

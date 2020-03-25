@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using MetroFramework.Forms;
 
 namespace DataWrangler.Forms
 {
-    public partial class Welcome : MetroFramework.Forms.MetroForm
+    public partial class Welcome : MetroForm
     {
         private Dictionary<string, string> _dbSettings;
         private string _userDefinedDbPath;
@@ -15,6 +16,13 @@ namespace DataWrangler.Forms
             StyleHelper.LoadFormSavedStyle(this);
             _dbSettings = ConfigurationHelper.GetDbSettings();
             BringToFront();
+        }
+
+        private void ChangedSetupSelection()
+        {
+            FileBrowseButton.Enabled = true;
+            btnNext.Enabled = false;
+            FilePathBox.Text = "";
         }
 
         private void FileBrowseButton_Click(object sender, EventArgs e)
@@ -60,7 +68,6 @@ namespace DataWrangler.Forms
 
         private void NextButton_Click(object sender, EventArgs e)
         {
-
             if (radioNewSystem.Checked)
             {
                 var initStatus = ObjectHelper.InitializeSystem(_userDefinedDbPath);
@@ -72,13 +79,15 @@ namespace DataWrangler.Forms
 
                     MessageBox.Show(
                         "A new DataWrangler system has been initialized! Here are your new credentials:\n\tUsername: " +
-                        newUserName + "\n\tPassword: " + newUserPass + "\n\nMake sure to save these credentials somewhere safe!");
+                        newUserName + "\n\tPassword: " + newUserPass +
+                        "\n\nMake sure to save these credentials somewhere safe!");
                 }
-            }else if (radioExistingSystem.Checked)
+            }
+            else if (radioExistingSystem.Checked)
             {
                 ConfigurationHelper.SaveDbSettings(_userDefinedDbPath);
             }
-                
+
             _dbSettings = ConfigurationHelper.GetDbSettings();
 
             Program.SwitchPrimaryForm(new Login(_dbSettings));
@@ -89,22 +98,14 @@ namespace DataWrangler.Forms
             if (_dbSettings.Count > 0) Program.SwitchPrimaryForm(new Login(_dbSettings));
         }
 
-        private void radioNewSystem_CheckedChanged(object sender, EventArgs e)
-        {
-            ChangedSetupSelection();
-        }
-
         private void radioExistingSystem_CheckedChanged(object sender, EventArgs e)
         {
             ChangedSetupSelection();
         }
 
-        private void ChangedSetupSelection()
+        private void radioNewSystem_CheckedChanged(object sender, EventArgs e)
         {
-            FileBrowseButton.Enabled = true;
-            btnNext.Enabled = false;
-            FilePathBox.Text = "";
+            ChangedSetupSelection();
         }
-
     }
 }

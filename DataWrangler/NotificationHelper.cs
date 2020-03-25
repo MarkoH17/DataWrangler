@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using MetroFramework;
 using MetroFramework.Forms;
 
 namespace DataWrangler
 {
-    class NotificationHelper
+    internal class NotificationHelper
     {
-        private static string NotificationTitle = "Data Wrangler";
-
         public enum NotificationType
         {
             Information,
@@ -20,9 +13,11 @@ namespace DataWrangler
             Error
         }
 
+        private static readonly string NotificationTitle = "Data Wrangler";
+
         public static void ShowNotification(MetroForm parentForm, NotificationType type, string message)
         {
-            string title = NotificationTitle + " - " + type;
+            var title = NotificationTitle + " - " + type;
             MessageBoxIcon boxStyle;
             switch (type)
             {
@@ -39,6 +34,7 @@ namespace DataWrangler
                     boxStyle = MessageBoxIcon.Information;
                     break;
             }
+
             MetroMessageBox.Show(parentForm, message, title, MessageBoxButtons.OK, boxStyle);
         }
     }
