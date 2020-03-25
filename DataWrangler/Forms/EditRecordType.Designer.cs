@@ -247,9 +247,11 @@ namespace DataWrangler.Forms
             // btnUpdate
             // 
             this.btnUpdate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnUpdate.Location = new System.Drawing.Point(353, 431);
+            this.btnUpdate.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.btnUpdate.FontWeight = MetroFramework.MetroButtonWeight.Light;
+            this.btnUpdate.Location = new System.Drawing.Point(361, 431);
             this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.Size = new System.Drawing.Size(75, 23);
+            this.btnUpdate.Size = new System.Drawing.Size(60, 23);
             this.btnUpdate.TabIndex = 6;
             this.btnUpdate.Text = "Close";
             this.btnUpdate.UseSelectable = true;
@@ -258,9 +260,11 @@ namespace DataWrangler.Forms
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCancel.Location = new System.Drawing.Point(272, 431);
+            this.btnCancel.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.btnCancel.FontWeight = MetroFramework.MetroButtonWeight.Light;
+            this.btnCancel.Location = new System.Drawing.Point(290, 431);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.Size = new System.Drawing.Size(65, 23);
             this.btnCancel.TabIndex = 7;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseSelectable = true;

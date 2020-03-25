@@ -124,7 +124,7 @@ namespace DataWrangler.Retrievers
         {
             string[] cols;
             if (_mode == 3)
-                cols = new[] {"Object Type", "Object ID", "Operation", "Date"};
+                cols = new[] { "Date", "Object Type", "Object ID", "Operation", "Notes"};
             else
                 cols = new[] { "User", "Operation", "Date" };
             

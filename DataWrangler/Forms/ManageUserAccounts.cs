@@ -33,7 +33,6 @@ namespace DataWrangler.Forms
                 new object[] { true });
             _dbSettings = dbSettings;
             _user = user;
-            LoadUsers();
             BringToFront();
         }
 
@@ -173,7 +172,7 @@ namespace DataWrangler.Forms
             Program.SwitchPrimaryForm(new Landing(_dbSettings, _user));
         }
 
-        public void SwitchIconStyle()
+        public void SwitchFormStyle()
         {
             if (Theme == MetroThemeStyle.Dark)
             {
@@ -183,6 +182,11 @@ namespace DataWrangler.Forms
             {
                 btnBack.Image = Resources.arrow_back_dark;
             }
+        }
+
+        private void ManageUserAccounts_Load_1(object sender, EventArgs e)
+        {
+            LoadUsers();
         }
     }
 }

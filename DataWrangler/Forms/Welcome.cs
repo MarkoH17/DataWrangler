@@ -33,7 +33,7 @@ namespace DataWrangler.Forms
                     {
                         filePath = openFileDialog.FileName;
                         FilePathBox.Text = filePath;
-                        NextButton.Enabled = true;
+                        btnNext.Enabled = true;
 
                         _userDefinedDbPath = filePath;
                     }
@@ -51,7 +51,7 @@ namespace DataWrangler.Forms
                     {
                         filePath = saveFileDialog.FileName;
                         FilePathBox.Text = filePath;
-                        NextButton.Enabled = true;
+                        btnNext.Enabled = true;
 
                         _userDefinedDbPath = filePath;
                     }
@@ -88,5 +88,23 @@ namespace DataWrangler.Forms
         {
             if (_dbSettings.Count > 0) Program.SwitchPrimaryForm(new Login(_dbSettings));
         }
+
+        private void radioNewSystem_CheckedChanged(object sender, EventArgs e)
+        {
+            ChangedSetupSelection();
+        }
+
+        private void radioExistingSystem_CheckedChanged(object sender, EventArgs e)
+        {
+            ChangedSetupSelection();
+        }
+
+        private void ChangedSetupSelection()
+        {
+            FileBrowseButton.Enabled = true;
+            btnNext.Enabled = false;
+            FilePathBox.Text = "";
+        }
+
     }
 }

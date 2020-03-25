@@ -272,7 +272,7 @@ namespace DataWrangler.Forms
             Program.SwitchPrimaryForm(new Landing(_dbSettings, _user));
         }
 
-        public void SwitchIconStyle()
+        public void SwitchFormStyle()
         {
             if (Theme == MetroThemeStyle.Dark)
             {

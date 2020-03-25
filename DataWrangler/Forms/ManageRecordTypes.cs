@@ -37,7 +37,7 @@ namespace DataWrangler.Forms
             BringToFront();
         }
 
-        protected override void OnLoad(EventArgs e)
+        private void LoadRecordTypes()
         {
             try
             {
@@ -51,13 +51,12 @@ namespace DataWrangler.Forms
                     gridRecordTypes.Columns.Add(column, column);
 
                 gridRecordTypes.RowCount = _retriever.RowCount;
-                
+                txtRowCnt.Text = _retriever.RowCount.ToString();
             }
             catch (Exception ex)
             {
                 NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Failed to load record types. Please try again.");
             }
-            base.OnLoad(e);
         }
 
         private void RecordTypeGridView_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
@@ -132,6 +131,7 @@ namespace DataWrangler.Forms
                         }
                     }
                     RecordTypeGridRefresh();
+
                 }
             }
         }
@@ -140,7 +140,7 @@ namespace DataWrangler.Forms
         {
             _retriever.ResetRowCount();
             gridRecordTypes.RowCount = _retriever.RowCount;
-            //txtRowCnt.Text = _retriever.RowCount.ToString();
+            txtRowCnt.Text = _retriever.RowCount.ToString();
             RefreshVisibleRows();
         }
 
@@ -201,7 +201,7 @@ namespace DataWrangler.Forms
             Program.SwitchPrimaryForm(new Landing(_dbSettings, _user));
         }
 
-        public void SwitchIconStyle()
+        public void SwitchFormStyle()
         {
             if (Theme == MetroThemeStyle.Dark)
             {
@@ -211,6 +211,11 @@ namespace DataWrangler.Forms
             {
                 btnBack.Image = Resources.arrow_back_dark;
             }
+        }
+
+        private void ManageRecordTypes_Load(object sender, EventArgs e)
+        {
+            LoadRecordTypes();
         }
     }
 }

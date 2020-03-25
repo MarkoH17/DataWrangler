@@ -27,10 +27,15 @@ namespace DataWrangler
             form.StyleManager = _appStyleManager;
             _appStyleManager.Owner = form;
 
-            var switchIconStyleMethod = form.GetType().GetMethod("SwitchIconStyle");
-            if (switchIconStyleMethod != null)
+            InvokeSwitchStyle(form);
+        }
+
+        private static void InvokeSwitchStyle(MetroForm form)
+        {
+            var switchFormStyleMethod = form.GetType().GetMethod("SwitchFormStyle");
+            if (switchFormStyleMethod != null)
             {
-                switchIconStyleMethod.Invoke(form, null);
+                switchFormStyleMethod.Invoke(form, null);
             }
         }
 
@@ -40,6 +45,7 @@ namespace DataWrangler
             _appStyleManager.Owner = form;
             SetThemeStyle(themeStyle);
             SetColorStyle(colorStyle);
+            InvokeSwitchStyle(form);
         }
 
         public static void LoadFormSavedStyle(MetroForm form)

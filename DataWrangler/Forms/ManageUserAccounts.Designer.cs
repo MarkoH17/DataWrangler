@@ -168,6 +168,7 @@
             this.Controls.Add(this.gridUsers);
             this.Name = "ManageUserAccounts";
             this.Text = "     Manage User Accounts";
+            this.Load += new System.EventHandler(this.ManageUserAccounts_Load_1);
             ((System.ComponentModel.ISupportInitialize)(this.gridUsers)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

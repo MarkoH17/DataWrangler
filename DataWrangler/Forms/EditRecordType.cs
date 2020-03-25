@@ -41,7 +41,7 @@ namespace DataWrangler.Forms
             {
                 Text = "Add Record Type";
                 tabControl1.TabPages.Remove(tabHistory);
-                LoadAddRow(0);
+                LoadAddRow(1);
             }
             else
             {
@@ -53,7 +53,7 @@ namespace DataWrangler.Forms
             txtRecTypeName.Text = _recordType != null ? _recordType.Name : "";
 
             tabControl1.SelectedTab = tabAttributes;
-            tableLayoutPanel1.RowStyles[0].Height = 30F;
+            tableLayoutPanel1.RowStyles[0].Height = 0F;
             tableLayoutPanel1.AutoScroll = true;
             tableLayoutPanel1.VerticalScroll.Visible = true;
             tableLayoutPanel1.AutoSize = true;
@@ -245,10 +245,10 @@ namespace DataWrangler.Forms
             deleteButton.Click += (sender, args) => RemoveRow(sender);
 
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.AutoSize, 30F));
-
-            tableLayoutPanel1.Controls.Add(newLbl, 0, tableLayoutPanel1.RowCount + 1);
-            tableLayoutPanel1.Controls.Add(newTxtBox, 1, tableLayoutPanel1.RowCount + 1);
-            tableLayoutPanel1.Controls.Add(deleteButton, 2, tableLayoutPanel1.RowCount + 1);
+            tableLayoutPanel1.RowCount++;
+            tableLayoutPanel1.Controls.Add(newLbl, 0, tableLayoutPanel1.RowCount);
+            tableLayoutPanel1.Controls.Add(newTxtBox, 1, tableLayoutPanel1.RowCount);
+            tableLayoutPanel1.Controls.Add(deleteButton, 2, tableLayoutPanel1.RowCount);
 
             _txtControls.Add(newTxtBox);
 

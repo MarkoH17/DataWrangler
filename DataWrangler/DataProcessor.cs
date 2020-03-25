@@ -45,6 +45,9 @@ namespace DataWrangler
                         case "Object ID":
                             value = i.ObjectId.ToString();
                             break;
+                        case "Notes":
+                            value = i.Note;
+                            break;
                     }
 
                     dR[col.Ordinal] = value;

@@ -48,7 +48,7 @@
             this.gridHistory = new MetroFramework.Controls.MetroGrid();
             this.tabAuditHistory = new MetroFramework.Controls.MetroTabPage();
             this.gridAuditHistory = new MetroFramework.Controls.MetroGrid();
-            this.btnSave = new MetroFramework.Controls.MetroButton();
+            this.btnClose = new MetroFramework.Controls.MetroButton();
             this.btnCancel = new MetroFramework.Controls.MetroButton();
             this.lbUpdated = new MetroFramework.Controls.MetroLabel();
             this.txtUpdated = new MetroFramework.Controls.MetroTextBox();
@@ -387,21 +387,25 @@
             this.gridAuditHistory.VirtualMode = true;
             this.gridAuditHistory.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.gridAuditHistory_CellValueNeeded);
             // 
-            // btnSave
+            // btnClose
             // 
-            this.btnSave.Location = new System.Drawing.Point(353, 431);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 13;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseSelectable = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            this.btnClose.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.btnClose.FontWeight = MetroFramework.MetroButtonWeight.Light;
+            this.btnClose.Location = new System.Drawing.Point(361, 431);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(60, 23);
+            this.btnClose.TabIndex = 13;
+            this.btnClose.Text = "Close";
+            this.btnClose.UseSelectable = true;
+            this.btnClose.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(272, 431);
+            this.btnCancel.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.btnCancel.FontWeight = MetroFramework.MetroButtonWeight.Light;
+            this.btnCancel.Location = new System.Drawing.Point(290, 431);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.Size = new System.Drawing.Size(65, 23);
             this.btnCancel.TabIndex = 12;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseSelectable = true;
@@ -498,7 +502,7 @@
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.lbUpdated);
             this.Controls.Add(this.txtUpdated);
-            this.Controls.Add(this.btnSave);
+            this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.txtUserId);
             this.Controls.Add(this.lblId);
@@ -535,7 +539,7 @@
         private MetroFramework.Controls.MetroTextBox txtPasswordVerify;
         private MetroFramework.Controls.MetroLabel metroLabel2;
         private MetroFramework.Controls.MetroButton btnCancel;
-        private MetroFramework.Controls.MetroButton btnSave;
+        private MetroFramework.Controls.MetroButton btnClose;
         private MetroFramework.Controls.MetroToggle togActiveStat;
         private MetroFramework.Controls.MetroTabPage tabAuditHistory;
         private MetroFramework.Controls.MetroGrid gridAuditHistory;

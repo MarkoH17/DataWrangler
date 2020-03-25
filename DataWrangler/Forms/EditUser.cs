@@ -189,7 +189,7 @@ namespace DataWrangler.Forms
 
         private void VerifyPasswords()
         {
-            btnSave.Enabled = txtPassword.Text.Equals(txtPasswordVerify.Text);
+            btnClose.Enabled = txtPassword.Text.Equals(txtPasswordVerify.Text);
         }
 
         private void txtPassword_TextChanged(object sender, EventArgs e)

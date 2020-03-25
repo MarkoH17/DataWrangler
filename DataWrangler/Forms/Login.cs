@@ -41,27 +41,36 @@ namespace DataWrangler.Forms
         private void btnLogin_Click(object sender, EventArgs e)
         {
             UserAccount user = null;
-            using (var oH = new ObjectHelper(_dbSettings))
+            try
             {
-                var username = txtUserName.Text;
-                var password = txtPassword.Text;
-
-                var loginStatus = oH.LoginUserAccount(username, password);
-
-                if (loginStatus.Success && loginStatus.Result != null)
+                using (var oH = new ObjectHelper(_dbSettings))
                 {
-                    user = (UserAccount) loginStatus.Result;
-                    
-                    ConfigurationHelper.SaveLoginSettings(chckRemember.Checked ? username : null);
+                    var username = txtUserName.Text;
+                    var password = txtPassword.Text;
 
-                    if (!user.Active)
+                    var loginStatus = oH.LoginUserAccount(username, password);
+
+                    if (loginStatus.Success && loginStatus.Result != null)
                     {
-                        NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "Your account is disabled. Please contact your administrator.");
-                        txtUserName.Focus();
-                        return;
+                        user = (UserAccount) loginStatus.Result;
+
+                        ConfigurationHelper.SaveLoginSettings(chckRemember.Checked ? username : null);
+
+                        if (!user.Active)
+                        {
+                            NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error,
+                                "Your account is disabled. Please contact your administrator.");
+                            txtUserName.Focus();
+                            return;
+                        }
                     }
                 }
             }
+            catch (Exception e1)
+            {
+                NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error, "An error occured while trying to access the database. Try again.");
+            }
+            
 
             if (user != null)
             {

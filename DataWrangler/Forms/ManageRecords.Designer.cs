@@ -40,7 +40,6 @@ namespace DataWrangler.Forms
             this.lblField = new MetroFramework.Controls.MetroLabel();
             this.lblFieldSearch = new MetroFramework.Controls.MetroLabel();
             this.txtFieldSearch = new MetroFramework.Controls.MetroTextBox();
-            this.btnAdvSearch = new MetroFramework.Controls.MetroButton();
             this.lblHorSep1 = new MetroFramework.Controls.MetroLabel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.subTblCol3 = new System.Windows.Forms.TableLayoutPanel();
@@ -50,7 +49,6 @@ namespace DataWrangler.Forms
             this.comboField = new MetroFramework.Controls.MetroComboBox();
             this.lblHorSep2 = new MetroFramework.Controls.MetroLabel();
             this.gridRecords = new MetroFramework.Controls.MetroGrid();
-            this.btnCancel = new MetroFramework.Controls.MetroButton();
             this.btnBack = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.subTblCol3.SuspendLayout();
@@ -88,6 +86,7 @@ namespace DataWrangler.Forms
             this.txtRowCnt.ShortcutsEnabled = true;
             this.txtRowCnt.Size = new System.Drawing.Size(84, 23);
             this.txtRowCnt.TabIndex = 5;
+            this.txtRowCnt.TabStop = false;
             this.txtRowCnt.UseSelectable = true;
             this.txtRowCnt.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtRowCnt.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
@@ -111,7 +110,7 @@ namespace DataWrangler.Forms
             this.comboRecType.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
             this.comboRecType.Name = "comboRecType";
             this.comboRecType.Size = new System.Drawing.Size(215, 29);
-            this.comboRecType.TabIndex = 7;
+            this.comboRecType.TabIndex = 1;
             this.comboRecType.UseSelectable = true;
             this.comboRecType.SelectedIndexChanged += new System.EventHandler(this.comboRecType_SelectedIndexChanged);
             // 
@@ -164,22 +163,11 @@ namespace DataWrangler.Forms
             this.txtFieldSearch.SelectionStart = 0;
             this.txtFieldSearch.ShortcutsEnabled = true;
             this.txtFieldSearch.Size = new System.Drawing.Size(225, 34);
-            this.txtFieldSearch.TabIndex = 12;
+            this.txtFieldSearch.TabIndex = 3;
             this.txtFieldSearch.UseSelectable = true;
             this.txtFieldSearch.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtFieldSearch.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             this.txtFieldSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtFieldSearch_KeyDown);
-            // 
-            // btnAdvSearch
-            // 
-            this.btnAdvSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAdvSearch.Enabled = false;
-            this.btnAdvSearch.Location = new System.Drawing.Point(12, 514);
-            this.btnAdvSearch.Name = "btnAdvSearch";
-            this.btnAdvSearch.Size = new System.Drawing.Size(111, 23);
-            this.btnAdvSearch.TabIndex = 13;
-            this.btnAdvSearch.Text = "Advanced Search...";
-            this.btnAdvSearch.UseSelectable = true;
             // 
             // lblHorSep1
             // 
@@ -275,7 +263,7 @@ namespace DataWrangler.Forms
             this.comboField.Margin = new System.Windows.Forms.Padding(3, 6, 3, 3);
             this.comboField.Name = "comboField";
             this.comboField.Size = new System.Drawing.Size(265, 29);
-            this.comboField.TabIndex = 10;
+            this.comboField.TabIndex = 2;
             this.comboField.UseSelectable = true;
             this.comboField.SelectedIndexChanged += new System.EventHandler(this.comboField_SelectedIndexChanged);
             // 
@@ -342,20 +330,11 @@ namespace DataWrangler.Forms
             this.gridRecords.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gridRecords.Size = new System.Drawing.Size(965, 368);
             this.gridRecords.TabIndex = 4;
+            this.gridRecords.TabStop = false;
             this.gridRecords.VirtualMode = true;
             this.gridRecords.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridRecords_CellDoubleClick);
             this.gridRecords.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.gridRecords_CellValueNeeded);
             this.gridRecords.MouseClick += new System.Windows.Forms.MouseEventHandler(this.gridRecords_MouseClick);
-            // 
-            // btnCancel
-            // 
-            this.btnCancel.Location = new System.Drawing.Point(699, 513);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 17;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseSelectable = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnBack
             // 
@@ -368,7 +347,8 @@ namespace DataWrangler.Forms
             this.btnBack.Location = new System.Drawing.Point(23, 25);
             this.btnBack.Name = "btnBack";
             this.btnBack.Size = new System.Drawing.Size(24, 24);
-            this.btnBack.TabIndex = 18;
+            this.btnBack.TabIndex = 0;
+            this.btnBack.TabStop = false;
             this.btnBack.UseVisualStyleBackColor = false;
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
@@ -378,11 +358,9 @@ namespace DataWrangler.Forms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1000, 550);
             this.Controls.Add(this.btnBack);
-            this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.lblHorSep2);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.lblHorSep1);
-            this.Controls.Add(this.btnAdvSearch);
             this.Controls.Add(this.lblCount);
             this.Controls.Add(this.txtRowCnt);
             this.Controls.Add(this.gridRecords);
@@ -411,7 +389,6 @@ namespace DataWrangler.Forms
         private MetroLabel lblField;
         private MetroLabel lblFieldSearch;
         private MetroTextBox txtFieldSearch;
-        private MetroButton btnAdvSearch;
         private MetroLabel lblHorSep1;
         private TableLayoutPanel tableLayoutPanel1;
         private TableLayoutPanel subTblCol1;
@@ -421,7 +398,6 @@ namespace DataWrangler.Forms
         private TableLayoutPanel subTblCol3;
         private MetroLabel lblHorSep2;
         private MetroGrid gridRecords;
-        private MetroButton btnCancel;
         private Button btnBack;
     }
 }

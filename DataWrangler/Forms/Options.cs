@@ -28,8 +28,6 @@ namespace DataWrangler.Forms
             _dbSettings = dbSettings;
             _user = user;
             _parentForm = parentForm;
-            LoadDatabaseValues();
-            LoadStyles();
             BringToFront();
         }
 
@@ -124,6 +122,7 @@ namespace DataWrangler.Forms
         {
             var colorStyle = (MetroColorStyle)comboStyle.SelectedItem;
             StyleHelper.PreviewFormStyle(this, Theme, colorStyle);
+            StyleHelper.PreviewFormStyle(_parentForm, Theme, colorStyle);
         }
 
         private void tglDarkMode_CheckedChanged(object sender, EventArgs e)
@@ -131,6 +130,13 @@ namespace DataWrangler.Forms
             var useDarkMode = tglDarkMode.Checked;
             var themeStyle = useDarkMode ? MetroThemeStyle.Dark : MetroThemeStyle.Light;
             StyleHelper.PreviewFormStyle(this, themeStyle, Style);
+            StyleHelper.PreviewFormStyle(_parentForm, themeStyle, Style);
+        }
+
+        private void Options_Load(object sender, EventArgs e)
+        {
+            LoadDatabaseValues();
+            LoadStyles();
         }
     }
 }

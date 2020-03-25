@@ -43,11 +43,13 @@ namespace DataWrangler.Forms
             // 
             this.btnLogin.BackColor = System.Drawing.Color.Gray;
             this.btnLogin.Enabled = false;
+            this.btnLogin.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.btnLogin.FontWeight = MetroFramework.MetroButtonWeight.Light;
             this.btnLogin.ForeColor = System.Drawing.Color.Transparent;
             this.btnLogin.Location = new System.Drawing.Point(295, 251);
             this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(56, 34);
-            this.btnLogin.TabIndex = 4;
+            this.btnLogin.Size = new System.Drawing.Size(56, 27);
+            this.btnLogin.TabIndex = 5;
             this.btnLogin.Text = "Login";
             this.btnLogin.UseSelectable = true;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
@@ -61,7 +63,7 @@ namespace DataWrangler.Forms
             this.chckRemember.Location = new System.Drawing.Point(184, 210);
             this.chckRemember.Name = "chckRemember";
             this.chckRemember.Size = new System.Drawing.Size(137, 15);
-            this.chckRemember.TabIndex = 5;
+            this.chckRemember.TabIndex = 3;
             this.chckRemember.Text = "Remember Username";
             this.chckRemember.UseSelectable = true;
             // 
@@ -74,7 +76,7 @@ namespace DataWrangler.Forms
             this.chckShowPass.Location = new System.Drawing.Point(184, 231);
             this.chckShowPass.Name = "chckShowPass";
             this.chckShowPass.Size = new System.Drawing.Size(105, 15);
-            this.chckShowPass.TabIndex = 6;
+            this.chckShowPass.TabIndex = 4;
             this.chckShowPass.Text = "Show Password";
             this.chckShowPass.UseSelectable = true;
             this.chckShowPass.CheckedChanged += new System.EventHandler(this.chckShowPass_CheckedChanged);
@@ -85,7 +87,7 @@ namespace DataWrangler.Forms
             this.lblPlease.Location = new System.Drawing.Point(169, 109);
             this.lblPlease.Name = "lblPlease";
             this.lblPlease.Size = new System.Drawing.Size(120, 19);
-            this.lblPlease.TabIndex = 1;
+            this.lblPlease.TabIndex = 0;
             this.lblPlease.Text = "Please login below.";
             // 
             // txtPassword
@@ -114,6 +116,7 @@ namespace DataWrangler.Forms
             this.txtPassword.MaxLength = 32;
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '●';
+            this.txtPassword.PromptText = "Password";
             this.txtPassword.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.txtPassword.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.txtPassword.SelectedText = "";
@@ -121,7 +124,7 @@ namespace DataWrangler.Forms
             this.txtPassword.SelectionStart = 0;
             this.txtPassword.ShortcutsEnabled = true;
             this.txtPassword.Size = new System.Drawing.Size(167, 23);
-            this.txtPassword.TabIndex = 3;
+            this.txtPassword.TabIndex = 2;
             this.txtPassword.UseSelectable = true;
             this.txtPassword.UseSystemPasswordChar = true;
             this.txtPassword.WaterMark = "Password";
@@ -154,13 +157,14 @@ namespace DataWrangler.Forms
             this.txtUserName.MaxLength = 62;
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.PasswordChar = '\0';
+            this.txtUserName.PromptText = "Username";
             this.txtUserName.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.txtUserName.SelectedText = "";
             this.txtUserName.SelectionLength = 0;
             this.txtUserName.SelectionStart = 0;
             this.txtUserName.ShortcutsEnabled = true;
             this.txtUserName.Size = new System.Drawing.Size(167, 23);
-            this.txtUserName.TabIndex = 2;
+            this.txtUserName.TabIndex = 1;
             this.txtUserName.UseSelectable = true;
             this.txtUserName.WaterMark = "Username";
             this.txtUserName.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -178,7 +182,10 @@ namespace DataWrangler.Forms
             this.Controls.Add(this.txtPassword);
             this.Controls.Add(this.txtUserName);
             this.Controls.Add(this.btnLogin);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Login";
+            this.Resizable = false;
             this.Text = "     Data Wrangler Login";
             this.Load += new System.EventHandler(this.Login_Load);
             this.Shown += new System.EventHandler(this.Login_Shown);
