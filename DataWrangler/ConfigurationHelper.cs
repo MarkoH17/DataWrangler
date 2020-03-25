@@ -80,6 +80,18 @@ namespace DataWrangler
             return null;
         }
 
+        public static bool ResetAllPreferences()
+        {
+            Settings.Default.Reset();
+            Settings.Default.Save();
+            var configuration = ConfigurationManager.OpenExeConfiguration(Assembly.GetExecutingAssembly().Location);
+            configuration.AppSettings.Settings.Remove("dbFilePath");
+            configuration.AppSettings.Settings.Remove("dbPass");
+            configuration.Save();
+            ConfigurationManager.RefreshSection("appSettings");
+            return true;
+        }
+
         public static bool SaveDbSettings(string dbFilePath, bool isEncrypted = false, string dbPass = null)
         {
             if (string.IsNullOrEmpty(dbFilePath)) return false;

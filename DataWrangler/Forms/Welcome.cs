@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 using MetroFramework.Forms;
 
@@ -77,10 +78,8 @@ namespace DataWrangler.Forms
                     var newUserName = initResult["newUserName"];
                     var newUserPass = initResult["newUserPass"];
 
-                    MessageBox.Show(
-                        "A new DataWrangler system has been initialized! Here are your new credentials:\n\tUsername: " +
-                        newUserName + "\n\tPassword: " + newUserPass +
-                        "\n\nMake sure to save these credentials somewhere safe!");
+                    var credsForm = new WelcomeCreds(newUserName, newUserPass);
+                    credsForm.ShowDialog();
                 }
             }
             else if (radioExistingSystem.Checked)
@@ -95,7 +94,10 @@ namespace DataWrangler.Forms
 
         protected override void OnLoad(EventArgs e)
         {
-            if (_dbSettings.Count > 0) Program.SwitchPrimaryForm(new Login(_dbSettings));
+            _dbSettings.TryGetValue("dbFilePath", out var dbFilePath);
+            if (!string.IsNullOrEmpty(dbFilePath))
+                if (new FileInfo(dbFilePath).Exists)
+                    Program.SwitchPrimaryForm(new Login(_dbSettings));
         }
 
         private void radioExistingSystem_CheckedChanged(object sender, EventArgs e)

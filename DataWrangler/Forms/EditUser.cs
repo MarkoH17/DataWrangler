@@ -44,6 +44,7 @@ namespace DataWrangler.Forms
                 LoadUser();
             }
 
+            ValidateForm();
             tabControl.SelectedTab = tabUser;
             BringToFront();
         }
@@ -121,6 +122,9 @@ namespace DataWrangler.Forms
                         }
                     }
                 }
+
+            DialogResult = DialogResult.Cancel;
+            Close();
         }
 
         private void gridAuditHistory_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
@@ -198,7 +202,7 @@ namespace DataWrangler.Forms
             {
                 txtPasswordVerify.Enabled = true;
                 _passwordModified = true;
-                VerifyPasswords();
+                ValidateForm();
             }
             else
             {
@@ -211,12 +215,32 @@ namespace DataWrangler.Forms
         private void txtPasswordVerify_TextChanged(object sender, EventArgs e)
         {
             if (_passwordModified)
-                VerifyPasswords();
+                ValidateForm();
         }
 
-        private void VerifyPasswords()
+        private void txtUsername_TextChanged(object sender, EventArgs e)
         {
-            btnClose.Enabled = txtPassword.Text.Equals(txtPasswordVerify.Text);
+            ValidateForm();
+        }
+
+        private void ValidateForm()
+        {
+            var hasError = false;
+
+            if (txtUsername.Text.Length < 1)
+                hasError = true;
+
+            if (_passwordModified)
+            {
+                if (!txtPassword.Text.Equals(txtPasswordVerify.Text))
+                    hasError = true;
+
+                if (txtPassword.Text.Length < 1)
+                    hasError = true;
+            }
+
+
+            btnClose.Enabled = !hasError;
         }
     }
 }

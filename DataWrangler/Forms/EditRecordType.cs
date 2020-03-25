@@ -15,6 +15,7 @@ namespace DataWrangler.Forms
     public partial class EditRecordType : MetroForm
     {
         private readonly Dictionary<string, string> _dbSettings;
+        private readonly RecordType _recordType;
 
         private readonly List<string> _removedAttrs = new List<string>();
 
@@ -25,7 +26,6 @@ namespace DataWrangler.Forms
         private MetroTextBox _addRowTextBox;
 
         private DataCache _dataCache;
-        private readonly RecordType _recordType;
         private IDataRetriever _retriever;
 
         public EditRecordType(Dictionary<string, string> dbSettings, UserAccount user, RecordType recordType)
@@ -41,6 +41,7 @@ namespace DataWrangler.Forms
                 Text = "Add Record Type";
                 tabControl1.TabPages.Remove(tabHistory);
                 LoadAddRow(1);
+                ValidateForm();
             }
             else
             {
@@ -50,19 +51,13 @@ namespace DataWrangler.Forms
 
             txtRecId.Text = _recordType != null ? _recordType.Id.ToString() : "---";
             txtRecTypeName.Text = _recordType != null ? _recordType.Name : "";
-
+            txtRecTypeName.TextChanged += (sender, args) => ValidateForm();
             tabControl1.SelectedTab = tabAttributes;
             tableLayoutPanel1.RowStyles[0].Height = 0F;
             tableLayoutPanel1.AutoScroll = true;
             tableLayoutPanel1.VerticalScroll.Visible = true;
             tableLayoutPanel1.AutoSize = true;
             BringToFront();
-        }
-
-        public sealed override string Text
-        {
-            get => base.Text;
-            set => base.Text = value;
         }
 
         private void AddRow()
@@ -126,6 +121,8 @@ namespace DataWrangler.Forms
             LoadAddRow(tableLayoutPanel1.RowCount + 2);
             tableLayoutPanel1.ResumeLayout();
             tabAttributes.ResumeLayout();
+
+            ValidateForm();
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
@@ -334,7 +331,7 @@ namespace DataWrangler.Forms
                     };
 
                     deleteButton.Click += (sender, args) => RemoveRow(sender);
-
+                    newTxtBox.TextChanged += (sender, args) => ValidateForm();
                     _txtControls.Add(newTxtBox);
 
                     tabAttributes.Controls.Add(newLbl);
@@ -425,11 +422,32 @@ namespace DataWrangler.Forms
 
             tableLayoutPanel1.ResumeLayout();
             tabAttributes.ResumeLayout();
+            ValidateForm();
         }
 
         private void txtRecType_TextChanged(object sender, EventArgs e)
         {
             btnUpdate.Enabled = txtRecTypeName.Text.Replace(" ", "").Length > 0;
+        }
+
+        private void ValidateForm()
+        {
+            var hasError = false;
+
+            if (txtRecTypeName.Text.Length < 1)
+                hasError = true;
+
+            if (_txtControls.Count < 1)
+                hasError = true;
+
+            foreach (var ctrl in _txtControls)
+                if (ctrl.Text.Length < 1)
+                    hasError = true;
+
+            if (!hasError)
+                btnUpdate.Enabled = true;
+            else
+                btnUpdate.Enabled = false;
         }
     }
 }

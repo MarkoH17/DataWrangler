@@ -41,6 +41,7 @@
             this.lblStyle = new MetroFramework.Controls.MetroLabel();
             this.lblHorSep1 = new MetroFramework.Controls.MetroLabel();
             this.btnClose = new MetroFramework.Controls.MetroButton();
+            this.btnResetAll = new MetroFramework.Controls.MetroButton();
             this.SuspendLayout();
             // 
             // lblDatabasePath
@@ -174,11 +175,24 @@
             this.btnClose.UseSelectable = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
+            // btnResetAll
+            // 
+            this.btnResetAll.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.btnResetAll.FontWeight = MetroFramework.MetroButtonWeight.Light;
+            this.btnResetAll.Location = new System.Drawing.Point(142, 229);
+            this.btnResetAll.Name = "btnResetAll";
+            this.btnResetAll.Size = new System.Drawing.Size(80, 27);
+            this.btnResetAll.TabIndex = 19;
+            this.btnResetAll.Text = "Reset All...";
+            this.btnResetAll.UseSelectable = true;
+            this.btnResetAll.Click += new System.EventHandler(this.btnResetAll_Click);
+            // 
             // Options
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(414, 267);
+            this.Controls.Add(this.btnResetAll);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.lblHorSep1);
             this.Controls.Add(this.lblStyle);
@@ -215,5 +229,6 @@
         private MetroFramework.Controls.MetroLabel lblStyle;
         private MetroFramework.Controls.MetroLabel lblHorSep1;
         private MetroFramework.Controls.MetroButton btnClose;
+        private MetroFramework.Controls.MetroButton btnResetAll;
     }
 }

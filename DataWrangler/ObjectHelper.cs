@@ -321,7 +321,7 @@ namespace DataWrangler
                 .IncludeSpecial("!@#$%^&*()-_=+");
 
             var newUserName = "sysadmin";
-            var newUserPass = "pass";
+            var newUserPass = pwGenerator.Next();
 
             string dbPass = null;
 

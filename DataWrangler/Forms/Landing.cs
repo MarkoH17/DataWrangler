@@ -153,8 +153,11 @@ namespace DataWrangler.Forms
             }
 
             btnImport.Click += (sender, args) => Program.SwitchPrimaryForm(new ImportRecords(_dbSettings, _user));
-            btnOptions.Click += (sender, args) => new Options(this, _dbSettings, _user).ShowDialog();
+            btnOptions.Click += (sender, args) => ShowOptions();
             btnManage.Click += (sender, args) => _ctxMenuManage.Show(btnManage, new Point(0, btnManage.Height));
+            lblRecCount.Click += ManageRecordsHandler;
+            lblRecTypes.Click += ManageRecordTypesHandler;
+            lblUserAcc.Click += ManageUserAccountsHandler;
             tileRecords.Click += ManageRecordsHandler;
             tileRecTypes.Click += ManageRecordTypesHandler;
             tileUserAccts.Click += ManageUserAccountsHandler;
@@ -162,6 +165,14 @@ namespace DataWrangler.Forms
             _ctxMenuManage.Items.Add("Manage Records", null, ManageRecordsHandler);
             _ctxMenuManage.Items.Add("Manage Record Types", null, ManageRecordTypesHandler);
             _ctxMenuManage.Items.Add("Manage User Accounts", null, ManageUserAccountsHandler);
+        }
+
+        private void ShowOptions()
+        {
+            var optionsForm = new Options(this, _dbSettings, _user);
+            var optionsFormResult = optionsForm.ShowDialog();
+
+            if (optionsFormResult == DialogResult.Yes) Program.SwitchPrimaryForm(new Welcome());
         }
 
         private void StatsBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)

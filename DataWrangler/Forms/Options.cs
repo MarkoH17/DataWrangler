@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using DataWrangler.DBOs;
 using MetroFramework;
 using MetroFramework.Forms;
@@ -31,6 +32,13 @@ namespace DataWrangler.Forms
             ConfigurationHelper.SaveStyleSettings(themeStyle, colorStyle);
             StyleHelper.LoadFormSavedStyle(this);
             StyleHelper.LoadFormSavedStyle(_parentForm);
+            Close();
+        }
+
+        private void btnResetAll_Click(object sender, EventArgs e)
+        {
+            ConfigurationHelper.ResetAllPreferences();
+            DialogResult = DialogResult.Yes;
             Close();
         }
 
