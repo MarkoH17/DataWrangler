@@ -15,21 +15,27 @@ namespace DataWrangler.Forms
         {
             InitializeComponent();
             StyleHelper.LoadFormSavedStyle(this);
+
             _dbSettings = ConfigurationHelper.GetDbSettings();
             BringToFront();
         }
 
         private void ChangedSetupSelection()
         {
-            FileBrowseButton.Enabled = true;
+            btnBrowse.Enabled = true;
             btnNext.Enabled = false;
-            FilePathBox.Text = "";
+            txtPath.Text = "";
+        }
+
+        private void ExitButton_Click(object sender, EventArgs e)
+        {
+            Close();
         }
 
         private void FileBrowseButton_Click(object sender, EventArgs e)
         {
             string filePath;
-            if (radioExistingSystem.Checked)
+            if (rdioExistingSystem.Checked)
                 using (var openFileDialog = new OpenFileDialog())
                 {
                     openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -41,13 +47,13 @@ namespace DataWrangler.Forms
                     if (openFileDialog.ShowDialog() == DialogResult.OK)
                     {
                         filePath = openFileDialog.FileName;
-                        FilePathBox.Text = filePath;
+                        txtPath.Text = filePath;
                         btnNext.Enabled = true;
 
                         _userDefinedDbPath = filePath;
                     }
                 }
-            else if (radioNewSystem.Checked)
+            else if (rdioNewSystem.Checked)
                 using (var saveFileDialog = new SaveFileDialog())
                 {
                     saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -59,7 +65,7 @@ namespace DataWrangler.Forms
                     if (saveFileDialog.ShowDialog() == DialogResult.OK)
                     {
                         filePath = saveFileDialog.FileName;
-                        FilePathBox.Text = filePath;
+                        txtPath.Text = filePath;
                         btnNext.Enabled = true;
 
                         _userDefinedDbPath = filePath;
@@ -69,12 +75,12 @@ namespace DataWrangler.Forms
 
         private void NextButton_Click(object sender, EventArgs e)
         {
-            if (radioNewSystem.Checked)
+            if (rdioNewSystem.Checked)
             {
                 var initStatus = ObjectHelper.InitializeSystem(_userDefinedDbPath);
                 if (initStatus.Success)
                 {
-                    var initResult = (Dictionary<string, string>) initStatus.Result;
+                    var initResult = (Dictionary<string, string>)initStatus.Result;
                     var newUserName = initResult["newUserName"];
                     var newUserPass = initResult["newUserPass"];
 
@@ -82,14 +88,13 @@ namespace DataWrangler.Forms
                     credsForm.ShowDialog();
                 }
             }
-            else if (radioExistingSystem.Checked)
+            else if (rdioExistingSystem.Checked)
             {
                 ConfigurationHelper.SaveDbSettings(_userDefinedDbPath);
             }
-
             _dbSettings = ConfigurationHelper.GetDbSettings();
 
-            Program.SwitchPrimaryForm(new Login(_dbSettings));
+            Program.SwitchPrimaryForm(new Login(_dbSettings), false);
         }
 
         protected override void OnLoad(EventArgs e)

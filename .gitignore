@@ -8,3 +8,4 @@
 /packages
 /DataWrangler/bin/Release
 /DataWrangler/obj/Release
+*.cache

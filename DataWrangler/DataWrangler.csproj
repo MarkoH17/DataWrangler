@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\MSBuild.ILMerge.Task.1.1.3\build\MSBuild.ILMerge.Task.props" Condition="Exists('..\packages\MSBuild.ILMerge.Task.1.1.3\build\MSBuild.ILMerge.Task.props')" />
+  <Import Project="..\packages\ILMerge.3.0.29\build\ILMerge.props" Condition="Exists('..\packages\ILMerge.3.0.29\build\ILMerge.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -142,12 +144,6 @@
     <Compile Include="Forms\Options.Designer.cs">
       <DependentUpon>Options.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Welcome.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Welcome.Designer.cs">
-      <DependentUpon>Welcome.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\Landing.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -178,6 +174,12 @@
     </Compile>
     <Compile Include="Forms\ManageRecords.Designer.cs">
       <DependentUpon>ManageRecords.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Welcome.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Welcome.Designer.cs">
+      <DependentUpon>Welcome.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\WelcomeCreds.cs">
       <SubType>Form</SubType>
@@ -218,9 +220,6 @@
     <EmbeddedResource Include="Forms\Options.resx">
       <DependentUpon>Options.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Welcome.resx">
-      <DependentUpon>Welcome.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ImportRecords.resx">
       <DependentUpon>ImportRecords.cs</DependentUpon>
     </EmbeddedResource>
@@ -230,6 +229,9 @@
     <EmbeddedResource Include="Forms\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Welcome.resx">
+      <DependentUpon>Welcome.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\WelcomeCreds.resx">
       <DependentUpon>WelcomeCreds.cs</DependentUpon>
@@ -253,6 +255,7 @@
     <EmbeddedResource Include="Forms\ManageRecords.resx">
       <DependentUpon>ManageRecords.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="ILMerge.props" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\DataWrangler.DBOs.UserAccount.datasource" />
     <None Include="Properties\DataSources\DataWrangler.Retrievers.UserAccountRetriever.datasource" />
@@ -329,6 +332,16 @@
     <Content Include="Assets\Images\trash_light.png" />
     <Content Include="Assets\Images\user_light.png" />
     <Content Include="Assets\Images\user_dark.png" />
+    <Content Include="ILMergeOrder.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\ILMerge.3.0.29\build\ILMerge.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ILMerge.3.0.29\build\ILMerge.props'))" />
+    <Error Condition="!Exists('..\packages\MSBuild.ILMerge.Task.1.1.3\build\MSBuild.ILMerge.Task.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSBuild.ILMerge.Task.1.1.3\build\MSBuild.ILMerge.Task.props'))" />
+    <Error Condition="!Exists('..\packages\MSBuild.ILMerge.Task.1.1.3\build\MSBuild.ILMerge.Task.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSBuild.ILMerge.Task.1.1.3\build\MSBuild.ILMerge.Task.targets'))" />
+  </Target>
+  <Import Project="..\packages\MSBuild.ILMerge.Task.1.1.3\build\MSBuild.ILMerge.Task.targets" Condition="Exists('..\packages\MSBuild.ILMerge.Task.1.1.3\build\MSBuild.ILMerge.Task.targets')" />
 </Project>

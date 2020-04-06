@@ -1,4 +1,6 @@
-﻿namespace DataWrangler.Forms
+﻿using System.Windows.Forms;
+using MetroFramework.Controls;
+namespace DataWrangler.Forms
 {
     partial class Welcome
     {
@@ -28,135 +30,150 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.metroPanel1 = new MetroFramework.Controls.MetroPanel();
-            this.radioExistingSystem = new MetroFramework.Controls.MetroRadioButton();
-            this.radioNewSystem = new MetroFramework.Controls.MetroRadioButton();
-            this.FileBrowseButton = new MetroFramework.Controls.MetroButton();
             this.btnNext = new MetroFramework.Controls.MetroButton();
-            this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
-            this.FilePathBox = new MetroFramework.Controls.MetroTextBox();
+            this.btnBrowse = new MetroFramework.Controls.MetroButton();
+            this.lblDatabasePath = new MetroFramework.Controls.MetroLabel();
+            this.txtPath = new MetroFramework.Controls.MetroTextBox();
+            this.metroPanel1 = new MetroFramework.Controls.MetroPanel();
+            this.rdioExistingSystem = new MetroFramework.Controls.MetroRadioButton();
+            this.rdioNewSystem = new MetroFramework.Controls.MetroRadioButton();
+            this.btnExit = new MetroFramework.Controls.MetroButton();
             this.metroPanel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // metroPanel1
-            // 
-            this.metroPanel1.Controls.Add(this.radioExistingSystem);
-            this.metroPanel1.Controls.Add(this.radioNewSystem);
-            this.metroPanel1.HorizontalScrollbarBarColor = true;
-            this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
-            this.metroPanel1.HorizontalScrollbarSize = 10;
-            this.metroPanel1.Location = new System.Drawing.Point(79, 63);
-            this.metroPanel1.Name = "metroPanel1";
-            this.metroPanel1.Size = new System.Drawing.Size(260, 66);
-            this.metroPanel1.TabIndex = 10;
-            this.metroPanel1.VerticalScrollbarBarColor = true;
-            this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
-            this.metroPanel1.VerticalScrollbarSize = 10;
-            // 
-            // radioExistingSystem
-            // 
-            this.radioExistingSystem.AutoSize = true;
-            this.radioExistingSystem.FontSize = MetroFramework.MetroCheckBoxSize.Tall;
-            this.radioExistingSystem.Location = new System.Drawing.Point(3, 34);
-            this.radioExistingSystem.Name = "radioExistingSystem";
-            this.radioExistingSystem.Size = new System.Drawing.Size(259, 25);
-            this.radioExistingSystem.TabIndex = 3;
-            this.radioExistingSystem.Text = "Connect to Existing Database";
-            this.radioExistingSystem.UseSelectable = true;
-            this.radioExistingSystem.CheckedChanged += new System.EventHandler(this.radioExistingSystem_CheckedChanged);
-            // 
-            // radioNewSystem
-            // 
-            this.radioNewSystem.AutoSize = true;
-            this.radioNewSystem.FontSize = MetroFramework.MetroCheckBoxSize.Tall;
-            this.radioNewSystem.Location = new System.Drawing.Point(3, 3);
-            this.radioNewSystem.Name = "radioNewSystem";
-            this.radioNewSystem.Size = new System.Drawing.Size(197, 25);
-            this.radioNewSystem.TabIndex = 2;
-            this.radioNewSystem.Text = "Create New Database";
-            this.radioNewSystem.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.radioNewSystem.UseSelectable = true;
-            this.radioNewSystem.CheckedChanged += new System.EventHandler(this.radioNewSystem_CheckedChanged);
-            // 
-            // FileBrowseButton
-            // 
-            this.FileBrowseButton.Enabled = false;
-            this.FileBrowseButton.FontSize = MetroFramework.MetroButtonSize.Medium;
-            this.FileBrowseButton.FontWeight = MetroFramework.MetroButtonWeight.Light;
-            this.FileBrowseButton.Location = new System.Drawing.Point(377, 149);
-            this.FileBrowseButton.Name = "FileBrowseButton";
-            this.FileBrowseButton.Size = new System.Drawing.Size(27, 24);
-            this.FileBrowseButton.TabIndex = 11;
-            this.FileBrowseButton.Text = ". . .";
-            this.FileBrowseButton.UseSelectable = true;
-            this.FileBrowseButton.Click += new System.EventHandler(this.FileBrowseButton_Click);
             // 
             // btnNext
             // 
             this.btnNext.Enabled = false;
             this.btnNext.FontSize = MetroFramework.MetroButtonSize.Medium;
             this.btnNext.FontWeight = MetroFramework.MetroButtonWeight.Light;
-            this.btnNext.Location = new System.Drawing.Point(343, 190);
+            this.btnNext.Location = new System.Drawing.Point(293, 187);
             this.btnNext.Name = "btnNext";
-            this.btnNext.Size = new System.Drawing.Size(61, 25);
-            this.btnNext.TabIndex = 12;
+            this.btnNext.Size = new System.Drawing.Size(65, 23);
+            this.btnNext.TabIndex = 0;
             this.btnNext.Text = "Next";
             this.btnNext.UseSelectable = true;
             this.btnNext.Click += new System.EventHandler(this.NextButton_Click);
             // 
-            // metroLabel1
+            // btnBrowse
             // 
-            this.metroLabel1.AutoSize = true;
-            this.metroLabel1.Location = new System.Drawing.Point(23, 149);
-            this.metroLabel1.Name = "metroLabel1";
-            this.metroLabel1.Size = new System.Drawing.Size(61, 19);
-            this.metroLabel1.TabIndex = 13;
-            this.metroLabel1.Text = "File Path:";
+            this.btnBrowse.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.btnBrowse.FontWeight = MetroFramework.MetroButtonWeight.Regular;
+            this.btnBrowse.Location = new System.Drawing.Point(328, 137);
+            this.btnBrowse.Name = "btnBrowse";
+            this.btnBrowse.Size = new System.Drawing.Size(30, 23);
+            this.btnBrowse.TabIndex = 1;
+            this.btnBrowse.Text = ". . .";
+            this.btnBrowse.UseSelectable = true;
+            this.btnBrowse.Click += new System.EventHandler(this.FileBrowseButton_Click);
             // 
-            // FilePathBox
+            // lblDatabasePath
+            // 
+            this.lblDatabasePath.AutoSize = true;
+            this.lblDatabasePath.Location = new System.Drawing.Point(23, 137);
+            this.lblDatabasePath.Name = "lblDatabasePath";
+            this.lblDatabasePath.Size = new System.Drawing.Size(58, 19);
+            this.lblDatabasePath.TabIndex = 2;
+            this.lblDatabasePath.Text = "DB Path:";
+            // 
+            // txtPath
             // 
             // 
             // 
             // 
-            this.FilePathBox.CustomButton.Image = null;
-            this.FilePathBox.CustomButton.Location = new System.Drawing.Point(259, 1);
-            this.FilePathBox.CustomButton.Name = "";
-            this.FilePathBox.CustomButton.Size = new System.Drawing.Size(21, 21);
-            this.FilePathBox.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.FilePathBox.CustomButton.TabIndex = 1;
-            this.FilePathBox.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.FilePathBox.CustomButton.UseSelectable = true;
-            this.FilePathBox.CustomButton.Visible = false;
-            this.FilePathBox.Enabled = false;
-            this.FilePathBox.Lines = new string[0];
-            this.FilePathBox.Location = new System.Drawing.Point(90, 149);
-            this.FilePathBox.MaxLength = 32767;
-            this.FilePathBox.Name = "FilePathBox";
-            this.FilePathBox.PasswordChar = '\0';
-            this.FilePathBox.ReadOnly = true;
-            this.FilePathBox.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.FilePathBox.SelectedText = "";
-            this.FilePathBox.SelectionLength = 0;
-            this.FilePathBox.SelectionStart = 0;
-            this.FilePathBox.ShortcutsEnabled = true;
-            this.FilePathBox.Size = new System.Drawing.Size(281, 23);
-            this.FilePathBox.TabIndex = 14;
-            this.FilePathBox.UseSelectable = true;
-            this.FilePathBox.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.FilePathBox.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.txtPath.CustomButton.Image = null;
+            this.txtPath.CustomButton.Location = new System.Drawing.Point(213, 1);
+            this.txtPath.CustomButton.Name = "";
+            this.txtPath.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.txtPath.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.txtPath.CustomButton.TabIndex = 1;
+            this.txtPath.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.txtPath.CustomButton.UseSelectable = true;
+            this.txtPath.CustomButton.Visible = false;
+            this.txtPath.Enabled = false;
+            this.txtPath.Lines = new string[0];
+            this.txtPath.Location = new System.Drawing.Point(87, 137);
+            this.txtPath.MaxLength = 32767;
+            this.txtPath.Name = "txtPath";
+            this.txtPath.PasswordChar = '\0';
+            this.txtPath.ReadOnly = true;
+            this.txtPath.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.txtPath.SelectedText = "";
+            this.txtPath.SelectionLength = 0;
+            this.txtPath.SelectionStart = 0;
+            this.txtPath.ShortcutsEnabled = true;
+            this.txtPath.Size = new System.Drawing.Size(235, 23);
+            this.txtPath.TabIndex = 3;
+            this.txtPath.UseSelectable = true;
+            this.txtPath.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.txtPath.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
+            // metroPanel1
+            // 
+            this.metroPanel1.Controls.Add(this.rdioExistingSystem);
+            this.metroPanel1.Controls.Add(this.rdioNewSystem);
+            this.metroPanel1.HorizontalScrollbarBarColor = true;
+            this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroPanel1.HorizontalScrollbarSize = 10;
+            this.metroPanel1.Location = new System.Drawing.Point(71, 63);
+            this.metroPanel1.Name = "metroPanel1";
+            this.metroPanel1.Size = new System.Drawing.Size(248, 64);
+            this.metroPanel1.TabIndex = 4;
+            this.metroPanel1.VerticalScrollbarBarColor = true;
+            this.metroPanel1.VerticalScrollbarHighlightOnWheel = false;
+            this.metroPanel1.VerticalScrollbarSize = 10;
+            // 
+            // rdioExistingSystem
+            // 
+            this.rdioExistingSystem.AutoSize = true;
+            this.rdioExistingSystem.FontSize = MetroFramework.MetroCheckBoxSize.Tall;
+            this.rdioExistingSystem.FontWeight = MetroFramework.MetroCheckBoxWeight.Light;
+            this.rdioExistingSystem.Location = new System.Drawing.Point(3, 34);
+            this.rdioExistingSystem.Name = "rdioExistingSystem";
+            this.rdioExistingSystem.Size = new System.Drawing.Size(248, 25);
+            this.rdioExistingSystem.TabIndex = 6;
+            this.rdioExistingSystem.Text = "Connect to Existing Database";
+            this.rdioExistingSystem.UseSelectable = true;
+            this.rdioExistingSystem.Click += new System.EventHandler(this.radioExistingSystem_CheckedChanged);
+            // 
+            // rdioNewSystem
+            // 
+            this.rdioNewSystem.AutoSize = true;
+            this.rdioNewSystem.FontSize = MetroFramework.MetroCheckBoxSize.Tall;
+            this.rdioNewSystem.FontWeight = MetroFramework.MetroCheckBoxWeight.Light;
+            this.rdioNewSystem.Location = new System.Drawing.Point(3, 3);
+            this.rdioNewSystem.Name = "rdioNewSystem";
+            this.rdioNewSystem.Size = new System.Drawing.Size(191, 25);
+            this.rdioNewSystem.TabIndex = 5;
+            this.rdioNewSystem.Text = "Create New Database";
+            this.rdioNewSystem.UseSelectable = true;
+            this.rdioNewSystem.Click += new System.EventHandler(this.radioNewSystem_CheckedChanged);
+            // 
+            // btnExit
+            // 
+            this.btnExit.FontSize = MetroFramework.MetroButtonSize.Medium;
+            this.btnExit.FontWeight = MetroFramework.MetroButtonWeight.Light;
+            this.btnExit.Location = new System.Drawing.Point(23, 187);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(58, 23);
+            this.btnExit.TabIndex = 5;
+            this.btnExit.Text = "Exit";
+            this.btnExit.UseSelectable = true;
+            this.btnExit.Click += new System.EventHandler(this.ExitButton_Click);
             // 
             // Welcome
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(423, 231);
-            this.Controls.Add(this.FilePathBox);
-            this.Controls.Add(this.metroLabel1);
-            this.Controls.Add(this.btnNext);
-            this.Controls.Add(this.FileBrowseButton);
+            this.ClientSize = new System.Drawing.Size(380, 227);
+            this.Controls.Add(this.btnExit);
             this.Controls.Add(this.metroPanel1);
+            this.Controls.Add(this.txtPath);
+            this.Controls.Add(this.lblDatabasePath);
+            this.Controls.Add(this.btnBrowse);
+            this.Controls.Add(this.btnNext);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.Movable = false;
             this.Name = "Welcome";
             this.Resizable = false;
             this.Text = "First Time Setup";
@@ -168,12 +185,14 @@
         }
 
         #endregion
-        private MetroFramework.Controls.MetroPanel metroPanel1;
-        private MetroFramework.Controls.MetroRadioButton radioExistingSystem;
-        private MetroFramework.Controls.MetroRadioButton radioNewSystem;
-        private MetroFramework.Controls.MetroButton FileBrowseButton;
-        private MetroFramework.Controls.MetroButton btnNext;
-        private MetroFramework.Controls.MetroLabel metroLabel1;
-        private MetroFramework.Controls.MetroTextBox FilePathBox;
+
+        private MetroButton btnNext;
+        private MetroButton btnBrowse;
+        private MetroLabel lblDatabasePath;
+        private MetroTextBox txtPath;
+        private MetroPanel metroPanel1;
+        private MetroRadioButton rdioExistingSystem;
+        private MetroRadioButton rdioNewSystem;
+        private MetroButton btnExit;
     }
 }
