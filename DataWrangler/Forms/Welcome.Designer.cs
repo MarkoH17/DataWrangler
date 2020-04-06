@@ -46,7 +46,7 @@ namespace DataWrangler.Forms
             this.btnNext.Enabled = false;
             this.btnNext.FontSize = MetroFramework.MetroButtonSize.Medium;
             this.btnNext.FontWeight = MetroFramework.MetroButtonWeight.Light;
-            this.btnNext.Location = new System.Drawing.Point(293, 187);
+            this.btnNext.Location = new System.Drawing.Point(380, 187);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(65, 23);
             this.btnNext.TabIndex = 0;
@@ -58,7 +58,7 @@ namespace DataWrangler.Forms
             // 
             this.btnBrowse.FontSize = MetroFramework.MetroButtonSize.Medium;
             this.btnBrowse.FontWeight = MetroFramework.MetroButtonWeight.Regular;
-            this.btnBrowse.Location = new System.Drawing.Point(328, 137);
+            this.btnBrowse.Location = new System.Drawing.Point(415, 137);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(30, 23);
             this.btnBrowse.TabIndex = 1;
@@ -81,7 +81,7 @@ namespace DataWrangler.Forms
             // 
             // 
             this.txtPath.CustomButton.Image = null;
-            this.txtPath.CustomButton.Location = new System.Drawing.Point(213, 1);
+            this.txtPath.CustomButton.Location = new System.Drawing.Point(300, 1);
             this.txtPath.CustomButton.Name = "";
             this.txtPath.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.txtPath.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
@@ -101,7 +101,7 @@ namespace DataWrangler.Forms
             this.txtPath.SelectionLength = 0;
             this.txtPath.SelectionStart = 0;
             this.txtPath.ShortcutsEnabled = true;
-            this.txtPath.Size = new System.Drawing.Size(235, 23);
+            this.txtPath.Size = new System.Drawing.Size(322, 23);
             this.txtPath.TabIndex = 3;
             this.txtPath.UseSelectable = true;
             this.txtPath.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
@@ -114,7 +114,7 @@ namespace DataWrangler.Forms
             this.metroPanel1.HorizontalScrollbarBarColor = true;
             this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel1.HorizontalScrollbarSize = 10;
-            this.metroPanel1.Location = new System.Drawing.Point(71, 63);
+            this.metroPanel1.Location = new System.Drawing.Point(113, 63);
             this.metroPanel1.Name = "metroPanel1";
             this.metroPanel1.Size = new System.Drawing.Size(248, 64);
             this.metroPanel1.TabIndex = 4;
@@ -164,7 +164,7 @@ namespace DataWrangler.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(380, 227);
+            this.ClientSize = new System.Drawing.Size(468, 227);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.metroPanel1);
             this.Controls.Add(this.txtPath);
