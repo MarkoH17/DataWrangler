@@ -226,7 +226,6 @@ namespace DataWrangler.Forms
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(17)))), ((int)(((byte)(17)))));
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.gridFieldAssignment.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            this.gridFieldAssignment.RowHeadersVisible = false;
             this.gridFieldAssignment.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.gridFieldAssignment.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gridFieldAssignment.Size = new System.Drawing.Size(501, 255);

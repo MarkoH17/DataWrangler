@@ -38,9 +38,9 @@ namespace DataWrangler.Forms
         private void addUserMenuItem_Click(object sender, EventArgs e)
         {
             _users = null;
-            var addForm = new EditUser(_dbSettings, _user, _users) {Text = "Add User"};
+            var addForm = new EditUser(_dbSettings, _user, _users);
             var addFormResult = addForm.ShowDialog();
-            if (addFormResult == DialogResult.OK) RecordGridRefresh();
+            if (addFormResult == DialogResult.OK) UserGridRefresh();
         }
 
         private void btnBack_Click(object sender, EventArgs e)
@@ -55,7 +55,7 @@ namespace DataWrangler.Forms
             {
                 var editForm = new EditUser(_dbSettings, _user, rec);
                 var editFormResult = editForm.ShowDialog();
-                if (editFormResult == DialogResult.OK) RecordGridRefresh();
+                if (editFormResult == DialogResult.OK) UserGridRefresh();
             }
         }
 
@@ -84,7 +84,7 @@ namespace DataWrangler.Forms
             {
                 var editForm = new EditUser(_dbSettings, _user, rec);
                 var editFormResult = editForm.ShowDialog();
-                if (editFormResult == DialogResult.OK) RecordGridRefresh();
+                if (editFormResult == DialogResult.OK) UserGridRefresh();
             }
         }
 
@@ -144,7 +144,7 @@ namespace DataWrangler.Forms
             LoadUsers();
         }
 
-        private void RecordGridRefresh()
+        private void UserGridRefresh()
         {
             _retriever.ResetRowCount();
             gridUsers.RowCount = _retriever.RowCount;

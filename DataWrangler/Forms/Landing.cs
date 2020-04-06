@@ -4,9 +4,11 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using DataWrangler.DBOs;
 using DataWrangler.Properties;
 using MetroFramework;
+using MetroFramework.Components;
 using MetroFramework.Controls;
 using MetroFramework.Forms;
 
@@ -15,8 +17,10 @@ namespace DataWrangler.Forms
     public partial class Landing : MetroForm
     {
         private readonly MetroContextMenu _ctxMenuManage;
+        private readonly MetroToolTip _chartToolTip = new MetroToolTip();
         private readonly Dictionary<string, string> _dbSettings;
         private readonly UserAccount _user;
+        private Point? _chartPrevPosition = null;
 
         public Landing(Dictionary<string, string> dbSettings, UserAccount user)
         {
@@ -59,7 +63,10 @@ namespace DataWrangler.Forms
             {
                 void AddPoint()
                 {
-                    chartData.Series["Records By Type"].Points.AddXY(recCnt.Key, Convert.ToInt32(recCnt.Value));
+                    var point = new DataPoint();
+                    point.SetValueXY(recCnt.Key, recCnt.Value);
+                    point.ToolTip = recCnt.Key + " - " + recCnt.Value.ToString();
+                    chartData.Series["Records By Type"].Points.Add(point);
                 }
 
                 if (statsBackgroundWorker != null && !statsBackgroundWorker.CancellationPending &&

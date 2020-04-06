@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using DataWrangler.DBOs;
 using DataWrangler.Properties;
@@ -32,6 +33,9 @@ namespace DataWrangler.Forms
         {
             InitializeComponent();
             StyleHelper.LoadFormSavedStyle(this);
+            typeof(DataGridView).InvokeMember("DoubleBuffered",
+                BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, gridAuditHistory,
+                new object[] { true });
             _dbSettings = dbSettings;
             _user = user;
             _recordType = recordType;

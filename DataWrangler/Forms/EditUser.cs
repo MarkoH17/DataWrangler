@@ -27,21 +27,22 @@ namespace DataWrangler.Forms
             InitializeComponent();
             StyleHelper.LoadFormSavedStyle(this);
             typeof(DataGridView).InvokeMember("DoubleBuffered",
-                BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, tabUser,
+                BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, gridAuditHistory,
                 new object[] {true});
-
+            typeof(DataGridView).InvokeMember("DoubleBuffered",
+                BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, gridHistory,
+                new object[] { true });
             _dbSettings = dbSettings;
             _user = user;
             _userObj = userObj;
 
+            LoadUser();
             if (_userObj == null)
             {
+                Text = "Add User";
+                
                 tabControl.TabPages.Remove(tabHistory);
                 tabControl.TabPages.Remove(tabAuditHistory);
-            }
-            else
-            {
-                LoadUser();
             }
 
             ValidateForm();
@@ -99,7 +100,6 @@ namespace DataWrangler.Forms
                         if (dbActionStatus.Success)
                         {
                             DialogResult = DialogResult.OK;
-                            Close();
                         }
                         else
                         {
@@ -113,7 +113,6 @@ namespace DataWrangler.Forms
                         if (dbActionStatus.Success)
                         {
                             DialogResult = DialogResult.OK;
-                            Close();
                         }
                         else
                         {
@@ -122,8 +121,6 @@ namespace DataWrangler.Forms
                         }
                     }
                 }
-
-            DialogResult = DialogResult.Cancel;
             Close();
         }
 
@@ -183,10 +180,11 @@ namespace DataWrangler.Forms
 
         private void LoadUser()
         {
-            txtUserId.Text = _userObj.Id.ToString();
-            txtUpdated.Text = _userObj.LastUpdated.ToShortDateString();
-            togActiveStat.Checked = _userObj.Active;
-            txtUsername.Text = _userObj.Username;
+
+            txtUserId.Text = _userObj != null ? _userObj.Id.ToString() : "---";
+            txtUpdated.Text = _userObj != null ? _userObj.LastUpdated.ToShortDateString() : "---"; ;
+            togActiveStat.Checked = _userObj != null ? _userObj.Active : true;
+            txtUsername.Text = _userObj != null ? _userObj.Username : "";
         }
 
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)

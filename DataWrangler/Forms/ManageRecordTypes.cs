@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Reflection;
 using System.Windows.Forms;
 using DataWrangler.DBOs;
 using DataWrangler.Properties;
@@ -15,17 +16,18 @@ namespace DataWrangler.Forms
     {
         private readonly Dictionary<string, string> _dbSettings;
         private readonly UserAccount _user;
-        private DataCache _dataCache; //Needed for caching entries with the data table
+        private DataCache _dataCache;
 
-        private RecordType _recordTypeSel;
-
-        private IDataRetriever _retriever; //Needed for paging the data table
+        private IDataRetriever _retriever;
         private int _rowIdxSel;
 
         public ManageRecordTypes(Dictionary<string, string> dbSettings, UserAccount user)
         {
             InitializeComponent();
             StyleHelper.LoadFormSavedStyle(this);
+            typeof(DataGridView).InvokeMember("DoubleBuffered",
+                BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.SetProperty, null, gridRecordTypes,
+                new object[] { true });
             _dbSettings = dbSettings;
             _user = user;
             BringToFront();
@@ -48,9 +50,7 @@ namespace DataWrangler.Forms
             var recType = GetRecordTypeBySelectedRow(_rowIdxSel);
             if (recType != null)
             {
-                var confirm = MessageBox.Show("DataWrangler Confirmation",
-                    "Are you sure you wish to delete this record type? (orphaned records will also be deleted!)",
-                    MessageBoxButtons.YesNoCancel);
+                var confirm = NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Warning, "Are you sure you wish to delete this record type?", MessageBoxButtons.YesNoCancel);
 
                 if (confirm == DialogResult.Yes)
                 {

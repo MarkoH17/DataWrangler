@@ -15,7 +15,7 @@ namespace DataWrangler
 
         private static readonly string NotificationTitle = "Data Wrangler";
 
-        public static void ShowNotification(MetroForm parentForm, NotificationType type, string message)
+        public static DialogResult ShowNotification(MetroForm parentForm, NotificationType type, string message, MessageBoxButtons notificationButtons = MessageBoxButtons.OK)
         {
             var title = NotificationTitle + " - " + type;
             MessageBoxIcon boxStyle;
@@ -35,7 +35,7 @@ namespace DataWrangler
                     break;
             }
 
-            MetroMessageBox.Show(parentForm, message, title, MessageBoxButtons.OK, boxStyle);
+            return MetroMessageBox.Show(parentForm, message, title, notificationButtons, boxStyle);
         }
     }
 }

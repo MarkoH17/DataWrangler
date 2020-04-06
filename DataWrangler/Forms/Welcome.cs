@@ -97,7 +97,7 @@ namespace DataWrangler.Forms
             _dbSettings.TryGetValue("dbFilePath", out var dbFilePath);
             if (!string.IsNullOrEmpty(dbFilePath))
                 if (new FileInfo(dbFilePath).Exists)
-                    Program.SwitchPrimaryForm(new Login(_dbSettings));
+                    Program.SwitchPrimaryForm(new Login(_dbSettings), false);
         }
 
         private void radioExistingSystem_CheckedChanged(object sender, EventArgs e)

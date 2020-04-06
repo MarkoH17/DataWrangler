@@ -76,9 +76,7 @@ namespace DataWrangler.Forms
             var rec = GetRecordBySelectedRow(_rowIdxSel);
             if (rec != null)
             {
-                var confirm = MessageBox.Show("DataWrangler Confirmation",
-                    "Are you sure you wish to delete this record?",
-                    MessageBoxButtons.YesNoCancel);
+                var confirm = NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Warning, "Are you sure you wish to delete this record?", MessageBoxButtons.YesNoCancel);
 
                 if (confirm == DialogResult.Yes)
                 {
@@ -148,7 +146,7 @@ namespace DataWrangler.Forms
                 var hitTest = gridRecords.HitTest(e.X, e.Y);
 
                 var cm = new MetroContextMenu(Container);
-                if (hitTest.RowIndex > 0)
+                if (hitTest.RowIndex > -1)
                 {
                     _rowIdxSel = hitTest.RowIndex;
 

@@ -30,9 +30,9 @@ namespace DataWrangler.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.tileRecords = new MetroFramework.Controls.MetroTile();
             this.spinner1 = new MetroFramework.Controls.MetroProgressSpinner();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
@@ -140,20 +140,20 @@ namespace DataWrangler.Forms
             this.chartData.BackColor = System.Drawing.Color.Transparent;
             this.chartData.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dash;
             this.chartData.BorderlineWidth = 0;
-            chartArea4.BackColor = System.Drawing.Color.Transparent;
-            chartArea4.BorderWidth = 0;
-            chartArea4.Name = "ChartArea1";
-            this.chartData.ChartAreas.Add(chartArea4);
+            chartArea1.BackColor = System.Drawing.Color.Transparent;
+            chartArea1.BorderWidth = 0;
+            chartArea1.Name = "ChartArea1";
+            this.chartData.ChartAreas.Add(chartArea1);
             this.chartData.Cursor = System.Windows.Forms.Cursors.Default;
-            legend4.BackColor = System.Drawing.Color.Transparent;
-            legend4.Name = "Legend1";
-            this.chartData.Legends.Add(legend4);
+            legend1.BackColor = System.Drawing.Color.Transparent;
+            legend1.Name = "Legend1";
+            this.chartData.Legends.Add(legend1);
             this.chartData.Location = new System.Drawing.Point(12, 270);
             this.chartData.Name = "chartData";
-            series4.ChartArea = "ChartArea1";
-            series4.Legend = "Legend1";
-            series4.Name = "Records By Type";
-            this.chartData.Series.Add(series4);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Records By Type";
+            this.chartData.Series.Add(series1);
             this.chartData.Size = new System.Drawing.Size(778, 178);
             this.chartData.TabIndex = 0;
             this.chartData.TabStop = false;

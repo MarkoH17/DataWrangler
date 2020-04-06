@@ -21,12 +21,20 @@ namespace DataWrangler
             Application.Run(AppContext);
         }
 
-        public static void SwitchPrimaryForm(Form newForm)
+        public static void SwitchPrimaryForm(Form newForm, bool followOldLocation = true)
         {
             var oldForm = AppContext.MainForm;
             AppContext.MainForm = newForm;
+
+            var oldLocation = oldForm.Location;
+
             oldForm?.Close();
             newForm.Show();
+
+            if (followOldLocation)
+            {
+                newForm.Location = oldLocation;
+            }
         }
     }
 }
