@@ -207,6 +207,7 @@
             this.Controls.Add(this.DatabasePathLabel);
             this.Controls.Add(this.lblDatabasePath);
             this.Name = "Options";
+            this.Resizable = false;
             this.Text = "Options";
             this.Load += new System.EventHandler(this.Options_Load);
             this.ResumeLayout(false);

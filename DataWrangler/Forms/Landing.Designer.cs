@@ -264,6 +264,7 @@ namespace DataWrangler.Forms
             this.Controls.Add(this.tileRecTypes);
             this.Controls.Add(this.tileRecords);
             this.Name = "Landing";
+            this.Resizable = false;
             this.Text = "     Data Wrangler Main";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Landing_FormClosing);
             this.Load += new System.EventHandler(this.LandingScreen_Load);
