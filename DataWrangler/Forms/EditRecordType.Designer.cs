@@ -295,6 +295,7 @@ namespace DataWrangler.Forms
             this.MinimizeBox = false;
             this.Name = "EditRecordType";
             this.Resizable = false;
+            this.ShowInTaskbar = false;
             this.Text = "Edit Record Type";
             this.tabAttributes.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);

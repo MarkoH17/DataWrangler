@@ -135,6 +135,7 @@
             this.txtPasswordVerify.MaxLength = 32767;
             this.txtPasswordVerify.Name = "txtPasswordVerify";
             this.txtPasswordVerify.PasswordChar = '●';
+            this.txtPasswordVerify.PromptText = "********";
             this.txtPasswordVerify.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.txtPasswordVerify.SelectedText = "";
             this.txtPasswordVerify.SelectionLength = 0;
@@ -217,6 +218,7 @@
             this.txtPassword.MaxLength = 32767;
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '●';
+            this.txtPassword.PromptText = "********";
             this.txtPassword.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.txtPassword.SelectedText = "";
             this.txtPassword.SelectionLength = 0;
@@ -514,6 +516,7 @@
             this.MinimizeBox = false;
             this.Name = "EditUser";
             this.Resizable = false;
+            this.ShowInTaskbar = false;
             this.Text = "Edit User";
             this.tabControl.ResumeLayout(false);
             this.tabUser.ResumeLayout(false);

@@ -318,6 +318,7 @@ namespace DataWrangler.Forms
             this.MinimizeBox = false;
             this.Name = "EditRecord";
             this.Resizable = false;
+            this.ShowInTaskbar = false;
             this.Text = "Edit Record";
             this.tabHistory.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridAuditHistory)).EndInit();

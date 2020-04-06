@@ -153,6 +153,7 @@
             this.MinimizeBox = false;
             this.Name = "WelcomeCreds";
             this.Resizable = false;
+            this.ShowInTaskbar = false;
             this.Text = "Setup Information";
             this.ResumeLayout(false);
             this.PerformLayout();
