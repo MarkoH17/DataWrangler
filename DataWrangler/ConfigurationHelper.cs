@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Reflection;
 using DataWrangler.Properties;
 using MetroFramework;
 
@@ -26,7 +24,7 @@ namespace DataWrangler
             var keys = new[] {"dbFilePath", "dbPass"};
             foreach (var key in keys)
             {
-                var keyValue = ConfigurationManager.AppSettings[key];
+                var keyValue = Settings.Default[key].ToString();
                 if (!string.IsNullOrEmpty(keyValue)) settings.Add(key, keyValue);
             }
 
@@ -84,11 +82,7 @@ namespace DataWrangler
         {
             Settings.Default.Reset();
             Settings.Default.Save();
-            var configuration = ConfigurationManager.OpenExeConfiguration(Assembly.GetExecutingAssembly().Location);
-            configuration.AppSettings.Settings.Remove("dbFilePath");
-            configuration.AppSettings.Settings.Remove("dbPass");
-            configuration.Save();
-            ConfigurationManager.RefreshSection("appSettings");
+            Settings.Default.Reload();
             return true;
         }
 
@@ -96,26 +90,13 @@ namespace DataWrangler
         {
             if (string.IsNullOrEmpty(dbFilePath)) return false;
 
-            var configuration = ConfigurationManager.OpenExeConfiguration(Assembly.GetExecutingAssembly().Location);
-
-            configuration.AppSettings.Settings.Remove("dbFilePath");
-            configuration.AppSettings.Settings.Remove("dbPass");
-
-            if (configuration.AppSettings.Settings["dbFilePath"] != null)
-                configuration.AppSettings.Settings["dbFilePath"].Value = dbFilePath;
-            else
-                configuration.AppSettings.Settings.Add("dbFilePath", dbFilePath);
+            Settings.Default["dbFilePath"] = dbFilePath;
 
             if (isEncrypted && !string.IsNullOrEmpty(dbPass))
-            {
-                if (configuration.AppSettings.Settings["dbPass"] != null)
-                    configuration.AppSettings.Settings["dbPass"].Value = dbPass;
-                else
-                    configuration.AppSettings.Settings.Add("dbPass", dbPass);
-            }
+                Settings.Default["dbPass"] = dbPass;
 
-            configuration.Save();
-            ConfigurationManager.RefreshSection("appSettings");
+            Settings.Default.Save();
+            Settings.Default.Reload();
             return true;
         }
 
@@ -123,6 +104,7 @@ namespace DataWrangler
         {
             Settings.Default["Username"] = username;
             Settings.Default.Save();
+            Settings.Default.Reload();
             return true;
         }
 
@@ -131,6 +113,7 @@ namespace DataWrangler
             Settings.Default["ThemeStyle"] = themeStyle;
             Settings.Default["ColorStyle"] = colorStyle;
             Settings.Default.Save();
+            Settings.Default.Reload();
             return true;
         }
     }

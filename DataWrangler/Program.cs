@@ -18,6 +18,11 @@ namespace DataWrangler
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            if(Control.ModifierKeys == Keys.Shift)
+            {
+                ConfigurationHelper.ResetAllPreferences();
+            }
+
             AppContext = new ApplicationContext(new Welcome());
             Application.Run(AppContext);
         }
