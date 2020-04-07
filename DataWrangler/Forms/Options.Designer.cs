@@ -206,6 +206,8 @@
             this.Controls.Add(this.lblDatabaseSize);
             this.Controls.Add(this.DatabasePathLabel);
             this.Controls.Add(this.lblDatabasePath);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Options";
             this.Resizable = false;
             this.Text = "Options";

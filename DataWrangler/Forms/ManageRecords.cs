@@ -23,6 +23,7 @@ namespace DataWrangler.Forms
         private RecordType _recordTypeSel;
         private IDataRetriever _retriever;
         private int _rowIdxSel;
+        private bool _gridIsFiltered;
 
         public ManageRecords(Dictionary<string, string> dbSettings, UserAccount user)
         {
@@ -63,6 +64,12 @@ namespace DataWrangler.Forms
             foreach (var attr in _recordTypeSel.Attributes)
             {
                 var comboBoxItem = new TextValueItem {Text = attr.Value, Value = "Attributes." + attr.Key};
+                comboField.Items.Add(comboBoxItem);
+            }
+
+            if(comboField.Items.Count > 0)
+            {
+                var comboBoxItem = new TextValueItem { Text = "(all fields)", Value = "*" };
                 comboField.Items.Add(comboBoxItem);
             }
 
@@ -240,16 +247,30 @@ namespace DataWrangler.Forms
 
         private void txtFieldSearch_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Return || e.KeyCode == Keys.Enter)
             {
-                if (string.IsNullOrEmpty(comboField.SelectedItem.ToString()) ||
-                    string.IsNullOrEmpty(txtFieldSearch.Text))
+                if (!_gridIsFiltered && comboField.SelectedItem != null && (string.IsNullOrEmpty(comboField.SelectedItem.ToString()) ||
+                    string.IsNullOrEmpty(txtFieldSearch.Text)))
                     return;
+
+                if(_gridIsFiltered && string.IsNullOrEmpty(txtFieldSearch.Text))
+                {
+                    comboField.SelectedIndex = -1;
+                    txtFieldSearch.Text = "";
+                    txtFieldSearch.Enabled = false;
+                    LoadRecordsByType(_recordTypeSel);
+                    _gridIsFiltered = false;
+                    return;
+                }
 
                 var searchField = ((TextValueItem) comboField.SelectedItem).Value.ToString();
                 var searchValue = txtFieldSearch.Text;
+                var searchValueLen = txtFieldSearch.Text.Replace(" ", "").Length;
+
+                if (searchValueLen < 1) return;
 
                 LoadRecordsByType(_recordTypeSel, searchField, searchValue);
+                _gridIsFiltered = true;
             }
         }
     }
