@@ -5,9 +5,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("DataWrangler")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("CIS 432 Senior Project Application - Mark Hedrick, Aaron Skilling, Hunter Stephens")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Mark Hedrick, Aaron Skilling, Hunter Stephens")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("DataWrangler")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
