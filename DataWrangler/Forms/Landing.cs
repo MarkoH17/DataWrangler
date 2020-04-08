@@ -10,6 +10,7 @@ using DataWrangler.Properties;
 using MetroFramework;
 using MetroFramework.Components;
 using MetroFramework.Controls;
+using MetroFramework.Drawing;
 using MetroFramework.Forms;
 
 namespace DataWrangler.Forms
@@ -17,10 +18,8 @@ namespace DataWrangler.Forms
     public partial class Landing : MetroForm
     {
         private readonly MetroContextMenu _ctxMenuManage;
-        private readonly MetroToolTip _chartToolTip = new MetroToolTip();
         private readonly Dictionary<string, string> _dbSettings;
         private readonly UserAccount _user;
-        private Point? _chartPrevPosition = null;
 
         public Landing(Dictionary<string, string> dbSettings, UserAccount user)
         {
@@ -69,6 +68,8 @@ namespace DataWrangler.Forms
                     chartData.Series["Records By Type"].Points.Add(point);
                 }
 
+                
+
                 if (statsBackgroundWorker != null && !statsBackgroundWorker.CancellationPending &&
                     !chartData.IsDisposed)
                     try
@@ -104,6 +105,7 @@ namespace DataWrangler.Forms
                     try
                     {
                         lblRecCount.Invoke((Action) SetSum);
+                        statsBackgroundWorker.ReportProgress(90);
                         LoadChartData(recordCounts);
                         statsBackgroundWorker.ReportProgress(100);
                     }
@@ -213,7 +215,10 @@ namespace DataWrangler.Forms
                 spinner3.Visible = false;
             else if (e.ProgressPercentage == 40)
                 spinner2.Visible = false;
-            else if (e.ProgressPercentage == 100) spinner1.Visible = false;
+            else if (e.ProgressPercentage == 90)
+                spinner1.Visible = false;
+            else if (e.ProgressPercentage == 100)
+                chartData.Visible = true;
         }
 
         private void SwitchChartStyle()
@@ -228,6 +233,7 @@ namespace DataWrangler.Forms
             chartData.ChartAreas[0].AxisY.MajorGrid.LineColor = foreColor;
             chartData.ChartAreas[0].AxisY.LabelStyle.ForeColor = foreColor;
             chartData.ChartAreas[0].AxisY.MajorTickMark.LineColor = foreColor;
+            chartData.Series[0].Color = MetroPaint.GetStyleColor(Style);
         }
 
         public void SwitchFormStyle()

@@ -105,7 +105,7 @@ namespace DataWrangler.Forms
             this.tileRecTypes.ActiveControl = null;
             this.tileRecTypes.Controls.Add(this.spinner2);
             this.tileRecTypes.Controls.Add(this.lblRecTypes);
-            this.tileRecTypes.Location = new System.Drawing.Point(304, 134);
+            this.tileRecTypes.Location = new System.Drawing.Point(329, 134);
             this.tileRecTypes.Name = "tileRecTypes";
             this.tileRecTypes.Size = new System.Drawing.Size(139, 121);
             this.tileRecTypes.TabIndex = 2;
@@ -158,13 +158,14 @@ namespace DataWrangler.Forms
             this.chartData.TabIndex = 0;
             this.chartData.TabStop = false;
             this.chartData.Text = "Records Per Record Type";
+            this.chartData.Visible = false;
             // 
             // tileUserAccts
             // 
             this.tileUserAccts.ActiveControl = null;
             this.tileUserAccts.Controls.Add(this.spinner3);
             this.tileUserAccts.Controls.Add(this.lblUserAcc);
-            this.tileUserAccts.Location = new System.Drawing.Point(570, 134);
+            this.tileUserAccts.Location = new System.Drawing.Point(610, 134);
             this.tileUserAccts.Name = "tileUserAccts";
             this.tileUserAccts.Size = new System.Drawing.Size(139, 121);
             this.tileUserAccts.TabIndex = 3;
@@ -198,7 +199,7 @@ namespace DataWrangler.Forms
             // 
             this.btnManage.FontSize = MetroFramework.MetroButtonSize.Medium;
             this.btnManage.FontWeight = MetroFramework.MetroButtonWeight.Light;
-            this.btnManage.Location = new System.Drawing.Point(127, 58);
+            this.btnManage.Location = new System.Drawing.Point(126, 58);
             this.btnManage.Name = "btnManage";
             this.btnManage.Size = new System.Drawing.Size(104, 24);
             this.btnManage.TabIndex = 5;
@@ -220,7 +221,7 @@ namespace DataWrangler.Forms
             // 
             this.btnOptions.FontSize = MetroFramework.MetroButtonSize.Medium;
             this.btnOptions.FontWeight = MetroFramework.MetroButtonWeight.Light;
-            this.btnOptions.Location = new System.Drawing.Point(223, 58);
+            this.btnOptions.Location = new System.Drawing.Point(229, 58);
             this.btnOptions.Name = "btnOptions";
             this.btnOptions.Size = new System.Drawing.Size(104, 24);
             this.btnOptions.TabIndex = 6;
@@ -265,7 +266,7 @@ namespace DataWrangler.Forms
             this.Controls.Add(this.tileRecords);
             this.Name = "Landing";
             this.Resizable = false;
-            this.Text = "     Data Wrangler Main";
+            this.Text = "     Data Wrangler";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Landing_FormClosing);
             this.Load += new System.EventHandler(this.LandingScreen_Load);
             this.Shown += new System.EventHandler(this.Landing_Shown);
