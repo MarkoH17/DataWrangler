@@ -35,9 +35,9 @@ namespace DataWrangler.Forms
 
         private void addRecordTypeMenuItem_Click(object sender, EventArgs e)
         {
-            var addForm = new EditRecordType(_dbSettings, _user, null);
-            var addFormResult = addForm.ShowDialog();
-            if (addFormResult == DialogResult.OK) RecordTypeGridRefresh();
+            var dialogResult = Program.ShowDialog(this, new EditRecordType(_dbSettings, _user, null));
+            if (dialogResult == DialogResult.OK) RecordTypeGridRefresh();
+            BringToFront();
         }
 
         private void btnBack_Click(object sender, EventArgs e)
@@ -78,9 +78,9 @@ namespace DataWrangler.Forms
             var recType = GetRecordTypeBySelectedRow(_rowIdxSel);
             if (recType != null)
             {
-                var editForm = new EditRecordType(_dbSettings, _user, recType);
-                var editFormResult = editForm.ShowDialog();
-                if (editFormResult == DialogResult.OK) RecordTypeGridRefresh();
+                var dialogResult = Program.ShowDialog(this, new EditRecordType(_dbSettings, _user, recType));
+                if (dialogResult == DialogResult.OK) RecordTypeGridRefresh();
+                BringToFront();
             }
         }
 
@@ -143,9 +143,9 @@ namespace DataWrangler.Forms
             var recType = GetRecordTypeBySelectedRow(e.RowIndex);
             if (recType != null)
             {
-                var editForm = new EditRecordType(_dbSettings, _user, recType);
-                var editFormResult = editForm.ShowDialog();
-                if (editFormResult == DialogResult.OK) RecordTypeGridRefresh();
+                var dialogResult = Program.ShowDialog(this, new EditRecordType(_dbSettings, _user, recType));
+                if (dialogResult == DialogResult.OK) RecordTypeGridRefresh();
+                BringToFront();
             }
         }
 

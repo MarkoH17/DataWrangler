@@ -44,7 +44,7 @@ namespace DataWrangler.Forms
                     openFileDialog.FilterIndex = 2;
                     openFileDialog.RestoreDirectory = true;
 
-                    if (openFileDialog.ShowDialog() == DialogResult.OK)
+                    if (openFileDialog.ShowDialog(this) == DialogResult.OK)
                     {
                         filePath = openFileDialog.FileName;
                         txtPath.Text = filePath;
@@ -52,6 +52,7 @@ namespace DataWrangler.Forms
 
                         _userDefinedDbPath = filePath;
                     }
+                    BringToFront();
                 }
             else if (rdioNewSystem.Checked)
                 using (var saveFileDialog = new SaveFileDialog())
@@ -62,7 +63,7 @@ namespace DataWrangler.Forms
                     saveFileDialog.FilterIndex = 2;
                     saveFileDialog.RestoreDirectory = true;
 
-                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
                     {
                         filePath = saveFileDialog.FileName;
                         txtPath.Text = filePath;
@@ -70,6 +71,7 @@ namespace DataWrangler.Forms
 
                         _userDefinedDbPath = filePath;
                     }
+                    BringToFront();
                 }
         }
 
@@ -84,8 +86,8 @@ namespace DataWrangler.Forms
                     var newUserName = initResult["newUserName"];
                     var newUserPass = initResult["newUserPass"];
 
-                    var credsForm = new WelcomeCreds(newUserName, newUserPass);
-                    credsForm.ShowDialog();
+                    Program.ShowDialog(this, new WelcomeCreds(newUserName, newUserPass));
+                    BringToFront();
                 }
             }
             else if (rdioExistingSystem.Checked)

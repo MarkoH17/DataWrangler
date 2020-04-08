@@ -27,6 +27,13 @@ namespace DataWrangler
             Application.Run(AppContext);
         }
 
+        public static DialogResult ShowDialog(Form parent, Form newForm)
+        {
+            newForm.Owner = parent;
+            newForm.StartPosition = FormStartPosition.CenterParent;
+            return newForm.ShowDialog(parent);
+        }
+
         public static void SwitchPrimaryForm(Form newForm, bool followOldLocation = true)
         {
             var oldForm = AppContext.MainForm;

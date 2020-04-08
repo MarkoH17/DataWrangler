@@ -80,8 +80,7 @@ namespace DataWrangler.Forms
                 dialog.Filter = "Excel Files (*.xlsx)|*.xlsx";
                 dialog.FilterIndex = 1;
                 dialog.RestoreDirectory = true;
-
-                if (dialog.ShowDialog() == DialogResult.OK)
+                if (dialog.ShowDialog(this) == DialogResult.OK)
                     _fileImportPath = dialog.FileName;
                 else
                     return;

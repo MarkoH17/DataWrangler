@@ -70,7 +70,7 @@ namespace DataWrangler.Forms
                 dialog.RestoreDirectory = true;
                 dialog.Multiselect = true;
 
-                if (dialog.ShowDialog() == DialogResult.OK)
+                if (dialog.ShowDialog(this) == DialogResult.OK)
                 {
                     StatusObject addAttachmentStatus;
                     using (var oH = new ObjectHelper(_dbSettings, _user))
@@ -86,6 +86,7 @@ namespace DataWrangler.Forms
                                 "Failed to add attachment to this record.");
                     }
                 }
+                BringToFront();
             }
         }
 
@@ -194,7 +195,8 @@ namespace DataWrangler.Forms
                 saveFileDialog.DefaultExt = attachmentPath.Substring(attachmentPath.LastIndexOf(".") + 1);
                 saveFileDialog.AddExtension = true;
 
-                if (saveFileDialog.ShowDialog() == DialogResult.OK) filePath = saveFileDialog.FileName;
+                if (saveFileDialog.ShowDialog(this) == DialogResult.OK) filePath = saveFileDialog.FileName;
+                BringToFront();
             }
 
             if (filePath != null)

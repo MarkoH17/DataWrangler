@@ -95,19 +95,23 @@ namespace DataWrangler.Forms
 
             if (recordCounts != null)
             {
+                var recordSum = recordCounts.Sum(x => x.Value);
                 void SetSum()
                 {
-                    lblRecCount.Text = recordCounts.Sum(x => x.Value).ToString();
+                    lblRecCount.Text = recordSum.ToString();
                 }
 
                 if (statsBackgroundWorker != null && !statsBackgroundWorker.CancellationPending &&
                     !lblRecCount.IsDisposed)
                     try
                     {
-                        lblRecCount.Invoke((Action) SetSum);
+                        lblRecCount.Invoke((Action)SetSum);
                         statsBackgroundWorker.ReportProgress(90);
-                        LoadChartData(recordCounts);
-                        statsBackgroundWorker.ReportProgress(100);
+                        if (recordSum > 0)
+                        {
+                            LoadChartData(recordCounts);
+                            statsBackgroundWorker.ReportProgress(100);
+                        }
                     }
                     catch
                     {
@@ -178,10 +182,9 @@ namespace DataWrangler.Forms
 
         private void ShowOptions()
         {
-            var optionsForm = new Options(this, _dbSettings, _user);
-            var optionsFormResult = optionsForm.ShowDialog();
-
-            if (optionsFormResult == DialogResult.Yes) Program.SwitchPrimaryForm(new Welcome());
+            var dialogResult = Program.ShowDialog(this, new Options(this, _dbSettings, _user));
+            if (dialogResult == DialogResult.Yes) Program.SwitchPrimaryForm(new Welcome());
+            BringToFront();
         }
 
         private void StatsBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)

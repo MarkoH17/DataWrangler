@@ -39,9 +39,9 @@ namespace DataWrangler.Forms
 
         private void addRecordMenuItem_Click(object sender, EventArgs e)
         {
-            var addForm = new EditRecord(_dbSettings, _user, null, _recordTypeSel);
-            var addFormResult = addForm.ShowDialog();
-            if (addFormResult == DialogResult.OK) RecordGridRefresh();
+            var dialogResult = Program.ShowDialog(this, new EditRecord(_dbSettings, _user, null, _recordTypeSel));
+            if (dialogResult == DialogResult.OK) RecordGridRefresh();
+            BringToFront();
         }
 
         private void btnBack_Click(object sender, EventArgs e)
@@ -105,9 +105,9 @@ namespace DataWrangler.Forms
             var rec = GetRecordBySelectedRow(_rowIdxSel);
             if (rec != null)
             {
-                var editForm = new EditRecord(_dbSettings, _user, rec, _recordTypeSel);
-                var editFormResult = editForm.ShowDialog();
-                if (editFormResult == DialogResult.OK) RecordGridRefresh();
+                var dialogResult = Program.ShowDialog(this, new EditRecord(_dbSettings, _user, rec, _recordTypeSel));
+                if (dialogResult == DialogResult.OK) RecordGridRefresh();
+                BringToFront();
             }
         }
 
@@ -134,9 +134,9 @@ namespace DataWrangler.Forms
             var rec = GetRecordBySelectedRow(e.RowIndex);
             if (rec != null)
             {
-                var editForm = new EditRecord(_dbSettings, _user, rec, _recordTypeSel);
-                var editFormResult = editForm.ShowDialog();
-                if (editFormResult == DialogResult.OK) RecordGridRefresh();
+                var dialogResult = Program.ShowDialog(this, new EditRecord(_dbSettings, _user, rec, _recordTypeSel));
+                if (dialogResult == DialogResult.OK) RecordGridRefresh();
+                BringToFront();
             }
         }
 
