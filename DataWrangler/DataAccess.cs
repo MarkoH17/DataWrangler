@@ -569,7 +569,7 @@ namespace DataWrangler
                 }
 
                 var auditResult = _addAuditEntry(userObj.Id, userObj, userObj,
-                    loginSuccess ? StatusObject.OperationTypes.LoginSuccess : StatusObject.OperationTypes.LoginFailure);
+                    loginSuccess && userObj.Active ? StatusObject.OperationTypes.LoginSuccess : StatusObject.OperationTypes.LoginFailure);
                 if (!auditResult.Success) return auditResult;
             }
 

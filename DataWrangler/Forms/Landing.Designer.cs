@@ -264,6 +264,7 @@ namespace DataWrangler.Forms
             this.Controls.Add(this.chartData);
             this.Controls.Add(this.tileRecTypes);
             this.Controls.Add(this.tileRecords);
+            this.MaximizeBox = false;
             this.Name = "Landing";
             this.Resizable = false;
             this.Text = "     Data Wrangler";

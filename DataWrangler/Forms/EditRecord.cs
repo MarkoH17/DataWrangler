@@ -318,7 +318,7 @@ namespace DataWrangler.Forms
 
                 newTxtBox.Left = newLbl.Width + 5;
                 newTxtBox.Top = ctrlCtr * 30 + 15;
-                newTxtBox.Width = tabControl.Width - newTxtBox.Left - 20;
+                newTxtBox.Width = tabControl.Width - newTxtBox.Left - 30;
 
                 _txtControls.Add(newTxtBox);
 
