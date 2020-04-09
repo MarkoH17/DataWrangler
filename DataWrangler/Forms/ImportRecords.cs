@@ -338,7 +338,7 @@ namespace DataWrangler.Forms
             {
                 hasError = true;
                 txtRecordTypeName.UseCustomBackColor = true;
-                txtRecordTypeName.BackColor = Color.Yellow;
+                txtRecordTypeName.BackColor = MetroColors.Yellow;
                 txtRecordTypeName.Refresh();
             }
             else
