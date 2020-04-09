@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using DataWrangler.DBOs;
@@ -61,7 +62,7 @@ namespace DataWrangler.Forms
             comboField.Items.Clear();
             txtFieldSearch.Text = "";
             txtFieldSearch.Enabled = false;
-            foreach (var attr in _recordTypeSel.Attributes)
+            foreach (var attr in _recordTypeSel.Attributes.OrderBy(x => x.Value).ToArray())
             {
                 var comboBoxItem = new TextValueItem {Text = attr.Value, Value = "Attributes." + attr.Key};
                 comboField.Items.Add(comboBoxItem);
@@ -205,8 +206,7 @@ namespace DataWrangler.Forms
                 if (result.Success) recordTypes = (RecordType[]) result.Result;
             }
 
-
-            foreach (var rT in recordTypes)
+            foreach (var rT in recordTypes.OrderBy(x => x.Name).ToArray())
             {
                 var comboBoxItem = new TextValueItem {Text = rT.Name, Value = rT};
                 comboRecType.Items.Add(comboBoxItem);

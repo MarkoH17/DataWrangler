@@ -145,7 +145,7 @@ namespace DataWrangler.Forms
             }
             else
             {
-                var rT = _recordTypes[comboRecordTypeSelector.SelectedIndex];
+                var rT = _recordTypes.First(x => x.Name.Equals(comboRecordTypeSelector.SelectedItem));
                 var records = _dP.GetRecordsFromSheet(rT, selectedHeaders, _fileImportPath);
                 if (records.Length > 0)
                     using (var oH = new ObjectHelper(_dbSettings, _user))
@@ -333,7 +333,7 @@ namespace DataWrangler.Forms
                 }
 
             if (comboImportOptions.SelectedIndex == 0 &&
-                (_recordTypes.Select(x => x.Name).ToList().Contains(txtRecordTypeName.Text) ||
+                (_recordTypes.Select(x => x.Name).ToList().Contains(txtRecordTypeName.Text.Trim()) ||
                  txtRecordTypeName.Text.Length < 1))
             {
                 hasError = true;

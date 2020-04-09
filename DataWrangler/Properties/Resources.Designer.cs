@@ -351,6 +351,15 @@ namespace DataWrangler.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to https://github.com/MarkoH17/CIS432-SeniorProject.
+        /// </summary>
+        internal static string ProjectURL {
+            get {
+                return ResourceManager.GetString("ProjectURL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon purple_dark {
