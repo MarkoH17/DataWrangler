@@ -34,9 +34,10 @@ namespace DataWrangler.Forms
             this.btnLogin = new MetroFramework.Controls.MetroButton();
             this.chckRemember = new MetroFramework.Controls.MetroCheckBox();
             this.chckShowPass = new MetroFramework.Controls.MetroCheckBox();
-            this.lblPlease = new MetroFramework.Controls.MetroLabel();
+            this.lblInstructions = new MetroFramework.Controls.MetroLabel();
             this.txtPassword = new MetroFramework.Controls.MetroTextBox();
             this.txtUserName = new MetroFramework.Controls.MetroTextBox();
+            this.lblVersion = new MetroFramework.Controls.MetroLabel();
             this.SuspendLayout();
             // 
             // btnLogin
@@ -81,14 +82,14 @@ namespace DataWrangler.Forms
             this.chckShowPass.UseSelectable = true;
             this.chckShowPass.CheckedChanged += new System.EventHandler(this.chckShowPass_CheckedChanged);
             // 
-            // lblPlease
+            // lblInstructions
             // 
-            this.lblPlease.AutoSize = true;
-            this.lblPlease.Location = new System.Drawing.Point(169, 109);
-            this.lblPlease.Name = "lblPlease";
-            this.lblPlease.Size = new System.Drawing.Size(120, 19);
-            this.lblPlease.TabIndex = 0;
-            this.lblPlease.Text = "Please login below.";
+            this.lblInstructions.AutoSize = true;
+            this.lblInstructions.Location = new System.Drawing.Point(169, 109);
+            this.lblInstructions.Name = "lblInstructions";
+            this.lblInstructions.Size = new System.Drawing.Size(120, 19);
+            this.lblInstructions.TabIndex = 0;
+            this.lblInstructions.Text = "Please login below.";
             // 
             // txtPassword
             // 
@@ -116,6 +117,7 @@ namespace DataWrangler.Forms
             this.txtPassword.MaxLength = 32;
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '●';
+            this.txtPassword.PromptText = "Password";
             this.txtPassword.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.txtPassword.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.txtPassword.SelectedText = "";
@@ -156,6 +158,7 @@ namespace DataWrangler.Forms
             this.txtUserName.MaxLength = 62;
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.PasswordChar = '\0';
+            this.txtUserName.PromptText = "Username";
             this.txtUserName.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.txtUserName.SelectedText = "";
             this.txtUserName.SelectionLength = 0;
@@ -168,13 +171,25 @@ namespace DataWrangler.Forms
             this.txtUserName.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtUserName.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
+            // lblVersion
+            // 
+            this.lblVersion.AutoSize = true;
+            this.lblVersion.FontSize = MetroFramework.MetroLabelSize.Small;
+            this.lblVersion.Location = new System.Drawing.Point(8, 345);
+            this.lblVersion.Name = "lblVersion";
+            this.lblVersion.Size = new System.Drawing.Size(49, 15);
+            this.lblVersion.TabIndex = 6;
+            this.lblVersion.Text = "Version: ";
+            this.lblVersion.Click += new System.EventHandler(this.lblVersion_Click);
+            // 
             // Login
             // 
             this.AcceptButton = this.btnLogin;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(541, 367);
-            this.Controls.Add(this.lblPlease);
+            this.Controls.Add(this.lblVersion);
+            this.Controls.Add(this.lblInstructions);
             this.Controls.Add(this.chckShowPass);
             this.Controls.Add(this.chckRemember);
             this.Controls.Add(this.txtPassword);
@@ -184,7 +199,7 @@ namespace DataWrangler.Forms
             this.MinimizeBox = false;
             this.Name = "Login";
             this.Resizable = false;
-            this.Text = "     Data Wrangler Login";
+            this.Text = "Data Wrangler Login";
             this.Load += new System.EventHandler(this.Login_Load);
             this.Shown += new System.EventHandler(this.Login_Shown);
             this.ResumeLayout(false);
@@ -199,6 +214,7 @@ namespace DataWrangler.Forms
         private MetroTextBox txtPassword;
         private MetroCheckBox chckRemember;
         private MetroCheckBox chckShowPass;
-        private MetroLabel lblPlease;
+        private MetroLabel lblInstructions;
+        private MetroLabel lblVersion;
     }
 }

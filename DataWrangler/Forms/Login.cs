@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using DataWrangler.DBOs;
 using DataWrangler.Properties;
 using MetroFramework;
@@ -15,6 +16,7 @@ namespace DataWrangler.Forms
         {
             InitializeComponent();
             StyleHelper.LoadFormSavedStyle(this);
+            lblVersion.Text += Application.ProductVersion;
             _dbSettings = dbSettings;
             BringToFront();
         }
@@ -51,6 +53,7 @@ namespace DataWrangler.Forms
             {
                 NotificationHelper.ShowNotification(this, NotificationHelper.NotificationType.Error,
                     "An error occured while trying to access the database. Try again.");
+                return;
             }
 
 
@@ -114,6 +117,13 @@ namespace DataWrangler.Forms
                 txtPassword.Focus();
             else
                 txtUserName.Focus();
+        }
+
+        private void lblVersion_Click(object sender, EventArgs e)
+        {
+            var url = Resources.ProjectURL;
+            if(url.Length > 0)
+                System.Diagnostics.Process.Start(url);
         }
     }
 }

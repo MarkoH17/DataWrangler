@@ -222,7 +222,7 @@ namespace DataWrangler.Forms
         private void comboRecordTypeSelector_SelectedIndexChanged(object sender, EventArgs e)
         {
             gridFieldAssignment.Rows.Clear();
-            var selectedRecordType = _recordTypes[comboRecordTypeSelector.SelectedIndex];
+            var selectedRecordType = _recordTypes.First(x => x.Name.Equals(comboRecordTypeSelector.SelectedItem));
             foreach (var attr in selectedRecordType.Attributes)
             {
                 var newGridViewRow = new DataGridViewRow();
